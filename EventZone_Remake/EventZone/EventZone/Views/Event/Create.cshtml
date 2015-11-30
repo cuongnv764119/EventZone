@@ -1,0 +1,245 @@
+﻿@using System.Web.UI.WebControls
+@model EventZone.Models.CreateEventModel
+@using EventZone.Helpers
+@{
+    if (UserHelpers.GetCurrentUser(Session) == null) {
+        Response.Redirect("~/Home");
+    }
+    ViewBag.Title = "Add Live Stream";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var ListPrivacy = new List<ListItem>
+    {
+        new ListItem {Text = "Public", Value = "0"},
+        new ListItem {Text = "Unlisted", Value = "1"},
+        new ListItem {Text = "Private", Value = "2"}
+    };
+}
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<script src="~/Scripts/Event/moment.js"></script>
+<link href="~/Content/Event/bootstrap-datetimepicker.min.css" rel="stylesheet"/>
+<link href="~/Content/Event/jquery.m.flip.css" rel="stylesheet"/>
+<link href="~/Content/Event/m.flip.css" rel="stylesheet"/>
+<!-- myCSS -->
+<link href="~/Content/Event/Create.css" rel="stylesheet"/>
+<link href="~/Content/Event/summernote.css" rel="stylesheet"/>
+<style>
+
+    .note-group-select-from-files {
+  display: none;
+}
+</style>
+<script src="~/Scripts/Event/summernote.min.js"></script>
+<div class="container b">
+<div class="col-xs-12 col-sm-12 col-lg-12 d_leftside b">
+<!-- Khung Đăng ký sự kiện -->
+<div class="widget" id="widget_tabs">
+<ul class="nav nav-tabs" id="myTab">
+    <li id="i_first_tab" class="active">
+        <a href="#i_info_tab" data-toggle="tab">Event Info</a>
+    </li>
+</ul>
+<div class="tab-content">
+<!-- Khung chứa Thông tin cơ bản & Description -->
+<div class="tab-pane active" id="i_info_tab">
+@using (Html.BeginForm("CreateEvent", "Event", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+    <div class="row b">
+        <!-- row Thumbnail -->
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+            Thumbnail
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 d_thumb b" id="imageView">
+            <img src="~/img/upload.png">
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
+            <div class="fileUpload btn btn-primary">
+                <span>Browse File</span>
+                <input name="file" type="file" class="upload" id="image-upload-btn" accept="image/x-png, image/gif, image/jpeg" />
+            </div>
+        </div>
+    </div>
+    <div class="row b">
+        <!-- row Title -->
+
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+            Title *
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b">
+            @Html.TextBoxFor(model => model.Title, new {@class = "form-control", @style = "width:100%"})
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+    </div>
+    <div class="row b">
+        <!-- row Date Time -->
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+            Date & Time *
+        </div>
+        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 b">
+            <div class="form-group">
+                <div class="input-group date" id="dtpStartTime" style="z-index: 2">
+                    @Html.TextBoxFor(model => model.StartTime, new {@type = "text", @class = "form-control", @placeholder = "from", @id = "i_start_time"})
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.StartTime)
+            </div>
+        </div>
+        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 b">
+            <div class="form-group">
+                <div class="input-group date" id="dtpEndTime" style="z-index: 2">
+                    @Html.TextBoxFor(model => model.EndTime, new {@type = "text", @class = "form-control", @placeholder = "to", @id = "i_end_time"})
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+                @Html.ValidationMessageFor(model => model.EndTime)
+            </div>
+        </div>
+    </div>
+    <div class="row b">
+        <!-- row Category -->
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+            Category
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b">
+            @Html.DropDownList("CategoryId", null, new {@class = "form-control"})
+            @Html.ValidationMessageFor(model => model.CategoryID)
+        </div>
+    </div>
+    <div class="row b" id="LocationDiv">
+        <div id="LocationInput">
+            <div id="wrapper">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+                    Location *
+                </div>
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 b">
+                    @Html.TextBoxFor(model=>model.Location[0].LocationName,new {@class="LocationInput form-control",@onfocus="searchLocation(this)",@id="Location-0"})
+                    @Html.HiddenFor(model => model.Location[0].Longitude, new { @id = "Longitude-0" })
+                    @Html.HiddenFor(model => model.Location[0].Latitude, new { @id = "Lattitude-0" })
+                </div>
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+                    <button type="button" class="btn btn-primary d_btn_x" id="btnAddLocation">Add Location</button>
+                </div>
+            </div>
+            @Html.ValidationMessageFor(model => model.Location)
+        </div>
+    </div>
+
+    <div class="row b">
+        <!-- row Privacy -->
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+            Privacy *
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
+            @Html.DropDownList("Privacy", new SelectList(ListPrivacy, "Value", "Text"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Privacy)
+        </div>
+    </div>
+    <div class="row b">
+        <!-- row Description -->
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+            Description
+        </div>
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b">
+            <div>
+                <div id="alerts"></div>
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b" id="editor" style="z-index:-1"></div>
+                @Html.HiddenFor(model => model.Description, new { @id="event-description"})
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" id="btnSubmit" class="btn btn-default" value="Create"/>
+            @Html.ActionLink("Cancel", "Index", "Home",null, new { @class = "btn btn-default" })
+        </div>
+
+    </div>
+    </div>
+}
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- All script here -->
+<!-- Default JQuery -->
+<script src="~/Scripts/Event/jquery.hotkeys.js"></script>
+<!-- Plugin chọn giờ -->
+<script src="~/Scripts/Event/moment.js"></script>
+<script src="~/Scripts/Event/prettify-1.0.min.js"></script>
+<script src="~/Scripts/Event/Create.js"></script>
+<script src="~/Scripts/Event/jquery.m.flip.js"></script>
+<script src="~/Scripts/Event/bootstrap-datetimepicker.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#editor').summernote({
+            height: 300,
+            minHeight: 300,
+            maxHeight: 300,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear', 'fontname', 'fontsize']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['insert', ['picture', 'link', 'video', 'hr']]
+            ]
+        });
+    });
+</script>
+<script>
+    //Location Map
+    var autocomplete = "";
+    var number = "";
+    function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical
+        // location types.Req
+        autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('Location-' + number)),
+        { types: [] });
+
+        // When the user selects an address from the dropdown, populate the address
+        // fields in the form.
+        autocomplete.addListener('place_changed', getCoordinates);
+        google.maps.event.addDomListener(input, 'keydown', function (e) {
+
+            if (e.keyCode === 13 && !e.triggered) {
+                google.maps.event.trigger(this, 'keydown', { keyCode: 40 })
+                google.maps.event.trigger(this, 'keydown', { keyCode: 13, triggered: true })
+            }
+        });
+    }
+
+    // [START region_fillform]
+    function getCoordinates() {
+        // Get the place details from the autocomplete object.
+        var place = autocomplete.getPlace();
+        document.getElementById('Longitude-' + number).value = place.geometry.location.lng();
+        document.getElementById('Lattitude-' + number).value = place.geometry.location.lat();
+        //$("#i_location_1").empty();
+        //$('[id^=Location-]').each(function (i, item) {
+        //    var x = $(item).val();
+        //    if (x.toString() != "Remove Location")
+        //        $("#i_location_1").append(new Option($(item).val(), $(item).val(), true, true));
+        //});
+    }
+    function enterFocus(textfield) {
+        textfield.keypress(function (event) {
+            if((event.keyCode)==13){
+
+            }
+        })
+    }
+    function searchLocation(x) {
+        var LocationID = $(x).attr('id');
+        number = LocationID.substring(9, 10);
+        initAutocomplete();
+    }
+</script>

@@ -1,0 +1,94 @@
+﻿@model EventZone.Models.AdvanceSearch
+<link href="~/Content/Search/SearchAdvance.css" rel="stylesheet"/>
+<div class="table-responsive">
+    @using (Html.BeginForm("AdvanceSearch", "Search", FormMethod.Post, new {@class = "navbar-form navbar-left"}))
+    {
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="width: 100px">Criteria</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    Event Name
+                </td>
+                <td>
+                    <input type="text" class="form-control" id="Keyword" placeholder="" name="Keyword">
+                </td>
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td>
+                    <table>
+                        <tbody>
+                        @foreach (var item in @Model.Categories)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="d_checkbox" style="width: 200px;">
+                                        <label>
+                                            <input type="checkbox" value="@item.CategoryID" name="selectedCategory" class="item_checked"> @item.CategoryName</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>Location</td>
+                <td>
+                    @Html.TextBoxFor(m => m.Location.LocationName, new {@placeholder = "", id = "AdvSearchLocation", @class = "form-control"})
+                    @Html.HiddenFor(m => m.Location.Latitude, new {id = "AdvLocationLat"})
+                    @Html.HiddenFor(m => m.Location.Longitude, new {id = "AdvLocationLng"})
+                </td>
+            </tr>
+            <tr>
+                <td>Streaming</td>
+                <td>
+                    <input type="checkbox">
+                </td>
+            </tr>
+            <tr>
+                <td>Date</td>
+                <td>
+                    <div>
+                        <div class="radio-inline">
+                            <label><input type="radio" name="datepick" checked="checked" value="0" onclick="hideDate()">All Time</label>
+                        </div>
+                        <div class="radio-inline">
+                            <label><input type="radio" name="datepick" value="1" onclick="hideDate()">Today</label>
+                        </div>
+                        <div class="radio-inline">
+                            <label><input type="radio" name="datepick" value="2" onclick="hideDate()">Next 3 days</label>
+                        </div>
+                        <div class="radio-inline">
+                            <label><input type="radio" name="datepick" value="3" onclick="hideDate()">Next 7 days</label>
+                        </div>
+                        <div class="radio-inline">
+                            <label><input type="radio" name="datepick" value="4" onclick="showDate()">Select date</label>
+                        </div>
+                    </div>
+                    <div class="input-daterange input-group" id="AdvDate">
+                        @Html.TextBoxFor(m => m.StartDateRange, "{0:yyyy-MM-dd}", new {@type = "date", @class = "input-sm form-control"})
+                        <span class="input-group-addon">to</span>
+                        @Html.TextBoxFor(m => m.FinishDateRange, "{0:yyyy-MM-dd}", new {@type = "date", @class = "input-sm form-control"})
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="form-group d_md_ad_search">
+            <a id="id-lookaround-btn" href="/LookAround/LookAround?" class="btn btn-success" onclick="shareLocation()">
+                <span>Look around</span>
+            </a>
+            <button type="submit" class="btn btn-success">Search</button>
+            <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+        </div>
+    }
+</div>
+<script src="~/Scripts/Search/SearchAdvance.js"></script>

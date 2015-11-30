@@ -1,0 +1,108 @@
+﻿@model EventZone.Models.User
+@using EventZone.Models
+@{
+    User user = ViewData["UserSession"] as User;
+}
+
+<div>
+    <h4>User</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @user.UserName;
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserPassword)
+        </dt>
+
+        <dd>
+            ***************
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserFirstName)
+        </dt>
+
+        <dd>
+           @user.UserFirstName
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserLastName)
+        </dt>
+
+        <dd>
+            @user.UserLastName
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserEmail)
+        </dt>
+
+        <dd>
+           @user.UserEmail
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserDOB)
+        </dt>
+
+        <dd>
+            @user.UserDOB
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IDCard)
+        </dt>
+
+        <dd>
+           @user.IDCard
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+           @user.Phone
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Place)
+        </dt>
+
+        <dd>
+            @user.Place
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @if(user.Gender==EventZone.Helpers.EventZoneConstants.isMale){ 
+             <div>Male</div>
+            }else{
+            <div>Female</div>
+            }
+                
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AvatarLink)
+        </dt>
+
+        <dd>
+            <img src="@user.AvatarLink" alt="Smiley face" height="42" width="42">
+        </dd>
+        @if (Session["userID"] != null || Session["userID"].ToString() != "" && user.UserID.ToString() == Session["userID"].ToString()) { 
+        @Html.ActionLink("Edit Profile", "EditProfile", "User")
+        }
+      
+    </dl>
+</div>
+

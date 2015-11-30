@@ -1,0 +1,104 @@
+﻿@using EventZone.Models
+@{
+    var listEvent = TempData["listEvent"] as List<ViewThumbEventModel>;
+    var listLiveStream = TempData["listLiveStream"] as List<ViewThumbEventModel>;
+    var listUser = TempData["listUser"] as List<ViewThumbUserModel>;
+    var task = TempData["task"];
+    ViewBag.Title = TempData["task"];
+    int listUserCount, listLiveStreamCount, listEventCount;
+    if (listUser == null)
+    {
+        listUserCount = 0;
+    }
+    else
+    {
+        listUserCount = listUser.Count;
+    }
+    if (listLiveStream == null)
+    {
+        listLiveStreamCount = 0;
+    }
+    else
+    {
+        listLiveStreamCount = listLiveStream.Count;
+    }
+    if (listEvent == null)
+    {
+        listEventCount = 0;
+    }
+    else
+    {
+        listEventCount = listEvent.Count;
+    }
+}
+<link href="~/Content/Search/SearchResult.css" rel="stylesheet" />
+<div class="d_all_result container b" style="margin-top:100px">
+    <div class="col-xs-8 col-sm-9 col-md-9 col-lg-10 d_result_container">
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <!-- EVENT Result: e_ đánh dấu CSS Event -->
+            <div class="tab-pane active b" id="event-r">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_e_result_container">
+                    @if (listEvent != null)
+                    {
+                        foreach (var item in listEvent)
+                        {
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                @Html.Partial("_ThumbEvent", item)
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <!-- Live Event Result: c_ đánh dấu CSS Live Event -->
+            <div class="tab-pane b" id="liveEvent-r">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_c_result_container">
+                    @if (listLiveStream != null)
+                    {
+                        foreach (var item in listLiveStream)
+                        {
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                @Html.Partial("_ThumbEvent", item)
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <!-- USER Result: u_ đánh dấu CSS User -->
+            <div class="tab-pane b" id="user-r">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_u_result_container">
+                    @if (listUser != null)
+                    {
+                        foreach (var item in listUser)
+                        {
+                            <div>
+                                @Html.Partial("_UserThumbnail", item)
+                            </div>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-4 col-sm-3 col-md-3 col-lg-2 d_tab_container">
+        <!-- required for floating -->
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs tabs-right">
+            <li class="active">
+                <a href="search-result.html#event-r" data-toggle="tab">Event (@listEventCount)</a>
+            </li>
+            <li>
+                <a href="search-result.html#liveEvent-r" data-toggle="tab">Live Streaming (@listLiveStreamCount)</a>
+            </li>
+            @if (task == "Search")
+            {
+            <li>
+                <a href="search-result.html#user-r" data-toggle="tab">User(@listUserCount)</a>
+            </li>
+            }
+            
+        </ul>
+    </div>
+</div>
+

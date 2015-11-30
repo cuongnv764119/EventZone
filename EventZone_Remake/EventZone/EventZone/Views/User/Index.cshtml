@@ -1,0 +1,390 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@model EventZone.Models.User
+@{
+    ViewBag.Title = "User";
+    var errorTitle = TempData["errorTitle"];
+    var errorMessage = TempData["errorMessage"];
+    User currentUser = UserHelpers.GetCurrentUser(Session);
+    User user= Model as User;
+    if (user==null && currentUser == null)
+    {
+        Response.Redirect("~/Home");
+    }
+    List<Event> latestEvent = UserDatabaseHelper.Instance.GetUserEvent(user.UserID);    
+}
+
+<link href="~/Content/myCSS_u_m_p.css" rel="stylesheet" />
+<style>
+   
+    .thumb_anh {
+        vertical-align: middle;
+        height: 200px;
+        width: 200px;
+    }
+
+    .setCenter {
+        padding-top: 50px;
+    }
+</style>
+<div class="setCenter">
+    <div class="d_body">
+        <div class="d_left_side">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#i_tab_info" data-toggle="tab">User Info</a></li>
+                <li><a href="#i_tab_follow" data-toggle="tab">Follow</a></li>
+            </ul>
+            <div class="tab-content i_tab_info">
+                <!-- Khung chứa User info -->
+                <div class="tab-pane active" id="i_tab_info">
+                    <div class="d_info_tren">
+                        <div class="d_ava">
+                           <img src="@EventDatabaseHelper.Instance.GetImageByID(user.Avartar).ImageLink">
+                          @if (currentUser == user)
+                          {
+                            <center>  <button data-toggle="modal" id="i_btn_chg_ava" data-target="#user-upload-avatar-modal" class="btn btn-primary btn-sm">Change</button></center>
+                            <div class="modal fade" id="user-upload-avatar-modal" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="panel panel-info d_margin_top">
+                                        <div class="panel-heading">
+                                            <div class="panel-title">Upload avatar</div>
+                                            <div style="float: right; font-size: 80%; position: relative; top: -17px">
+                                                <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="cover_all_functions">
+                                                <div class="tab-content">
+                                                    <!--thumb uploaded image-->
+                                                    <div class="col-md-4 col-sm-3 col-xs-4 thumb" style="width:inherit">
+                                                        <div id="list"></div>
+                                                    </div>
+
+                                                    @using (Html.BeginForm("UploadAvatar", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                    {
+                                                        <input id="uploadBtn" type="file" class="upload" name="file" accept="image/x-png, image/gif, image/jpeg" />
+                                                        <p>
+                                                            <input type="submit" class="btn btn-primary btn-sm" value="Upload" />
+                                                        </p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          }
+
+                        </div>
+                        <div class="d_info">
+                            <div class="d_user_name">
+                                @user.UserName
+                            </div>
+                            <div class="row">
+                                <div class="d_icon">
+                                    <span class="fa fa-calendar-plus-o"></span>
+                                </div>
+                                <div class="d_icon_info">
+                                    Date Join: @user.DataJoin.ToShortDateString()
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="d_icon">
+                                    <span class="fa fa-bookmark-o"></span>
+                                </div>
+                                <div class="d_icon_info">
+                                    Events: @UserDatabaseHelper.Instance.CountOwnedEvent(user.UserID)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="d_icon">
+                                    <span class="fa fa-users"></span>
+                                </div>
+                                <div class="d_icon_info">
+                                    Followers: @UserDatabaseHelper.Instance.NumberFollower(user.UserID)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="d_icon">
+                                    <span class="fa fa-envelope"></span>
+                                </div>
+                                <div class="d_icon_info">
+                                    E-mail: <a href="mailto:@user.UserEmail" target="_top">@user.UserEmail</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d_info_duoi">
+                        <div id="update-basic-info" hidden>
+                            @Html.Action("UpdateInfo", "User")
+                         </div>
+                        <div id="view-basic-info">
+                        <div class="row">
+                            <!-- row FirstName -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                First Name:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @user.UserFirstName
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row LastName -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Last Name:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (String.IsNullOrEmpty(user.UserLastName))
+                                {
+                                    <span>Not given yet</span>
+                                }
+                                else
+                                {
+                                    <span>@user.UserLastName</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row DOB -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Birthday:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.UserDOB != null)
+                                {
+                                    <span>@user.UserDOB.ToShortDateString()</span>
+                                }
+                                else
+                                {
+
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row Address -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Address:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.Place != null)
+                                {
+                                    <span>@user.Place</span>
+                                }
+                                else
+                                {
+                                    <span>Not given yet</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Gender:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.Gender == EventZoneConstants.isFemale)
+                                {
+                                    <span>Female</span>
+                                }
+                                else
+                                {
+                                    <span>Male</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row Phone Number -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Phone:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.Phone != null)
+                                {
+                                    <span>@user.Phone</span>
+                                }
+                                else
+                                {
+                                    <span>Not given yet</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row ID card -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                ID card:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.IDCard != null)
+                                {
+                                    <span>@user.IDCard</span>
+                                }
+                                else
+                                {
+                                    <span>Not given yet</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row Update Button -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                            </div>
+                            @if (user == currentUser)
+                            {
+                                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 b">
+                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#change-password-modal" id="i-change-password-btn" onclick="clearError()">ChangePassword</button>
+                                    </div>
+                                    <div class="modal fade" id="change-password-modal" role="dialog">
+                                        <div class="modal-dialog">
+                                            <!-- Modal content-->
+                                            <div class="panel panel-info d_margin_top">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title">Change Password</div>
+                                                    <div style="float: right; font-size: 80%; position: relative; top: -17px">
+                                                        <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="cover_all_functions">
+                                                        <div class="tab-content">
+                                                            @Html.Action("ChangePassword", "User")
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary btn-sm" id="btn-update">Update</button>
+                                </div>
+                            }
+                            
+
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!-- Khung chứa Schedule -->
+                <div class="tab-pane" id="i_schedule_tab" style="text-align: center; margin-top: 200px">
+                    Function is being building...
+                </div>
+                <!-- Khung chứa Follow -->
+                <div class="tab-pane" id="i_tab_follow">
+
+                    @if (user != null)
+                    {
+                        @Html.Action("ManageFollow", "User", new { userID = user.UserID })
+                    }
+                    else
+                    {
+                        @Html.Action("ManageFollow", "User")
+
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="d_right_side_top">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#i_events" data-toggle="tab">Latest Events</a></li>
+            </ul>
+            <div class="tab-content d_info_tab">
+                <!-- Khung chứa User info -->
+                <div class="tab-pane active" id="i_events">
+                    <div class="d_events_cover">
+                        @if (latestEvent != null&&latestEvent.Count!=0)
+                        {
+                            latestEvent=latestEvent.OrderByDescending(m=>m.EventRegisterDate).ToList();
+                            for(int i=0;i<latestEvent.Count;i++){
+                            Event currentEvent =  latestEvent[i];
+                            if (i == 3) {
+                                break;
+                            }
+                            <div class="d_each_event">
+                                <div class="d_thumb">
+                                    <img src="@EventDatabaseHelper.Instance.GetImageByID(currentEvent.Avatar).ImageLink">
+                                </div>
+                                <div class="d_info">
+                                    <div class="d_title">
+                                        @Html.ActionLink(currentEvent.EventName, "Details", "Event", new { id = currentEvent.EventID }, new { target="_blank"})
+                                    </div>
+                                    <div class="d_time_left">
+                                        Start in @currentEvent.EventStartDate.ToString()
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                            <div class="d_txt_show_all" style="text-align: center;">
+                                <a href="@Url.Action("Event", "User", new {userID = user.UserID })">View All</a>
+                            </div>
+                        }
+                        else
+                        {
+                            if (latestEvent == null || latestEvent.Count == 0)
+                            {
+                                if (currentUser != null && user == currentUser)
+                                {
+                                <div>You have no event.</div> <a href="@Url.Action("Create","Event")">Create now</a>
+                                }
+                                else
+                                {
+                                    <div>This user current has no event!</div>
+                                }
+                            }
+                        }                
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d_right_side_bottom">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#i_noti" data-toggle="tab">Notification</a></li>
+            </ul>
+            <div class="tab-content d_tab_noti">
+                <!-- Khung chứa User info -->
+                <div class="d_noti_cover">
+                    <div class="d_each_noti">
+                        <b>abc</b> blah blah
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function handleFileSelect(evt) {
+        var files = evt.target.files; // FileList object
+
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Render thumbnail.
+                    $("#list").empty();
+                    var span = document.createElement('span');
+                    span.innerHTML = ['<img class="thumb_anh" src="', e.target.result,
+                                      '" title="', escape(theFile.name), '"/>'].join('');
+                    document.getElementById('list').insertBefore(span, null);
+                };
+            })(f);
+
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+        }
+    }
+    if (document.getElementById('uploadBtn') != null) {
+        document.getElementById('uploadBtn').addEventListener('change', handleFileSelect, false);
+    }
+    $("#btn-update").click(function () {
+        $("#update-basic-info").show();
+        $("#view-basic-info").hide();
+    })
+</script>

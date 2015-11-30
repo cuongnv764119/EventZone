@@ -1,0 +1,331 @@
+﻿/*********************************************** Thêm ***/
+iframe {
+    border: 0;
+    height: 100px;
+    width: 100%;
+}
+
+/*********************************************** Sửa Bootstrap ***/
+
+.form-horizontal .form-group {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+body { overflow-x: hidden; }
+
+/*********************************************** Background ***/
+
+video {
+    height: auto;
+    position: fixed;
+    z-index: -1;
+}
+
+/*********************************************** Top Menu ***/
+
+li { list-style-type: none; }
+
+.d_topmenu_bg {
+    border-radius: inherit;
+    width: 100%;
+}
+
+#i_brand_website { font-size: 25px; }
+
+.d_brand_menu {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    margin-top: 50px;
+}
+
+#i_create_event {
+    border: 1px white solid;
+    border-radius: 6px;
+}
+
+#i_signin_btn { margin-left: 20px; }
+
+#i_avatar {
+    border: 1px white solid;
+    border-radius: 3px;
+    height: 35px;
+    margin: 7px 0px 7px 20px;
+    width: 35px;
+}
+
+#i_noti {
+    background-color: red;
+    border: 1px red solid;
+    border-radius: 3px;
+    height: 20px;
+    left: 40px;
+    position: relative;
+    text-align: center;
+    top: -47px;
+    width: 20px;
+}
+
+#i_noti p {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: -1px;
+}
+
+.d_user_dropdown {
+    left: 0px;
+    margin-left: -70px;
+    margin-top: 0px;
+    max-width: 20em;
+    min-width: 10em;
+    padding-left: 10px;
+    padding-right: 10px;
+    top: auto;
+    width: auto;
+}
+
+.d_recent_dropdown {
+    display: none;
+    left: 0px;
+    margin-left: -171px;
+    margin-top: -32px;
+    max-width: 20em;
+    min-width: 10em;
+    padding-left: 10px;
+    padding-right: 10px;
+    top: auto;
+    width: auto;
+}
+
+/*********************************************** Sửa Bootstrap */
+
+.glyphicon { color: black; }
+
+.btn-sm {
+    height: 35px;
+    margin-top: 7px;
+}
+
+@media (min-width: 768px) {
+    .navbar-right { height: 50px; }
+}
+
+.dropdown-header {
+    color: gray;
+    margin-left: -10px;
+}
+
+.d_quick_search {
+    margin: 10px auto;
+    width: 90%;
+}
+
+/* Plug-in khác */
+
+.dropdown:hover .dropdown-menu { /* Di chuột mở Menu, không cần click */
+    display: block;
+}
+
+/*********************************************** MIDDLE Category ***/
+
+.d_md_body{
+	margin-top: 100px;
+	font-family: segoe ui;
+	color: gray;
+	background-color: transparent;
+}
+.d_mc_text_1,
+.d_mc_text_2,
+.d_mc_category{
+	text-align: center;
+}
+.d_mc_text_1{
+	font-size: 60px;
+}
+.d_mc_text_2{
+	font-size: 30px;
+	font-weight: lighter;
+}
+.d_mc_text_2 a,
+.d_mc_text_2 a:hover{
+	color: #fff
+}
+.d_mc_category{
+	margin-bottom: 250px;
+
+}
+.d_mc_category button{
+	margin-bottom: 5px;	
+}
+.d_btn_middle{
+	font-size: 15px;
+	background-color: rgba(255,255,255,.2);
+}
+
+/*********************************************** Middle Category > Statistic for each button ***/
+
+.d_stat_cover {
+    border: 1px red solid;
+    display: flex;
+    height: 100px;
+    width: 500px;
+    zbackground-color: lightgrey;
+}
+
+.d_stat_new_event,
+.d_stat_new_follower,
+.d_stat_new_live,
+.d_follow_cate {
+    background-color: #fff;
+    border-right: 1px gray solid;
+    height: auto;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    text-align: center;
+    width: 80%;
+}
+
+.d_follow_cate { border: 0px; }
+
+.d_data,
+.d_data_name {
+    border: 0px red solid;
+    height: 20px;
+    margin-left: 5%;
+    width: 90%;
+}
+
+.d_data {
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 5%;
+}
+
+.d_data_name { margin-top: 20%; }
+
+/*********************************************** d_3_column ***/
+
+.d_cc_body {
+    background-color: transparent;
+    font-family: segoe ui;
+    margin-top: 90px;
+}
+
+.d_cc_title {
+    font-family: segoe ui;
+    font-size: 25px;
+    font-weight: lighter;
+    zpadding-left: 15px;
+}
+
+.d_cc_event_container {
+    height: 500px;
+    overflow-y: scroll;
+    padding: 0;
+}
+
+.d_3_column iframe { margin-left: 4.5%; }
+
+/*********************************************** d_3_column >> each_event***/
+
+.d_ee_body {
+    border: 1px blue solid;
+    font-family: segoe ui;
+    padding: 0;
+}
+
+.d_ee_live,
+.d_ee_thumb { position: relative; }
+
+.d_ee_info_cover,
+.d_ee_thumb { padding: 0; }
+
+.d_ee_follow,
+.d_ee_share,
+.d_ee_live {
+    background-color: rgba(0, 0, 0, .5);
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #fff;
+    height: auto;
+    margin: 5px 5px;
+    padding: 2px 0;
+    text-align: center;
+    width: 70%;
+}
+
+.d_ee_follow,
+.d_ee_share { margin-left: 25%; }
+
+.d_ee_thumb .front,
+.d_ee_thumb .back {
+    height: 100%;
+    width: 100%;
+}
+
+.d_ee_thumb img {
+    height: auto;
+    max-height: 70px;
+    position: absolute;
+    width: 100%;
+}
+
+.d_ee_title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.d_ee_icon { padding: 0; }
+
+.d_ee_datetime2,
+.d_ee_location2 {
+    padding: 0;
+    padding-left: 10px;
+}
+
+/*********************************************** About ***/
+
+.d_about_body { border: 1px red solid; }
+
+/*********************************************** MODAL Advanced Search ***/
+
+#i_frame_md_ad_search {
+    height: 444px;
+    width: 100%;
+}
+
+.d_md_ad_search { float: right; }
+
+/*********************************************** MODAL Sign In Sign Up ***/
+
+#i_frame_signin { height: 415px; }
+
+#i_first_name,
+#i_last_name { margin-bottom: 10px; }
+
+/*********************************************** Decorate ***/
+
+/*********************************************** Thêm ***/
+
+.modal-backdrop.in { z-index: 20; }
+
+/*********************************************** Thêm ***/
+
+/*********************************************** Thêm ***/
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+
+.field-validation-error { color: red; }
+.full-screen-bg {
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -100;
+}
+.fullscreen-bg__video {
+    top: 0;
+    left: 0;
+    min-width: inherit;
+    min-height: inherit;
+}

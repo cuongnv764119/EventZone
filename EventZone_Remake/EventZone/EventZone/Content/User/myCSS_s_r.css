@@ -1,0 +1,207 @@
+/*************************************************** Thêm ***/
+
+/*************************************************** sửa CSS BOOTSTRAP ***/
+.nav-tabs {
+    border: 0;
+}
+.nav-tabs > li > a{
+    width: 100%;
+	border: 0;
+	border-radius: 0;
+	background-color: whitesmoke;
+}
+.d_tab_container .nav-tabs li.active > a,
+.d_tab_container .nav-tabs li.active > a:hover,
+.d_tab_container .nav-tabs li.active > a:focus{
+    background-color: transparent;
+}
+.d_tab_container .nav-tabs li.active{
+    background-color: #ddd;;
+}
+.d_tab_container .nav-tabs li:hover{
+    background-color: #eee;
+}
+.d_tab_container .nav-tabs li:focus{
+    background-color: whitesmoke;
+}
+/*************************************************** Bao hết phần chính ***/
+.d_all_result{
+	height: initial;
+    padding: 5px;
+    
+	margin: 70px auto;
+	min-width: 460px;
+	border: 1px rgba(0,0,0,0.2) solid;
+	border-radius: 4px;
+	width: 1060px;
+}
+.d_sum_result{
+	padding-left: 10px;
+}
+hr {
+	margin-top: 40px;
+	margin-bottom: 10px;
+	border: 1px;
+	border-top: 1px solid #eee;
+}
+.d_change_filter{
+	padding-left: 0;
+}
+.d_change_filter button{
+	width: 100%;
+}
+
+/*************************************************** Khung kết quả TRÁI: CSS chung ***/
+.d_sum_result strong{
+	font-size: 17px;
+}
+.d_result_container{
+	padding: 0;
+    overflow-y: auto;
+    height: 500px;
+}
+.d_e_sortbar, .d_c_sortbar, .d_u_sortbar, .d_l_sortbar {
+	width: 100%;
+}
+.d_e_result_container, .d_c_result_container, .d_u_result_container, .d_l_result_container {
+    margin-right: 5px;
+	padding: 0;
+}
+.i_frame_info{
+	padding: 10px;
+}
+.d_e_thumb,
+.d_u_avatar{
+	padding: 0;
+}
+.d_e_thumb img,
+.d_u_avatar img{
+	width: 100%;
+	height: 140px;
+}
+.d_u_result_container{
+	width: 100%;
+	padding: 0;
+}
+.d_e_title,
+.d_u_name{
+	font-weight: bold;
+	padding-right: 0;
+}
+.d_e_info_cover,
+.d_u_info_cover{
+	padding: 0;
+    height:140px;
+}
+.d_c_result_container,
+.d_e_result_container,
+.d_u_result_container{
+	overflow-y: auto;
+}
+.d_c_result_container iframe,
+.d_e_result_container iframe,
+.d_u_result_container iframe{
+	zheight: auto;
+	float: left;
+}
+/*************************************************** Kết quả Event **/
+.d_each_event {
+    height: 110px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 5px;
+}
+.d_each_event .d_event_thumbnail{
+    width: 200px;
+    float: left;
+    height: 100px;
+}
+.d_each_event .d_event_thumbnail img{
+    height: 100%;
+    width: 100%;
+}
+.d_each_event .d_event_info {
+    width: 67%;
+    float: left;
+}
+.d_each_event .d_event_info .d_event_title{
+    margin-left: 15px;
+    font-weight: bold;
+    height: 42px;
+    max-height: 42px;
+}
+.d_each_event .d_each_info {
+    color: rgba(119, 119, 119, 0.7);
+}
+.d_each_event .d_info_piece {
+    font-size: small;
+    color: rgba(0, 0, 0, 0.3);
+}
+.d_each_event .d_info_piece .d_icon{
+    color: rgba(0, 0, 0, 0.3);
+    float: left;
+    width: 20px;
+    text-align: center;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+.d_each_event .d_info_piece .d_icon_info{
+    float: left;
+    width: 90%;
+}
+.d_button_group{
+    width: 9%;
+    float: left;
+}
+/*************************************************** Kết quả Channel **/
+
+/*************************************************** Kết quả User **/
+.d_each_user{
+    border: 1px solid #ddd;
+    width: 48%;
+    margin: 0 1% 5px;
+    float: left;
+    padding: 5px;
+    border-radius: 5px;
+}
+.d_u_avatar{
+    width: 80px;
+    height: 80px;
+    float: left;
+}
+.d_u_avatar img{
+    height: 80px;
+    width: 80px;
+    border-radius: 5px;
+}
+.d_u_info_cover{
+    width: 75%;
+    float: left;
+    height: initial;
+    padding: 0 15px;
+}
+.d_u_follow_btn{
+    position: absolute;
+    margin-left: 41%;
+}
+/** Kết quả Location **/
+
+/*** Các tabs bên PHẢI ***/
+.d_tab_container{
+	padding: 0;
+	border: 0px;
+	border-radius: 0px;
+	height: 500px;
+	border-left: 1px solid lightgrey;
+}
+.d_tab_container li{
+	width: 100%;
+	border: 0px;
+}
+.d_tab_container .nav-tabs li.active > a,
+.d_tab_container .nav-tabs li.active > a:hover,
+.d_tab_container .nav-tabs li.active > a:focus {
+	border: 0px;
+	border-radius: 0px;
+}
+
+/*************************************************** CSS Decorate ***/

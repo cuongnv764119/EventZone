@@ -1,0 +1,274 @@
+/**************************************************** thêm CSS ***/
+.b{
+	border: 0px red solid;
+	height: auto;
+}
+
+/**************************************************** Sửa CSS BOOTSTRAP ***/
+.container-fluid{
+	padding: 0;
+}
+.thumbnail{
+	padding: 1px;
+	background-color: #fff;
+	border: 0px solid #ddd;
+}
+.thumbnail > img, .thumbnail a > img {
+	border-radius: inherit;
+}
+#myTab {
+	padding-left: 10px;
+	padding-top: 5px;
+	background-color: rgba(0, 0, 0, .1);
+}
+.tab-content{
+	padding: 10px 5px 5px 5px;
+	background-color: white;
+	border-radius: 4px;
+}
+.d_tab-content_cover{
+	overflow: auto;
+    height: 441px;
+}
+.panel-body{
+	padding: none;
+	padding-top: 10px;
+}
+.d_video_item_cover{
+	margin: 0;
+}
+.panel-default {
+    border: none;
+    border-bottom: lightgrey;
+}
+.panel-default > .panel-heading {
+    color: #AFAFAF;
+    background-color: rgba(0,0,0, 0);
+}
+.panel-title{
+	color: gray;
+}
+
+/**************************************************** Khung chức năng TỔNG QUÁT ***/
+.d_uwe_body{
+	font-family: segoe ui;
+	overflow-y: hidden;
+    sbackground-color: white;
+	color: grey;
+	font-family: segoe ui;
+	min-width: 400px;
+}
+.d_all_function_cover{
+	border: 0px blue dashed;
+	margin: 30px auto;
+	min-width: 430px;
+}
+.d_left_cover,
+.d_right_top,
+.d_right_bottom{
+	margin-bottom: 10px;
+	border: 1px lightgrey solid;
+	padding: 0;
+	border-radius: 4px;
+}
+.d_right_bottom{
+	height: 184px;
+}
+
+/**************************************************** Event Info Tab **/
+.d_basic_info{
+	height: auto;
+	padding: 0px;
+}
+.d_basic_info > .d_event_thumbnail {
+	padding: 0;
+	height: auto;
+	overflow: hidden;
+}
+
+/**************************************************** Event Info tab - Thumb & info */
+.d_event_body{
+	overflow: hidden;
+}
+#i_event_thumbnail{
+	width: 100%;
+	height: auto;
+}
+.d_event_info{
+	padding: 0;
+}
+#i_event_title{
+	padding: 0;
+	margin-bottom: 10px;
+}
+#i_event_title p{
+	color: black;
+	font-size: 18px;
+	font-weight: bold;
+}
+.d_each_info{
+	padding: 0;
+}
+.d_each_info div{
+	margin-bottom: 3px;
+}
+.d_each_info .fa,
+.d_each_info .glyphicon {
+	padding-left: 0px;
+	padding-right: 0px;
+	margin-top: 2px;
+}
+.d_event_time{
+	padding: 0;
+}
+.glyphicon-map-marker{
+	margin-left: -1px;
+}
+iframe{
+	height: 444px;
+    width: 99.9%;
+   	overflow: hidden;
+}
+iframe #i_frame_gallery{
+
+}
+.d_text_des{
+	text-align: center;
+}
+
+/**************************************************** Event Info tab - Description */
+.d_deco_line{
+	height: 14px;
+	border-bottom: 1px lightgray solid;
+}
+.d_des_fade{
+	margin-top: 30px;
+	position: absolute;
+    width: 95%;
+	border: 1px solid lightgrey;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	height: 220px;
+	background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* Standard syntax (must be last) */
+    border-bottom: 0px;
+}
+.d_des_content{
+	margin-top: 30px;
+    position: absolute;
+    width: 95%;
+	height: 220px;
+	border-radius: 4px;
+	background-color: white;
+	padding: 10px;
+	color: black;
+	font-size: 15px;
+	overflow-y: hidden;
+}
+
+/**************************************************** Image tab **/
+#i_image_tab{
+	border: 0px solid white;
+    height: 435px;
+}
+.d_image_cover{
+	height: 100%;
+    overflow-y:auto;
+}
+.d_each_group {
+	overflow: hidden;
+}
+
+.d_deco_text_location{
+	text-align: center;
+	font-size: larger;
+}
+
+/**************************************************** Video tab **/
+.d_info_tab{
+	height: 455px;
+    padding: 10px 0;
+    background-color: #fff;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.d_panel_1{
+	padding-top: 0;
+}
+.d_video_cover{
+	width: 100%;
+    height: 365px;
+    overflow-y: overlay;
+    position: relative;
+}
+.d_video_thumb_container {
+    border: 0px red solid;
+    width: 100%;
+    height: inherit;
+    position: relative;
+    padding-right: 10px;
+    padding-top: 10px;
+}
+.d_link_cover a{
+	color: gray;
+}
+.col-md-4.thumb {
+    height: auto;
+    margin-bottom: 0px;
+}
+
+/**************************************************** Watch Video tab **/
+.d_watch_video_tab{
+	border: 0px red solid;
+}
+.d_play_video iframe{
+	height: 400px;
+}
+.d_wv_button {
+}
+.d_wv_button a {
+	margin-right: 10px;
+}
+
+/**************************************************** Map tab **/
+#map-container{
+	height: 245px;
+    border-radius: 3px;
+}
+
+/**************************************************** Comment tab **/
+.d_write_comment,
+.d_write_report{
+	position: relative;
+    color: gray;
+    bottom: -10px;
+}
+#i_cmt_box,
+#i_report_box{
+	float: left;
+    width: 80%;
+}
+#i_send_cmt,
+#i_send_report{
+	float: right;
+    height: initial;
+}
+#i_frame_comment{
+	width: 100%;
+}
+.d_cm_each_comment{
+
+}
+
+/**************************************************** Khung chức năng PHẢI ***/
+
+/**************************************************** Comment Tab ***/
+.d_comment{
+	background-color: white;
+	height: 145px;
+}
+
+
+/**************************************************** Decorate CSS ***/

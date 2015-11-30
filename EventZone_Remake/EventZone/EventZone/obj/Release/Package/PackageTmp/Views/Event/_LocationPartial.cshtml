@@ -1,0 +1,10 @@
+﻿@model IEnumerable<EventZone.Models.Location>
+
+    <div class="col-md-10">
+        @foreach (var item in Model)
+        {
+            @Html.EditorFor(modelItem  => item.LocationName)
+            @Html.ActionLink("Delete","DeleteLocation", "Event", new { id=item.LocationID})
+        <br/>
+        }
+    </div>

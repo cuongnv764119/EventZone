@@ -1,0 +1,56 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+
+@{
+    if (EventZone.Helpers.UserHelpers.GetCurrentUser(Session) == null)
+    {
+        Response.Redirect("~/Home");
+    }
+    List<ViewThumbEventModel> listEventThum = TempData["ListEventThumb"]as List<ViewThumbEventModel>;
+    int countEvent = 0;
+    if (listEventThum != null) { countEvent = listEventThum.Count; }
+}
+
+    <!-- ump_ đánh dấu CSS thuộc về USER MANAGE PROFILE -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md-offset-0 col-lg-offset-0 d_ump_follow">
+        <div id="result-list" class="panel-group d_follow_item_cover">
+            <!--  -->
+            <div class="panel panel-default">
+                <div class="panel-heading d_panel_1">
+                    <h4 class="panel-title">
+                        <!-- fl_ đánh dấu CSS FOLLOW -->
+                        <a href="#i_fl_event" data-toggle="collapse" data-parent="#result-list" class="" aria-expanded="true">
+                            <div class="">Followed Event (@countEvent)</div>
+                        </a>
+                    </h4>
+                </div>
+                <div id="i_fl_event" class="panel-collapse collapse in" aria-expanded="true">
+                    @if(countEvent!=0){
+                        foreach (var item in listEventThum) { 
+                        @Html.Partial("_ThumbEvent", item)
+                        }
+                    }
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#i_fl_user" data-toggle="collapse" data-parent="#result-list" class="collapsed" aria-expanded="false">
+                            <div class="xxx">Followed User (10)</div>
+                        </a>
+                    </h4>
+                </div>
+                <div id="i_fl_user" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                    Followed User
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- All script here -->
+    <!-- Default JQuery -->
+    @*<script type="text/javascript" src="../Scripts/jquery-2.1.4.js"></script>*@
+    <!-- Default Bootstrap -->
+    @*<script type="text/javascript" src="../Scripts/bootstrap.min.js"></script>*@
+

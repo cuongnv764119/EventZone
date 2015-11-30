@@ -1,0 +1,9 @@
+﻿@model IEnumerable<EventZone.Models.ViewThumbEventModel>
+
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        @Html.Partial("_ThumbEvent",item)
+    }
+}

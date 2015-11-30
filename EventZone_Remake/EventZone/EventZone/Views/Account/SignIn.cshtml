@@ -1,0 +1,62 @@
+﻿@model EventZone.Models.SignInViewModel
+@{
+    if (EventZone.Helpers.UserHelpers.GetCurrentUser(Session) != null)
+    {
+        Response.Redirect("~/Home");
+    }
+
+}
+<div id="i_signin_section" class="tab-pane fade in active">
+    @using (Ajax.BeginForm("SigninPost", "Account", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "OnSignInRequestSucceeded"
+    }, new { id = "SignInForm" }))
+    {
+        @Html.AntiForgeryToken()
+        var alertStyle = "";
+        
+        if (ViewData.ModelState == null || !ViewData.ModelState.Any(m => m.Value.Errors.Any()))
+        {
+            alertStyle = "display:none;margin-bottom:0px";
+        }
+        <div id='alertPanelSignIn'
+             class="alert alert-danger"
+             style='@alertStyle'>
+        </div>
+        <div class="my_function_cover f_sign_in">
+            <div class="panel-body">
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @placeholder = "Username" })
+                </div>
+                @Html.ValidationMessageFor(model => model.UserName)
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    @Html.PasswordFor(model => model.Password, new { @id = "signin-password", @class = "form-control", @placeholder = "password", @type = "password" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Password)
+                <div>
+                    <a data-toggle="modal" href="#myModal3" id="i_quen_mk">
+                        Forgot password?
+                    </a>
+                </div>
+                <div class="input-group" style="margin-bottom: 35px">
+                    <div class="checkbox">
+                        @Html.CheckBoxFor(model => model.Remember) Remember me
+                    </div>
+                </div>
+                <div style="margin-top: 10px" class="form-group">
+                    <!-- Button -->
+                    <div class="col-sm-12 controls">
+                        <button type="submit" id="btn-login" class="btn btn-success">Sign In </button>
+                        <a id="btn-fblogin" href="/Account/AuthenGoogle" class="btn btn-danger">Sign In with Google+</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- bao toàn bộ chức năng SIGN IN -->
+    }
+</div>
+<script src="~/Scripts/Account/SignIn.js"></script>
+<script src="~/Scripts/jquery.md5.js"></script>

@@ -1,0 +1,165 @@
+﻿@using EventZone.Models
+@{
+    ViewBag.Title = "LookAround";
+}
+@{
+    var nearlyEventPlace = ViewData["nearlyEventPlace"] as List<EventPlace>;
+    var nearlyEvent = ViewData["nearlyEvent"] as List<ViewThumbEventModel>;
+    var nearlyLocation = ViewData["nearlyLocation"] as List<Location>;
+    var curr = ViewData["currentLocation"] as Location;
+    var listOfPlace = ViewData["listLocation"] as List<Location>;
+}
+@{
+    ViewBag.Title = "LookAround";
+}
+
+
+<style>
+
+    #map {
+        height: 500px;
+        width: 500px;
+        padding-top:50px;
+    }
+    .look-around{
+        padding-top:20px;
+    }
+    #id-name-place{
+        height:50px;
+
+    }
+</style>
+
+
+<div id="id-place-detail" class="look-around">
+    <div class="right-content col-md-5" id="map"></div>
+    <div class="right-content col-md-5">
+        <h3><span id="id-name-place" >All Event Near you show in the map</span></h3>
+        <div id="id-list-event-in-place" class="col-md-push-5">
+            @Html.Partial("_ViewEventInPlace",nearlyEvent)
+        </div>
+    </div>
+
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"
+        async defer>
+</script>
+<script>
+    var searchDetailModule = (function () {
+        var _data = {};
+        var _name = {};
+
+        loadEventInPlace = function (index, placeId, placeName) {
+            if (typeof (_data[index]) === 'undefined') {
+                // call Ajax
+                $.ajax({
+                    url: "/LookAround/showEventInLocation/",
+                    type: 'POST',
+                    dataType: 'html',
+                    data: {
+                        id: placeId
+                    },
+                    success: function (data) {
+                        //console.log(data);
+                        if (typeof (data) === 'undefined' || data == null || data == "null") {
+                            console.log(data);
+                        }
+                        else {
+                            $("#id-list-event-in-place").html("");
+                            $("#id-name-place").html("");
+                            _data[index] = data;
+                            _name[index] = "Events in: "+placeName;
+                            $("#id-list-event-in-place").append(_data[index]);
+                            $("#id-name-place").html("Events in: " + placeName);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                });
+            }
+            else {
+                $("#id-list-event-in-place").html("");
+                $("#id-name-place").html("");
+                $("#id-list-event-in-place").append(_data[index]);
+                $("#id-name-place").html(_name[index]);
+
+            }
+        };
+
+        setData = function (index, data) {
+            _data[index] = data;
+        };
+
+        setname = function (index, name) {
+            _name[index] = name;
+        }
+        return {
+            loadEventInPlace: loadEventInPlace,
+            setData: setData,
+            setname: setname
+        }
+    })();
+
+    //=================================================================================
+
+
+
+    var map;
+    var infoWindow;
+    var index = 0;
+    var listPlace;
+
+    function initMap() {
+
+        var myLatLng = new google.maps.LatLng('@curr.Latitude', '@curr.Longitude');
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 11,
+            center: myLatLng
+        });
+
+
+        var currentMaker = new google.maps.Marker({
+            position: myLatLng,
+            map: map,
+            title: 'Your current position!'
+        });
+
+
+
+        @foreach (var item in nearlyLocation)
+        {
+            <text>
+        index = index + 1;
+        (function (index) {
+            var otherMaker = new google.maps.Marker({
+                position: new google.maps.LatLng('@item.Latitude', '@item.Longitude'),
+                map: map
+            });
+            var infoOther = new google.maps.InfoWindow({
+                content: '@item.LocationName'
+            });
+            google.maps.event.addListener(otherMaker, 'mouseover', function () {
+                infoOther.open(map, otherMaker);
+            });
+            google.maps.event.addListener(otherMaker, 'mouseout', function () {
+                infoOther.close();
+            });
+            google.maps.event.addListener(otherMaker, 'click', function () {
+                searchDetailModule.loadEventInPlace(index, '@item.LocationID', '@item.LocationName');
+            });
+
+        })(index);
+
+        </text>
+        }
+
+        searchDetailModule.setData(0, $("#id-list-event-in-place").html());
+        searchDetailModule.setname(0, $("#id-name-place").html());
+    }
+
+</script>
+

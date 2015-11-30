@@ -1,0 +1,42 @@
+/**
+ * Demo
+ */
+.box {
+    cursor: pointer;
+    float: left;
+}
+
+.box .front,
+.box .back {
+    color: white;
+    font-size: 2em;
+    height: 91px;
+    text-align: center;
+    width: 160px;
+}
+
+.d_btn_backside {
+    background-color: black;
+    border: 0px;
+    border-radius: 25px;
+    color: white;
+    display: block;
+    height: 50px;
+    margin-top: 20px;
+    opacity: 0.7;
+    position: inherit;
+    width: 100%;
+}
+
+.d_btn_backside #i_btn_bs_1,
+.d_btn_backside #i_btn_bs_3 {
+    background: transparent;
+    border: 0px;
+    border-radius: 20px;
+    color: white;
+    height: 40px;
+    margin-top: 10px;
+    opacity: 1;
+    padding: 0;
+    width: 40px;
+}

@@ -1,0 +1,273 @@
+/****************************************************** Thêm ***/
+
+
+/****************************************************** sửa CSS BOOTSTRAP ***/
+.nav-tabs > li > a{
+	border: 0;
+	border-radius: 0;
+	background-color: whitesmoke;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+	background-color: #ddd;
+}
+/****************************************************** Bao hết phần chính ***/
+.d_all_result{
+	height: initial;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 460px;
+	border: 1px gray solid;
+	border-radius: 4px;
+	padding: 0;
+	padding-top: 5px;
+}
+.d_sum_result{
+	padding-left: 10px;
+}
+hr {
+	margin-top: 40px;
+	margin-bottom: 10px;
+	border: 1px;
+	border-top: 1px solid #eee;
+}
+.d_change_filter{
+	padding-right: 5px;
+	padding-left: 0;
+}
+.d_change_filter button{
+	width: 100%;
+}
+
+/****************************************************** Khung kết quả TRÁI: CSS chung ***/
+.d_sum_result strong{
+	font-size: 17px;
+}
+.d_result_container{
+	padding: 0;
+    overflow-y: auto;
+    height: 500px;
+}
+.d_e_result_container, .d_c_result_container, .d_u_result_container, .d_l_result_container {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.d_e_thumb,
+.d_u_thumb,
+.d_c_thumb{
+	padding: 0;
+}
+.d_e_thumb img,
+.d_u_thumb img,
+.d_c_thumb img{
+	width: 100%;
+	height: auto;
+}
+.d_u_result_container{
+	width: 100%;
+	padding: 0;
+}
+.d_e_title,
+.d_u_title,
+.d_c_title{
+	font-weight: bold;
+	padding-right: 0;
+}
+.d_e_info_cover,
+.d_u_info_cover,
+.d_c_info_cover{
+	padding: 0;
+}
+.d_c_result_container,
+.d_e_result_container,
+.d_u_result_container{
+	overflow-y: inherit;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.d_event_card_cover,
+.d_user_card_cover,
+.d_channel_card_cover{
+	padding: 5px;
+	border-radius: 4px;
+	border: 1px lightgrey solid;
+}
+/****************************************************** CSS chung cho các Result Card **/
+/****************************************************** Kết quả Event **/
+.d_event_card_cover{
+	margin-bottom: 10px;
+}
+.d_e_title{
+	max-height: 42px;
+	overflow-y: hidden;
+}
+.d_txt_live{
+	padding: 5px 10px;
+	color: white;
+	font-style: italic;
+	background-color: rgba(0,0,0,0.6);
+	position: absolute;
+	top: 3%;
+	left: 3%;
+}
+.d_e_drop_menu{
+	left: -120px;
+}
+.d_e_info_cover .fa{
+	width: 26px;
+	height: auto;
+}
+.d_e_cate,
+.d_e_date,
+.d_e_follower,
+.d_e_time,
+.d_e_user,
+.d_e_location,
+.d_e_btn_desciption{
+	display: -webkit-inline-box;
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 35%;
+	float: left;
+}
+.d_e_follower,
+.d_e_time,
+.d_e_location{
+	width: 50%;
+}
+.d_e_info_cover .fa,
+.d_e_info_cover .d_fill_in{
+	color: lightgray;
+	padding-right: 10px;
+}
+.d_e_info_cover p{
+	margin-bottom: 0px;
+}
+.d_e_btn_more{
+	float: right;
+}
+
+/****************************************************** Kết quả Channel **/
+.d_channel_card_cover{
+	margin-bottom: 10px;
+}
+.d_c_title{
+	max-height: 45px;
+	overflow-y: hidden;
+}
+.d_txt_live{
+	padding: 5px 10px;
+	color: white;
+	font-style: italic;
+	background-color: rgba(0,0,0,0.6);
+	position: absolute;
+	top: 3%;
+	left: 3%;
+}
+.d_c_drop_menu{
+	left: -120px;
+}
+.d_c_info_cover .fa{
+	width: 26px;
+	height: auto;
+}
+.d_c_cate,
+.d_c_date,
+.d_c_follower,
+.d_c_time,
+.d_c_user,
+.d_c_location,
+.d_c_btn_desciption{
+	display: -webkit-inline-box;
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 35%;
+	float: left;
+}
+.d_c_follower,
+.d_c_time,
+.d_c_location{
+	width: 50%;
+}
+.d_c_info_cover .fa,
+.d_c_info_cover .d_fill_in{
+	color: lightgray;
+	padding-right: 10px;
+}
+.d_c_info_cover p{
+	margin-bottom: 0px;
+}
+.d_c_btn_more{
+	float: right;
+}
+
+/****************************************************** Kết quả User **/
+.d_user_card_cover{
+	margin-bottom: 10px;
+}
+.d_u_title{
+	max-height: 45px;
+	overflow-y: hidden;
+}
+.d_u_drop_menu{
+	left: -120px;
+}
+.d_u_info_cover .fa{
+	width: 26px;
+	height: auto;
+}
+.d_u_cate,
+.d_u_date,
+.d_u_follower,
+.d_u_time,
+.d_u_user,
+.d_u_location,
+.d_u_btn_desciption{
+	display: -webkit-inline-box;
+	padding-left: 15px;
+	padding-right: 15px;
+	width: 35%;
+	float: left;
+}
+.d_u_follower,
+.d_u_time,
+.d_u_location{
+	width: 50%;
+}
+.d_u_info_cover .fa,
+.d_u_info_cover .d_fill_in{
+	color: lightgray;
+	padding-right: 10px;
+}
+.d_u_info_cover p{
+	margin-bottom: 0px;
+}
+.d_u_btn_more{
+	float: right;
+}
+
+/****************************************************** Kết quả Location **/
+
+/****************************************************** Các tabs bên PHẢI ***/
+.nav-tabs{
+	border: 0;
+}
+.d_tab_container{
+	padding-right: 5px;
+	padding-left: 0;
+	border: 0px;
+	border-radius: 0px;
+	height: 500px;
+	border-left: 1px solid lightgrey;
+}
+.d_tab_container li{
+	width: 100%;
+	border: 0px;
+}
+.d_tab_container .nav-tabs li.active > a,
+.d_tab_container .nav-tabs li.active > a:hover,
+.d_tab_container .nav-tabs li.active > a:focus {
+	border: 0px;
+	border-radius: 0px;
+}
+
+/****************************************************** CSS Decorate ***/

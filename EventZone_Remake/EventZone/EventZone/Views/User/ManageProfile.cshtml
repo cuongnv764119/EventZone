@@ -1,0 +1,250 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@{
+    var errorTitle = TempData["errorTitle"];
+    var errorMessage = TempData["errorMessage"];
+    if (EventZone.Helpers.UserHelpers.GetCurrentUser(Session) == null)
+    {
+        Response.Redirect("~/Home");
+    }
+    User user = UserHelpers.GetCurrentUser(Session);
+    var task = TempData["task"];
+}
+<script>
+    function callError() {
+        errorShow('@errorTitle','@errorMessage')
+    }
+</script>
+
+<link href="~/Content/User/myCSS_u_m_p.css" rel="stylesheet" />
+<!-- u_m_p_ đánh dấu CSS USER MANAGE PROFILE -->
+@if (user == null) {
+    if (errorTitle != null && errorMessage != null)
+    {
+        <body onload="callError()">
+        </body>
+    }
+}
+else {
+<body class="d_u_m_p_body">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-ld-8 col-md-offset-2 col-ld-offset-2 d_container">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active"><a href="#i_info_tab" data-toggle="tab">User Info</a></li>
+            <li><a href="#i_schedule_tab" data-toggle="tab">Schedule (10)</a></li>
+            <li><a href="#i_follow_tab" data-toggle="tab">Follow (4)</a></li>
+        </ul>
+        <div class="tab-content d_info_tab">
+            <!-- Khung chứa User info -->
+            <div class="tab-pane active" id="i_info_tab">
+                @*<iframe src="u_m_p_info.html" name="targetframe" frameborder="0" id="i_frame_info"></iframe>*@
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-md-offset-2 col-lg-offset-2 form-group d_ump_info">
+                        @Html.Partial("_AvatarPartial",EventDatabaseHelper.Instance.GetImageByID(user.Avartar))
+                        <div class="row b">
+                            <!-- row UserName -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                User Name:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @user.UserName
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <!-- row Password -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Password:
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                                ●●●●●●●●●●
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 b">
+                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#change-password-modal" id="i-change-password-btn" onclick="clearError()">ChangePassword</button>
+                            </div>
+                            <div class="modal fade" id="change-password-modal" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="panel panel-info d_margin_top">
+                                        <div class="panel-heading">
+                                            <div class="panel-title">Change Password</div>
+                                            <div style="float: right; font-size: 80%; position: relative; top: -17px">
+                                                <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="cover_all_functions">
+                                                <div class="tab-content">
+                                                    @Html.Action("ChangePassword", "User")
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="update-basic-info" hidden>
+                            @Html.Action("UpdateInfo", "User")
+                         </div>
+                        <div id="view-basic-info">
+                        <div class="row b">
+
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 b">
+                                <hr>
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <!-- row FirstName -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                First Name:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @user.UserFirstName
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <!-- row LastName -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Last Name:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (String.IsNullOrEmpty(user.UserLastName))
+                                {
+                                    <span>Not given yet</span>
+                                }
+                                else
+                                {
+                                    <span>@user.UserLastName</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <!-- row DOB -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Birthday:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.UserDOB != null)
+                                {
+                                    <span>@user.UserDOB.ToShortDateString()</span>
+                                }
+                                else
+                                {
+
+                                }
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <!-- row Address -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Address:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.Place != null)
+                                {
+                                    <span>@user.Place</span>
+                                }
+                                else
+                                {
+                                    <span>Not given yet</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row b">
+
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Gender:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.Gender == EventZoneConstants.isFemale)
+                                {
+                                    <span>Female</span>
+                                }
+                                else
+                                {
+                                    <span>Male</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <!-- row Phone Number -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Phone Number:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.Phone != null)
+                                {
+                                    <span>@user.Phone</span>
+                                }
+                                else
+                                {
+                                    <span>Not given yet</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <!-- row ID card -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                ID card:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.IDCard != null)
+                                {
+                                    <span>@user.IDCard</span>
+                                }
+                                else
+                                {
+                                    <span>Not given yet</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <!-- row Update Button -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                <button type="button" class="btn btn-primary btn-sm" id="btn-update">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Khung chứa Schedule -->
+            <div class="tab-pane" id="i_schedule_tab">
+                
+                @*<iframe src="u_m_p_schedule.html" name="targetframe" frameborder="0" id="i_frame_schedule"></iframe>*@
+            </div>
+            <!-- Khung chứa Follow -->
+            <div class="tab-pane" id="i_follow_tab">
+               @Html.Action("ManageFollow","User")
+            </div>
+        </div>
+    </div>
+
+</body>
+}
+<script src="~/Scripts/Home/jquery.flip.min.js"></script>
+<script>
+    $(document).ready(function () {
+        @if (task == "userInfor") {
+            <text>
+        $("#myTab").tabs({ active: 1 });
+        </text>
+        }
+        else if (task == "schedule") {
+             <text>
+        $("#myTab").tabs({ active: 2 });
+        </text>
+        }else if (task == "schedule") {
+             <text>
+        $( "#myTab" ).tabs({ active: 3 });
+        </text>
+        }
+        $("#btn-update").click(function () {
+            $("#update-basic-info").show();
+            $("#view-basic-info").hide();
+        })
+
+    })
+
+</script>
+
+}

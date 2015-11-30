@@ -1,0 +1,1921 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EventZoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ActionName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Appeal">
+          <Key>
+            <PropertyRef Name="AppealID" />
+          </Key>
+          <Property Name="AppealID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventID" Type="bigint" Nullable="false" />
+          <Property Name="AppealContent" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="AppealStatus" Type="int" Nullable="false" />
+          <Property Name="SendDate" Type="date" Nullable="false" />
+          <Property Name="ResultDate" Type="date" />
+          <Property Name="HandleBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="CategoryAvatar" Type="bigint" />
+        </EntityType>
+        <EntityType Name="CategoryFollow">
+          <Key>
+            <PropertyRef Name="CategoryFollowID" />
+          </Key>
+          <Property Name="CategoryFollowID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryID" Type="bigint" Nullable="false" />
+          <Property Name="FollowerID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventID" Type="bigint" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="CommentContent" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DateIssue" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="ChannelID" />
+          </Key>
+          <Property Name="ChannelID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="ChannelName" Type="nvarchar" MaxLength="512" Nullable="false" />
+          <Property Name="ChannelDescription" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ChannelID" Type="bigint" Nullable="false" />
+          <Property Name="EventName" Type="nvarchar" MaxLength="1024" Nullable="false" />
+          <Property Name="EventStartDate" Type="datetime" Nullable="false" />
+          <Property Name="EventEndDate" Type="datetime" Nullable="false" />
+          <Property Name="EventDescription" Type="nvarchar(max)" />
+          <Property Name="EventRegisterDate" Type="datetime" Nullable="false" />
+          <Property Name="View" Type="bigint" Nullable="false" />
+          <Property Name="CategoryID" Type="bigint" Nullable="false" />
+          <Property Name="Privacy" Type="int" Nullable="false" />
+          <Property Name="Avatar" Type="bigint" />
+          <Property Name="EditBy" Type="bigint" />
+          <Property Name="EditTime" Type="datetime" />
+          <Property Name="EditContent" Type="nvarchar(max)" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventFollow">
+          <Key>
+            <PropertyRef Name="EventFollowID" />
+          </Key>
+          <Property Name="EventFollowID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventID" Type="bigint" Nullable="false" />
+          <Property Name="FollowerID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventImage">
+          <Key>
+            <PropertyRef Name="EventImageID" />
+          </Key>
+          <Property Name="EventImageID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventID" Type="bigint" />
+          <Property Name="ImageID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="EventPlace">
+          <Key>
+            <PropertyRef Name="EventPlaceID" />
+          </Key>
+          <Property Name="EventPlaceID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventID" Type="bigint" Nullable="false" />
+          <Property Name="LocationID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EventRank">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="bigint" Nullable="false" />
+          <Property Name="Score" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ImageID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="ImageLink" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="UploadDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LikeDislike">
+          <Key>
+            <PropertyRef Name="LikeDislikeID" />
+          </Key>
+          <Property Name="LikeDislikeID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventID" Type="bigint" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+          <Property Name="Type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="LocationID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Longitude" Type="float" Nullable="false" />
+          <Property Name="Latitude" Type="float" Nullable="false" />
+          <Property Name="LocationName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NotificationChange">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NotificationID" Type="bigint" />
+          <Property Name="EventID" Type="bigint" />
+          <Property Name="ActorID" Type="bigint" />
+          <Property Name="AddDate" Type="date" />
+          <Property Name="IsRead" Type="bit" Nullable="false" />
+          <Property Name="Type" Type="int" />
+          <Property Name="ReveiverID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="PeopleFollow">
+          <Key>
+            <PropertyRef Name="PeopleFollowID" />
+          </Key>
+          <Property Name="PeopleFollowID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FollowerUserID" Type="bigint" Nullable="false" />
+          <Property Name="FollowingUserID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventID" Type="bigint" Nullable="false" />
+          <Property Name="SenderID" Type="bigint" Nullable="false" />
+          <Property Name="ReportType" Type="int" Nullable="false" />
+          <Property Name="ReportContent" Type="nvarchar(max)" />
+          <Property Name="ReportStatus" Type="int" Nullable="false" />
+          <Property Name="ReportDate" Type="datetime" Nullable="false" />
+          <Property Name="HandleDate" Type="datetime" />
+          <Property Name="HandleBy" Type="bigint" />
+        </EntityType>
+        <EntityType Name="ReportDefine">
+          <Key>
+            <PropertyRef Name="ReportTypeID" />
+          </Key>
+          <Property Name="ReportTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ReportTypeName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ReportDefine" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Share">
+          <Key>
+            <PropertyRef Name="ShareID" />
+          </Key>
+          <Property Name="ShareID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventID" Type="bigint" Nullable="false" />
+          <Property Name="UserID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TrackingAction">
+          <Key>
+            <PropertyRef Name="TrackingID" />
+          </Key>
+          <Property Name="TrackingID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SenderID" Type="bigint" Nullable="false" />
+          <Property Name="ReceiverID" Type="bigint" Nullable="false" />
+          <Property Name="SenderType" Type="int" Nullable="false" />
+          <Property Name="ReceiverType" Type="int" />
+          <Property Name="ActionID" Type="int" Nullable="false" />
+          <Property Name="ActionTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserFirstName" Type="nvarchar" MaxLength="32" Nullable="false" />
+          <Property Name="UserLastName" Type="nvarchar" MaxLength="32" />
+          <Property Name="UserEmail" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="UserDOB" Type="date" Nullable="false" />
+          <Property Name="IDCard" Type="nvarchar" MaxLength="16" />
+          <Property Name="UserRoles" Type="int" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar(max)" />
+          <Property Name="Place" Type="nvarchar(max)" />
+          <Property Name="AccountStatus" Type="bit" Nullable="false" />
+          <Property Name="Gender" Type="int" Nullable="false" />
+          <Property Name="Avartar" Type="bigint" />
+          <Property Name="DataJoin" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Video">
+          <Key>
+            <PropertyRef Name="VideoID" />
+          </Key>
+          <Property Name="VideoID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EventPlaceID" Type="bigint" Nullable="false" />
+          <Property Name="VideoLink" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="Privacy" Type="int" Nullable="false" />
+          <Property Name="PrimaryServer" Type="nvarchar" MaxLength="50" />
+          <Property Name="BackupServer" Type="nvarchar" MaxLength="50" />
+          <Property Name="StreamName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Appeal_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Appeal" Type="Self.Appeal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Appeal">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appeal_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Appeal" Type="Self.Appeal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Appeal">
+              <PropertyRef Name="HandleBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CategoryFollow_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="CategoryFollow" Type="Self.CategoryFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="CategoryFollow">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CategoryFollow_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="CategoryFollow" Type="Self.CategoryFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CategoryFollow">
+              <PropertyRef Name="FollowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Channel_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Channel" Type="Self.Channel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Channel">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Channel1">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="ChannelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventFollow_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="EventFollow" Type="Self.EventFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventFollow">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventFollow_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="EventFollow" Type="Self.EventFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="EventFollow">
+              <PropertyRef Name="FollowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventImage_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="0..1" />
+          <End Role="EventImage" Type="Self.EventImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventImage">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventImage_Image">
+          <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="EventImage" Type="Self.EventImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="EventImage">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventPlace_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="EventPlace" Type="Self.EventPlace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventPlace">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventPlace_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="EventPlace" Type="Self.EventPlace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="EventPlace">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gallery_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Image" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikeDislike_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="LikeDislike" Type="Self.LikeDislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="LikeDislike">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikeDislike_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="LikeDislike" Type="Self.LikeDislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="LikeDislike">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationChange_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="0..1" />
+          <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="NotificationChange">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationChange_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="NotificationChange">
+              <PropertyRef Name="ActorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationChange_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="NotificationChange">
+              <PropertyRef Name="ReveiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeopleFollow_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PeopleFollow" Type="Self.PeopleFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PeopleFollow">
+              <PropertyRef Name="FollowerUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeopleFollow_User3">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PeopleFollow" Type="Self.PeopleFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PeopleFollow">
+              <PropertyRef Name="FollowingUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_ReportDefine">
+          <End Role="ReportDefine" Type="Self.ReportDefine" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportDefine">
+              <PropertyRef Name="ReportTypeID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ReportType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="SenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrackingAction_ActorAction">
+          <End Role="Action" Type="Self.Action" Multiplicity="1" />
+          <End Role="TrackingAction" Type="Self.TrackingAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Action">
+              <PropertyRef Name="ActionID" />
+            </Principal>
+            <Dependent Role="TrackingAction">
+              <PropertyRef Name="ActionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrackingAction_User2">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="TrackingAction" Type="Self.TrackingAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="TrackingAction">
+              <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrackingAction_User3">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="TrackingAction" Type="Self.TrackingAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="TrackingAction">
+              <PropertyRef Name="SenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Image">
+          <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Avartar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Video_EventPlace">
+          <End Role="EventPlace" Type="Self.EventPlace" Multiplicity="1" />
+          <End Role="Video" Type="Self.Video" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventPlace">
+              <PropertyRef Name="EventPlaceID" />
+            </Principal>
+            <Dependent Role="Video">
+              <PropertyRef Name="EventPlaceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EventZoneModelStoreContainer">
+          <EntitySet Name="Action" EntityType="Self.Action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Appeal" EntityType="Self.Appeal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CategoryFollow" EntityType="Self.CategoryFollow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Channel" EntityType="Self.Channel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventFollow" EntityType="Self.EventFollow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventImage" EntityType="Self.EventImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventPlace" EntityType="Self.EventPlace" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventRank" EntityType="Self.EventRank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LikeDislike" EntityType="Self.LikeDislike" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NotificationChange" EntityType="Self.NotificationChange" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PeopleFollow" EntityType="Self.PeopleFollow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportDefine" EntityType="Self.ReportDefine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Share" EntityType="Self.Share" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrackingAction" EntityType="Self.TrackingAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Video" EntityType="Self.Video" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Appeal_Event1" Association="Self.FK_Appeal_Event1">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Appeal" EntitySet="Appeal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appeal_User" Association="Self.FK_Appeal_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Appeal" EntitySet="Appeal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoryFollow_Category" Association="Self.FK_CategoryFollow_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="CategoryFollow" EntitySet="CategoryFollow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoryFollow_User" Association="Self.FK_CategoryFollow_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="CategoryFollow" EntitySet="CategoryFollow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Event1" Association="Self.FK_Comment_Event1">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_User" Association="Self.FK_Comment_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Channel_User" Association="Self.FK_Channel_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Channel" EntitySet="Channel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Category" Association="Self.FK_Event_Category">
+            <End Role="Category" EntitySet="Category" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Channel1" Association="Self.FK_Event_Channel1">
+            <End Role="Channel" EntitySet="Channel" />
+            <End Role="Event" EntitySet="Event" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventFollow_Event1" Association="Self.FK_EventFollow_Event1">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="EventFollow" EntitySet="EventFollow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventFollow_User" Association="Self.FK_EventFollow_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="EventFollow" EntitySet="EventFollow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventImage_Event" Association="Self.FK_EventImage_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="EventImage" EntitySet="EventImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventImage_Image" Association="Self.FK_EventImage_Image">
+            <End Role="Image" EntitySet="Image" />
+            <End Role="EventImage" EntitySet="EventImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventPlace_Event1" Association="Self.FK_EventPlace_Event1">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="EventPlace" EntitySet="EventPlace" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventPlace_Location" Association="Self.FK_EventPlace_Location">
+            <End Role="Location" EntitySet="Location" />
+            <End Role="EventPlace" EntitySet="EventPlace" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gallery_User" Association="Self.FK_Gallery_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Image" EntitySet="Image" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikeDislike_Event1" Association="Self.FK_LikeDislike_Event1">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="LikeDislike" EntitySet="LikeDislike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikeDislike_User" Association="Self.FK_LikeDislike_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="LikeDislike" EntitySet="LikeDislike" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationChange_Event" Association="Self.FK_NotificationChange_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="NotificationChange" EntitySet="NotificationChange" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationChange_User" Association="Self.FK_NotificationChange_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="NotificationChange" EntitySet="NotificationChange" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationChange_User1" Association="Self.FK_NotificationChange_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="NotificationChange" EntitySet="NotificationChange" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeopleFollow_User" Association="Self.FK_PeopleFollow_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="PeopleFollow" EntitySet="PeopleFollow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeopleFollow_User3" Association="Self.FK_PeopleFollow_User3">
+            <End Role="User" EntitySet="User" />
+            <End Role="PeopleFollow" EntitySet="PeopleFollow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Event" Association="Self.FK_Report_Event">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_ReportDefine" Association="Self.FK_Report_ReportDefine">
+            <End Role="ReportDefine" EntitySet="ReportDefine" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_User" Association="Self.FK_Report_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_Event1" Association="Self.FK_Share_Event1">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Share" EntitySet="Share" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_User" Association="Self.FK_Share_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Share" EntitySet="Share" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrackingAction_ActorAction" Association="Self.FK_TrackingAction_ActorAction">
+            <End Role="Action" EntitySet="Action" />
+            <End Role="TrackingAction" EntitySet="TrackingAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrackingAction_User2" Association="Self.FK_TrackingAction_User2">
+            <End Role="User" EntitySet="User" />
+            <End Role="TrackingAction" EntitySet="TrackingAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrackingAction_User3" Association="Self.FK_TrackingAction_User3">
+            <End Role="User" EntitySet="User" />
+            <End Role="TrackingAction" EntitySet="TrackingAction" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Image" Association="Self.FK_User_Image">
+            <End Role="Image" EntitySet="Image" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Video_EventPlace" Association="Self.FK_Video_EventPlace">
+            <End Role="EventPlace" EntitySet="EventPlace" />
+            <End Role="Video" EntitySet="Video" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EventZoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Action">
+          <Key>
+            <PropertyRef Name="ActionID" />
+          </Key>
+          <Property Name="ActionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TrackingActions" Relationship="Self.FK_TrackingAction_ActorAction" FromRole="Action" ToRole="TrackingAction" />
+        </EntityType>
+        <EntityType Name="Appeal">
+          <Key>
+            <PropertyRef Name="AppealID" />
+          </Key>
+          <Property Name="AppealID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventID" Type="Int64" Nullable="false" />
+          <Property Name="AppealContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AppealStatus" Type="Int32" Nullable="false" />
+          <Property Name="SendDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ResultDate" Type="DateTime" Precision="0" />
+          <Property Name="HandleBy" Type="Int64" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_Appeal_Event1" FromRole="Appeal" ToRole="Event" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Appeal_User" FromRole="Appeal" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CategoryAvatar" Type="Int64" />
+          <NavigationProperty Name="CategoryFollows" Relationship="Self.FK_CategoryFollow_Category" FromRole="Category" ToRole="CategoryFollow" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Event_Category" FromRole="Category" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="CategoryFollow">
+          <Key>
+            <PropertyRef Name="CategoryFollowID" />
+          </Key>
+          <Property Name="CategoryFollowID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryID" Type="Int64" Nullable="false" />
+          <Property Name="FollowerID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_CategoryFollow_Category" FromRole="CategoryFollow" ToRole="Category" />
+          <NavigationProperty Name="User" Relationship="Self.FK_CategoryFollow_User" FromRole="CategoryFollow" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="CommentID" />
+          </Key>
+          <Property Name="CommentID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventID" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="CommentContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateIssue" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_Comment_Event1" FromRole="Comment" ToRole="Event" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Comment_User" FromRole="Comment" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Channel">
+          <Key>
+            <PropertyRef Name="ChannelID" />
+          </Key>
+          <Property Name="ChannelID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="ChannelName" Type="String" MaxLength="512" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ChannelDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Channel_User" FromRole="Channel" ToRole="User" />
+          <NavigationProperty Name="Events" Relationship="Self.FK_Event_Channel1" FromRole="Channel" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="EventID" />
+          </Key>
+          <Property Name="EventID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ChannelID" Type="Int64" Nullable="false" />
+          <Property Name="EventName" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EventStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EventEndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EventDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EventRegisterDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="View" Type="Int64" Nullable="false" />
+          <Property Name="CategoryID" Type="Int64" Nullable="false" />
+          <Property Name="Privacy" Type="Int32" Nullable="false" />
+          <Property Name="Avatar" Type="Int64" />
+          <Property Name="EditBy" Type="Int64" />
+          <Property Name="EditTime" Type="DateTime" Precision="3" />
+          <Property Name="EditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Appeals" Relationship="Self.FK_Appeal_Event1" FromRole="Event" ToRole="Appeal" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_Event_Category" FromRole="Event" ToRole="Category" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_Event1" FromRole="Event" ToRole="Comment" />
+          <NavigationProperty Name="Channel" Relationship="Self.FK_Event_Channel1" FromRole="Event" ToRole="Channel" />
+          <NavigationProperty Name="EventFollows" Relationship="Self.FK_EventFollow_Event1" FromRole="Event" ToRole="EventFollow" />
+          <NavigationProperty Name="EventImages" Relationship="Self.FK_EventImage_Event" FromRole="Event" ToRole="EventImage" />
+          <NavigationProperty Name="EventPlaces" Relationship="Self.FK_EventPlace_Event1" FromRole="Event" ToRole="EventPlace" />
+          <NavigationProperty Name="LikeDislikes" Relationship="Self.FK_LikeDislike_Event1" FromRole="Event" ToRole="LikeDislike" />
+          <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_Event" FromRole="Event" ToRole="NotificationChange" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_Report_Event" FromRole="Event" ToRole="Report" />
+          <NavigationProperty Name="Shares" Relationship="Self.FK_Share_Event1" FromRole="Event" ToRole="Share" />
+        </EntityType>
+        <EntityType Name="EventFollow">
+          <Key>
+            <PropertyRef Name="EventFollowID" />
+          </Key>
+          <Property Name="EventFollowID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventID" Type="Int64" Nullable="false" />
+          <Property Name="FollowerID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_EventFollow_Event1" FromRole="EventFollow" ToRole="Event" />
+          <NavigationProperty Name="User" Relationship="Self.FK_EventFollow_User" FromRole="EventFollow" ToRole="User" />
+        </EntityType>
+        <EntityType Name="EventImage">
+          <Key>
+            <PropertyRef Name="EventImageID" />
+          </Key>
+          <Property Name="EventImageID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventID" Type="Int64" />
+          <Property Name="ImageID" Type="Int64" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_EventImage_Event" FromRole="EventImage" ToRole="Event" />
+          <NavigationProperty Name="Image" Relationship="Self.FK_EventImage_Image" FromRole="EventImage" ToRole="Image" />
+        </EntityType>
+        <EntityType Name="EventPlace">
+          <Key>
+            <PropertyRef Name="EventPlaceID" />
+          </Key>
+          <Property Name="EventPlaceID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventID" Type="Int64" Nullable="false" />
+          <Property Name="LocationID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_EventPlace_Event1" FromRole="EventPlace" ToRole="Event" />
+          <NavigationProperty Name="Location" Relationship="Self.FK_EventPlace_Location" FromRole="EventPlace" ToRole="Location" />
+          <NavigationProperty Name="Videos" Relationship="Self.FK_Video_EventPlace" FromRole="EventPlace" ToRole="Video" />
+        </EntityType>
+        <EntityType Name="EventRank">
+          <Key>
+            <PropertyRef Name="EventId" />
+          </Key>
+          <Property Name="EventId" Type="Int64" Nullable="false" />
+          <Property Name="Score" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Image">
+          <Key>
+            <PropertyRef Name="ImageID" />
+          </Key>
+          <Property Name="ImageID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="ImageLink" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UploadDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="EventImages" Relationship="Self.FK_EventImage_Image" FromRole="Image" ToRole="EventImage" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Gallery_User" FromRole="Image" ToRole="User" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_User_Image" FromRole="Image" ToRole="User" />
+        </EntityType>
+        <EntityType Name="LikeDislike">
+          <Key>
+            <PropertyRef Name="LikeDislikeID" />
+          </Key>
+          <Property Name="LikeDislikeID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventID" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_LikeDislike_Event1" FromRole="LikeDislike" ToRole="Event" />
+          <NavigationProperty Name="User" Relationship="Self.FK_LikeDislike_User" FromRole="LikeDislike" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="LocationID" />
+          </Key>
+          <Property Name="LocationID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Longitude" Type="Double" Nullable="false" />
+          <Property Name="Latitude" Type="Double" Nullable="false" />
+          <Property Name="LocationName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="EventPlaces" Relationship="Self.FK_EventPlace_Location" FromRole="Location" ToRole="EventPlace" />
+        </EntityType>
+        <EntityType Name="NotificationChange">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NotificationID" Type="Int64" />
+          <Property Name="EventID" Type="Int64" />
+          <Property Name="ActorID" Type="Int64" />
+          <Property Name="AddDate" Type="DateTime" Precision="0" />
+          <Property Name="IsRead" Type="Boolean" Nullable="false" />
+          <Property Name="Type" Type="Int32" />
+          <Property Name="ReveiverID" Type="Int64" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_NotificationChange_Event" FromRole="NotificationChange" ToRole="Event" />
+          <NavigationProperty Name="User" Relationship="Self.FK_NotificationChange_User" FromRole="NotificationChange" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_NotificationChange_User1" FromRole="NotificationChange" ToRole="User" />
+        </EntityType>
+        <EntityType Name="PeopleFollow">
+          <Key>
+            <PropertyRef Name="PeopleFollowID" />
+          </Key>
+          <Property Name="PeopleFollowID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FollowerUserID" Type="Int64" Nullable="false" />
+          <Property Name="FollowingUserID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PeopleFollow_User" FromRole="PeopleFollow" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_PeopleFollow_User3" FromRole="PeopleFollow" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventID" Type="Int64" Nullable="false" />
+          <Property Name="SenderID" Type="Int64" Nullable="false" />
+          <Property Name="ReportType" Type="Int32" Nullable="false" />
+          <Property Name="ReportContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReportStatus" Type="Int32" Nullable="false" />
+          <Property Name="ReportDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HandleDate" Type="DateTime" Precision="3" />
+          <Property Name="HandleBy" Type="Int64" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_Report_Event" FromRole="Report" ToRole="Event" />
+          <NavigationProperty Name="ReportDefine" Relationship="Self.FK_Report_ReportDefine" FromRole="Report" ToRole="ReportDefine" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Report_User" FromRole="Report" ToRole="User" />
+        </EntityType>
+        <EntityType Name="ReportDefine">
+          <Key>
+            <PropertyRef Name="ReportTypeID" />
+          </Key>
+          <Property Name="ReportTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReportTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ReportDefine1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_Report_ReportDefine" FromRole="ReportDefine" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="Share">
+          <Key>
+            <PropertyRef Name="ShareID" />
+          </Key>
+          <Property Name="ShareID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventID" Type="Int64" Nullable="false" />
+          <Property Name="UserID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Event" Relationship="Self.FK_Share_Event1" FromRole="Share" ToRole="Event" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Share_User" FromRole="Share" ToRole="User" />
+        </EntityType>
+        <EntityType Name="TrackingAction">
+          <Key>
+            <PropertyRef Name="TrackingID" />
+          </Key>
+          <Property Name="TrackingID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderID" Type="Int64" Nullable="false" />
+          <Property Name="ReceiverID" Type="Int64" Nullable="false" />
+          <Property Name="SenderType" Type="Int32" Nullable="false" />
+          <Property Name="ReceiverType" Type="Int32" />
+          <Property Name="ActionID" Type="Int32" Nullable="false" />
+          <Property Name="ActionTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Action" Relationship="Self.FK_TrackingAction_ActorAction" FromRole="TrackingAction" ToRole="Action" />
+          <NavigationProperty Name="User" Relationship="Self.FK_TrackingAction_User2" FromRole="TrackingAction" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_TrackingAction_User3" FromRole="TrackingAction" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserFirstName" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserLastName" Type="String" MaxLength="32" FixedLength="false" Unicode="true" />
+          <Property Name="UserEmail" Type="String" MaxLength="64" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserDOB" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IDCard" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="UserRoles" Type="Int32" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Place" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="AccountStatus" Type="Boolean" Nullable="false" />
+          <Property Name="Gender" Type="Int32" Nullable="false" />
+          <Property Name="Avartar" Type="Int64" />
+          <Property Name="DataJoin" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Appeals" Relationship="Self.FK_Appeal_User" FromRole="User" ToRole="Appeal" />
+          <NavigationProperty Name="CategoryFollows" Relationship="Self.FK_CategoryFollow_User" FromRole="User" ToRole="CategoryFollow" />
+          <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_User" FromRole="User" ToRole="Comment" />
+          <NavigationProperty Name="Channels" Relationship="Self.FK_Channel_User" FromRole="User" ToRole="Channel" />
+          <NavigationProperty Name="EventFollows" Relationship="Self.FK_EventFollow_User" FromRole="User" ToRole="EventFollow" />
+          <NavigationProperty Name="Images" Relationship="Self.FK_Gallery_User" FromRole="User" ToRole="Image" />
+          <NavigationProperty Name="Image" Relationship="Self.FK_User_Image" FromRole="User" ToRole="Image" />
+          <NavigationProperty Name="LikeDislikes" Relationship="Self.FK_LikeDislike_User" FromRole="User" ToRole="LikeDislike" />
+          <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_User" FromRole="User" ToRole="NotificationChange" />
+          <NavigationProperty Name="NotificationChanges1" Relationship="Self.FK_NotificationChange_User1" FromRole="User" ToRole="NotificationChange" />
+          <NavigationProperty Name="PeopleFollows" Relationship="Self.FK_PeopleFollow_User" FromRole="User" ToRole="PeopleFollow" />
+          <NavigationProperty Name="PeopleFollows1" Relationship="Self.FK_PeopleFollow_User3" FromRole="User" ToRole="PeopleFollow" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_Report_User" FromRole="User" ToRole="Report" />
+          <NavigationProperty Name="Shares" Relationship="Self.FK_Share_User" FromRole="User" ToRole="Share" />
+          <NavigationProperty Name="TrackingActions" Relationship="Self.FK_TrackingAction_User2" FromRole="User" ToRole="TrackingAction" />
+          <NavigationProperty Name="TrackingActions1" Relationship="Self.FK_TrackingAction_User3" FromRole="User" ToRole="TrackingAction" />
+        </EntityType>
+        <EntityType Name="Video">
+          <Key>
+            <PropertyRef Name="VideoID" />
+          </Key>
+          <Property Name="VideoID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EventPlaceID" Type="Int64" Nullable="false" />
+          <Property Name="VideoLink" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="Privacy" Type="Int32" Nullable="false" />
+          <Property Name="PrimaryServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="BackupServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EventPlace" Relationship="Self.FK_Video_EventPlace" FromRole="Video" ToRole="EventPlace" />
+        </EntityType>
+        <Association Name="FK_TrackingAction_ActorAction">
+          <End Role="Action" Type="Self.Action" Multiplicity="1" />
+          <End Role="TrackingAction" Type="Self.TrackingAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Action">
+              <PropertyRef Name="ActionID" />
+            </Principal>
+            <Dependent Role="TrackingAction">
+              <PropertyRef Name="ActionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appeal_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Appeal" Type="Self.Appeal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Appeal">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appeal_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Appeal" Type="Self.Appeal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Appeal">
+              <PropertyRef Name="HandleBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CategoryFollow_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="CategoryFollow" Type="Self.CategoryFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="CategoryFollow">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Category">
+          <End Role="Category" Type="Self.Category" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CategoryFollow_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="CategoryFollow" Type="Self.CategoryFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CategoryFollow">
+              <PropertyRef Name="FollowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comment_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Channel_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Channel" Type="Self.Channel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Channel">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Event_Channel1">
+          <End Role="Channel" Type="Self.Channel" Multiplicity="1" />
+          <End Role="Event" Type="Self.Event" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Channel">
+              <PropertyRef Name="ChannelID" />
+            </Principal>
+            <Dependent Role="Event">
+              <PropertyRef Name="ChannelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventFollow_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="EventFollow" Type="Self.EventFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventFollow">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventImage_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="0..1" />
+          <End Role="EventImage" Type="Self.EventImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventImage">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventPlace_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="EventPlace" Type="Self.EventPlace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="EventPlace">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikeDislike_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="LikeDislike" Type="Self.LikeDislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="LikeDislike">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationChange_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="0..1" />
+          <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="NotificationChange">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Event">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_Event1">
+          <End Role="Event" Type="Self.Event" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="EventID" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="EventID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventFollow_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="EventFollow" Type="Self.EventFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="EventFollow">
+              <PropertyRef Name="FollowerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventImage_Image">
+          <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="EventImage" Type="Self.EventImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="EventImage">
+              <PropertyRef Name="ImageID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EventPlace_Location">
+          <End Role="Location" Type="Self.Location" Multiplicity="1" />
+          <End Role="EventPlace" Type="Self.EventPlace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Location">
+              <PropertyRef Name="LocationID" />
+            </Principal>
+            <Dependent Role="EventPlace">
+              <PropertyRef Name="LocationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Video_EventPlace">
+          <End Role="EventPlace" Type="Self.EventPlace" Multiplicity="1" />
+          <End Role="Video" Type="Self.Video" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EventPlace">
+              <PropertyRef Name="EventPlaceID" />
+            </Principal>
+            <Dependent Role="Video">
+              <PropertyRef Name="EventPlaceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gallery_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Image" Type="Self.Image" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Image">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Image">
+          <End Role="Image" Type="Self.Image" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Image">
+              <PropertyRef Name="ImageID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="Avartar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LikeDislike_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="LikeDislike" Type="Self.LikeDislike" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="LikeDislike">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationChange_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="NotificationChange">
+              <PropertyRef Name="ActorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_NotificationChange_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="NotificationChange">
+              <PropertyRef Name="ReveiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeopleFollow_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PeopleFollow" Type="Self.PeopleFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PeopleFollow">
+              <PropertyRef Name="FollowerUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PeopleFollow_User3">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="PeopleFollow" Type="Self.PeopleFollow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PeopleFollow">
+              <PropertyRef Name="FollowingUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_ReportDefine">
+          <End Role="ReportDefine" Type="Self.ReportDefine" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportDefine">
+              <PropertyRef Name="ReportTypeID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="ReportType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="SenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrackingAction_User2">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="TrackingAction" Type="Self.TrackingAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="TrackingAction">
+              <PropertyRef Name="ReceiverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TrackingAction_User3">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="TrackingAction" Type="Self.TrackingAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="TrackingAction">
+              <PropertyRef Name="SenderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EventZoneEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Actions" EntityType="Self.Action" />
+          <EntitySet Name="Appeals" EntityType="Self.Appeal" />
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="CategoryFollows" EntityType="Self.CategoryFollow" />
+          <EntitySet Name="Comments" EntityType="Self.Comment" />
+          <EntitySet Name="Channels" EntityType="Self.Channel" />
+          <EntitySet Name="Events" EntityType="Self.Event" />
+          <EntitySet Name="EventFollows" EntityType="Self.EventFollow" />
+          <EntitySet Name="EventImages" EntityType="Self.EventImage" />
+          <EntitySet Name="EventPlaces" EntityType="Self.EventPlace" />
+          <EntitySet Name="EventRanks" EntityType="Self.EventRank" />
+          <EntitySet Name="Images" EntityType="Self.Image" />
+          <EntitySet Name="LikeDislikes" EntityType="Self.LikeDislike" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="NotificationChanges" EntityType="Self.NotificationChange" />
+          <EntitySet Name="PeopleFollows" EntityType="Self.PeopleFollow" />
+          <EntitySet Name="Reports" EntityType="Self.Report" />
+          <EntitySet Name="ReportDefines" EntityType="Self.ReportDefine" />
+          <EntitySet Name="Shares" EntityType="Self.Share" />
+          <EntitySet Name="TrackingActions" EntityType="Self.TrackingAction" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Videos" EntityType="Self.Video" />
+          <AssociationSet Name="FK_TrackingAction_ActorAction" Association="Self.FK_TrackingAction_ActorAction">
+            <End Role="Action" EntitySet="Actions" />
+            <End Role="TrackingAction" EntitySet="TrackingActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appeal_Event1" Association="Self.FK_Appeal_Event1">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Appeal" EntitySet="Appeals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appeal_User" Association="Self.FK_Appeal_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Appeal" EntitySet="Appeals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoryFollow_Category" Association="Self.FK_CategoryFollow_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="CategoryFollow" EntitySet="CategoryFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Category" Association="Self.FK_Event_Category">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoryFollow_User" Association="Self.FK_CategoryFollow_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="CategoryFollow" EntitySet="CategoryFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_Event1" Association="Self.FK_Comment_Event1">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comment_User" Association="Self.FK_Comment_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Channel_User" Association="Self.FK_Channel_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Channel" EntitySet="Channels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Event_Channel1" Association="Self.FK_Event_Channel1">
+            <End Role="Channel" EntitySet="Channels" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventFollow_Event1" Association="Self.FK_EventFollow_Event1">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="EventFollow" EntitySet="EventFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventImage_Event" Association="Self.FK_EventImage_Event">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="EventImage" EntitySet="EventImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventPlace_Event1" Association="Self.FK_EventPlace_Event1">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="EventPlace" EntitySet="EventPlaces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikeDislike_Event1" Association="Self.FK_LikeDislike_Event1">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="LikeDislike" EntitySet="LikeDislikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationChange_Event" Association="Self.FK_NotificationChange_Event">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="NotificationChange" EntitySet="NotificationChanges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Event" Association="Self.FK_Report_Event">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_Event1" Association="Self.FK_Share_Event1">
+            <End Role="Event" EntitySet="Events" />
+            <End Role="Share" EntitySet="Shares" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventFollow_User" Association="Self.FK_EventFollow_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="EventFollow" EntitySet="EventFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventImage_Image" Association="Self.FK_EventImage_Image">
+            <End Role="Image" EntitySet="Images" />
+            <End Role="EventImage" EntitySet="EventImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EventPlace_Location" Association="Self.FK_EventPlace_Location">
+            <End Role="Location" EntitySet="Locations" />
+            <End Role="EventPlace" EntitySet="EventPlaces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Video_EventPlace" Association="Self.FK_Video_EventPlace">
+            <End Role="EventPlace" EntitySet="EventPlaces" />
+            <End Role="Video" EntitySet="Videos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gallery_User" Association="Self.FK_Gallery_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Image" EntitySet="Images" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Image" Association="Self.FK_User_Image">
+            <End Role="Image" EntitySet="Images" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LikeDislike_User" Association="Self.FK_LikeDislike_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="LikeDislike" EntitySet="LikeDislikes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationChange_User" Association="Self.FK_NotificationChange_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="NotificationChange" EntitySet="NotificationChanges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_NotificationChange_User1" Association="Self.FK_NotificationChange_User1">
+            <End Role="User" EntitySet="Users" />
+            <End Role="NotificationChange" EntitySet="NotificationChanges" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeopleFollow_User" Association="Self.FK_PeopleFollow_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PeopleFollow" EntitySet="PeopleFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PeopleFollow_User3" Association="Self.FK_PeopleFollow_User3">
+            <End Role="User" EntitySet="Users" />
+            <End Role="PeopleFollow" EntitySet="PeopleFollows" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_ReportDefine" Association="Self.FK_Report_ReportDefine">
+            <End Role="ReportDefine" EntitySet="ReportDefines" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_User" Association="Self.FK_Report_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_User" Association="Self.FK_Share_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Share" EntitySet="Shares" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrackingAction_User2" Association="Self.FK_TrackingAction_User2">
+            <End Role="User" EntitySet="Users" />
+            <End Role="TrackingAction" EntitySet="TrackingActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TrackingAction_User3" Association="Self.FK_TrackingAction_User3">
+            <End Role="User" EntitySet="Users" />
+            <End Role="TrackingAction" EntitySet="TrackingActions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EventZoneModelStoreContainer" CdmEntityContainer="EventZoneEntities">
+          <EntitySetMapping Name="Actions">
+            <EntityTypeMapping TypeName="EventZoneModel.Action">
+              <MappingFragment StoreEntitySet="Action">
+                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Appeals">
+            <EntityTypeMapping TypeName="EventZoneModel.Appeal">
+              <MappingFragment StoreEntitySet="Appeal">
+                <ScalarProperty Name="AppealID" ColumnName="AppealID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="AppealContent" ColumnName="AppealContent" />
+                <ScalarProperty Name="AppealStatus" ColumnName="AppealStatus" />
+                <ScalarProperty Name="SendDate" ColumnName="SendDate" />
+                <ScalarProperty Name="ResultDate" ColumnName="ResultDate" />
+                <ScalarProperty Name="HandleBy" ColumnName="HandleBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="EventZoneModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryAvatar" ColumnName="CategoryAvatar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryFollows">
+            <EntityTypeMapping TypeName="EventZoneModel.CategoryFollow">
+              <MappingFragment StoreEntitySet="CategoryFollow">
+                <ScalarProperty Name="CategoryFollowID" ColumnName="CategoryFollowID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="FollowerID" ColumnName="FollowerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="EventZoneModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="CommentID" ColumnName="CommentID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="CommentContent" ColumnName="CommentContent" />
+                <ScalarProperty Name="DateIssue" ColumnName="DateIssue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Channels">
+            <EntityTypeMapping TypeName="EventZoneModel.Channel">
+              <MappingFragment StoreEntitySet="Channel">
+                <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ChannelName" ColumnName="ChannelName" />
+                <ScalarProperty Name="ChannelDescription" ColumnName="ChannelDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Events">
+            <EntityTypeMapping TypeName="EventZoneModel.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
+                <ScalarProperty Name="EventName" ColumnName="EventName" />
+                <ScalarProperty Name="EventStartDate" ColumnName="EventStartDate" />
+                <ScalarProperty Name="EventEndDate" ColumnName="EventEndDate" />
+                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
+                <ScalarProperty Name="EventRegisterDate" ColumnName="EventRegisterDate" />
+                <ScalarProperty Name="View" ColumnName="View" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
+                <ScalarProperty Name="Avatar" ColumnName="Avatar" />
+                <ScalarProperty Name="EditBy" ColumnName="EditBy" />
+                <ScalarProperty Name="EditTime" ColumnName="EditTime" />
+                <ScalarProperty Name="EditContent" ColumnName="EditContent" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventFollows">
+            <EntityTypeMapping TypeName="EventZoneModel.EventFollow">
+              <MappingFragment StoreEntitySet="EventFollow">
+                <ScalarProperty Name="EventFollowID" ColumnName="EventFollowID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="FollowerID" ColumnName="FollowerID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventImages">
+            <EntityTypeMapping TypeName="EventZoneModel.EventImage">
+              <MappingFragment StoreEntitySet="EventImage">
+                <ScalarProperty Name="EventImageID" ColumnName="EventImageID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventPlaces">
+            <EntityTypeMapping TypeName="EventZoneModel.EventPlace">
+              <MappingFragment StoreEntitySet="EventPlace">
+                <ScalarProperty Name="EventPlaceID" ColumnName="EventPlaceID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventRanks">
+            <EntityTypeMapping TypeName="EventZoneModel.EventRank">
+              <MappingFragment StoreEntitySet="EventRank">
+                <ScalarProperty Name="EventId" ColumnName="EventId" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Images">
+            <EntityTypeMapping TypeName="EventZoneModel.Image">
+              <MappingFragment StoreEntitySet="Image">
+                <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="ImageLink" ColumnName="ImageLink" />
+                <ScalarProperty Name="UploadDate" ColumnName="UploadDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LikeDislikes">
+            <EntityTypeMapping TypeName="EventZoneModel.LikeDislike">
+              <MappingFragment StoreEntitySet="LikeDislike">
+                <ScalarProperty Name="LikeDislikeID" ColumnName="LikeDislikeID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="EventZoneModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="LocationID" ColumnName="LocationID" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NotificationChanges">
+            <EntityTypeMapping TypeName="EventZoneModel.NotificationChange">
+              <MappingFragment StoreEntitySet="NotificationChange">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="ActorID" ColumnName="ActorID" />
+                <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+                <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ReveiverID" ColumnName="ReveiverID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PeopleFollows">
+            <EntityTypeMapping TypeName="EventZoneModel.PeopleFollow">
+              <MappingFragment StoreEntitySet="PeopleFollow">
+                <ScalarProperty Name="PeopleFollowID" ColumnName="PeopleFollowID" />
+                <ScalarProperty Name="FollowerUserID" ColumnName="FollowerUserID" />
+                <ScalarProperty Name="FollowingUserID" ColumnName="FollowingUserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="EventZoneModel.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
+                <ScalarProperty Name="ReportType" ColumnName="ReportType" />
+                <ScalarProperty Name="ReportContent" ColumnName="ReportContent" />
+                <ScalarProperty Name="ReportStatus" ColumnName="ReportStatus" />
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+                <ScalarProperty Name="HandleDate" ColumnName="HandleDate" />
+                <ScalarProperty Name="HandleBy" ColumnName="HandleBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportDefines">
+            <EntityTypeMapping TypeName="EventZoneModel.ReportDefine">
+              <MappingFragment StoreEntitySet="ReportDefine">
+                <ScalarProperty Name="ReportTypeID" ColumnName="ReportTypeID" />
+                <ScalarProperty Name="ReportTypeName" ColumnName="ReportTypeName" />
+                <ScalarProperty Name="ReportDefine1" ColumnName="ReportDefine" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shares">
+            <EntityTypeMapping TypeName="EventZoneModel.Share">
+              <MappingFragment StoreEntitySet="Share">
+                <ScalarProperty Name="ShareID" ColumnName="ShareID" />
+                <ScalarProperty Name="EventID" ColumnName="EventID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrackingActions">
+            <EntityTypeMapping TypeName="EventZoneModel.TrackingAction">
+              <MappingFragment StoreEntitySet="TrackingAction">
+                <ScalarProperty Name="TrackingID" ColumnName="TrackingID" />
+                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
+                <ScalarProperty Name="ReceiverID" ColumnName="ReceiverID" />
+                <ScalarProperty Name="SenderType" ColumnName="SenderType" />
+                <ScalarProperty Name="ReceiverType" ColumnName="ReceiverType" />
+                <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+                <ScalarProperty Name="ActionTime" ColumnName="ActionTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="EventZoneModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+                <ScalarProperty Name="UserFirstName" ColumnName="UserFirstName" />
+                <ScalarProperty Name="UserLastName" ColumnName="UserLastName" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="UserDOB" ColumnName="UserDOB" />
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="UserRoles" ColumnName="UserRoles" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Place" ColumnName="Place" />
+                <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Avartar" ColumnName="Avartar" />
+                <ScalarProperty Name="DataJoin" ColumnName="DataJoin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Videos">
+            <EntityTypeMapping TypeName="EventZoneModel.Video">
+              <MappingFragment StoreEntitySet="Video">
+                <ScalarProperty Name="VideoID" ColumnName="VideoID" />
+                <ScalarProperty Name="EventPlaceID" ColumnName="EventPlaceID" />
+                <ScalarProperty Name="VideoLink" ColumnName="VideoLink" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Privacy" ColumnName="Privacy" />
+                <ScalarProperty Name="PrimaryServer" ColumnName="PrimaryServer" />
+                <ScalarProperty Name="BackupServer" ColumnName="BackupServer" />
+                <ScalarProperty Name="StreamName" ColumnName="StreamName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

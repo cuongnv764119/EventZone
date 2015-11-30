@@ -1,0 +1,38 @@
+﻿@model EventZone.Models.Appeal
+@using EventZone.Models
+@using EventZone.Helpers
+@if (Model != null)
+{
+    <div class="modal fade d_modal" id="i-modal-appeal-detail-appeal-@Model.EventID" role="dialog">
+        <div class="modal-dialog" style="margin-top: 60px;">
+            <!-- Modal content-->
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="panel-title">View Appeal Status</div>
+                </div>
+                <div style="padding-top:10px" class="panel-body">
+                    <div class="cover_all_functions" style="text-align: -webkit-center;">
+                        Content : <div id="appeal-content-@Model.AppealID">@Model.AppealContent </div>
+                    </div>
+                </div>
+                <div>
+                    Status : @if (Model.AppealStatus == EventZoneConstants.Pending) { 
+                             <span>Pending</span>
+                             }
+                             else if (Model.AppealStatus == EventZoneConstants.Approved)
+                             {
+                                <span>Approved</span>
+                             }
+                             else
+                             {
+                                <span>Rejected</span>
+                             }
+                </div>
+                
+            </div>
+        </div>
+    </div>
+}

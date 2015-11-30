@@ -1,0 +1,43 @@
+﻿@model EventZone.Models.SignInViewModel
+@{
+}
+<div id="i_signin_section" class="tab-pane fade in active">
+    @using (Html.BeginForm("SigninPost", "Admin", FormMethod.Post, new { @id="formAdminSignIn"}))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="my_function_cover f_sign_in">
+            <div class="panel-body">
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @placeholder = "Username" })
+                </div>
+                @Html.ValidationMessageFor(model => model.UserName)
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    @Html.PasswordFor(model => model.Password, new { @id = "admin-signin-password", @class = "form-control", @placeholder = "password", @type = "password" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Password)
+                <div>
+                    <a data-toggle="modal" href="#myModal3" id="i_quen_mk">
+                        Forget password?
+                    </a>
+                </div>
+                <div class="input-group" style="margin-bottom: 35px">
+                    <div class="checkbox">
+                        @Html.CheckBoxFor(model => model.Remember) Remember me
+                    </div>
+                </div>
+                <div style="margin-top: 10px" class="form-group">
+                    <!-- Button -->
+                    <div class="col-sm-12 controls">
+                        <button type="submit" id="btn-login" class="btn btn-success">Sign In </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- bao toàn bộ chức năng SIGN IN -->
+    }
+</div>
+<script src="~/Scripts/Admin/SignIn.js"></script>
+<script src="~/Scripts/jquery.md5.js"></script>

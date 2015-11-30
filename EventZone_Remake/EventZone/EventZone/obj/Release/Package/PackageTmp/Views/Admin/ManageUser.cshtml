@@ -1,0 +1,139 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@model IEnumerable<EventZone.Models.User>
+@{
+    User admin = UserHelpers.GetCurrentAdmin(Session);
+    if (admin == null)
+    {
+        Response.Redirect("~/Admin");
+    }
+    ViewBag.Title = "ManageUser";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<User> allUser = Model.ToList() as List<User>;
+}
+
+@if (allUser != null && allUser.Count != 0)
+{
+    for (int i = 0; i < allUser.Count; i++)
+    {
+        User user = allUser[i];
+        @Html.Action("ChangeUserEmail","Admin",new ChangeUserEmail { UserID = user.UserID })
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_user_card_cover">
+            <!-- e_ để đánh dấu CSS EVENT -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2 d_u_thumb">
+                <img src="@EventDatabaseHelper.Instance.GetImageByID(user.Avartar).ImageLink">
+            </div>
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-10 d_u_info_cover">
+                <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 d_u_title">
+                    @Html.ActionLink(UserDatabaseHelper.Instance.GetUserDisplayName(user.UserID), "Details", "User", new { userId = user.UserID }, new { target = "_blank" })
+                </div>
+                <div class="btn-group d_u_btn_more">
+                    <span id="lock-icon-@user.UserID">
+                        @if (user.AccountStatus == EventZoneConstants.Lock)
+                        {
+                            <button type="button" class="btn btn-default dropdown-toggle">
+                                <span class="glyphicon glyphicon-lock"></span>
+                            </button>
+                        }
+                    </span>
+                    @if (user.UserRoles == EventZoneConstants.Mod)
+                    {
+                        <div style="margin-bottom: 10px" class="input-group">
+                            <span class="input-group-addon" id="user-role-define-@user.UserID">Mod</span>
+                        </div>
+                    }
+                    else if (user.UserRoles == EventZoneConstants.Admin)
+                    {
+                        <div style="margin-bottom: 10px" class="input-group">
+                            <span class="input-group-addon" id="user-role-define-@user.UserID">Mod</span>
+                        </div>
+                    }
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-option-vertical"></span>
+                    </button>
+                    <ul class="dropdown-menu d_u_drop_menu" id="ul-lock-unlock-@user.UserID">
+                        @if (user.AccountStatus == EventZoneConstants.Active)
+                        {
+                            <li><a href="#" id="lock-user-@user.UserID" onclick="LockUser(@user.UserID)">Lock</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="#" id="unlock-user-@user.UserID" onclick="UnlockUser(@user.UserID)">Unlock</a></li>
+                        }
+                        <li><a href="#" onclick="ShowChangeEmailModal(@user.UserID)">Change Email</a></li>
+                    </ul>
+                </div>
+                <div class="d_u_cate">
+                    <i class="fa fa-font"></i>
+                    <div class="d_fill_in">Number Event: <a href=""><i>@UserDatabaseHelper.Instance.CountOwnedEvent(user.UserID)</i></a></div>
+                </div>
+                <div class="d_u_follower">
+                    <i class="fa fa-star"></i>
+                    <div class="d_fill_in">Follower: <a href=""><i>@UserDatabaseHelper.Instance.NumberFollower(user.UserID)</i></a></div>
+                </div>
+                <div class="d_u_date">
+                    <i class="fa fa-calendar-check-o"></i>
+                    <div class="d_fill_in">Date Join: @user.DataJoin.ToShortDateString()</div>
+                </div>
+                <div class="d_u_time">
+                    <i class="fa fa-clock-o"></i>
+                    <div class="d_fill_in" id="email-display-@user.UserID">Email: @user.UserEmail</div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+}
+<script>
+    function ShowChangeEmailModal(userID) {
+        $("#change-email-modal").modal("show");
+        $("#change-email-userID").val(userID)
+    }
+    function LockUser(userID) {
+        $.ajax({
+            url: "/Admin/LockUser",
+            type: "POST",
+            dataType: "json",
+            data: { userID: userID },
+            success: function (data) {
+                if (data.state == 0) {
+                    errorShow(data.error, data.message)
+                } else {
+                    $("#lock-icon-" + userID).empty();
+                    $("#lock-icon-" + userID).prepend('<button type="button" class="btn btn-default dropdown-toggle">' +
+                            '<span class="glyphicon glyphicon-lock"></span>' + '</button>')
+                    $("#lock-user-" + userID).remove();
+                    $("#ul-lock-unlock-" + userID).prepend('<li><a href="#" id="unlock-user-' + userID + '" onclick="UnlockUser(' + userID + ')">Unlock</a></li>')
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        })
+    }
+    function UnlockUser(userID) {
+        $.ajax({
+            url: "/Admin/UnlockUser",
+            type: "POST",
+            dataType: "json",
+            data: { userID: userID },
+            success: function (data) {
+                if (data.state == 0) {
+                    errorShow(data.error, data.message)
+                } else {
+                    $("#lock-icon-" + userID).empty();
+                    $("#unlock-user-" + userID).remove();
+                    $("#ul-lock-unlock-" + userID).prepend('<li><a href="#" id="lock-user-' + userID + '" onclick="LockUser(' + userID + ')">Lock</a></li>')
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        })
+    }
+</script>

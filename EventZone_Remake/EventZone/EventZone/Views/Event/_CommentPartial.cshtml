@@ -1,0 +1,200 @@
+﻿@model EventZone.Models.CommentViewModel
+@using EventZone.Models
+@using EventZone.Helpers
+@{
+    ViewBag.Title = "_CommentPartial";
+    User user = UserHelpers.GetCurrentUser(Session) ;
+}
+<div class="tab-pane active" id="i_comment">
+    <!-- Before: trạng thái trước khi ấn Write A Comment -->
+    <div class="d_cmt_before">
+        <div class="d_one_comment">
+            @if (Model.listComment == null || Model.listComment.Count == 0)
+            {
+                <div class="no-comment">
+                    <center><span><i>No comment yet! Let's become the first one^^</i> </span>   </center>
+                </div>
+            }
+            else
+            {
+                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators">
+                        @if (Model.listComment.Count <= 4)
+                        {
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            for (int i = 1; i < Model.listComment.Count; i++)
+                            {
+                                <li data-target="#myCarousel" data-slide-to="@i"></li>
+
+                            }
+                        }
+                        else
+                        {
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            for (int i = 1; i < 4; i++)
+                            {
+                                <li data-target="#myCarousel" data-slide-to="@i"></li>
+                            }
+                        }
+                    </ol>
+
+
+
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <div class="d_carousel_cmt_cover">
+                                <!-- ccmt_ đánh dấu Carousel Comment -->
+                                <div class="d_ccmt_ava_user">
+                                    <div class="d_ccmt_ava">
+                                        <img src="@EventDatabaseHelper.Instance.GetImageByID(UserDatabaseHelper.Instance.GetUserByID(Model.listComment[Model.listComment.Count-1].UserID).Avartar).ImageLink">
+                                    </div>
+                                    <div class="d_ccmt_user">
+                                        <i>@UserDatabaseHelper.Instance.GetUserDisplayName(Model.listComment[Model.listComment.Count-1].UserID)</i>
+                                    </div>
+                                </div>
+                                <div class="d_ccmt_content">
+                                    @Model.listComment[Model.listComment.Count-1].CommentContent
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.listComment.Count <= 4)
+                        {
+                            for (int i = Model.listComment.Count - 2; i >= 0; i--)
+                            {
+                                <div class="item">
+                                    <div class="d_carousel_cmt_cover">
+                                        <!-- ccmt_ đánh dấu Carousel Comment -->
+                                        <div class="d_ccmt_ava_user">
+                                            <div class="d_ccmt_ava">
+                                                <img src="@EventDatabaseHelper.Instance.GetImageByID(UserDatabaseHelper.Instance.GetUserByID(Model.listComment[i].UserID).Avartar).ImageLink">
+                                            </div>
+                                            <div class="d_ccmt_user">
+                                                <i>@UserDatabaseHelper.Instance.GetUserDisplayName(Model.listComment[i].UserID)</i>
+                                            </div>
+                                        </div>
+                                        <div class="d_ccmt_content">
+                                            @Model.listComment[i].CommentContent
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            for (int i = Model.listComment.Count - 2; i >= Model.listComment.Count - 5; i--)
+                            {
+                                <div class="item">
+                                    <div class="d_carousel_cmt_cover">
+                                        <!-- ccmt_ đánh dấu Carousel Comment -->
+                                        <div class="d_ccmt_ava_user">
+                                            <div class="d_ccmt_ava">
+                                                <img src="@EventDatabaseHelper.Instance.GetImageByID(UserDatabaseHelper.Instance.GetUserByID(Model.listComment[i].UserID).Avartar).ImageLink">
+                                            </div>
+                                            <div class="d_ccmt_user">
+                                                <i>@UserDatabaseHelper.Instance.GetUserDisplayName(Model.listComment[i].UserID)</i>
+                                            </div>
+                                        </div>
+                                        <div class="d_ccmt_content">
+                                            @Model.listComment[i].CommentContent
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <!-- Left and right controls -->
+                    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            }
+            
+        </div>
+        <div class="d_txt_write_cmt">
+            <a>Write a comment</a>
+        </div>
+    </div>
+    <div class="d_cmt_after">
+        <div class="d_cmt_container" id="comment-content">
+            @if (Model.listComment != null && Model.listComment.Count != 0)
+            {
+                foreach (var item in Model.listComment)
+                {
+                    <div class="d_each_event">
+                        <!-- ee_ đánh dấu Each Event -->
+                        <div class="d_ee_ava_user">
+                            <div class="d_ee_ava">
+                                <img src="@EventDatabaseHelper.Instance.GetImageByID(UserDatabaseHelper.Instance.GetUserByID(item.UserID).Avartar).ImageLink">
+                            </div>
+                            <div class="d_ee_user">
+                                <i>@UserDatabaseHelper.Instance.GetUserDisplayName(item.UserID)</i>
+                            </div>
+                            <div class="d_ee_time">
+                                <i>@item.DateIssue</i>
+                            </div>
+                        </div>
+                        <div class="d_ee_content">
+                            @item.CommentContent
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="d_write_cmt">
+            <div class="form-group">
+                <textarea id="i_cmt_box" autofocus
+                          class="form-control" rows="1"
+                          placeholder="Your comment..."></textarea>
+                <button type="button" class="btn btn-success" id="i_send_btn">
+                    <span class="glyphicon glyphicon-send"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $("#i_send_btn").click(function () {
+            @if (user == null) {
+            <text>
+            errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
+            </text>
+           }
+           else {
+                <text>
+            if ($("#i_cmt_box").val() == null || $("#i_cmt_box").val().trim() == "") {
+            } else {
+                $.ajax({
+                    type: "post",
+                    url: "/Event/Comment",
+                    dataType: 'json',
+                    cache: false,
+                    data: { eventID: parseInt('@Model.eventID'), commentContent: $("#i_cmt_box").val() },
+                    success: function (data) {
+                        if (data.state == 0) {
+                            errorShow(data.title, data, message)
+                        } else {
+                            $("#comment-content").append(data.dataAppend);
+                            $("#i_cmt_box").val("");
+                        }
+                        
+                    },
+                    error: function () {
+                        alert('Error while request..');
+                    }
+                })
+            }
+            </text>
+           }
+        });
+    })
+
+</script>

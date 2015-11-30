@@ -1,0 +1,189 @@
+﻿@model EventZone.Models.LiveStreamingModel
+@using EventZone.Helpers
+@using System.Web.UI.WebControls
+
+@{
+    if (Model == null || Model.eventID == null || EventDatabaseHelper.Instance.GetEventByID(Model.eventID) == null || TempData["EventPlace"] == null)
+    {
+        Response.Redirect("~/Home");
+    }
+    var ListResolutionItem = new List<ListItem>
+    {
+        new ListItem {Text = "240p", Value = "240p"},
+        new ListItem {Text = "360p", Value = "360p"},
+        new ListItem {Text = "480p", Value = "480p"},
+        new ListItem {Text = "720p", Value = "720p"},
+        new ListItem {Text = "720p_hfr", Value = "720p_hfr"},
+        new ListItem {Text = "1080p", Value = "1080p"},
+        new ListItem {Text = "1080p_hfr", Value = "1080p_hfr"}
+    };
+    var ListPrivacy = new List<ListItem>
+    {
+        new ListItem {Text = "Public", Value = "0"},
+        new ListItem {Text = "Unlisted", Value = "1"},
+        new ListItem {Text = "Private", Value = "2"}
+    };
+    var ListLocation = new List<ListItem>();
+    List<EventZone.Models.EventPlace> listEventPlace = TempData["EventPlace"] as List<EventZone.Models.EventPlace>;
+    foreach (var item in listEventPlace)
+    {
+        ListLocation.Add(new ListItem { Text = LocationHelpers.Instance.GetLocationById(item.LocationID).LocationName, Value = item.EventPlaceID.ToString() });
+    }
+}
+<link href="https://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<link href="~/Content/Event/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<link href="~/Content/Event/jquery.m.flip.css" rel="stylesheet" />
+<link href="~/Content/Event/m.flip.css" rel="stylesheet" />
+<!-- myCSS -->
+<link href="~/Content/Event/Create.css" rel="stylesheet" />
+<div class="container b" id="createForm">
+    <div class="col-xs-12 col-sm-12 col-lg-12 d_leftside b">
+        <!-- Khung Đăng ký sự kiện -->
+        <div class="widget">
+            <ul class="nav nav-tabs">
+                <li class="active" style="margin-left: 10px;">
+                    <a href="#" data-toggle="tab">Create Live Event</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                @using (Html.BeginForm("IndexAsync", "Event", FormMethod.Post))
+                {
+                    <div class="row d_stream_cover b">
+                        <!-- row Streaming Link -->
+                        <div class="row b">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+                                Title
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
+                                @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @placeholder = "Please enter the Title" })
+                                @Html.ValidationMessageFor(model => model.Title)
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+                                Quality
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
+                                @Html.DropDownList("Quality", new SelectList(ListResolutionItem, "Value", "Text"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Quality)
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+                                Event Place
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
+                                @Html.DropDownList("EventPlaceID", new SelectList(ListLocation, "Value", "Text"), new { @class = "form-control" })
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                        </div>
+
+                        <div class="row b">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+                                Privacy
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
+                                @Html.DropDownList("PrivacyYoutube", new SelectList(ListPrivacy, "Value", "Text"), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.PrivacyYoutube)
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+                                Start Time
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
+                                <div class="form-group">
+                                    <div class="input-group date" id="dtpStartTimeYoutube" style="z-index: 2">
+                                        @Html.TextBoxFor(model => model.StartTimeYoutube, new { @type = "text", @class = "form-control", @placeholder = "Live Streaming Start At", @id = "i_start_time_youtube" })
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.StartTimeYoutube)
+                                </div>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                        </div>
+                        <div class="row b">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                            <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+                                End Time
+                            </div>
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
+                                <div class="form-group">
+                                    <div class="input-group date" id="dtpEndTimeYoutube" style="z-index: 2">
+                                        @Html.TextBoxFor(model => model.EndTimeYoutube, new { @type = "text", @class = "form-control", @placeholder = "Live Streaming End At", @id = "i_end_time_youtube" })
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.EndTimeYoutube)
+                                </div>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="text-align:center">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" id="btnSubmit" class="btn btn-success" value="Create" />
+                        </div>
+
+                    </div>
+
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/Event/jquery.hotkeys.js"></script>
+<script src="~/Scripts/Event/bootstrap-wysiwyg.js"></script>
+<!-- Plugin chọn giờ -->
+<script src="~/Scripts/Event/moment.js"></script>
+<script src="~/Scripts/Event/prettify-1.0.min.js"></script>
+<script src="~/Scripts/Event/jquery.m.flip.js"></script>
+<script src="~/Scripts/Event/bootstrap-datetimepicker.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#dtpStartTimeYoutube').datetimepicker({
+            keyBinds: false
+        });
+        $('#dtpEndTimeYoutube').datetimepicker({
+            keyBinds: false
+        });
+        $('#dtpStartTimeYoutube').data("DateTimePicker").clear();
+        $('#dtpEndTimeYoutube').data("DateTimePicker").clear();
+
+        $('#dtpStartTimeYoutube').data("DateTimePicker").minDate(moment());
+        $('#dtpEndTimeYoutube').data("DateTimePicker").minDate(moment().add(1, 'd').toDate());
+
+        $("#dtpStartTimeYoutube").on("dp.change", function (e) {
+            $('#dtpEndTimeYoutube').data("DateTimePicker").minDate(e.date);
+        });
+        $("#dtpEndTimeYoutube").on("dp.change", function (e) {
+            $('#dtpStartTimeYoutube').data("DateTimePicker").maxDate(e.date);
+        });
+    })
+</script>

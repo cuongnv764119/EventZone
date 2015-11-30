@@ -1,0 +1,33 @@
+﻿@using EventZone.Models
+@{
+    var listEventThumb = ViewData["ListThumbEvent"] as List<ViewThumbEventModel>;
+    long id = Model.eventId;
+}
+
+    <!-- u_ để đánh dấu CSS USER -->
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 d_u_avatar b">
+        <img src="@Model.avatar">
+    </div>
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-9 d_u_info_cover">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_u_name">
+            @LinkExtensions.ActionLink(Html, Model.eventName, "Details", "Event", routeValues: new { id = @Model.eventId }, htmlAttributes: null)
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_u_event">
+            <b>View:</b> @Model.numberView
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_u_follower">
+            <b>Thời gian: </b> Từ @Model.StartTime đến @Model.EndTime
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_u_follower">
+            <b>Location:</b>
+            @foreach (var item in @Model.location)
+            {
+                <div>
+                    @item.LocationName
+                </div>
+            }
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_u_follow_btn">
+            <button type="button" class="btn btn-info btn-xs d_follow_btn">Follow</button>
+        </div>
+    </div>

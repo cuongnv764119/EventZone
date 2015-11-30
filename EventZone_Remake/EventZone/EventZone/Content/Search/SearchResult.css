@@ -1,0 +1,135 @@
+/*** Thêm ***/
+.b{
+	border: 0px red solid;
+	zheight: 50px;
+}
+
+/*** sửa CSS BOOTSTRAP ***/
+.nav-tabs > li > a{
+	border: 0;
+	border-radius: 0;
+	background-color: whitesmoke;
+}
+
+/*** Bao hết phần chính ***/
+.d_all_result{
+	height: initial;
+	margin-left: auto;
+	margin-right: auto;
+	min-width: 460px;
+	border: 1px gray solid;
+	border-radius: 4px;
+	padding: 0;
+	padding-top: 5px;
+}
+.d_sum_result{
+	padding-left: 10px;
+}
+hr {
+	margin-top: 40px;
+	margin-bottom: 10px;
+	border: 1px;
+	border-top: 1px solid #eee;
+}
+.d_change_filter{
+	padding-left: 0;
+}
+.d_change_filter button{
+	width: 100%;
+}
+
+/*** Khung kết quả TRÁI: CSS chung ***/
+.d_sum_result strong{
+	font-size: 17px;
+}
+.d_result_container{
+	padding: 0;
+    overflow-y: auto;
+    height: 500px;
+}
+.d_e_sortbar, .d_c_sortbar, .d_u_sortbar, .d_l_sortbar {
+	width: 100%;
+}
+.d_e_result_container, .d_c_result_container, .d_u_result_container, .d_l_result_container {
+	padding: 0;
+}
+.i_frame_info{
+	padding: 10px;
+}
+.d_e_thumb,
+.d_u_avatar{
+	padding: 0;
+}
+.d_e_thumb img,
+.d_u_avatar img{
+	width: 100%;
+	height: auto;
+}
+.d_u_result_container{
+	width: 100%;
+	padding: 0;
+}
+.d_e_title,
+.d_u_name{
+	font-weight: bold;
+	padding-right: 0;
+}
+.d_e_info_cover,
+.d_u_info_cover{
+	padding: 0;
+}
+.d_c_result_container,
+.d_e_result_container,
+.d_u_result_container{
+	overflow-y: auto;
+}
+.d_c_result_container iframe,
+.d_e_result_container iframe,
+.d_u_result_container iframe{
+	zheight: auto;
+	float: left;
+}
+/** Kết quả Event **/
+
+/** Kết quả Channel **/
+
+/** Kết quả User **/
+.d_u_result_container iframe{
+	zheight: auto;
+}
+.d_user_card_cover{
+	padding: 5px;
+	border-radius: 4px;
+	border: 1px lightgrey solid;
+}
+
+.d_u_btn_group{
+	text-align: right;
+	padding-right: 0;
+}
+.d_u_follow_btn button{
+	float: right;
+}
+
+/** Kết quả Location **/
+
+/*** Các tabs bên PHẢI ***/
+.d_tab_container{
+	padding-left: 0;
+	border: 0px;
+	border-radius: 0px;
+	height: 500px;
+	border-left: 1px solid lightgrey;
+}
+.d_tab_container li{
+	width: 100%;
+	border: 0px;
+}
+.d_tab_container .nav-tabs li.active > a,
+.d_tab_container .nav-tabs li.active > a:hover,
+.d_tab_container .nav-tabs li.active > a:focus {
+	border: 0px;
+	border-radius: 0px;
+}
+
+/*** CSS Decorate ***/

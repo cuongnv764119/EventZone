@@ -1,0 +1,173 @@
+﻿@using EventZone.Helpers
+@{
+    var admin = UserHelpers.GetCurrentAdmin(Session);
+ }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Event Zone</title>
+    <!--Style-->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/Admin/bootstrap-social.css" rel="stylesheet" />
+    <link href="~/Content/Admin/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/Admin/myCSS_admin.css" rel="stylesheet" />
+    <script src="~/Scripts/Admin/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/Admin/myJS_s_r.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/ErrorAlert.js"></script>
+    <!--Script-->
+    <script>
+    $(document).ready(function () {
+        @if (TempData["errorTitle"] != null)
+        {
+            <text>
+        errorShow('@TempData["errorTitle"]', '@TempData["errorMessage"]')
+        </text>
+        }
+    })
+    </script>
+    <script>
+    //check cookie
+    $(document).ready(function () {
+        @if (UserHelpers.GetCurrentAdmin(Session) == null) {
+                if(Request.Cookies["Admin_userName"]!=null&&Request.Cookies["Admin_password"]!=null){
+                    string userName= Request.Cookies["Admin_userName"].Value;
+                    string password= Request.Cookies["Admin_password"].Value;
+                    var findAdmin=AdminDataHelpers.Instance.FindAdmin(userName,password);
+                    if (findAdmin != null)
+                    {
+                        if (findAdmin.AccountStatus == EventZoneConstants.LockedUser)
+                        {
+                        <text>
+                        errorShow("Locked Account", "Your Account has been looked! Contact with root admin please!")
+                        </text>
+                        }else{
+                            admin= findAdmin;
+                         <text>
+                            $.ajax({
+                                url: "/Admin/CheckCookie",
+                                type: "POST",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.state == 0) {
+                                        alert(data.message)
+                                    } else if (data.state == 1) {
+                                        /// window.location.reload();
+                                    }
+                                },
+                                error: function (jqXHR, textStatus, errorThrown) {
+                                    console.log(jqXHR);
+                                    console.log(textStatus);
+                                    console.log(errorThrown);
+                                }
+                            })
+                           </text>
+                        }
+                      }
+                    } 
+            }
+        @if (admin == null) {
+            <text>$("#admin-signin").modal("show")</text>
+        }
+    })
+    </script>
+
+</head>
+<body>
+    @Html.Partial("_Error")
+    <!-- i_2_ đánh dấu CSS Index_2.html -->
+    <!-- TOP MENU -->
+    <!-- Thanh TOP MENU của Admin -->
+    @if (admin == null)
+    {
+        <div class="modal fade" id="admin-signin" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="panel panel-info d_margin_top">
+                    <div class="panel-heading">
+                        <div class="panel-title">Admin signin</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="cover_all_functions">
+                            <div class="tab-content">
+                                @Html.Action("Signin", "Admin");
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @Html.Action("ForgotPassword", "Account")
+    }
+    else
+    {
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="@Url.Action("Index","Admin")">Event Zone</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        @*@Html.ActionLink("Statistic", "Statistic", "Admin")
+                        @Html.ActionLink("ManageEvent", "ManageEvent", "Admin")
+                        @Html.ActionLink("ManageUser", "ManageUser", "Admin")
+                        @Html.ActionLink("ManageReport", "ManageReport", "Admin")*@
+
+
+
+
+                        <li class="">@Html.ActionLink("Statistic","Statistic","Admin")</li>
+                        <li class="">@Html.ActionLink("Manage Event", "ManageEvent", "Admin")</li>
+                        <li class="">@Html.ActionLink("Manage User", "ManageUser", "Admin")</li>
+                        <li class="">@Html.ActionLink("Manage Report", "ManageReport", "Admin")</li>
+                        
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        @*<form class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </form>*@
+                        <li><a href="#">Link</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hi, @UserDatabaseHelper.Instance.GetUserDisplayName(admin.UserID) <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="@Url.Action("SignOut","Admin")">Sign Out</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    }
+    
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+    <script>
+    function clearError() {
+        $("#error-modal").modal('hide');
+        $(".field-validation-error").empty();
+    }
+    </script>
+    @RenderSection("scripts", false)
+</body>
+</html>

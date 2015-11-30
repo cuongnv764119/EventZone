@@ -1,0 +1,100 @@
+﻿@model EventZone.Models.Video
+@using EventZone.Helpers
+@{
+    if (Model == null)
+    {
+        Response.Redirect("~/Home");
+    }
+}
+<style>
+    .body {
+        padding-top: 100px;
+    }
+</style>
+<div class="body">
+    <div style="text-align: center">Your live stream information:</div>
+    <div class="row b">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            Start time :
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            @Model.StartTime
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+    </div>
+    <div class="row b">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            End Time :
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            @Model.EndTime
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+    </div>
+  
+    <div class="row b">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            Primary server:
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            @Model.PrimaryServer
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+    </div>
+    <div class="row b">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            Stream name:
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            @Model.StreamName
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+    </div>
+    <div class="row b">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            Back up server:
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            @Model.BackupServer
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+    </div>
+    <div class="row b">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            Privacy:
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            @Model.Privacy
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+    </div>
+    <div class="row b">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            Location:
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            @LocationHelpers.Instance.GetLocationByEventPlaceID(Model.EventPlaceID).LocationName
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+    </div>
+    <div class="row b">
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            Link watch only:
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+            @Model.VideoLink
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
+    </div>
+    <div style="text-align: center">
+        @Html.ActionLink("View Event Detail", "Details", "Event", new { id = EventDatabaseHelper.Instance.GetEventPlaceByID(@Model.EventPlaceID).EventID }, null)
+    </div>
+</div>

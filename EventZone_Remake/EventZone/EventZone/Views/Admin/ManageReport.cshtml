@@ -1,0 +1,91 @@
+﻿@using EventZone.Helpers
+@using EventZone.Models
+@{
+    ViewBag.Title = "ManageReport";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<Event> allReportedEvent = EventDatabaseHelper.Instance.GetAllReportedEvent();
+}
+<div class="tab-pane b" id="reported-r">
+    @for (int i = 0; i < allReportedEvent.Count; i++)
+    {
+    Event reportedEvent = allReportedEvent[i];
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_event_card_cover">
+        <!-- e_ để đánh dấu CSS EVENT -->
+        <div class="d_e_info_cover">
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 d_e_title">
+                @Html.ActionLink(@EventDatabaseHelper.Instance.GetEventByID(reportedEvent.EventID).EventName, "Details", "Event", new { id = reportedEvent.EventID }, new { target = "_blank" })
+            </div>
+            <div class="col-lg-4 d_group_btn_right">
+                <div class="d_e_btn_more">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-option-vertical"></span>
+                    </button>
+                    <ul class="dropdown-menu d_e_drop_menu" id="ul-lock-unlock-@reportedEvent.EventID">
+                        @if (reportedEvent.Status == EventZoneConstants.Active)
+                        {
+                            <li><a href="#" id="lock-event-@reportedEvent.EventID" onclick="LockEvent(@reportedEvent.EventID)">Lock</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="#" id="unlock-event-@reportedEvent.EventID" onclick="UnlockEvent(@reportedEvent.EventID)">Unlock</a></li>
+                        }
+                    </ul>
+                </div>
+                <div class="d_e_btn_lock">
+                    <button type="button" class="btn">
+                        <span class="fa fa-unlock d_fa_icon"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="d_e_cate">
+                <i class="fa fa-list-ul"></i>
+                <div class="d_fill_in">in <a href=""><i>@CommonDataHelpers.Instance.GetCategoryById(reportedEvent.CategoryID).CategoryName</i></a></div>
+            </div>
+            <div class="d_e_follower">
+                <i class="fa fa-star"></i>
+                <div class="d_fill_in">Number report:<a href="" data-toggle="modal" data-target="#i_a_modal-@reportedEvent.EventID"><i>@EventDatabaseHelper.Instance.GetListReportOfEvent(reportedEvent.EventID).Count</i></a></div>
+            </div>
+            @Html.Action("ViewDetailReport", "Admin", new { eventID = reportedEvent.EventID })
+            <div class="d_e_user">
+                <i class="fa fa-user"></i>
+                <div class="d_fill_in">By: @EventDatabaseHelper.Instance.GetAuthorEvent(reportedEvent.EventID).UserName</div>
+            </div>
+            <div class="d_e_btn_desciption">
+                <i class="fa fa-file-text"></i>
+                <div class="d_fill_in"><a href="#" onclick="showModalDescription('@reportedEvent.EventName','@reportedEvent.EventDescription')"><i>View Description</i></a></div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+<div class="modal fade" id="i_Modal_des" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal Description content: gồm tên & Phần Description -->
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <div class="panel-title"><b id="event-name"></b></div>
+            </div>
+            <div style="padding-top:10px" class="panel-body">
+                <div class="d_des_content" id="des-content">
+                </div>
+            </div>
+        </div>
+
+        <!-- Iframe mới
+        <iframe src="t_m_modal_ad_search.html"></iframe> -->
+    </div>
+</div>
+
+<script>
+    function showModalDescription(eventName, eventDescription) {
+        $("#event-name").empty();
+        $("#event-name").append("<p>" + eventName + "</p>");
+        $("#des-content").empty();
+        $("#des-content").append("<p>" + eventDescription + "</p>");
+        $("#i_Modal_des").modal("show");
+    }
+
+</script>

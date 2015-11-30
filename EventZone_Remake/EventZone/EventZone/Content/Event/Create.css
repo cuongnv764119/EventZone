@@ -1,0 +1,165 @@
+/* USER CREATE EVENT CSS */
+
+/*** Sửa file BOOTSTRAP ***/
+img {
+    height: auto;
+    max-width: 100%;
+}
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+     
+.tab-content {
+    background-color: white;
+    overflow: initial;
+    padding: 10px 0;
+}
+
+.row {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.row .form-control { padding-left: 2px; }
+
+.b {
+    border: 0px red solid;
+    margin-top: 5px;
+}
+
+/*** Sửa plugin khác ***/
+
+#editor {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    height: 200px;
+    overflow-y: scroll;
+    padding: 5px;
+    width: 100%;
+}
+
+.nav { margin-bottom: 0px; }
+
+.btn-group { margin-bottom: 5px; }
+
+.btn-group .dropdown-menu { width: 300px; }
+
+.btn-group .dropdown-menu .span2 {
+    float: left;
+    height: 34px;
+    margin-left: 10px;
+    width: 229px;
+}
+
+/*** LEFT SIDE: chứa khung đăng ký (3 Tabs Basic, Image, Video); ***/
+
+/** Left Decorate **/
+
+.container .d_leftside,
+.container .d_rightside {
+    background-color: #f5f5f5;
+    border: 1px lightgray solid;
+    border-radius: 4px;
+    height: auto;
+    margin: 60px 5px;
+    margin-bottom: 10px;
+    padding: 0px;
+    padding-top: 10px;
+}
+
+.d_leftside { min-width: 600px; }
+
+#i_first_tab { margin-left: 10px; }
+
+.d_leftside .btn-link { padding: 0px; }
+
+/* Basic info tab */
+
+.d_row { height: auto; }
+
+#i_info_tab { width: 100%; }
+
+.d_thumbnail {
+    height: auto;
+    margin: 0 auto;
+    width: 50%;
+}
+
+#i_thumb {
+    height: auto;
+    width: 100%;
+}
+
+label#i_request { font-weight: normal; }
+
+#i_info_tab .btn-danger { /* cho nút Xóa sát vào */
+    margin-left: -15px;
+}
+
+.d_btn_x { /* Sửa do ảnh hưởng của CSS plugin khác */
+    margin-top: 5px;
+}
+
+.row input { margin-top: auto; }
+
+.row .btn { margin-top: auto; }
+
+.row input[type="radio"] { margin-top: 4px; }
+
+.row input[type="checkbox"] { margin-top: -1px; }
+
+/* Basic info tab > Description */
+
+.d_first_btn_group { }
+
+.btn-group .caret {
+    margin-left: 5px;
+    margin-top: inherit;
+}
+
+/* Image tab */
+
+.d_upload_container { height: 100px; }
+
+.d_images_container { height: auto; }
+
+
+/* Video tab */
+
+/*** RIGHT SIDE: chứa gợi ý các Sự kiện khác ***/
+
+.b1 { border: 0px blue solid; }
+
+.d_each_event { margin-bottom: 15px; }
+
+.d_o_thumb, .d_o_title {
+    float: left;
+    height: 100px;
+}
+
+.d_o_thumb { padding: 0 10px; }
+
+.d_o_title {
+    font-weight: bold;
+    padding-left: 0;
+}
+
+.d_o_thumb img {
+    height: 100%;
+    width: 100%;
+}
+
+/** Right  Decorate **/

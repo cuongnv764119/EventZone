@@ -1,0 +1,194 @@
+﻿/*********************************************** Thêm ***/
+/*********************************************** Sửa Bootstrap ***/
+	body .navbar-header{		
+    margin-top:5px;		
+}
+.form-horizontal .form-group {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+
+/*********************************************** Background ***/
+
+video {
+    height: auto;
+    position: fixed;
+    z-index: -1;
+}
+
+/*********************************************** Top Menu ***/
+
+li { list-style-type: none; }
+
+.d_topmenu_bg {
+    border-radius: inherit;
+    width: 100%;
+}
+
+#i_brand_website { font-size: 25px; }
+	#i_brand {		
+    color: white;		
+    font-size: 25px;		
+    font-variant: small-caps;		
+    margin-top: 30px;		
+}		
+#i_brand:focus,		
+#i_brand:hover{		
+    text-decoration:none;		
+}		
+#i_drdn_cate {		
+    margin: 0 10px;		
+}
+.d_brand_menu {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    margin-top: 10px;
+}
+
+#i_create_event {
+    border: 1px white solid;
+    border-radius: 6px;
+}
+
+	#i_signin_btn { margin: 0px 20px; }
+
+#i_avatar {
+    border: 1px white solid;
+    border-radius: 3px;
+    height: 35px;
+    margin: 7px 0px 7px 20px;
+    width: 35px;
+}
+
+#i_noti {
+    background-color: red;
+    border: 1px red solid;
+    border-radius: 3px;
+    height: 20px;
+    left: 40px;
+    position: relative;
+    text-align: center;
+    top: -47px;
+    width: 20px;
+}
+
+#i_noti p {
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: -1px;
+}
+
+.d_user_dropdown {
+    left: 0px;
+    margin-left: -70px;
+    margin-top: 0px;
+    max-width: 20em;
+    min-width: 10em;
+    padding-left: 10px;
+    padding-right: 10px;
+    top: auto;
+    width: auto;
+}
+
+.d_recent_dropdown {
+    display: none;
+    left: 0px;
+    margin-left: -171px;
+    margin-top: -32px;
+    max-width: 20em;
+    min-width: 10em;
+    padding-left: 10px;
+    padding-right: 10px;
+    top: auto;
+    width: auto;
+}
+
+/*********************************************** Sửa Bootstrap */
+
+.glyphicon { color: black; }
+
+.btn-sm {
+    height: 35px;
+    margin-top: 7px;
+}
+
+@media (min-width: 768px) {
+    .navbar-right { height: 50px; }
+}
+
+.dropdown-header {
+    color: gray;
+    margin-left: -10px;
+}
+
+.d_quick_search {
+    margin: 10px auto;
+    width: 90%;
+}
+
+/* Plug-in khác */
+
+.dropdown:hover .dropdown-menu { /* Di chuột mở Menu, không cần click */
+    display: block;
+}
+
+/*********************************************** MIDDLE Category ***/
+
+
+
+/*********************************************** Middle Category > Statistic for each button ***/
+
+
+/*********************************************** d_3_column ***/
+
+
+/*********************************************** d_3_column >> each_event***/
+
+
+
+/*********************************************** About ***/
+
+
+/*********************************************** MODAL Advanced Search ***/
+
+#i_frame_md_ad_search {
+    height: 444px;
+    width: 100%;
+}
+
+.d_md_ad_search { float: right; }
+
+/*********************************************** MODAL Sign In Sign Up ***/
+
+#i_frame_signin { height: 415px; }
+
+#i_first_name,
+#i_last_name { margin-bottom: 10px; }
+
+/*********************************************** Decorate ***/
+
+/*********************************************** Thêm ***/
+
+.modal-backdrop.in { z-index: 20; }
+
+/*********************************************** Thêm ***/
+
+/*********************************************** Thêm ***/
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+
+.field-validation-error { color: red; }
+.full-screen-bg {
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -100;
+}
+.fullscreen-bg__video {
+    top: 0;
+    left: 0;
+    min-width: inherit;
+    min-height: inherit;
+}

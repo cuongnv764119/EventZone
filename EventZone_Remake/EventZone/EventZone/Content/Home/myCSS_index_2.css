@@ -1,0 +1,375 @@
+/*********************************************** Thêm ***/
+
+/*********************************************** Sửa Flip ***/
+.flipper-container #flipper-inside>._flipper-back{
+    padding: 5px;
+}
+/*********************************************** Sửa BxSlider ***/
+.d_e_container .bx-prev{
+    margin-right: 15px;
+}
+.bx-wrapper .bx-controls-direction a{
+    top: 0;
+    margin-top: -33px;
+    margin-right: 5px;
+    z-index: 1;
+}
+
+/*********************************************** Sửa Bootstrap ***/
+.form-horizontal .form-group {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+body{
+	overflow-x: hidden;
+    overflow-y: scroll;
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.nav > li > a:hover, .nav > li > a:focus{
+	background-color: transparent;
+}
+.table > tbody > tr > td {
+    border:0;
+}
+.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline, .radio-inline, .checkbox-inline{
+    margin-left: 0;
+    margin-right:10px;
+}
+/*********************************************** Background ***/
+video{
+	height: auto;
+	position: fixed;
+	z-index: -1;
+}
+
+/*********************************************** Top Menu ***/
+
+
+/*********************************************** Sửa Bootstrap */
+.glyphicon{
+	color: black;
+}
+.btn-sm{
+	margin-top: 7px;
+    height: 35px;
+}
+@media (min-width: 768px){
+	.navbar-right{
+		height: 50px;
+	}
+}
+.dropdown-header{
+	margin-left: -10px;
+	color: gray;
+}
+.d_quick_search{
+	margin: 10px auto;
+	width: 90%;
+}
+/* Plug-in khác */
+.dropdown:hover .dropdown-menu {	/* Di chuột mở Menu, không cần click */
+	display: block;
+}
+
+/*********************************************** MIDDLE Category ***/
+.d_md_body{
+	margin-top: 150px;
+	font-family: segoe ui;
+	color: #fff;
+	background-color: transparent;
+}
+.d_mc_text_1,
+.d_mc_text_2,
+.d_mc_category{
+	text-align: center;
+}
+.d_mc_text_1{
+	font-size: 60px;
+    font-weight: 800;
+}
+.d_mc_text_2{
+	font-size: 20px;
+	font-weight: lighter;
+}
+.d_mc_text_2 a,
+.d_mc_text_2 a:hover{
+	color: #fff
+}
+.d_mc_category{
+	margin-top: 50px;
+	margin-bottom: 180px;
+}
+.d_mc_category button{
+	color: #fff;
+	border: 1px solid red;
+	border-radius: 5px;
+	margin-bottom: 10px;
+	font-size: 15px;
+	background-color: rgba(255,255,255,.2);
+}
+.d_mc_category button:hover{
+	color: #fff;
+	background-color: rgba(255,255,255,.5);
+}
+/*********************************************** Middle Category > Statistic for each button ***/
+.d_popup_stat {
+    color: black;
+    left:-180px;
+}
+.d_stat_cover{
+	zborder: 1px red solid;
+	zbackground-color: lightgrey;
+	height: 100px;
+	width: 500px;
+	display: flex;
+}
+.d_stat_new_event,
+.d_stat_new_follower,
+.d_stat_new_live,
+.d_follow_cate{
+	text-align: center;
+	height: auto;
+	width: 80%;
+	border-right: 1px gray solid;
+	background-color: #fff;
+}
+.d_follow_cate{
+	border: 0px;
+}
+.d_data,
+.d_data_name{
+	width: 90%;
+	margin-left: 5%;
+	height: 20px;
+	border: 0px red solid;
+}
+.d_data{
+	margin-top: 5%;
+	font-size: 30px;
+	font-weight: bold;
+}
+.d_data_name{
+	margin-top: 20%;
+}
+.d_follow_cate .btn{
+	margin-top: 20%;
+}
+.dropdown-menu iframe{
+	width: 500px;
+}
+/*********************************************** d_3_column ***/
+.d_3_column {
+    background: white;
+    height: 560px;
+}
+.d_cc_title{
+	color: blue;
+	font-family: segoe ui;
+	font-size: 25px;
+	font-weight: lighter;
+	margin-bottom: 15px;
+    height: 50px;
+    float:left;
+}
+d_e_container {
+    
+}
+.d_cc_column{
+    width: 33.33%;
+    height: 500px;
+    float: left;
+}
+.d_cc_body{
+	margin-top: 90px;
+	font-family: segoe ui;
+	background-color: transparent;
+    overflow-x: hidden;		
+    width: 100%;		
+	height: 100px;		
+	border: 0;		
+}	
+
+.d_cc_event_container{
+	zborder: 1px red solid;
+	height: 500px;
+	padding: 0;
+    overflow-y: scroll;
+}
+.d_3_column iframe{
+	margin-left: 4.5%;
+}
+/*********************************************** d_3_column >> each_event***/
+.d_ee_body{
+	zborder: 1px blue solid;
+	padding: 0;
+	font-family: segoe ui;
+	background-color: rgba(255, 255, 255, 0.5);
+    overflow: hidden;		
+    width: 100%;		
+	height: 100px;		
+	border: 0;
+}
+.d_ee_live,
+.d_ee_thumb{
+	position: relative;
+}
+.d_ee_info_cover,
+.d_ee_thumb{
+	padding: 0;
+}
+.d_ee_follow,
+.d_ee_share,
+.d_ee_live{
+	height: auto;
+	width: 50%;
+	margin: 5px 5px;
+	text-align: center;
+	border: 1px solid #fff;
+	border-radius: 4px;
+	background-color: rgba(0,0,0,.5);
+	color: #fff;
+	padding: 2px 0;
+}
+.d_ee_follow,
+.d_ee_share{
+	margin-left: 25%;
+}
+.d_ee_thumb .front,
+.d_ee_thumb .back{
+	height: 100%;
+	width: 100%;
+}
+.d_ee_thumb img{
+	position: absolute;
+	width: 100%;
+	height: auto;
+	max-height: 70px;
+}
+.d_ee_title{
+	font-size: 16px;
+	font-weight: bold;
+}
+.d_ee_icon{
+	padding: 0;
+}
+.d_ee_datetime2,
+.d_ee_location2{
+	padding: 0;
+	padding-left: 10px;
+}
+/*********************************************** d_big_row: các Hàng lớn chứa Sự kiện ngang ***/
+.d_big_row {
+    width: 96%;
+    margin-left: 2%;
+    height: 200px;
+    padding:5px;
+    background-color: rgba(255, 255, 255, .7);
+    margin-bottom: 20px;
+}
+.d_big_row .d_title{
+    font-size: 20px;
+    color: #F44336;
+    padding: 0px 5px;
+    margin-bottom: 5px;
+}
+.d_big_row .d_e_container{
+
+    height: 163px;
+}
+/*********************************************** d_big_row > d_row_1 ***/
+
+/*********************************************** Footer ***/
+.d_footer{
+    padding: 0px 2%;
+	color: #fff;
+	height: 350px;
+	background-color: #222;
+}
+.d_footer_column_1,
+.d_footer_column_3{
+	border-left: 1px gray dashed;
+	border-right: 1px gray dashed;
+	height: 80%;
+	margin-top: 2%;
+}
+.d_footer_column_2{
+	height: 80%;
+	margin-top: 2%;	
+}
+/*********************************************** About ***/
+/************************************ Tạm thời Không có About ***/
+.d_about_body{
+	border: 1px red solid;
+}
+
+/*********************************************** MODAL Advanced Search ***/
+#myModal .panel-body {
+    padding: 0 15px;
+}
+.d_md_ad_search {
+    width: 100%;
+    text-align: center;
+}
+/*********************************************** MODAL Sign In Sign Up ***/
+#myModal2 .panel-body {
+    padding: 15px 0px;
+}
+.d_signin_tab{
+    margin-left: 10px;
+}
+.f_sign_in {
+    padding: 0 15px;
+}
+.checkbox{
+    left: 20px;
+}
+#i_signup_section .panel-body {
+    padding: 15px 15px;
+}
+.f_sign_up .panel-body {
+    padding: 15px 0;
+}
+.d_agree_policy .checkbox {
+    left: 0;
+}
+#UserDOB {
+    border-radius: 0;
+}
+#i_frame_signin{
+	height: 415px;
+}
+#i_first_name,
+#i_last_name{
+	margin-bottom: 10px;
+}
+/*********************************************** Footer ***/
+.d_footer iframe{
+	height: 350px;
+}
+.d_ft_footer{
+	color: #fff;
+	height: 350px;
+	background-color: #222;
+}
+.d_ft_footer_column_1,
+.d_ft_footer_column_3{
+	border-left: 1px gray dashed;
+	border-right: 1px gray dashed;
+	height: 80%;
+	margin-top: 2%;
+}
+.d_ft_footer_column_2{
+	height: 80%;
+	margin-top: 2%;	
+}
+
+/*********************************************** Decorate ***/
+/*********************************************** Thêm ***/
+
+/*********************************************** Thêm ***/
+
+/*********************************************** Thêm ***/
+

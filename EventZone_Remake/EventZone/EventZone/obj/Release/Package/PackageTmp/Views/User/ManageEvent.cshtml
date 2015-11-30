@@ -1,0 +1,29 @@
+﻿@using EventZone.Models;
+@using EventZone.Helpers;
+@{
+    ViewBag.Title = "ManageProfile";
+}
+@{
+    var user = UserHelpers.GetCurrentUser(Session);
+    var task = ViewData["ManageEventTask"];
+
+}
+<center><h2>ManageProfile</h2></center>
+@if (user.UserID == null) { 
+@Html.ActionLink("RequireSignin", "Account");
+}
+@Html.ValidationSummary()
+@Html.ActionLink("My event", "MyEvent", new { id = @user.UserID }) |
+@Html.ActionLink("My Follower", "Follower", "User", routeValues: null, htmlAttributes: new { title = "Schedule" }) | 
+@Html.ActionLink("Reported", "Reported", "User", routeValues: null, htmlAttributes: new { title = "Schedule" }) | 
+@if (task == "MyEvent")
+{
+    @Html.Partial("_MyEventPartial")
+}
+else if (task == "Follower")
+{
+    @Html.Partial("_FollowerPartial")
+}else if (task == "Reported")
+{
+    @Html.Partial("_ReportedPartial")
+}

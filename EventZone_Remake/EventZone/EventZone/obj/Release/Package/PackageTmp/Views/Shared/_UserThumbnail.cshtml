@@ -1,0 +1,22 @@
+﻿@model EventZone.Models.ViewThumbUserModel
+@using EventZone.Helpers
+<!-- u_ để đánh dấu CSS USER -->
+<div class="col-xs-2 col-sm-2 col-md-2 col-lg-3 d_u_avatar b">
+    <img src="@EventDatabaseHelper.Instance.GetImageByID(@Model.Avatar).ImageLink">
+</div>
+<div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 d_u_info_cover">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_u_name">
+        <b>Name: </b> @Model.Name
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_u_event">
+        <b>Total Events: </b>@Model.NumberOwnedEvent
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_u_follower">
+        <b>Total Follower: </b>@Model.NumberFollower
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_u_follow_btn">
+        <button type="button" class="btn btn-info btn-xs d_follow_btn">Follow</button>
+    </div>
+</div>
+<link href="~/Content/User/myCSS_s_r.css" rel="stylesheet" />
+<script src="~/Scripts/User/myJS_s_r.js"></script>

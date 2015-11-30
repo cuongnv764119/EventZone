@@ -1,0 +1,97 @@
+﻿@model EventZone.Models.Image
+@using EventZone.Models
+@using EventZone.Helpers
+
+@{
+    var errorTitle = TempData["errorTitle"];
+    var errorMessage = TempData["errorMessage"];
+    User user = UserHelpers.GetCurrentUser(Session);
+}
+<style>
+    .thumb_anh {
+        vertical-align: middle;
+        height: 200px;
+        border: 1px red solid;
+    }
+</style>
+
+<div class="row b">
+    <!-- row Thumbnail -->
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+       Avatar
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 d_ava b">
+        <img src="@Model.ImageLink">
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 b">
+        <!--upload modal button-->
+        <button data-toggle="modal" data-target="#user-upload-avatar-modal" class="btn btn-primary btn-sm">Change</button>
+        <!--upload modal-->
+        <div class="modal fade" id="user-upload-avatar-modal" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="panel panel-info d_margin_top">
+                    <div class="panel-heading">
+                        <div class="panel-title">Upload avatar</div>
+                        <div style="float: right; font-size: 80%; position: relative; top: -17px">
+                            <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="cover_all_functions">
+                            <div class="tab-content">
+                                <!--thumb uploaded image-->
+                                <div class="col-md-4 col-sm-3 col-xs-4 thumb" style="width:inherit">
+                                    <div id="list"></div>
+                                </div>
+
+                                @using (Html.BeginForm("UploadAvatar", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                        <input id="uploadBtn" type="file" class="upload" name="file" />
+                                    <p>
+                                        <input type="submit" class="btn btn-primary btn-sm" value="Upload"/>
+                                    </p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function handleFileSelect(evt) {
+        var files = evt.target.files; // FileList object
+
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Render thumbnail.
+                    $("#list").empty();
+                    var span = document.createElement('span');
+                    span.innerHTML = ['<img class="thumb_anh" src="', e.target.result,
+                                      '" title="', escape(theFile.name), '"/>'].join('');
+                    document.getElementById('list').insertBefore(span, null);
+                };
+            })(f);
+
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+        }
+    }
+    document.getElementById('uploadBtn').addEventListener('change', handleFileSelect, false);
+</script>

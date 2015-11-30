@@ -1,0 +1,177 @@
+﻿@using EventZone.Helpers
+@{
+    var user = UserHelpers.GetCurrentUser(Session);
+    ViewBag.Title = "Home Page";
+    List<EventZone.Models.Category> listCategory= CommonDataHelpers.Instance.GetAllCategory();
+}
+<script>
+    $(document).ready(function () {
+        @if (TempData["errorTitle"] != null)
+        {
+            <text>
+            errorShow('@TempData["errorTitle"]', '@TempData["errorMessage"]')
+            </text>
+        }
+    })
+</script>
+
+<link href="~/Content/Home/Index.css" rel="stylesheet"/>
+<link href="~/Content/Home/bootstrap-social.css" rel="stylesheet" />
+<link href="~/Content/Home/font-awesome.min.css" rel="stylesheet" />
+<script src="~/Scripts/Home/bootstrap-hover-dropdown.min.js"></script>
+
+<div class="full-screen-bg">
+    <video class="fullscreen-bg__video" autoplay loop muted>
+        <source src="https://s3-us-west-2.amazonaws.com/eventzone/bgvideo1080-cut.mp4" type="video/mp4">
+        <source src="https://s3-us-west-2.amazonaws.com/eventzone/bgvideo1080-cut.webm" type="video/webm" />
+    </video>
+</div>
+<div class="d_middle_category" style="margin-top: 200px">
+    <div class="d_md_body">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_mc_text_1">
+            Event Zone!
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_mc_text_2">
+            Only one zone for all Activities. Promote, manage, and host successful events.
+           <p> <a href="#" id="i_learn_more">
+                Learn More
+            </a>
+        </div>
+        <div class="d_mc_category">
+            @if (listCategory != null)
+            {
+                foreach (var item in listCategory)
+                {
+                    <div class="btn-group d_btn_middle">
+                        <a type="button" class="btn btn-default" data-hover="dropdown" aria-haspopup="true" aria-expanded="false" href="/Search/CategorySearch?categoryid=@item.CategoryID">@item.CategoryName</a>
+                        <ul class="dropdown-menu" style="color: black">
+                            <div class="d_mc_cate_stat_body">
+                                <div class="d_stat_cover">
+                                    <div class="d_stat_new_event">
+                                        <div class="d_data">
+                                            @CommonDataHelpers.Instance.CountNewEventByCategory(item.CategoryID)
+                                        </div>
+                                        <div class="d_data_name">
+                                            New Event
+                                        </div>
+                                    </div>
+                                    <div class="d_stat_new_follower">
+                                        <div class="d_data">
+                                            <span id="number-follower-category-@item.CategoryID">
+                                                @CommonDataHelpers.Instance.CountFollowerByCategory(item.CategoryID)
+                                            </span>
+                                        </div>
+                                        <div class="d_data_name">
+                                            Follower
+                                        </div>
+                                    </div>
+                                    <div class="d_stat_new_live" id="followCount+@item.CategoryID">
+                                        <div class="d_data">
+                                            @CommonDataHelpers.Instance.CountLiveEventByCategory(item.CategoryID)
+                                        </div>
+                                        <div class="d_data_name">
+                                            Live Event
+                                        </div>
+                                    </div>
+                                    <div class="d_follow_cate">
+                                        <button type="button" class="btn btn-default btn-md" style="color: black" onclick="followCategory(this.value)" id="btn-follow-category-@item.CategoryID" value="@item.CategoryID">
+                                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                                            <span class="categoryText" id="follow-category-@item.CategoryID-status">
+                                                @if (user != null && UserDatabaseHelper.Instance.IsFollowingCategory(user.UserID, item.CategoryID))
+                                                {
+                                                    <text>
+                                                        Following
+                                                    </text>
+
+                                                }
+                                                else
+                                                {
+                                                    <text>
+                                                        Follow
+                                                    </text>
+                                                }
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+
+</div>
+<div class="d_3_column">
+    <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 d_cc_column d_cc_column_1">
+            <div class="d_cc_title" style="color: white">
+                New Event
+            </div>
+           @Html.Action("NewEvent","Home")
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 d_cc_column d_cc_column_2">
+            <div class="d_cc_title" style="color: white">
+                Hot Event
+            </div>
+           @Html.Action("HotEvent", "Home")
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 d_cc_column d_cc_column_3">
+            <div class="d_cc_title" style="color: white">
+                Live Streaming
+            </div>
+           @Html.Action("LiveEvent","Home")
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Home/jquery.flip.min.js"></script>
+<script src="~/Scripts/Home/Index.js"></script>
+<script>
+    //handle follow category
+    function followCategory(categoryID) {
+        @if(user!=null){
+                   <text>
+        $.ajax({
+            url: "/User/FollowCategory",
+            type: "POST",
+            dataType: "json",
+            data: {
+                categoryID: categoryID
+            },
+            success: function (data) {
+                if (data.success) {
+                    if (data.state == 0) {
+                        $("#number-follower-category-" + categoryID).text(parseInt($("#number-follower-category-" + categoryID).text()) - 1);
+                        $("#follow-category-" + categoryID + "-status").text("Follow");
+                    } else if (data.state == 1) {
+                        $("#number-follower-category-" + categoryID).text(parseInt($("#number-follower-category-" + categoryID).text()) + 1);
+                        $("#follow-category-" + categoryID + "-status").text("Following");
+                    }
+                } else {
+                    alert("ops.. somthing wrong!Please try again later...");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        })
+        </text>
+               }
+               else {
+                   <text>
+                    var x= 'Require Signin';
+                    var y='Please signin to follow this Category';
+                    errorShow(x, y);
+                    </text>
+               }
+
+    }
+
+</script>
+
