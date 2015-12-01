@@ -2,10 +2,7 @@
 @using EventZone.Helpers
 
 @{
-    if (EventZone.Helpers.UserHelpers.GetCurrentUser(Session) == null)
-    {
-        Response.Redirect("~/Home");
-    }
+
     List<ViewThumbEventModel> listEventThum = TempData["ListEventThumb"]as List<ViewThumbEventModel>;
     List<User> listFollowingUser = TempData["ListFollowing"] as List<User>;
     List<User> listFollower = TempData["ListFollower"] as List<User>;

@@ -15,49 +15,13 @@ namespace EventZone.Controllers
 {
     public class UserController : Controller
     {
-        //
-        // GET: /User/
-        public ActionResult ManageProfile()
-        {
-            User user = UserHelpers.GetCurrentUser(Session);
-            if (user == null)
-            {
-                if (Request.Cookies["userName"] != null && Request.Cookies["password"] != null)
-                {
-                    string userName = Request.Cookies["userName"].Value;
-                    string password = Request.Cookies["password"].Value;
-                    if (UserDatabaseHelper.Instance.ValidateUser(userName, password))
-                    {
-                        user = UserDatabaseHelper.Instance.GetUserByUserName(userName);
-                        if (UserDatabaseHelper.Instance.isLookedUser(user.UserName))
-                        {
-                            TempData["errorTitle"] = "Locked User";
-                            TempData["errorMessage"] = "Your account is locked! Please contact with our support";
-                        }
-                        else {
-                            UserHelpers.SetCurrentUser(Session, user);
-                        }
-                        
-                    }
-                }
-            }
-            if (UserHelpers.GetCurrentUser(Session) == null)
-            {
-                TempData["errorTitle"] = "Require Signin";
-                TempData["errorMessage"] = "Ops.. It's look like you are current is not signed in system! Please sign in first!";
-                return View();
-            }
-            else if (TempData["errorTitle"] != null)
-            {
-                TempData["errorTitle"] = TempData["errorTitle"];
-                TempData["errorMessage"] = TempData["errorMessage"];
-            }
-            else {
-                TempData["errorTitle"] = null;
-                TempData["errorMessage"] = null;
-            }
-            return View();
-        }
+        /// <summary>
+        /// View User index của user có userID= userID,
+        /// nếu userID = -1 thì view trang quản lý user của người đăng nhập, 
+        /// nếu user chưa đăng nhập và userID=-1 thì trở về trang Home
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         public ActionResult Index(long userID=-1) {
             User user = UserHelpers.GetCurrentUser(Session);
             if (userID == -1)
@@ -107,86 +71,34 @@ namespace EventZone.Controllers
             }
             return View(user);
        }
-        
-
         /// <summary>
-        /// view detail user info
+        /// view report
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="eventID"></param>
+        /// <param name="type"></param>
+        /// <param name="userID"></param>
         /// <returns></returns>
-        public ActionResult UserInfo(long? id = 0)
+        public ActionResult ViewReport(long eventID, int type = -1,long userID=-1)
         {
-            User userSession = UserHelpers.GetCurrentUser(Session);
-            User user;
-
-            if (userSession.UserID == id || id == 0)
-            {
-                user = userSession;
-            }
-            else
-            {
-                user = UserDatabaseHelper.Instance.GetUserByID(id);
-                if (user == null)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            ViewData["UserSession"] = user;
-            TempData["ManageProfileTask"] = "UserInfo";
-            return RedirectToAction("ManageProfile");
-        }
-
-        /// <summary>
-        /// manage event
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult ManageEvent()
-        {
-            if (UserHelpers.GetCurrentUser(Session) == null)
-            {
-                return RedirectToAction("RequireSignin", "Account");
-            }
-            User currentUser = UserHelpers.GetCurrentUser(Session);
-            List<Event> myEvent = EventDatabaseHelper.Instance.GetEventsByUser(currentUser.UserID);
-            if (myEvent == null)
-            {
-                return View("SuggestCreateEvent");
-            }
-
-            List<ViewThumbEventModel> listThumbEvent = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(myEvent);
-
-            if (ViewData["ManageEventTask"] == null)
-            {
-                ViewData["ManageEventTask"] = "MyEvent";
-            }
-            ViewData["ListThumbEvent"] = listThumbEvent;//chứa thông tin cần thiết để show 1 event
-            ViewData["MyEvent"] = myEvent;//event cua người dùng
-            return View();
-
+            List<Report> listReport = new List<Report>();
+            listReport = EventDatabaseHelper.Instance.GetEventReport(eventID, type, userID);
+            TempData["typeView"] = type;
+            return PartialView("ViewReport", listReport);
         }
         /// <summary>
-        /// view all my event thumb
+        /// view appeal
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="eventID"></param>
+        /// <param name="type"></param>
+        /// <param name="userID"></param>
         /// <returns></returns>
-        public ActionResult MyEvent(long? id = -1)
+        public ActionResult ViewAppeal(long eventID, int type = -1)
         {
-            if (id == -1)
-            {
-                return RedirectToAction("ManageEvent");
-            }
-            User user = UserDatabaseHelper.Instance.GetUserByID(id);
-            List<Event> myEvent = EventDatabaseHelper.Instance.GetEventsByUser(id);
-            if (myEvent == null)
-            {
-                return RedirectToAction("ManageEvent");
-            }
-            List<ViewThumbEventModel> listThumbEvent = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(myEvent);
-            ViewData["ListThumbEvent"] = listThumbEvent;
-            ViewData["MyEvent"] = myEvent;
-            return RedirectToAction("ManageEvent");
+            List<Appeal> listAppeal = new List<Appeal>();
+            listAppeal = EventDatabaseHelper.Instance.GetEventAppeal(eventID, type);
+            TempData["typeView"] = type;
+            return PartialView("_ViewAppeal", listAppeal);
         }
-
         public JsonResult Like(long eventId)
         {
             User user = UserHelpers.GetCurrentUser(Session);
@@ -530,7 +442,9 @@ namespace EventZone.Controllers
         }
         public ActionResult Event(long userID=-1)
         {
+           
             User user = UserHelpers.GetCurrentUser(Session);
+           
             if (userID == -1)
             {
                 if (user == null)
@@ -564,6 +478,10 @@ namespace EventZone.Controllers
             }
             else
             {
+                if (user!=null &&user.UserID == userID)
+                {
+                    return RedirectToAction("Event", "User");
+                }
                 user = UserDatabaseHelper.Instance.GetUserByID(userID);
                 if (user == null)
                 {
@@ -580,7 +498,52 @@ namespace EventZone.Controllers
             }
             return View(user);
         }
-
+        public ActionResult Appeal(long eventID, string content)
+        {
+            User user = UserHelpers.GetCurrentUser(Session);
+            if (user == null)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Require Signin",
+                    message = "Ops.. It's look like you are current is not signed in system! Please sign in first!",
+                });
+            }
+            else if (user.UserID != EventDatabaseHelper.Instance.GetAuthorEvent(eventID).UserID)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Error",
+                    message = "You cant not appeal an event which is created by another users",
+                });
+            }
+            else {
+                Appeal newAppeal = new Appeal { AppealStatus=EventZoneConstants.Pending, 
+                                                EventID=eventID,
+                                                SendDate=DateTime.Now,
+                                                AppealContent = content,
+                                                };
+                if (EventDatabaseHelper.Instance.AddNewAppeal(newAppeal))
+                {
+                    return Json(new
+                    {
+                        state = 1,
+                        eventID =  eventID
+                    });
+                }
+                else {
+                    return Json(new
+                    {
+                        state = 0,
+                        error="error",
+                        message="Something wrong! please try again later!   "
+                    });
+                }
+            }
+        
+        }
     }
    
 }

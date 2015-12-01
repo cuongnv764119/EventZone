@@ -47,5 +47,6 @@ namespace EventZone.Models
         public virtual DbSet<TrackingAction> TrackingActions { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Video> Videos { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
     }
 }

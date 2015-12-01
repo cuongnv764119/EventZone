@@ -14,12 +14,14 @@
     }
 }
 <link href="~/Content/User/myCSS_u_m_e.css" rel="stylesheet" />
-
-<div class="d_left_side">
+<div style="padding-top: 100px"> 
+<div class=" d_left_side">
     <ul class="nav nav-tabs" id="myTab">
-        <li class="active"><a href="#i_tab_event" data-toggle="tab">Events (@UserDatabaseHelper.Instance.CountOwnedEvent(viewingUser.UserID,isOwner))</a></li>
-        <li><a href="#i_tab_follower" data-toggle="tab">Follower (1000)</a></li>
-        <li><a href="#i_tab_report" data-toggle="tab">Reported event (1000)</a></li>
+        <li class="active"><a href="#i_tab_event" data-toggle="tab">Events (@UserDatabaseHelper.Instance.CountOwnedEvent(viewingUser.UserID, isOwner))</a></li>
+        @if(isOwner)
+        {
+            <li><a href="#i_tab_report" data-toggle="tab">Pending reported event (@UserDatabaseHelper.Instance.GetAllEventHasReports(curUser.UserID).Count)</a></li>
+        }
     </ul>
     <div class="tab-content i_tab_event">
         <!-- Khung chứa Events -->
@@ -33,7 +35,7 @@
                     List<Event> listEvent = UserDatabaseHelper.Instance.GetUserEvent(viewingUser.UserID, -1, isOwner);
                     for (int i = 0; i < listEvent.Count; i++)
                     {
-                        Event currentEvent = listEvent[i]; 
+                        Event currentEvent = listEvent[i];
                         <div class="d_each_event">
                             <div class="d_thumb">
                                 <img src="@EventDatabaseHelper.Instance.GetImageByID(currentEvent.Avatar).ImageLink">
@@ -43,89 +45,123 @@
                                     @Html.ActionLink(currentEvent.EventName, "Details", "Event", new { id = currentEvent.EventID }, new { target = "_blank" })
                                 </div>
                                 <div class="d_time_left">
-                                        Start in @currentEvent.EventStartDate.ToString()
+                                    Start in @currentEvent.EventStartDate.ToString()
                                 </div>
                             </div>
                             <button class="btn btn-success btn-xs">Edit</button>
                         </div>
                     }
-
                 }
-                
             </div>
         </div>
-        <!-- Khung chứa Followers -->
-        <div class="tab-pane" id="i_tab_follower">
-            <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#i_md_filter" id="i_btn_e_filter">
-                Filter
-            </button>
-            <div class="d_users_cover">
-                <div class="d_each_user">
-                    <div class="d_thumb">
-                        <img src="../img/bg3.jpg">
-                    </div>
-                    <div class="d_info">
-                        <div class="d_title">
-                            UserName
-                        </div>
-                        <div class="d_detail">
-                            <p>
-                                <div class="d_icon">
-                                    <span class="fa fa-tv"></span>
+        @if (isOwner)
+        {
+            <div class="tab-pane" id="i_tab_report">
+                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#i_md_filter" id="i_btn_e_filter">
+                    Filter
+                </button>
+                <div class="d_events_cover">
+                    @if (UserDatabaseHelper.Instance.GetAllEventHasReports(curUser.UserID).Count > 0)
+                    {
+                        List<Event> listEventHasReports = UserDatabaseHelper.Instance.GetAllEventHasReports(curUser.UserID);
+                        for (int i = 0; i < listEventHasReports.Count; i++)
+                        {
+                            Event item = listEventHasReports[i];
+                            <div class="d_each_event">
+                                <div class="d_thumb">
+                                    <img src="@EventDatabaseHelper.Instance.GetImageByID(item.Avatar).ImageLink">
                                 </div>
-                                <div class="d_icon_info">
-                                    Channel: Name
+                                <div class="d_info">
+                                    <div class="d_title">
+                                        @Html.ActionLink(item.EventName, "Details", "Event", new { id = item.EventID }, new { target = "_blank" })
+                                    </div>
+                                    <div>
+                                        All report:<a href="#" data-toggle="modal" data-target="#all-report-@item.EventID--1"><i>@EventDatabaseHelper.Instance.GetListReportOfEvent(item.EventID).Count</i></a>
+                                        @Html.Action("ViewReport","User",new {eventID=item.EventID})
+                                    </div>
+                                    @if (EventDatabaseHelper.Instance.GetEventAppeal(item.EventID) != null && EventDatabaseHelper.Instance.GetEventAppeal(item.EventID).Count>0)
+                                    {
+                                        <div>
+                                            All Appeal:<a href="#" data-toggle="modal" data-target="#all-appeal-@item.EventID--1"><i>@EventDatabaseHelper.Instance.GetEventAppeal(item.EventID).Count</i></a>
+                                            @Html.Action("ViewAppeal", "User", new { eventID = item.EventID })
+                                        </div>
+                                    }
+                                    
+                                    @if (item.Status == EventZoneConstants.Active)
+                                    {
+                                        if (EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending) != null && EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count >0)
+                                        {
+                                            <div>
+                                                Pending report:<a href="#" data-toggle="modal" data-target="#all-report-@item.EventID-@EventZoneConstants.Pending"><i>@EventDatabaseHelper.Instance.GetListReportOfEvent(item.EventID).FindAll(a => a.ReportStatus == EventZoneConstants.Pending).ToList().Count</i></a>
+                                                @Html.Action("ViewReport", "User", new { eventID = item.EventID, type=EventZoneConstants.Pending })
+                                            </div>
+                                        }
+
+                                        <div>Status: Active</div>
+                                        if (UserDatabaseHelper.Instance.AppealSuccess(item.EventID) && @EventDatabaseHelper.Instance.GetListReportOfEvent(item.EventID).FindAll(a => a.ReportStatus == EventZoneConstants.Pending).ToList().Count==0)
+                                        {
+                                            <div>Congrazts! We have reviewed your event again and determine that your event is satisfy with our TOS, so we decided make it available again! Thanks you for contact with us! </div>
+                                        }
+                                    }
+                                    @if (item.Status == EventZoneConstants.Lock) { 
+                                        <div>Status: Locked</div>
+                                        <div>Reason: @item.LockedReason</div>
+                                        
+                                        if (EventDatabaseHelper.Instance.GetEventAppeal(item.EventID, EventZoneConstants.Pending) != null && EventDatabaseHelper.Instance.GetEventAppeal(item.EventID, EventZoneConstants.Pending).Count!=0)
+                                        {
+                                            <div>
+                                                You appeal current be reviewing! Click <a href="#" data-toggle="modal" data-target="#all-appeal-@item.EventID-@EventZoneConstants.Pending">here</a> to view detail
+                                               @Html.Action("ViewAppeal", "User", new { eventID = item.EventID , type=EventZoneConstants.Pending})
+                                            </div>
+                                        
+                                        }
+                                        else if (UserDatabaseHelper.Instance.AppealFailed(item.EventID)) { 
+                                            <div>
+                                                We have reviewed your appeal and decided still lock your event because it againts our TOS. Please read clearly our TOS before upload an event
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div id="pannel-button-appeal-@item.EventID">
+                                            <div id="appeal-panel-@item.EventID"><button data-toggle="modal" data-target="#i_appeal_modal_@item.EventID">Appeal</button></div>
+                                                <div id="i_appeal_modal_@item.EventID" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">
+                                                                    Appeal Panel
+                                                                </h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input hidden id="eventID" />
+                                                                Content:
+                                                                <textarea id="appeal-content_@item.EventID"></textarea>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button onclick="SendAppeal(@item.EventID)">Send</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               </div>
+                                        }
+
+                                    }
+                                    
                                 </div>
-                            </p>
-                            <div class="d_icon">
-                                <span class="fa fa-calendar-check-o"></span>
                             </div>
-                            <div class="d_icon_info">
-                                Followed: 3 days ago
-                            </div>
-                        </div>
-                    </div>
+                        }
+                    }
                 </div>
             </div>
-        </div>
+        }
         <!-- Khung chứa Reported Event -->
-        <div class="tab-pane" id="i_tab_report">
-            <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#i_md_filter" id="i_btn_e_filter">
-                Filter
-            </button>
-            <div class="d_events_cover">
-                <div class="d_each_event">
-                    <div class="d_thumb">
-                        <img src="../img/bg3.jpg">
-                    </div>
-                    <div class="d_info">
-                        <div class="d_title">
-                            Title Title TitleTitle Title Title
-                        </div>
-                        <div class="d_time_left">
-                            5 days left
-                        </div>
-                    </div>
-                </div>
-                <div class="d_each_event">
-                    <div class="d_thumb">
-                        <img src="../img/bg3.jpg">
-                    </div>
-                    <div class="d_info">
-                        <div class="d_title">
-                            Title Title TitleTitle Title Title
-                        </div>
-                        <div class="d_time_left">
-                            5 days left
-                        </div>
-                    </div>
-                    <button class="btn btn-success btn-xs">Edit</button>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
-
+    
 <div class="d_right_side">
     <ul class="nav nav-tabs" id="myTab">
         <li class="active"><a href="#i_tab_stat" data-toggle="tab">Statistics</a></li>
@@ -299,3 +335,41 @@
         </div>
     </div>
 </div>
+</div>
+<script>
+    function SendAppeal(eventID) {
+        var contentAppeal = $("#appeal-content_"+eventID).val();
+        if (eventID == null || eventID == "") {
+            $(".modal").modal("hide");
+            errorShow("error","Could not found event!")
+        } else if (contentAppeal == null || contentAppeal == "") {
+            $(".modal").modal("hide");
+            errorShow("Content is empty","Please enter your appeal!")
+        } else {
+            $.ajax({
+                url: "/User/Appeal",
+                type: "post",
+                dataType: "json",
+                data: { eventID: eventID, content: contentAppeal },
+                success: function (data) {
+                    if (data.state == 0) {
+                        $(".modal").modal("hide");
+                        errorShow(data.error,data.message)
+                    }else {
+                        $(".modal").modal("hide");
+                        errorShow("Sending appeal success","Your appeal has been sent and current being reviewed! Thank for contacting with us")
+                       
+                            $("#pannel-button-appeal-"+data.eventID).html("<p>Your appeal has been sent and being reviewd. It take about 2-4 days. Thank you for contact with us</p>")
+                    }
+                },
+                error: function(){
+                    $(".modal").modal("hide");
+                    errorShow("Error Connect to server","Can not connect to server! Please try again later")
+                }
+            })
+
+
+        }
+
+    }
+</script>

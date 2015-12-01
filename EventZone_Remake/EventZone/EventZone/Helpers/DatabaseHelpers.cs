@@ -646,13 +646,8 @@ namespace EventZone.Helpers
         /// <returns></returns>
         public User GetUserByID(long? userID)
         {
-            var listUser = db.Users.ToList();
-            var user = listUser.FindAll(i => i.UserID == userID);
-            if (user.Count != 0)
-            {
-                return user[0];
-            }
-            return null;
+            User user = db.Users.Find(userID);
+            return user;
         }
         /// <summary>
         /// Get All user in database
@@ -722,7 +717,7 @@ namespace EventZone.Helpers
             }
             keyword = keyword.ToLower();
             var retrievedResult = (from x in db.Users
-                                   where x.UserFirstName.ToLower().Contains(keyword) || x.UserLastName.ToLower().Contains(keyword)
+                                   where x.UserFirstName.ToLower().Contains(keyword) || x.UserLastName.ToLower().Contains(keyword)||x.UserName.ToLower().Contains(keyword)
                                    select x).ToList();
             return retrievedResult;
         }
@@ -783,6 +778,83 @@ namespace EventZone.Helpers
             }
             catch { }
             return null;
+        }
+        /// <summary>
+        /// Get all pending Reported event
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public List<Event> GetPendingReportedEvent(long userID)
+        {
+            try { 
+                Channel channel= GetUserChannel(userID);
+                List<Event> result = (from a in db.Events 
+                                      join report in db.Reports 
+                                      on a.EventID equals report.EventID 
+                                      where a.ChannelID == channel.ChannelID && report.ReportStatus == EventZoneConstants.Pending 
+                                      select a).ToList();
+                return result;
+            }
+            catch { }
+            return new List<Event>();
+        }
+        /// <summary>
+        /// Get All Event Has Report
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public List<Event> GetAllEventHasReports(long userID)
+        {
+            Channel channel = GetUserChannel(userID);
+            List<Event> result = new List<Event>();
+            try {
+                result = (from a in db.Events
+                          join report in db.Reports
+                          on a.EventID equals report.EventID
+                          where a.ChannelID == channel.ChannelID
+                          select a).Distinct().ToList();
+                foreach (var item in result)
+                {
+                    db.Entry(item).Reload();
+                }
+            }
+            catch { }
+            return result;
+        }
+        /// <summary>
+        /// get pending appeal of event
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <returns></returns>
+        public Appeal GetPendingAppeal(long eventID) {
+            try {
+                Appeal appeal = (from a in db.Appeals where a.EventID == eventID && a.AppealStatus == EventZoneConstants.Pending select a).ToList()[0];
+                return appeal;
+            }
+            catch { }
+            return null;
+        }
+        /// <summary>
+        /// check is success appeal or not
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public bool AppealSuccess(long eventID)
+        {
+            try{
+                Appeal appeal = (from a in db.Appeals where a.EventID==eventID select a).OrderByDescending(o => o.ResultDate).ToList()[0];
+                if (appeal.AppealStatus == EventZoneConstants.Approved) { return true; }
+            }catch{}
+            return false;
+        }
+        public bool AppealFailed(long eventID) {
+            try
+            {
+                Appeal appeal = (from a in db.Appeals where a.EventID == eventID select a).OrderByDescending(o => o.ResultDate).ToList()[0];
+                if (appeal.AppealStatus == EventZoneConstants.Rejected) { return true; }
+            }
+            catch { }
+            return false;
         }
     }
 
@@ -1304,10 +1376,19 @@ namespace EventZone.Helpers
         /// get all reports of an event
         /// </summary>
         /// <returns></returns>
-        public List<Report> GetEventReport(long eventID) {
+        public List<Report> GetEventReport(long eventID, int type=-1,long userID=-1) {
             List<Report> result = new List<Report>();
             try {
                 result = (from a in db.Reports where a.EventID == eventID select a).ToList();
+                if (type != -1)
+                {
+                    result.RemoveAll(o => o.ReportStatus != type);
+
+                }
+                if (userID != -1)
+                {
+                    result=result.FindAll(o => o.SenderID == userID);
+                }
                 foreach (var item in result) {
                     db.Entry(item).Reload();
                 }
@@ -1772,6 +1853,63 @@ namespace EventZone.Helpers
                 listEventPlaces.Add(newEventPlace);
             }
             return listEventPlaces;
+        }
+        /// <summary>
+        /// get Event appeal
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="type"></param>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public List<Appeal> GetEventAppeal(long eventID, int type=-1)
+        {
+            List<Appeal> result = new List<Appeal>();
+            try
+            {
+                result = (from a in db.Appeals where a.EventID == eventID select a).ToList();
+                if (type != -1)
+                {
+                    result.RemoveAll(o => o.AppealStatus != type);
+
+                }
+                foreach (var item in result)
+                {
+                    db.Entry(item).Reload();
+                }
+            }
+            catch { }
+            return result;
+            
+        }
+        /// <summary>
+        /// get all appeal of event
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <returns></returns>
+        public List<Appeal> GetListAppealOfEvent(long eventID)
+        {
+            try
+            {
+                List<Appeal> result = (from a in db.Appeals where a.EventID == eventID select a).OrderByDescending(m => m.SendDate).ToList();
+                return result;
+            }
+            catch
+            {
+
+            }
+            return null;
+        }
+
+        public bool AddNewAppeal(Appeal newAppeal)
+        {
+            try {
+                db.Appeals.Add(newAppeal);
+                db.SaveChanges();
+                return true;
+            }
+            catch { }
+            return false;
+            
         }
     }
 
@@ -2476,6 +2614,47 @@ namespace EventZone.Helpers
                 db.Entry(currReport).State = EntityState.Modified;
                 db.SaveChanges();
                 return currReport;
+            }
+            catch { }
+            return null;
+        }
+        public Appeal ApproveAppeal(long adminID, long appealID)
+        {
+            try
+            {
+                Appeal appeal = db.Appeals.Find(appealID);
+                Event evt = (from a in db.Events where a.EventID == appeal.EventID select a).ToList()[0];
+                appeal.AppealStatus = EventZoneConstants.Approved;
+                appeal.SendDate = DateTime.Today;
+                appeal.HandleBy = adminID;
+                db.Entry(appeal).State = EntityState.Modified;
+                db.SaveChanges();
+                evt.Status = EventZoneConstants.Active;
+                db.Entry(evt).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return appeal;
+            }
+            catch { }
+            return null;
+        }
+
+
+        public Appeal RejectAppeal(long adminID, long appealID)
+        {
+            try
+            {
+                Appeal appeal = db.Appeals.Find(appealID);
+                Event evt = (from a in db.Events where a.EventID == appeal.EventID select a).ToList()[0];
+                appeal.AppealStatus = EventZoneConstants.Rejected;
+                appeal.SendDate = DateTime.Today;
+                appeal.HandleBy = adminID;
+                db.Entry(appeal).State = EntityState.Modified;
+                db.SaveChanges();
+                evt.Status = EventZoneConstants.Lock;
+                db.Entry(evt).State = EntityState.Modified;
+                db.SaveChanges();
+                return appeal;
             }
             catch { }
             return null;

@@ -60,6 +60,7 @@
         <AssociationConnector Association="EventZoneModel.FK_Share_User" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_TrackingAction_User2" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_TrackingAction_User3" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="EventZoneModel.sysdiagram" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -73,6 +73,7 @@
     <Property Name="EditTime" Type="datetime" />
     <Property Name="EditContent" Type="nvarchar(max)" />
     <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="LockedReason" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="EventFollow">
     <Key>
@@ -182,6 +183,16 @@
     <Property Name="ShareID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="EventID" Type="bigint" Nullable="false" />
     <Property Name="UserID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
   <EntityType Name="TrackingAction">
     <Key>
@@ -645,6 +656,7 @@
     <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ReportDefine" EntityType="Self.ReportDefine" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Share" EntityType="Self.Share" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TrackingAction" EntityType="Self.TrackingAction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Video" EntityType="Self.Video" Schema="dbo" store:Type="Tables" />

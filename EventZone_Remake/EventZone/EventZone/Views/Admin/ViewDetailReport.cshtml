@@ -2,15 +2,16 @@
 @using EventZone.Helpers
 @model IEnumerable<EventZone.Models.Report>
 @{
-    if (Model == null || Model.ToList().Count == 0)
+     Event evt= null;
+    if (Model != null && Model.ToList().Count != 0)
     {
-        Response.Redirect("~/Admin/ManageReport");
+    evt= EventDatabaseHelper.Instance.GetEventByID(Model.ToList()[0].EventID);
+       
     }
-    Event evt = EventDatabaseHelper.Instance.GetEventByID(Model.ToList()[0].EventID);
 }
 @if (evt != null)
 {
-    <div id="i_a_modal-@evt.EventID" class="modal fade" role="dialog">
+    <div id="all-report-@evt.EventID" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
@@ -25,11 +26,12 @@
                     {
                         var item = Model.ToList()[i];
                         <div class="d_a_each_reason">
-                           User @UserDatabaseHelper.Instance.GetUserByID(item.SenderID).UserName <p> reporteds this event as @item.ReportType<p> at @item.ReportDate
+                            User @UserDatabaseHelper.Instance.GetUserByID(item.SenderID).UserName <p> reporteds this event as @item.ReportType<p> at @item.ReportDate
                         </div>
-                        
+
                         <div id="handle-report-@item.ReportID">
-                            @if (item.ReportStatus == EventZoneConstants.Approved || item.ReportStatus == EventZoneConstants.Rejected) {
+                            @if (item.ReportStatus == EventZoneConstants.Approved || item.ReportStatus == EventZoneConstants.Rejected)
+                            {
                                 string status = item.ReportStatus == EventZoneConstants.Approved ? "Approved" : "Rejected";
                                 <div> @status by @UserDatabaseHelper.Instance.GetUserByID(item.HandleBy).UserName at @item.HandleDate</div>
                             }

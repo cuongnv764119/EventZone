@@ -95,6 +95,7 @@
     <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_Event" FromRole="Event" ToRole="NotificationChange" />
     <NavigationProperty Name="Reports" Relationship="Self.FK_Report_Event" FromRole="Event" ToRole="Report" />
     <NavigationProperty Name="Shares" Relationship="Self.FK_Share_Event1" FromRole="Event" ToRole="Share" />
+    <Property Name="LockedReason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="EventFollow">
     <Key>
@@ -846,5 +847,16 @@
       <End Role="User" EntitySet="Users" />
       <End Role="TrackingAction" EntitySet="TrackingActions" />
     </AssociationSet>
+    <EntitySet Name="sysdiagrams" EntityType="EventZoneModel.sysdiagram" />
   </EntityContainer>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
 </Schema>

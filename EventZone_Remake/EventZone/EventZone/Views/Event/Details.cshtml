@@ -83,7 +83,7 @@
                 <div class="col-xs-1 col-sm-1 col-md-2 col-lg-1 fa fa-user">
                 </div>
                 <div class="col-xs-11 col-sm-11 col-md-10 col-lg-11 d_event_time">
-                    by <i>@Model.createdBy.UserName</i>
+                    by <i>@Html.ActionLink(@Model.createdBy.UserName, "Index", "User", new {userID=Model.createdBy.UserID },null)</i>
                 </div>
                 <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 glyphicon glyphicon-time">
                 </div>
@@ -413,31 +413,31 @@
                 <div class="d_rp_before d_rp_fade">
 
                 </div>
-                @if (user != null)
+                @if (user != null && user.UserID != EventDatabaseHelper.Instance.GetAuthorEvent(Model.eventId).UserID)
                 {
                     if (UserDatabaseHelper.Instance.IsReportedEvent(user.UserID, Model.eventId) != null)
                     {
                         Report report = UserDatabaseHelper.Instance.IsReportedEvent(user.UserID, Model.eventId);
                         <div class="d_reasons_container">
                             You have reported this event as @report.ReportType
-                            <p> at @report.ReportDate<br> Your report is being review.
+                            <p> at @report.ReportDate<br>.<a href="" data-toggle="modal" data-target="#all-report-@Model.eventId--1">View Status</a>
                             </p>
+                            @Html.Action("ViewReport", "User", new { eventID = Model.eventId, type = -1, userID = user.UserID })
                         </div>
                     }
                 }
-                else
+                else if(user==null||user.UserID != EventDatabaseHelper.Instance.GetAuthorEvent(Model.eventId).UserID)
                 {
                     <div class="d_reasons_container">
-                        @if(user!=null){
-                        if (user.UserID != EventDatabaseHelper.Instance.GetAuthorEvent(Model.eventId).UserID)
-                        {
-                            foreach (var item in CommonDataHelpers.Instance.GetAllReportType())
+            
+                      
+                            @foreach (var item in CommonDataHelpers.Instance.GetAllReportType())
                             {
                                 <div class="radio">
                                     <label><input type="radio" name="reportRadio" value=@item.ReportTypeID>@item.ReportTypeName</label>
                                 </div>
                             }
-                        }}
+                      
                         <div class="form-group d_write_report">
                             <textarea id="i_report_box"
                                       class="form-control" rows="1"

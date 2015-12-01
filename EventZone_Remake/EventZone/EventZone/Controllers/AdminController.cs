@@ -577,6 +577,13 @@ namespace EventZone.Controllers
             listReport = EventDatabaseHelper.Instance.GetEventReport(eventID);
             return PartialView("ViewDetailReport", listReport);
         }
+
+        public ActionResult ViewDetailAppeal(long eventID = -1)
+        {
+            List<Appeal> listAppeal = new List<Appeal>();
+            listAppeal = EventDatabaseHelper.Instance.GetEventAppeal(eventID);
+            return PartialView("ViewDetailAppeal", listAppeal);
+        }
         public ActionResult ApproveReport(long reportID) {
             User admin = UserHelpers.GetCurrentAdmin(Session);
             if (admin == null)
@@ -682,7 +689,113 @@ namespace EventZone.Controllers
                 message = "Something wrong! Please try again!"
             });
         }
+        public ActionResult ApproveAppeal(long appealID)
+        {
+            User admin = UserHelpers.GetCurrentAdmin(Session);
+            if (admin == null)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Require signin!",
+                    message = "You are not signed in..."
+                });
+            }
+            else if (admin.AccountStatus == EventZoneConstants.LockedUser)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Locked account",
+                    message = "Your account is locked. You cant use this feature!"
+                });
+            }
+            else if (admin.UserRoles != EventZoneConstants.RootAdmin && admin.UserRoles != EventZoneConstants.Admin)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Permission denied",
+                    message = "This feature not avaiable for you!"
+                });
+            }
+            if (admin.AccountStatus != EventZoneConstants.LockedUser)
+            {
+                Appeal newAppeal = AdminDataHelpers.Instance.ApproveAppeal(admin.UserID, appealID);
 
+                if (newAppeal != null)
+                {
+
+                    return Json(new
+                    {
+                        state = 1,
+                        handleDate = newAppeal.SendDate.ToString(),
+                        handleBy = admin.UserName
+                    });
+                }
+
+            }
+            return Json(new
+            {
+                state = 0,
+                error = "Erorr",
+                message = "Something wrong! Please try again!"
+            });
+        }
+
+        public ActionResult RejectAppeal(long appealID)
+        {
+            User admin = UserHelpers.GetCurrentAdmin(Session);
+            if (admin == null)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Require signin!",
+                    message = "You are not signed in..."
+                });
+            }
+            else if (admin.AccountStatus == EventZoneConstants.LockedUser)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Locked account",
+                    message = "Your account is locked. You cant use this feature!"
+                });
+            }
+            else if (admin.UserRoles != EventZoneConstants.RootAdmin && admin.UserRoles != EventZoneConstants.Admin)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Permission denied",
+                    message = "This feature not avaiable for you!"
+                });
+            }
+            if (admin.AccountStatus != EventZoneConstants.LockedUser)
+            {
+                Appeal newAppeal = AdminDataHelpers.Instance.RejectAppeal(admin.UserID, appealID);
+
+                if (newAppeal != null)
+                {
+
+                    return Json(new
+                    {
+                        state = 1,
+                        handleDate = newAppeal.SendDate.ToString(),
+                        handleBy = admin.UserName
+                    });
+                }
+
+            }
+            return Json(new
+            {
+                state = 0,
+                error = "Erorr",
+                message = "Something wrong! Please try again!"
+            });
+        }
         public ActionResult Statistic()
         {
             if (Request.Cookies["Admin_userName"] != null && Request.Cookies["Admin_password"] != null)

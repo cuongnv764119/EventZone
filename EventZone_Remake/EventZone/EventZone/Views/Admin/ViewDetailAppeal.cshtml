@@ -2,11 +2,11 @@
 @using EventZone.Helpers
 @model IEnumerable<EventZone.Models.Appeal>
 @{
-    if (Model == null || Model.ToList().Count == 0)
+    Event evt = null;
+    if (Model != null && Model.ToList().Count != 0)
     {
-        Response.Redirect("~/Admin/ManageReport");
+        evt = EventDatabaseHelper.Instance.GetEventByID(Model.ToList()[0].EventID);
     }
-    Event evt = EventDatabaseHelper.Instance.GetEventByID(Model.ToList()[0].EventID);
 }
 @if (evt != null)
 {

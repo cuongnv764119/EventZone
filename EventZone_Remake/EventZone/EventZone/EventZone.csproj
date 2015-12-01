@@ -316,6 +316,9 @@
     <Compile Include="Models\Share.cs">
       <DependentUpon>EventZone.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagram.cs">
+      <DependentUpon>EventZone.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TrackingAction.cs">
       <DependentUpon>EventZone.tt</DependentUpon>
     </Compile>
@@ -565,9 +568,6 @@
     <Content Include="Views\Event\_LocationPartial.cshtml" />
     <Content Include="Views\Account\RequireSignin.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\User\ManageEvent.cshtml" />
-    <Content Include="Views\User\ManageProfile.cshtml" />
-    <Content Include="Views\User\_MyEventPartial.cshtml" />
     <Content Include="Views\Home\_ThumbEventHomepage.cshtml" />
     <Content Include="Views\Home\Policy.cshtml" />
     <Content Include="Views\Home\Help.cshtml" />
@@ -592,6 +592,9 @@
     <Content Include="Views\User\Event.cshtml" />
     <Content Include="Views\Admin\Statistic.cshtml" />
     <Content Include="Views\Event\EditEvent.cshtml" />
+    <Content Include="Views\User\ViewReport.cshtml" />
+    <Content Include="Views\User\_ViewAppeal.cshtml" />
+    <Content Include="Views\Admin\ViewDetailAppeal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

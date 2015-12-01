@@ -45,48 +45,15 @@ namespace EventZone.Controllers
             {
                 List<Location> locationList = model.Location;
                 locationList.RemoveAll(o => o.LocationName.Equals("Remove Location"));
-          
-                //bool recursiveCheck = false;
-                //while (recursiveCheck == false)
-                //{
-                //    int lastRemove = 0;
-                //    for (int i = 0; i < locationList.Count; i++)
-                //    {
-                //        if (locationList[i].LocationName.Equals("Remove Location"))
-                //            lastRemove = i;
-                //    }
-                //    if (lastRemove != 0)
-                //    {
-                //        locationList.RemoveAt(lastRemove);
-                //    }
-                //    else
-                //        break;
-                //}
-
+                //add location to database
                 var listLocation = LocationHelpers.Instance.AddNewLocation(locationList);
 
-                //Adding new event to database
+                //Adding new event with given infomation to database
                 var newEvent = EventDatabaseHelper.Instance.AddNewEvent(model, file, UserHelpers.GetCurrentUser(Session).UserID);
 
-                //Insert to Event Place
+                //Add event place to database
                 var listEventPlaces = EventDatabaseHelper.Instance.AddEventPlace(listLocation, newEvent);
 
-                // Create Video if it is live event
-                //if (model.IsLive)
-                //{
-                //    var viewDataResult = EventDatabaseHelper.Instance.AddLiveVideo(model, locationList, listEventPlaces);
-                //    if (viewDataResult.Length != 1)
-                //    {
-                //        ViewData["StreamName"] = viewDataResult[0];
-                //        ViewData["PrimaryServerURL"] = viewDataResult[1];
-                //        ViewData["BackupServerURL"] = viewDataResult[2];
-                //        ViewData["YoutubeURL"] = viewDataResult[3];
-                //    }
-                //    else
-                //    {
-                //        return View("FailedCreateEvent");
-                //    }
-                //}
                 LiveStreamingModel liveModel = new LiveStreamingModel { eventID = newEvent.EventID, Title = newEvent.EventName };
                 TempData["LiveModel"] = liveModel;
                 HttpCookie newEventID = new HttpCookie("CreateEventID");
@@ -101,6 +68,11 @@ namespace EventZone.Controllers
             TempData["errorMessage"] = "Please select location from suggestion!"; 
             return View("Create", model);
         }
+        /// <summary>
+        /// return form edit event 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult EditEvent(ViewDetailEventModel model)
         {
@@ -121,7 +93,11 @@ namespace EventZone.Controllers
             editModel.Location = model.eventLocation;
             return PartialView(editModel);
         }
-
+        /// <summary>
+        /// Edit event post
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult EditEventPost(EditViewModel model)
         {
@@ -136,7 +112,12 @@ namespace EventZone.Controllers
             }
             
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public ActionResult AddLiveStream(LiveStreamingModel model)
         {
             List<EventPlace> listPlace= new List<EventPlace>();
@@ -262,6 +243,11 @@ namespace EventZone.Controllers
            
             return RedirectToAction("AddLiveStream", "Event", liveModel);
         }
+        /// <summary>
+        /// View detail of event 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ActionResult Details(long? id)
         {
             if (id == null||
