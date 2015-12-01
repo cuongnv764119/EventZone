@@ -21,7 +21,7 @@ function OnSucess(data) {
         $("#addUser-Password").val("");
         $("#addUser-ConfirmPassword").val("");
 
-        $("#add-new-user").modal("hide");
+        $("#add-new-user-modal").modal("hide");
         var r = confirm("You created an account! Do you want take a look?")
         if (r == true) {
             window.open("/User/Index?userID="+data.userID, '_blank');

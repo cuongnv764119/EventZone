@@ -11,6 +11,29 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     List<User> allUser = Model.ToList() as List<User>;
 }
+<button id="btn-add-user">Add new user</button>
+<div class="modal fade d_modal" id="add-new-user-modal" role="dialog">
+    <div class="modal-dialog" style="margin-top: 120px; width: 30%;">
+        <!-- Modal content-->
+        <div class="panel panel-info d_margin_top">
+            <div class="panel-heading">
+                <div class="panel-title">Add new user</div>
+                <div style="float: right; font-size: 80%; position: relative; top: -17px">
+                    <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
+                </div>
+            </div>
+            @Html.Action("AddNewUser", "Admin")
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#btn-add-user").click(function () {
+
+        $("#add-new-user-modal").modal("show");
+    })
+
+</script>
 
 <div class="modal fade d_modal" id="change-email-modal" role="dialog">
     <div class="modal-dialog" style="margin-top: 120px; width: 30%;">

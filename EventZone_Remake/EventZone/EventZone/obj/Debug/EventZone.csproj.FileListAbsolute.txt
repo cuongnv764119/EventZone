@@ -282,3 +282,4 @@ D:\EventZone\EventZone_Remake\EventZone\EventZone\bin\Zlib.Portable.xml
 D:\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.csproj.App.config
 D:\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.dll
 D:\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.pdb
+D:\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.csprojResolveAssemblyReference.cache

@@ -856,6 +856,7 @@ namespace EventZone.Helpers
             catch { }
             return false;
         }
+
     }
 
     /// <summary>
@@ -2658,6 +2659,17 @@ namespace EventZone.Helpers
             }
             catch { }
             return null;
+        }
+
+        public bool AddUser(User user)
+        {
+            try {
+                db.Users.Add(user);
+                db.SaveChanges();
+                return true;
+            }catch{
+            }
+            return false;
         }
     }
     /// <summary>

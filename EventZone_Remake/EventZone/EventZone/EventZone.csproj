@@ -346,6 +346,7 @@
     <Content Include="Content\Event\Create.css" />
     <Content Include="Content\Event\font-awesome.min.css" />
     <Content Include="Content\Event\lightview.css" />
+    <Content Include="Scripts\Admin\AddNewUser.js" />
     <Content Include="Scripts\Event\Edit.js" />
     <Content Include="Scripts\Event\lightview.js" />
     <Content Include="Content\Event\skins\blank.gif" />
@@ -595,6 +596,7 @@
     <Content Include="Views\User\ViewReport.cshtml" />
     <Content Include="Views\User\_ViewAppeal.cshtml" />
     <Content Include="Views\Admin\ViewDetailAppeal.cshtml" />
+    <Content Include="Views\Admin\AddNewUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -121,12 +121,12 @@ namespace EventZone.Models
         [StringLength(100, ErrorMessage = "UserName must more than 2 character and less than 25 character", MinimumLength = 2)]
         [Required(ErrorMessage = "Please enter your first name")]
         [Display(Name = "First name")]
-        public string UserFirstName { get; set; }
+        public string UserLastName { get; set; }
 
-        [MaxLength(25, ErrorMessage = "User name must more than 2 characters and less than 25 characters.")]
+        [MaxLength(25, ErrorMessage = "Last Name must more than 2 characters and less than 25 characters.")]
         [RegularExpression("(^[a-zA-Z0-9 ,.'-]+$)", ErrorMessage = "Name is invalid. Name only accepts alphabet, numberic characters and white space")]
         [StringLength(100, ErrorMessage = "UserName must more than 2 character and less than 25 character", MinimumLength = 2)]
-        public string UserLastName { get; set; }
+        public string UserFirstName { get; set; }
     }
 
     public class ForgotViewModel

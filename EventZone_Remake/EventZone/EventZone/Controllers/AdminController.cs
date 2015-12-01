@@ -825,5 +825,92 @@ namespace EventZone.Controllers
             model.EventByStatus = StatisticDataHelpers.Instance.GetEventByStatus();
             return View(model);
         }
+        public ActionResult AddNewUser() {
+            return PartialView();
+        }
+        [HttpPost]
+        public ActionResult AddNewUserPost(UserCreatedByAdmin model) {
+            User admin = UserHelpers.GetCurrentAdmin(Session);
+            if (admin == null)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Require signin!",
+                    message = "You are not signed in..."
+                });
+            }
+            else if (admin.AccountStatus == EventZoneConstants.LockedUser)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Locked account",
+                    message = "Your account is locked. You cant use this feature!"
+                });
+            }
+            else if (admin.UserRoles != EventZoneConstants.RootAdmin && admin.UserRoles != EventZoneConstants.Admin)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Permission denied",
+                    message = "This feature not avaiable for you!"
+                });
+            }
+            if (admin.AccountStatus != EventZoneConstants.LockedUser)
+            {
+
+                if (ModelState.IsValid) {
+                    User newUser = UserDatabaseHelper.Instance.GetUserByUserName(model.UserName);
+                    if (newUser!=null)
+                    {
+                        //ModelState.AddModelError("", "UserName is already exist. Please choose another.");
+                        return Json(new
+                        {
+                            state = 0,
+                            message = "UserName is already exist. Please choose another."
+                        });
+                    }
+                    newUser = UserDatabaseHelper.Instance.GetUserByEmail(model.Email);
+                    if (newUser!=null)
+                    {
+                        //ModelState.AddModelError("", "Email is already registered. Please choose another.");
+                        return Json(new
+                        {
+                            state = 0,
+                            message = "Email is already registered. Please choose another."
+                        });
+                    }
+                    User user = new User
+                    {
+                        UserEmail = model.Email,
+                        UserName = model.UserName,
+                        UserPassword = model.Password,
+                        UserDOB = model.UserDOB,
+                        UserFirstName = model.UserFirstName,
+                        DataJoin = DateTime.Today,
+                        AccountStatus = EventZoneConstants.ActiveUser, //set Active account
+                        Avartar = 10032,
+                        UserRoles = EventZoneConstants.User //set UserRole
+                    };
+                    if (AdminDataHelpers.Instance.AddUser(user)) {
+                        UserDatabaseHelper.Instance.CreateUserChannel(user);
+                        return Json(new
+                        {
+                            state=1,
+                            userID= user.UserID
+                        });
+                    }
+                }
+
+            }
+            return Json(new
+            {
+                state = 0,
+                error = "Erorr",
+                message = "Something wrong! Please try again!"
+            });
+        }
     }
 }
