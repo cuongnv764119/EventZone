@@ -2,10 +2,7 @@
 @using EventZone.Models
 @{
     var user = UserHelpers.GetCurrentUser(Session);
-    if (user != null)
-    {
-        user = UserDatabaseHelper.Instance.ReloadUser(user);
-    }
+
     
     List<EventZone.Models.Category> category = CommonDataHelpers.Instance.GetAllCategory();
 }
@@ -217,13 +214,23 @@
                                     }
                                     else if (notiType == EventZoneConstants.CommentNotification) { 
                                         <li>
-                                         <a href="@Url.Action("Details", "Event", new { id=item.EventID})"><b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b> comment on a post you are following</a>
+                                            <a href="@Url.Action("Details", "Event", new { id=item.EventID})">
+                                                <b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b>
+                                                @if (EventDatabaseHelper.Instance.GetUniqueUserComment(item.EventID).Count > 1)
+                                                {
+                                                    <text>
+                                                        and  @EventDatabaseHelper.Instance.GetUniqueUserComment(item.EventID).GetRange(1, EventDatabaseHelper.Instance.GetUniqueUserComment(item.EventID).Count - 1).Count other peopel comment on a post you are following
+                                                    </text>
+
+
+                                                }
+                                            </a>
                                         </li>
+                                            
                                     }
                                     else if (notiType == EventZoneConstants.NewFollower) { 
                                         <li>
-                                          <a href="@Url.Action("Index","User")">You Have new @NotificationDataHelpers.Instance.GetNotifyByUserAndType(listNewNotification, EventZoneConstants.NewFollower,user.UserID).Count follower(s)</a>
-                                           
+                                          <a href="@Url.Action("Index","User")">You Have new @NotificationDataHelpers.Instance.GetNewUserFollowNotify(item.ActorID, user.UserID,false).Count follower(s)</a>
                                         </li>
                                     }
                                     else if (notiType == EventZoneConstants.RequestUploadImage) { 
@@ -247,9 +254,11 @@
                                     {
                                         
                                         <li>
-                                            <a href="@Url.Action("Details", "Event", new { id= item.EventID})">Your event has been reported by <b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b>
-                                            @if (EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count > 1) { <text> 
-                                            and @EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).GetRange(1, EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count-1).Count other users </text>}
+                                            <a href="@Url.Action("Details", "Event", new { id= item.EventID})">
+                                                Your event has been reported by <b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b>
+                                                @if (EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count > 1)
+                                                { <text>
+                                                    and @EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).GetRange(1, EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count - 1).Count other users </text>}
                                             </a>
                                         </li>
                                     }

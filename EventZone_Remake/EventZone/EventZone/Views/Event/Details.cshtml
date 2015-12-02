@@ -164,23 +164,24 @@
                     {
                         foreach (var item in Model.eventImage)
                         {
-                            <div class="d_each_photo">
-                                @using (Html.BeginForm("ImageDelete", "Event", FormMethod.Post))
-                                {
-                                    <input type="hidden" name="imageID" value="@item.ImageID"/>
-                                    <input type="hidden" name="eventID" value="@Model.eventId"/>
-                                    <button type="submit" class="btn btn-default">Delete</button>
-                                }
-                                <a class="lightview thumbnail" href="@item.ImageLink" data-lightview-group='imageEvent' data-lightview-title='@item.User.UserName' data-lightview-caption='@item.UploadDate.Day/@item.UploadDate.Month/@item.UploadDate.Year'>
-                                    <img class="img-responsive" src="@item.ImageLink" alt="">
-                                </a>
-                                <p class="d_photo_author">
-                                    by <i>@item.User.UserName</i> - @item.UploadDate.Day/@item.UploadDate.Month/@item.UploadDate.Year
-                                </p>
-                            </div>
+                            if (item != null)
+                            {
+                                <div class="d_each_photo">
+                                    @using (Html.BeginForm("ImageDelete", "Event", FormMethod.Post))
+                                    {
+                                        <input type="hidden" name="imageID" value="@item.ImageID" />
+                                        <input type="hidden" name="eventID" value="@Model.eventId" />
+                                        <button type="submit" class="btn btn-default">Delete</button>
+                                    }
+                                    <a class="lightview thumbnail" href="@item.ImageLink" data-lightview-group='imageEvent' data-lightview-title='@item.User.UserName' data-lightview-caption='@item.UploadDate.Day/@item.UploadDate.Month/@item.UploadDate.Year'>
+                                        <img class="img-responsive" src="@item.ImageLink" alt="">
+                                    </a>
+                                    <p class="d_photo_author">
+                                        by <i>@item.User.UserName</i> - @item.UploadDate.Day/@item.UploadDate.Month/@item.UploadDate.Year
+                                    </p>
+                                </div>
+                            }
                         }
-
-
                     }
                     <!--upload modal-->
                     <div class="modal fade" id="user-upload-image-event-modal" role="dialog">

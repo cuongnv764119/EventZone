@@ -35,11 +35,11 @@ namespace EventZone.Helpers
         /// <param name="fileContent"></param>
         /// <param name="isPublic"></param>
         /// <param name="s3Client"></param>
-        public static void FileUploadToS3(string bucketName, string fileName, Stream fileContent, bool isPublic, AmazonS3Client s3Client)
+        public static bool FileUploadToS3(string bucketName, string fileName, Stream fileContent, bool isPublic, AmazonS3Client s3Client)
         {
             if (String.IsNullOrEmpty(fileName))
             {
-                return;
+                return false;
             }
             try
             {
@@ -49,10 +49,12 @@ namespace EventZone.Helpers
                 putObjectRequest.Key = fileName;
                 putObjectRequest.InputStream = fileContent;
                 PutObjectResponse response = s3Client.PutObject(putObjectRequest);
+                return true;
             }
-            catch { 
+            catch {
+                
             }
-            
+            return false;
         }
 
       
