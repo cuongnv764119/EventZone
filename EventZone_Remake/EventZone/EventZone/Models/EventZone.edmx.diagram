@@ -4,28 +4,30 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bace88af5fd446ada6c5066b249135c3" Name="Diagram1">
-        <EntityTypeShape EntityType="EventZoneModel.Action" Width="1.5" PointX="0.75" PointY="16.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.Appeal" Width="1.5" PointX="3" PointY="22" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.Category" Width="1.5" PointX="3" PointY="25.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.CategoryFollow" Width="1.5" PointX="6" PointY="22.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.Comment" Width="1.5" PointX="6" PointY="19.125" IsExpanded="true" />
+      <Diagram DiagramId="5734859ff77f469084f5971a4fd2bed3" Name="Diagram1">
+        <EntityTypeShape EntityType="EventZoneModel.Action" Width="1.5" PointX="0.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.Appeal" Width="1.5" PointX="3" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.Category" Width="1.5" PointX="3" PointY="40.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.CategoryFollow" Width="1.5" PointX="6" PointY="23.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.Comment" Width="1.5" PointX="6" PointY="20.375" IsExpanded="true" />
         <EntityTypeShape EntityType="EventZoneModel.Channel" Width="1.5" PointX="3" PointY="28.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.Event" Width="1.5" PointX="5.25" PointY="26.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.EventFollow" Width="1.5" PointX="7.5" PointY="25.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.EventImage" Width="1.5" PointX="7.5" PointY="29.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.Event" Width="1.5" PointX="5.25" PointY="26.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.EventFollow" Width="1.5" PointX="7.5" PointY="27" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.EventImage" Width="1.5" PointX="7.5" PointY="30.25" IsExpanded="true" />
         <EntityTypeShape EntityType="EventZoneModel.EventPlace" Width="1.5" PointX="10.5" PointY="28.625" IsExpanded="true" />
         <EntityTypeShape EntityType="EventZoneModel.EventRank" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.Image" Width="1.5" PointX="3" PointY="31.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.LikeDislike" Width="1.5" PointX="8.5" PointY="22.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.Location" Width="1.5" PointX="8.25" PointY="32.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.NotificationChange" Width="1.5" PointX="11.5" PointY="24.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.PeopleFollow" Width="1.5" PointX="3" PointY="34.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.Report" Width="1.5" PointX="11.5" PointY="20.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.ReportDefine" Width="1.5" PointX="9.25" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.Share" Width="1.5" PointX="8.5" PointY="19.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.TrackingAction" Width="1.5" PointX="3" PointY="17.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="EventZoneModel.User" Width="1.5" PointX="0.75" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.Image" Width="1.5" PointX="3" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.LikeDislike" Width="1.5" PointX="8.5" PointY="23.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.Location" Width="1.5" PointX="8.25" PointY="33.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.Notification" Width="1.5" PointX="3" PointY="34.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.NotificationChange" Width="1.5" PointX="10.5" PointY="31.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.NotificationObject" Width="1.5" PointX="5.25" PointY="34.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.PeopleFollow" Width="1.5" PointX="3" PointY="37.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.Report" Width="1.5" PointX="11.5" PointY="24.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.ReportDefine" Width="1.5" PointX="9.25" PointY="18" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.Share" Width="1.5" PointX="8.5" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.TrackingAction" Width="1.5" PointX="3" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventZoneModel.User" Width="1.5" PointX="0.75" PointY="21.125" IsExpanded="true" />
         <EntityTypeShape EntityType="EventZoneModel.Video" Width="1.5" PointX="12.75" PointY="29.25" IsExpanded="true" />
         <AssociationConnector Association="EventZoneModel.FK_TrackingAction_ActorAction" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_Appeal_Event1" ManuallyRouted="false" />
@@ -51,8 +53,10 @@
         <AssociationConnector Association="EventZoneModel.FK_Gallery_User" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_User_Image" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_LikeDislike_User" ManuallyRouted="false" />
+        <AssociationConnector Association="EventZoneModel.FK_Notification_User" ManuallyRouted="false" />
+        <AssociationConnector Association="EventZoneModel.FK_NotificationObject_Notification" ManuallyRouted="false" />
+        <AssociationConnector Association="EventZoneModel.FK_NotificationChange_NotificationObject" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_NotificationChange_User" ManuallyRouted="false" />
-        <AssociationConnector Association="EventZoneModel.FK_NotificationChange_User1" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_PeopleFollow_User" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_PeopleFollow_User3" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_Report_ReportDefine" ManuallyRouted="false" />
@@ -60,7 +64,6 @@
         <AssociationConnector Association="EventZoneModel.FK_Share_User" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_TrackingAction_User2" ManuallyRouted="false" />
         <AssociationConnector Association="EventZoneModel.FK_TrackingAction_User3" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="EventZoneModel.sysdiagram" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

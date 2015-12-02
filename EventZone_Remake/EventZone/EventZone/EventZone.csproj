@@ -232,6 +232,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AppFlowMetadata.cs" />
+    <Compile Include="Helpers\CompareNotificationHelper.cs" />
     <Compile Include="Helpers\DatabaseHelpers.cs" />
     <Compile Include="Helpers\CalculateEventScoreHelpers.cs" />
     <Compile Include="Helpers\EventZoneConstants.cs" />
@@ -300,7 +301,13 @@
     <Compile Include="Models\Location.cs">
       <DependentUpon>EventZone.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Notification.cs">
+      <DependentUpon>EventZone.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\NotificationChange.cs">
+      <DependentUpon>EventZone.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotificationObject.cs">
       <DependentUpon>EventZone.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PeopleFollow.cs">
@@ -314,9 +321,6 @@
     </Compile>
     <Compile Include="Models\SearchViewModels.cs" />
     <Compile Include="Models\Share.cs">
-      <DependentUpon>EventZone.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>EventZone.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TrackingAction.cs">

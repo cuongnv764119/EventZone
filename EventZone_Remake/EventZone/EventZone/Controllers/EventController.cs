@@ -60,6 +60,7 @@ namespace EventZone.Controllers
                 newEventID.Value = newEvent.EventID.ToString();
                 newEventID.Expires=DateTime.Now.AddDays(1);
                 Response.Cookies.Add(newEventID);
+                NotificationDataHelpers.Instance.SendNotifyNewEventToFollower(UserHelpers.GetCurrentUser(Session).UserID, newEvent.EventID);
                 return RedirectToAction("Details", "Event",new{id=newEvent.EventID});
             }
             // If we got this far, something failed, redisplay form

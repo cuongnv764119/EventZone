@@ -47,6 +47,13 @@
         public static int SetAdmin = 1007;
         public static int UnSetAdmin = 1008;
 
-        
+        //Notification Type
+        public static int FollowingUserAddNewEvent = 1;
+        public static int CommentNotification = 2;
+        public static int ReportNotification = 3;
+        public static int NewFollower = 4;
+        public static int RequestUploadImage = 5;
+        public static int EventHasBeenLocked = 6;
+        public static int EventHasBeenUnLocked = 7;
     }
 }

@@ -179,6 +179,7 @@ namespace EventZone.Controllers
                 {
 
                     if (AdminDataHelpers.Instance.LockEvent(admin.UserID, eventID, reason)) {
+                        NotificationDataHelpers.Instance.SendNotiLockEvent(EventDatabaseHelper.Instance.GetAuthorEvent(eventID).UserID, admin.UserID, eventID);
                         return Json(new
                         {
                             state = 1,
@@ -214,6 +215,7 @@ namespace EventZone.Controllers
 
                     if (AdminDataHelpers.Instance.UnlockEvent(admin.UserID, eventID))
                     {
+                        NotificationDataHelpers.Instance.SendNotiUnLockEvent(EventDatabaseHelper.Instance.GetAuthorEvent(eventID).UserID, admin.UserID, eventID);
                         return Json(new
                         {
                             state = 1,

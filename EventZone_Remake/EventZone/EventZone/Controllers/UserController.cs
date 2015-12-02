@@ -164,6 +164,49 @@ namespace EventZone.Controllers
 
            );
         }
+        public JsonResult FollowUser(long userID)
+        {
+            User user = UserHelpers.GetCurrentUser(Session);
+            if (user != null)
+            {
+                if (UserDatabaseHelper.Instance.FollowPeople(user.UserID, userID)) {
+                    NotificationDataHelpers.Instance.SendNotiNewFollower(userID,user.UserID);
+                    return Json(new
+                    {
+                        state = 1,
+                        userID = userID
+                    });
+                };
+            }
+            return Json(new
+            {
+                state=0,
+                error="Error",
+                message="Something wrong! Please reload page and try again!"
+            });
+        }
+        public JsonResult UnFollowUser(long userID)
+        {
+            User user = UserHelpers.GetCurrentUser(Session);
+            if (user != null)
+            {
+                if (UserDatabaseHelper.Instance.UnFollowPeople(user.UserID, userID))
+                {
+                    return Json(new
+                    {
+                        state = 1,
+                        userID = userID
+                    });
+                };
+            }
+            return Json(new
+            {
+                state = 0,
+                error = "Error",
+                message = "Something wrong! Please reload page and try again!"
+            });
+        }
+
 
         public JsonResult FollowCategory(long categoryId)
         {
@@ -423,6 +466,8 @@ namespace EventZone.Controllers
                 Report newReport = UserDatabaseHelper.Instance.ReportEvent(user.UserID, eventId, typeReport, reportContent);
                 if (newReport != null)
                 {
+                   NotificationDataHelpers.Instance.SendNotiNewReport(EventDatabaseHelper.Instance.GetAuthorEvent(eventId).UserID, user.UserID, eventId);
+
                     return Json(new
                     {
                         state = 1,

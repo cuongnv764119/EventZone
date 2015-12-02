@@ -23,8 +23,8 @@ namespace EventZone.Models
             this.EventFollows = new HashSet<EventFollow>();
             this.Images = new HashSet<Image>();
             this.LikeDislikes = new HashSet<LikeDislike>();
+            this.Notifications = new HashSet<Notification>();
             this.NotificationChanges = new HashSet<NotificationChange>();
-            this.NotificationChanges1 = new HashSet<NotificationChange>();
             this.PeopleFollows = new HashSet<PeopleFollow>();
             this.PeopleFollows1 = new HashSet<PeopleFollow>();
             this.Reports = new HashSet<Report>();
@@ -57,8 +57,8 @@ namespace EventZone.Models
         public virtual ICollection<Image> Images { get; set; }
         public virtual Image Image { get; set; }
         public virtual ICollection<LikeDislike> LikeDislikes { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
         public virtual ICollection<NotificationChange> NotificationChanges { get; set; }
-        public virtual ICollection<NotificationChange> NotificationChanges1 { get; set; }
         public virtual ICollection<PeopleFollow> PeopleFollows { get; set; }
         public virtual ICollection<PeopleFollow> PeopleFollows1 { get; set; }
         public virtual ICollection<Report> Reports { get; set; }

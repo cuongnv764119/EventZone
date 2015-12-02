@@ -1,9 +1,11 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using EventZone.Models;
 namespace EventZone.Helpers
 {
     public class EventZoneUtility : SingletonBase<EventZoneUtility>
@@ -52,6 +54,8 @@ namespace EventZone.Helpers
             }
             
         }
+
+      
 
     }
 }

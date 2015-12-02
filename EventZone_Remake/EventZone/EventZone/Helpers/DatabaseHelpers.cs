@@ -23,6 +23,7 @@ using Quartz.Util;
 
 namespace EventZone.Helpers
 {
+
     /// <summary>
     ///     All functions related to User
     /// </summary>
@@ -253,8 +254,8 @@ namespace EventZone.Helpers
             var people =
                 (from a in db.PeopleFollows
                  where a.FollowerUserID == FollowerID && a.FollowingUserID == FollowingID
-                 select a).ToList()[0];
-            if (people != null)
+                 select a).ToList();
+            if (people != null&&people.Count>0)
             {
                 return true;
             }
@@ -267,11 +268,10 @@ namespace EventZone.Helpers
         /// <param name="FollowerID"></param>
         /// <param name="FollowingID"></param>
         /// <returns></returns>
-        public bool FollowingPeople(long FollowerID, long FollowingID)
+        public bool FollowPeople(long FollowerID, long FollowingID)
         {
             try
             {
-                
                 var ppfollow = new PeopleFollow();
                 ppfollow.FollowerUserID = FollowerID;
                 ppfollow.FollowingUserID = FollowingID;
@@ -316,9 +316,8 @@ namespace EventZone.Helpers
             try
             {
                 var evtFollow =
-                    (from a in db.EventFollows where a.FollowerID == userID && a.EventID == eventID select a).ToList()[0
-                        ];
-                if (evtFollow != null)
+                    (from a in db.EventFollows where a.FollowerID == userID && a.EventID == eventID select a).ToList();
+                if (evtFollow != null&&evtFollow.Count>0)
                 {
                     return true;
                 }
@@ -734,7 +733,7 @@ namespace EventZone.Helpers
                 return false;
             }
         }
-        public string GetUserDisplayName(long UserID) {
+        public string GetUserDisplayName(long? UserID) {
             string result = "";
             try {
                 User user = GetUserByID(UserID);
@@ -857,6 +856,24 @@ namespace EventZone.Helpers
             return false;
         }
 
+        /// <summary>
+        /// UnFollow user
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="userID"></param>
+        /// <returns></returns>
+        public bool UnFollowPeople(long followerID, long followingID)
+        {
+            try
+            {
+                PeopleFollow followingUser = (from a in db.PeopleFollows where a.FollowerUserID == followerID && a.FollowingUserID == followingID select a).ToList()[0];
+                db.PeopleFollows.Remove(followingUser);
+                db.SaveChanges();
+                return true;
+            }
+            catch { } 
+            return false;
+        }
     }
 
     /// <summary>
@@ -1376,8 +1393,9 @@ namespace EventZone.Helpers
         /// <summary>
         /// get all reports of an event
         /// </summary>
+        /// <param name="userID"><param>
         /// <returns></returns>
-        public List<Report> GetEventReport(long eventID, int type=-1,long userID=-1) {
+        public List<Report> GetEventReport(long? eventID, int type=-1,long senderID=-1) {
             List<Report> result = new List<Report>();
             try {
                 result = (from a in db.Reports where a.EventID == eventID select a).ToList();
@@ -1386,9 +1404,9 @@ namespace EventZone.Helpers
                     result.RemoveAll(o => o.ReportStatus != type);
 
                 }
-                if (userID != -1)
+                if (senderID != -1)
                 {
-                    result=result.FindAll(o => o.SenderID == userID);
+                    result = result.FindAll(o => o.SenderID == senderID);
                 }
                 foreach (var item in result) {
                     db.Entry(item).Reload();
@@ -2925,6 +2943,274 @@ namespace EventZone.Helpers
             }
             return result;
         }
- 
+    }
+
+    public class NotificationDataHelpers : SingletonBase<NotificationDataHelpers> {
+        private static EventZoneEntities db;
+        private NotificationDataHelpers() {
+            db = new EventZoneEntities();
+        }
+        /// <summary>
+        /// Get User notification and descending sort by created date
+        /// </summary>
+        /// <param name="isRead"> isRead= true meaning select all notification, esle select only unread notification</param>
+        /// <returns></returns>
+        public List<NotificationChange> GetUserNotification(long userID, bool isRead= true) {
+            List<NotificationChange> listNotification = new List<NotificationChange>();
+            try {
+               List<NotificationObject> listNotiObject= (from a in db.Notifications join b in db.NotificationObjects on a.ID equals b.NotificationID where a.UserID==userID select b).ToList();
+
+               foreach (var item in listNotiObject)
+               {
+
+                   List<NotificationChange> list = (from a in db.NotificationChanges join b in db.NotificationObjects on a.NotificationObjectID equals b.ID where b.ID==item.ID select a).ToList();
+                    listNotification.AddRange(list);
+                }
+               listNotification=listNotification.Distinct().ToList();
+
+                if (!isRead) {
+                    listNotification.RemoveAll(r => r.IsRead == true);
+                }
+                return listNotification;
+            }
+            catch { }
+            return listNotification;
+        }
+        /// <summary>
+        /// Get notification type
+        /// </summary>
+        /// <returns></returns>
+        public NotificationObject GetNotificationObjectByID(long? notificationObjectID)
+        {
+            NotificationObject result = new NotificationObject();
+            try {
+                result = db.NotificationObjects.Find(notificationObjectID);
+            }
+            catch { }
+            return result;
+        }
+        public Notification GetNotifycationByUser(long userID)
+        {
+            try {
+                Notification result = (from a in db.Notifications where a.UserID == userID select a).ToList()[0];
+                return result;
+            }
+            catch { }
+            return null;
+        }
+        public NotificationObject GetNotificationObjectByType(int type,long userID) {
+            NotificationObject result = new NotificationObject();
+            try {
+                Notification noti= GetNotifycationByUser(userID);
+                if(noti!=null){
+                result = (from a in db.NotificationObjects where a.Type == type &&  a.NotificationID==noti.ID select a).ToList()[0];
+                }
+            }
+            catch { }
+            return result;
+        }
+        /// <summary>
+        /// count total notification of user
+        /// </summary>
+        /// <returns></returns>
+        public int CountTotalNewNotification(long userID) {
+
+            int result = 0;
+            try {
+                List<NotificationChange> listNewNotification = GetUserNotification(userID, false);
+                List<NotificationChange> listNotificationNewEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.FollowingUserAddNewEvent,userID);
+                List<NotificationChange> listNotificationNewFollower = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.NewFollower,userID);
+                List<NotificationChange> listNotificationLockEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.EventHasBeenLocked,userID);
+                List<NotificationChange> listNotificationUnLockEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.EventHasBeenUnLocked,userID);
+                List<NotificationChange> listNotificationRequestUpImage = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.RequestUploadImage,userID);
+                List<NotificationChange> listNotificationNewReport = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.ReportNotification,userID);
+                List<NotificationChange> listNotificationNewComment = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.CommentNotification,userID);
+                result = listNotificationNewEvent.Count + listNotificationLockEvent.Count + listNotificationUnLockEvent.Count;
+
+                result = result + listNotificationNewFollower.GroupBy(info => new { info.ActorID })
+                                  .Select(group=>new 
+                                  {     Key = group.Key,
+                                        Count = group.Count()
+                                  }).OrderBy(x => x.Key).ToList().Count;
+                ///count number request upload image to event group by event and user
+                result = result + listNotificationRequestUpImage.GroupBy(info => new { info.EventID, info.ActorID })
+                                    .Select(group => new
+                                    {
+                                        Key = group.Key,
+                                        Count = group.Count()
+                                    })
+                                    .OrderBy(x => x.Key).ToList().Count;
+                // count number comment group by event and user
+                result = result + listNotificationNewComment.GroupBy(info => new { info.EventID, info.ActorID })
+                                    .Select(group => new
+                                    {
+                                        Key = group.Key,
+                                        Count = group.Count()
+                                    })
+                                    .OrderBy(x => x.Key).ToList().Count;
+                // count number report group by event
+                result = result + listNotificationNewReport.GroupBy(info => new { info.EventID})
+                                    .Select(group => new
+                                    {
+                                        Key = group.Key,
+                                        Count = group.Count()
+                                    })
+                                    .OrderBy(x => x.Key).ToList().Count;
+
+            }
+            catch { }
+            return result;
+        }
+        /// <summary>
+        /// get notification by type from list
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public List<NotificationChange> GetNotifyByUserAndType(List<NotificationChange> list, int type, long userID)
+        {
+            List<NotificationChange> result = list;
+            
+            try
+            {
+                long notificationObjectID = GetNotificationObjectByType(type,userID).ID;
+                result = result.FindAll(o => o.NotificationObjectID == notificationObjectID);
+            }
+            catch { }
+            return result;
+        }
+        //public static int FollowingUserAddNewEvent = 1;
+        //public static int CommentNotification = 2;
+        //public static int ReportNotification = 3;
+        //public static int NewFollower = 4;
+        //public static int RequestUploadImaeg = 5;
+        //public static int EventHasBeenLocked = 6;
+        //public static int EventHasBeenUnLocked = 7;
+
+        public bool AddNotification(long receiverID, int type, long? actorID, long? eventID) {
+            try
+            {
+                List<Notification> listNoti= (from a in db.Notifications where a.UserID == receiverID select a).ToList();
+                Notification noti = new Notification();
+                if (listNoti == null ||listNoti.Count==0)
+                {
+                    noti = new Notification { UserID = receiverID };
+                    db.Notifications.Add(noti);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    noti = listNoti[0];
+                }
+                List<NotificationObject> listNotiObject = (from a in db.NotificationObjects where a.NotificationID == noti.ID && a.Type == type select a).ToList();
+                NotificationObject notiobject = new NotificationObject();
+                if (listNotiObject == null || listNotiObject.Count == 0)
+                {
+                    notiobject = new NotificationObject { NotificationID = noti.ID, Type = type };
+                    db.NotificationObjects.Add(notiobject);
+                    db.SaveChanges();
+                }
+                else {
+                    notiobject = listNotiObject[0];
+                }
+                NotificationChange newNotify = new NotificationChange();
+                newNotify.CreatedDate = DateTime.Now;
+                newNotify.IsRead = false;
+                newNotify.NotificationObjectID = notiobject.ID;
+                if (actorID != null)
+                {
+                    newNotify.ActorID = actorID;
+                }
+                if (eventID != null)
+                {
+                    newNotify.EventID = eventID;
+                }
+                db.NotificationChanges.Add(newNotify);
+                db.SaveChanges();
+                return true;
+            }
+            catch { }
+            return false;               
+
+        }
+        public List<NotificationChange> RemoveDupilicateNotify (List<NotificationChange> listNewNotification,long userID){
+            List<NotificationChange> result = listNewNotification;
+
+            try {
+                List<NotificationChange> listNotificationNewEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.FollowingUserAddNewEvent, userID);
+                List<NotificationChange> listNotificationNewFollower = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.NewFollower, userID);
+                List<NotificationChange> listNotificationLockEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.EventHasBeenLocked, userID);
+                List<NotificationChange> listNotificationUnLockEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.EventHasBeenUnLocked, userID);
+                List<NotificationChange> listNotificationRequestUpImage = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.RequestUploadImage, userID);
+                List<NotificationChange> listNotificationNewReport = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.ReportNotification, userID);
+                List<NotificationChange> listNotificationNewComment = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.CommentNotification, userID);
+                result = listNotificationNewEvent;
+                listNotificationNewFollower=listNotificationNewFollower.Distinct(new GroupByActorNotfication()).ToList();
+                result.AddRange(listNotificationNewFollower);
+                result.AddRange(listNotificationLockEvent);
+                result.AddRange(listNotificationUnLockEvent);
+                listNotificationRequestUpImage=listNotificationRequestUpImage.Distinct(new GroupByActorIdAndEventID()).ToList();
+                result.AddRange(listNotificationRequestUpImage);
+                listNotificationNewReport = listNotificationNewReport.Distinct(new GroupByEventIDNotification()).ToList();
+                result.AddRange(listNotificationNewReport);
+                listNotificationNewComment = listNotificationNewComment.Distinct(new GroupByActorIdAndEventID()).ToList();
+                result.AddRange(listNotificationNewComment);
+                result= result.OrderBy(o => o.CreatedDate).ToList();
+            }
+            catch { }
+            return result;  
+        
+        }
+        /// <summary>
+        /// Get new user report to event
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="receiverID"></param>
+        /// <param name="actorID"></param>
+        /// <returns></returns>
+        public List<User> GetNewUserReportToEvent(long eventID,long receiverID, bool isRead){
+
+            List<NotificationChange> listNoti = GetUserNotification(receiverID,isRead);
+            List<NotificationChange> listNotificationNewReport = GetNotifyByUserAndType(listNoti, EventZoneConstants.ReportNotification, receiverID);
+            List<User> result=new List<User>();
+            listNotificationNewReport = listNotificationNewReport.Distinct(new GroupByEventIDNotification()).ToList();
+            foreach (var item in listNotificationNewReport)
+            {
+                User user = db.Users.Find(item.ActorID);
+                result.Add(user);
+            }
+            result.Distinct();
+            return result;
+        } 
+        /// <summary>
+        /// send notify new event is created to all follower
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <param name="EventID"></param>
+        public void SendNotifyNewEventToFollower(long actorID,long eventID)
+        {
+            List<User> listFollowingUser = UserDatabaseHelper.Instance.GetListFollowerOfUser(actorID);
+            foreach (var item in listFollowingUser) {
+                AddNotification(item.UserID, EventZoneConstants.FollowingUserAddNewEvent, actorID, eventID);
+            }
+        }
+        /// <summary>
+        /// send notify that recever has new follower
+        /// </summary>
+        public void SendNotiNewFollower(long receiverID, long actorID)
+        {
+            AddNotification(receiverID, EventZoneConstants.NewFollower, actorID,null);
+        }
+        public void SendNotiNewReport(long receiverID, long actorID, long eventID) {
+            AddNotification(receiverID, EventZoneConstants.ReportNotification, actorID, eventID);
+        }
+        public void SendNotiLockEvent(long receiverID, long actorID, long eventID) {
+            AddNotification(receiverID, EventZoneConstants.EventHasBeenLocked, actorID, eventID);
+        }
+
+        public void SendNotiUnLockEvent(long receiverID, long actorID, long eventID)
+        {
+            AddNotification(receiverID, EventZoneConstants.EventHasBeenUnLocked, actorID, eventID);
+        }
     }
 }

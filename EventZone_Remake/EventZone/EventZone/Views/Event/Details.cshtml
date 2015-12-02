@@ -425,8 +425,30 @@
                             @Html.Action("ViewReport", "User", new { eventID = Model.eventId, type = -1, userID = user.UserID })
                         </div>
                     }
+                    else
+                    {
+                        <div class="d_reasons_container">
+
+
+                            @foreach (var item in CommonDataHelpers.Instance.GetAllReportType())
+                            {
+                                <div class="radio">
+                                    <label><input type="radio" name="reportRadio" value=@item.ReportTypeID>@item.ReportTypeName</label>
+                                </div>
+                            }
+
+                            <div class="form-group d_write_report">
+                                <textarea id="i_report_box"
+                                          class="form-control" rows="1"
+                                          placeholder="Write your reason..."></textarea>
+                                <button type="button" class="btn btn-success" id="btn-report-send">
+                                    <span class="glyphicon glyphicon-send"></span>
+                                </button>
+                            </div>
+                        </div>
+                    }
                 }
-                else if(user==null||user.UserID != EventDatabaseHelper.Instance.GetAuthorEvent(Model.eventId).UserID)
+                else if (user == null || user.UserID != EventDatabaseHelper.Instance.GetAuthorEvent(Model.eventId).UserID)
                 {
                     <div class="d_reasons_container">
             

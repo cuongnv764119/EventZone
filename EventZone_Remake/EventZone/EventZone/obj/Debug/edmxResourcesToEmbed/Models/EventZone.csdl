@@ -84,6 +84,7 @@
     <Property Name="EditTime" Type="DateTime" Precision="3" />
     <Property Name="EditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="LockedReason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Appeals" Relationship="Self.FK_Appeal_Event1" FromRole="Event" ToRole="Appeal" />
     <NavigationProperty Name="Category" Relationship="Self.FK_Event_Category" FromRole="Event" ToRole="Category" />
     <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_Event1" FromRole="Event" ToRole="Comment" />
@@ -95,7 +96,6 @@
     <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_Event" FromRole="Event" ToRole="NotificationChange" />
     <NavigationProperty Name="Reports" Relationship="Self.FK_Report_Event" FromRole="Event" ToRole="Report" />
     <NavigationProperty Name="Shares" Relationship="Self.FK_Share_Event1" FromRole="Event" ToRole="Share" />
-    <Property Name="LockedReason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="EventFollow">
     <Key>
@@ -168,21 +168,38 @@
     <Property Name="LocationName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="EventPlaces" Relationship="Self.FK_EventPlace_Location" FromRole="Location" ToRole="EventPlace" />
   </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Notification_User" FromRole="Notification" ToRole="User" />
+    <NavigationProperty Name="NotificationObjects" Relationship="Self.FK_NotificationObject_Notification" FromRole="Notification" ToRole="NotificationObject" />
+  </EntityType>
   <EntityType Name="NotificationChange">
     <Key>
       <PropertyRef Name="ID" />
     </Key>
     <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="NotificationID" Type="Int64" />
-    <Property Name="EventID" Type="Int64" />
+    <Property Name="NotificationObjectID" Type="Int64" Nullable="false" />
     <Property Name="ActorID" Type="Int64" />
-    <Property Name="AddDate" Type="DateTime" Precision="0" />
+    <Property Name="EventID" Type="Int64" />
     <Property Name="IsRead" Type="Boolean" Nullable="false" />
-    <Property Name="Type" Type="Int32" />
-    <Property Name="ReveiverID" Type="Int64" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
     <NavigationProperty Name="Event" Relationship="Self.FK_NotificationChange_Event" FromRole="NotificationChange" ToRole="Event" />
+    <NavigationProperty Name="NotificationObject" Relationship="Self.FK_NotificationChange_NotificationObject" FromRole="NotificationChange" ToRole="NotificationObject" />
     <NavigationProperty Name="User" Relationship="Self.FK_NotificationChange_User" FromRole="NotificationChange" ToRole="User" />
-    <NavigationProperty Name="User1" Relationship="Self.FK_NotificationChange_User1" FromRole="NotificationChange" ToRole="User" />
+  </EntityType>
+  <EntityType Name="NotificationObject">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NotificationID" Type="Int64" Nullable="false" />
+    <Property Name="Type" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Notification" Relationship="Self.FK_NotificationObject_Notification" FromRole="NotificationObject" ToRole="Notification" />
+    <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_NotificationObject" FromRole="NotificationObject" ToRole="NotificationChange" />
   </EntityType>
   <EntityType Name="PeopleFollow">
     <Key>
@@ -272,8 +289,8 @@
     <NavigationProperty Name="Images" Relationship="Self.FK_Gallery_User" FromRole="User" ToRole="Image" />
     <NavigationProperty Name="Image" Relationship="Self.FK_User_Image" FromRole="User" ToRole="Image" />
     <NavigationProperty Name="LikeDislikes" Relationship="Self.FK_LikeDislike_User" FromRole="User" ToRole="LikeDislike" />
+    <NavigationProperty Name="Notifications" Relationship="Self.FK_Notification_User" FromRole="User" ToRole="Notification" />
     <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_User" FromRole="User" ToRole="NotificationChange" />
-    <NavigationProperty Name="NotificationChanges1" Relationship="Self.FK_NotificationChange_User1" FromRole="User" ToRole="NotificationChange" />
     <NavigationProperty Name="PeopleFollows" Relationship="Self.FK_PeopleFollow_User" FromRole="User" ToRole="PeopleFollow" />
     <NavigationProperty Name="PeopleFollows1" Relationship="Self.FK_PeopleFollow_User3" FromRole="User" ToRole="PeopleFollow" />
     <NavigationProperty Name="Reports" Relationship="Self.FK_Report_User" FromRole="User" ToRole="Report" />
@@ -584,6 +601,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Notification_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Notification">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NotificationObject_Notification">
+    <End Role="Notification" Type="Self.Notification" Multiplicity="1" />
+    <End Role="NotificationObject" Type="Self.NotificationObject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Notification">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NotificationObject">
+        <PropertyRef Name="NotificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NotificationChange_NotificationObject">
+    <End Role="NotificationObject" Type="Self.NotificationObject" Multiplicity="1" />
+    <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NotificationObject">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NotificationChange">
+        <PropertyRef Name="NotificationObjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_NotificationChange_User">
     <End Role="User" Type="Self.User" Multiplicity="0..1" />
     <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
@@ -593,18 +646,6 @@
       </Principal>
       <Dependent Role="NotificationChange">
         <PropertyRef Name="ActorID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_NotificationChange_User1">
-    <End Role="User" Type="Self.User" Multiplicity="0..1" />
-    <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="NotificationChange">
-        <PropertyRef Name="ReveiverID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -707,7 +748,9 @@
     <EntitySet Name="Images" EntityType="Self.Image" />
     <EntitySet Name="LikeDislikes" EntityType="Self.LikeDislike" />
     <EntitySet Name="Locations" EntityType="Self.Location" />
+    <EntitySet Name="Notifications" EntityType="Self.Notification" />
     <EntitySet Name="NotificationChanges" EntityType="Self.NotificationChange" />
+    <EntitySet Name="NotificationObjects" EntityType="Self.NotificationObject" />
     <EntitySet Name="PeopleFollows" EntityType="Self.PeopleFollow" />
     <EntitySet Name="Reports" EntityType="Self.Report" />
     <EntitySet Name="ReportDefines" EntityType="Self.ReportDefine" />
@@ -811,11 +854,19 @@
       <End Role="User" EntitySet="Users" />
       <End Role="LikeDislike" EntitySet="LikeDislikes" />
     </AssociationSet>
-    <AssociationSet Name="FK_NotificationChange_User" Association="Self.FK_NotificationChange_User">
+    <AssociationSet Name="FK_Notification_User" Association="Self.FK_Notification_User">
       <End Role="User" EntitySet="Users" />
+      <End Role="Notification" EntitySet="Notifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NotificationObject_Notification" Association="Self.FK_NotificationObject_Notification">
+      <End Role="Notification" EntitySet="Notifications" />
+      <End Role="NotificationObject" EntitySet="NotificationObjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NotificationChange_NotificationObject" Association="Self.FK_NotificationChange_NotificationObject">
+      <End Role="NotificationObject" EntitySet="NotificationObjects" />
       <End Role="NotificationChange" EntitySet="NotificationChanges" />
     </AssociationSet>
-    <AssociationSet Name="FK_NotificationChange_User1" Association="Self.FK_NotificationChange_User1">
+    <AssociationSet Name="FK_NotificationChange_User" Association="Self.FK_NotificationChange_User">
       <End Role="User" EntitySet="Users" />
       <End Role="NotificationChange" EntitySet="NotificationChanges" />
     </AssociationSet>
@@ -847,16 +898,5 @@
       <End Role="User" EntitySet="Users" />
       <End Role="TrackingAction" EntitySet="TrackingActions" />
     </AssociationSet>
-    <EntitySet Name="sysdiagrams" EntityType="EventZoneModel.sysdiagram" />
   </EntityContainer>
-  <EntityType Name="sysdiagram">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-  </EntityType>
 </Schema>

@@ -79,7 +79,10 @@
                                 </div>
                             </div>
                           }
-
+                          else
+                          {
+                            <center>  <button id="i_follow_user"class="btn btn-primary btn-sm">@if (currentUser != null && currentUser != user && UserDatabaseHelper.Instance.IsFollowingUser(currentUser.UserID, user.UserID)) { <span id="btn-following" onclick="Unfollow(@user.UserID)">Following</span>}else{<span id="btn-follow" onclick="Follow(@user.UserID)">Follow</span>}</button></center>
+                          }
                         </div>
                         <div class="d_info">
                             <div class="d_user_name">
@@ -359,6 +362,49 @@
     </div>
 </div>
 <script>
+    function Follow(userID) {
+        if('@currentUser'==null||'@currentUser'==""){
+            errorShow("Require signin!","Please signin to follow this user!")
+        }else{
+            $.ajax({
+                url:"/User/FollowUser",
+                type:"post",
+                dataType:"json",
+                data:{userID:userID},
+                success: function(data){
+                    if(data.state==0){
+                        errorShow(data.error,data.message)
+                    }else{
+                        $("#i_follow_user").html('<span id="btn-following" onclick="Unfollow('+data.userID+')">Following</span>')
+                    }
+                },
+                error: function(){
+                    errorShow("Failed Connection!","Failed to connect to server! Please try again later!")
+                }
+            })
+        }
+    }
+
+
+    function Unfollow(userID){
+        $.ajax({
+            url:"/User/UnFollowUser",
+            type:"post",
+            dataType:"json",
+            data:{userID:userID},
+            success: function(data){
+                if(data.state==0){
+                    errorShow(data.error,data.message)
+                }else{
+                    $("#i_follow_user").html('<span id="btn-follow" onclick="Follow('+data.userID+')">Follow</span>')
+                }
+            },
+            error: function(){
+                errorShow("Failed Connection!","Failed to connect to server! Please try again later!")
+            }
+        })
+    }
+
     function handleFileSelect(evt) {
         var files = evt.target.files; // FileList object
 

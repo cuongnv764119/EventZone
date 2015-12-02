@@ -12,12 +12,17 @@ namespace EventZone.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class Notification
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public Notification()
+        {
+            this.NotificationObjects = new HashSet<NotificationObject>();
+        }
+    
+        public long ID { get; set; }
+        public long UserID { get; set; }
+    
+        public virtual User User { get; set; }
+        public virtual ICollection<NotificationObject> NotificationObjects { get; set; }
     }
 }
