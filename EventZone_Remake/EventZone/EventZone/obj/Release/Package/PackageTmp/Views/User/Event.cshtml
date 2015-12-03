@@ -1,0 +1,375 @@
+﻿@model EventZone.Models.User
+@using EventZone.Models
+@using EventZone.Helpers
+@{
+    ViewBag.Title = "Event";
+    User curUser = UserHelpers.GetCurrentUser(Session);
+    User viewingUser = Model as User;
+    if (curUser == null && viewingUser == null) {
+        Response.Redirect("~/Home");
+    }
+    bool isOwner= false;
+    if(curUser==viewingUser){
+        isOwner=true;
+    }
+}
+<link href="~/Content/User/myCSS_u_m_e.css" rel="stylesheet" />
+<div style="padding-top: 100px"> 
+<div class=" d_left_side">
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#i_tab_event" data-toggle="tab">Events (@UserDatabaseHelper.Instance.CountOwnedEvent(viewingUser.UserID, isOwner))</a></li>
+        @if(isOwner)
+        {
+            <li><a href="#i_tab_report" data-toggle="tab">Pending reported event (@UserDatabaseHelper.Instance.GetAllEventHasReports(curUser.UserID).Count)</a></li>
+        }
+    </ul>
+    <div class="tab-content i_tab_event">
+        <!-- Khung chứa Events -->
+        <div class="tab-pane active" id="i_tab_event">
+            <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#i_md_filter" id="i_btn_e_filter">
+                Filter
+            </button>
+            <div class="d_events_cover">
+                @if (UserDatabaseHelper.Instance.CountOwnedEvent(viewingUser.UserID, isOwner) > 0)
+                {
+                    List<Event> listEvent = UserDatabaseHelper.Instance.GetUserEvent(viewingUser.UserID, -1, isOwner);
+                    for (int i = 0; i < listEvent.Count; i++)
+                    {
+                        Event currentEvent = listEvent[i];
+                        <div class="d_each_event">
+                            <div class="d_thumb">
+                                <img src="@EventDatabaseHelper.Instance.GetImageByID(currentEvent.Avatar).ImageLink">
+                            </div>
+                            <div class="d_info">
+                                <div class="d_title">
+                                    @Html.ActionLink(currentEvent.EventName, "Details", "Event", new { id = currentEvent.EventID }, new { target = "_blank" })
+                                </div>
+                                <div class="d_time_left">
+                                    Start in @currentEvent.EventStartDate.ToString()
+                                </div>
+                            </div>
+                            <button class="btn btn-success btn-xs">Edit</button>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        @if (isOwner)
+        {
+            <div class="tab-pane" id="i_tab_report">
+                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#i_md_filter" id="i_btn_e_filter">
+                    Filter
+                </button>
+                <div class="d_events_cover">
+                    @if (UserDatabaseHelper.Instance.GetAllEventHasReports(curUser.UserID).Count > 0)
+                    {
+                        List<Event> listEventHasReports = UserDatabaseHelper.Instance.GetAllEventHasReports(curUser.UserID);
+                        for (int i = 0; i < listEventHasReports.Count; i++)
+                        {
+                            Event item = listEventHasReports[i];
+                            <div class="d_each_event">
+                                <div class="d_thumb">
+                                    <img src="@EventDatabaseHelper.Instance.GetImageByID(item.Avatar).ImageLink">
+                                </div>
+                                <div class="d_info">
+                                    <div class="d_title">
+                                        @Html.ActionLink(item.EventName, "Details", "Event", new { id = item.EventID }, new { target = "_blank" })
+                                    </div>
+                                    <div>
+                                        All report:<a href="#" data-toggle="modal" data-target="#all-report-@item.EventID--1"><i>@EventDatabaseHelper.Instance.GetListReportOfEvent(item.EventID).Count</i></a>
+                                        @Html.Action("ViewReport","User",new {eventID=item.EventID})
+                                    </div>
+                                    @if (EventDatabaseHelper.Instance.GetEventAppeal(item.EventID) != null && EventDatabaseHelper.Instance.GetEventAppeal(item.EventID).Count>0)
+                                    {
+                                        <div>
+                                            All Appeal:<a href="#" data-toggle="modal" data-target="#all-appeal-@item.EventID--1"><i>@EventDatabaseHelper.Instance.GetEventAppeal(item.EventID).Count</i></a>
+                                            @Html.Action("ViewAppeal", "User", new { eventID = item.EventID })
+                                        </div>
+                                    }
+                                    
+                                    @if (item.Status == EventZoneConstants.Active)
+                                    {
+                                        if (EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending) != null && EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count >0)
+                                        {
+                                            <div>
+                                                Pending report:<a href="#" data-toggle="modal" data-target="#all-report-@item.EventID-@EventZoneConstants.Pending"><i>@EventDatabaseHelper.Instance.GetListReportOfEvent(item.EventID).FindAll(a => a.ReportStatus == EventZoneConstants.Pending).ToList().Count</i></a>
+                                                @Html.Action("ViewReport", "User", new { eventID = item.EventID, type=EventZoneConstants.Pending })
+                                            </div>
+                                        }
+
+                                        <div>Status: Active</div>
+                                        if (UserDatabaseHelper.Instance.AppealSuccess(item.EventID) && @EventDatabaseHelper.Instance.GetListReportOfEvent(item.EventID).FindAll(a => a.ReportStatus == EventZoneConstants.Pending).ToList().Count==0)
+                                        {
+                                            <div>Congrazts! We have reviewed your event again and determine that your event is satisfy with our TOS, so we decided make it available again! Thanks you for contact with us! </div>
+                                        }
+                                    }
+                                    @if (item.Status == EventZoneConstants.Lock) { 
+                                        <div>Status: Locked</div>
+                                        <div>Reason: @item.LockedReason</div>
+                                        
+                                        if (EventDatabaseHelper.Instance.GetEventAppeal(item.EventID, EventZoneConstants.Pending) != null && EventDatabaseHelper.Instance.GetEventAppeal(item.EventID, EventZoneConstants.Pending).Count!=0)
+                                        {
+                                            <div>
+                                                You appeal current be reviewing! Click <a href="#" data-toggle="modal" data-target="#all-appeal-@item.EventID-@EventZoneConstants.Pending">here</a> to view detail
+                                               @Html.Action("ViewAppeal", "User", new { eventID = item.EventID , type=EventZoneConstants.Pending})
+                                            </div>
+                                        
+                                        }
+                                        else if (UserDatabaseHelper.Instance.AppealFailed(item.EventID)) { 
+                                            <div>
+                                                We have reviewed your appeal and decided still lock your event because it againts our TOS. Please read clearly our TOS before upload an event
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div id="pannel-button-appeal-@item.EventID">
+                                            <div id="appeal-panel-@item.EventID"><button data-toggle="modal" data-target="#i_appeal_modal_@item.EventID">Appeal</button></div>
+                                                <div id="i_appeal_modal_@item.EventID" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">
+                                                                    Appeal Panel
+                                                                </h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <input hidden id="eventID" />
+                                                                Content:
+                                                                <textarea id="appeal-content_@item.EventID"></textarea>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button onclick="SendAppeal(@item.EventID)">Send</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               </div>
+                                        }
+
+                                    }
+                                    
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+        <!-- Khung chứa Reported Event -->
+        
+    </div>
+</div>
+    
+<div class="d_right_side">
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#i_tab_stat" data-toggle="tab">Statistics</a></li>
+    </ul>
+    <div class="tab-content d_tab_stat">
+        <!-- Khung chứa User info -->
+        <div class="tab-pane active" id="i_tab_stat">
+            <div class="d_stat_cover">
+                <div class="d_each_stat">
+                    <div class="d_number">
+                        20
+                    </div>
+                    <div class="d_number_info">
+                        Tổng số Sự kiện
+                    </div>
+                </div>
+                <div class="d_each_stat">
+                    <div class="d_number">
+                        5
+                    </div>
+                    <div class="d_number_info">
+                        Sự kiện trực tiếp
+                    </div>
+                </div>
+                <div class="d_each_stat">
+                    <div class="d_number">
+                        4
+                    </div>
+                    <div class="d_number_info">
+                        hello
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Filter -->
+<div class="modal fade d_modal" id="i_md_filter" role="dialog">
+    <div class="modal-dialog" style="margin-top: 60px;">
+
+        <!-- Modal content-->
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="panel-title">Filter</div>
+            </div>
+            <div style="padding-top:10px" class="panel-body">
+                <div class="cover_all_functions" style="text-align: -webkit-center;">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 100px">Criteria</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Search
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" id="" placeholder="">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Category</td>
+                                    <td>
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d_checkbox" style="width: 200px;">
+                                                            <label><input type="checkbox" value="" id="i_chbox_All" class="item_checked">  All</label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d_checkbox">
+                                                            <label><input type="checkbox" value="" id="i_chbox_Music" class="item_checked">  Music</label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d_checkbox">
+                                                            <label><input type="checkbox" value="" id="i_chbox_FaD" class="item_checked">  Food and Drink</label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d_checkbox">
+                                                            <label><input type="checkbox" value="" id="i_chbox_Classes" class="item_checked">  Classes</label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d_checkbox">
+                                                            <label><input type="checkbox" value="" id="i_chbox_Arts" class="item_checked"> Arts</label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d_checkbox">
+                                                            <label><input type="checkbox" value="" id="i_chbox_Parties" class="item_checked">  Parties</label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="d_checkbox">
+                                                            <label><input type="checkbox" value="" id="i_chbox_SaW" class="item_checked">  Sports and wellness</label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d_checkbox">
+                                                            <label><input type="checkbox" value="" id="i_chbox_Networking" class="item_checked">  Networking</label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Location</td>
+                                    <td>
+                                        <input type="text" class="form-control" id="" placeholder="Eg: Hà Nội">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Streaming</td>
+                                    <td>
+                                        <input type="checkbox">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Date</td>
+                                    <td>
+                                        <div>
+                                            <div class="radio-inline">
+                                                <label><input type="radio" name="optradio" checked="true">Today</label>
+                                            </div>
+                                            <div class="radio-inline">
+                                                <label><input type="radio" name="optradio">3 next days</label>
+                                            </div>
+                                            <div class="radio-inline">
+                                                <label><input type="radio" name="optradio">7 next days</label>
+                                            </div>
+                                        </div>
+                                        <div class="input-daterange input-group" id="date">
+                                            <input type="date" class="input-sm form-control" name="start" />
+                                            <span class="input-group-addon">to</span>
+                                            <input type="date" class="input-sm form-control" name="end" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <form id="loginform" class="form-horizontal" role="form">
+                        <div class="form-group d_md_ad_search">
+                            <a href="#" class="btn btn-success">Look around!</a>
+                            <a href="#" class="btn btn-success">Search</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    function SendAppeal(eventID) {
+        var contentAppeal = $("#appeal-content_"+eventID).val();
+        if (eventID == null || eventID == "") {
+            $(".modal").modal("hide");
+            errorShow("error","Could not found event!")
+        } else if (contentAppeal == null || contentAppeal == "") {
+            $(".modal").modal("hide");
+            errorShow("Content is empty","Please enter your appeal!")
+        } else {
+            $.ajax({
+                url: "/User/Appeal",
+                type: "post",
+                dataType: "json",
+                data: { eventID: eventID, content: contentAppeal },
+                success: function (data) {
+                    if (data.state == 0) {
+                        $(".modal").modal("hide");
+                        errorShow(data.error,data.message)
+                    }else {
+                        $(".modal").modal("hide");
+                        errorShow("Sending appeal success","Your appeal has been sent and current being reviewed! Thank for contacting with us")
+                       
+                            $("#pannel-button-appeal-"+data.eventID).html("<p>Your appeal has been sent and being reviewd. It take about 2-4 days. Thank you for contact with us</p>")
+                    }
+                },
+                error: function(){
+                    $(".modal").modal("hide");
+                    errorShow("Error Connect to server","Can not connect to server! Please try again later")
+                }
+            })
+
+
+        }
+
+    }
+</script>

@@ -1,9 +1,4 @@
 /**************************************************** thêm CSS ***/
-.b{
-	border: 0px red solid;
-	height: auto;
-}
-
 /**************************************************** Sửa CSS BOOTSTRAP ***/
 body{
 	background-color: white;
@@ -18,8 +13,9 @@ body{
 	padding: 1px;
 	background-color: #fff;
 	border: 0px solid #ddd;
-    height: 140px;
-    width: 215px;
+    height: 120px;
+    width: 100%;
+    margin-bottom: 0px;
 }
 .thumbnail > img, .thumbnail a > img {
 	border-radius: inherit;
@@ -66,7 +62,8 @@ body{
 	height: 26%;
 }
 .carousel-indicators{
-	top: 125px;
+	top: 66px;
+    left: 262px;
 }
 .carousel-control{
 	border-radius: 50px;
@@ -95,40 +92,56 @@ body{
 	width: 8px;
 }
 .container{
-	padding: 0;
+	width: 75%;
+}
+.nav-tabs > li > a:hover {
+    background-color: #eee;
 }
 /**************************************************** Khung chức năng TỔNG QUÁT ***/
 .d_uwe_body{
 	font-family: segoe ui;
-	margin-top: 80px;
+    margin-top: 70px;
 }
 .d_all_function_cover{
-	padding: 0;
-	min-width: 430px;
+    padding: 0;
+    min-width: 430px;
 }
 .d_left_cover,
 .d_right_top,
 .d_right_bottom{
-	margin-bottom: 10px;
+	margin-bottom: 16px;
 	border: 1px lightgrey solid;
 	padding: 0;
 	border-radius: 4px;
 }
 .d_left_cover{
-	height: 550px;
+	height: 460px;
 }
 .d_right_bottom{
 	height: 230px;
 }
+.d_right_bottom .tab-content{
+	padding-right: 0;
+}
 
 /**************************************************** Event Info Tab **/
+#i_info_tab{
+    padding: 0 5px;
+}
+#event-tab{
+    padding: 10px 0 0 10px;
+    background: #E6E6E6;
+}
 .d_basic_info{
 	height: auto;
 	padding: 0px;
 }
-.d_basic_info > .d_event_thumbnail {
+#i_info_tab .d_event_thumbnail {
+    margin-right: 10px;
+    width: 30%;
+    float: left;
 	padding: 0;
-	height: auto;
+	height: 180px;
 	overflow: hidden;
 }
 
@@ -141,7 +154,9 @@ body{
 	height: auto;
 }
 .d_event_info{
+    width: 57%;
 	padding: 0;
+    float: left;
 }
 #i_event_title{
 	padding: 0;
@@ -153,7 +168,7 @@ body{
 	font-weight: bold;
 }
 .d_each_info{
-	padding: 0;
+	padding: 0 0 0 10px;
 }
 .d_each_info div{
 	margin-bottom: 3px;
@@ -163,6 +178,7 @@ body{
 	padding-left: 0px;
 	padding-right: 0px;
 	margin-top: 2px;
+    color: #9E9E9E;
 }
 .d_event_time{
 	padding: 0;
@@ -170,22 +186,21 @@ body{
 .glyphicon-map-marker{
 	margin-left: -1px;
 }
-iframe{
-	height: 444px;
-    width: 99.9%;
-   	overflow: hidden;
-}
-iframe #i_frame_gallery{
-
-}
 .d_text_des{
 	text-align: center;
+}
+.d_btn_group{
+    width: 11%;
+    float: right;
 }
 
 /**************************************************** Event Info tab - Description */
 .d_deco_line{
 	height: 14px;
 	border-bottom: 1px lightgray solid;
+}
+.d_des_content{
+    margin-top: 10px;
 }
 .d_des_content_sample{
 	margin-top: 30px;
@@ -198,12 +213,12 @@ iframe #i_frame_gallery{
 	text-align: justify;
 }
 .d_des_fade{
-	margin: 0;
-	margin-top: -22px;
-	border: 1px solid lightgrey;
-	border-top-left-radius: 4px;
-	border-top-right-radius: 4px;
-	height: 280px;
+    margin: 0;
+    margin-top: -25px;
+    border: 1px solid lightgrey;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    height: 180px;
 	background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Firefox 3.6 to 15 */
@@ -223,11 +238,27 @@ iframe #i_frame_gallery{
 /**************************************************** Image tab **/
 #i_image_tab{
 	border: 0px solid white;
-    height: 435px;
-    overflow-y: auto;
+    padding-left: 5px;
+    overflow-y: hidden;
+    text-align: center;
+}
+#i_image_tab .d_each_photo{
+    width: 32%;
+    float: left;
+    margin-right: 5px;
+}
+#i_image_tab .d_each_photo img {
+    height: 100%;
+    width: 100%;
+    border: 1px solid #607D8B;
+}
+#i_image_tab .d_each_photo .d_photo_author{
+    text-align: left;
 }
 .d_image_cover{
-	height: 100%;
+    margin-top: 5px;
+    height: 360px;
+    overflow-y: auto;
 }
 .d_each_group {
 	overflow: hidden;
@@ -240,8 +271,7 @@ iframe #i_frame_gallery{
 
 /**************************************************** Video tab **/
 .d_info_tab{
-	height: 455px;
-    padding: 10px 0;
+    padding: 10px 0 5px 0;
     background-color: #fff;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -290,16 +320,22 @@ iframe #i_frame_gallery{
 
 /**************************************************** Map tab **/
 #map-container{
-	height: 245px;
+	height: 230px;
     border-radius: 3px;
+}
+#i_map{
+    height: 230px;
 }
 
 /**************************************************** Comment tab **/
+.d_right_bottom{
+    height: 150px;
+}
 .d_reopen_map {
     position: absolute;
     padding-right:20px;
     top: 16px;
-    right: 10px;
+    right: 0px;
     z-index: 1;
 }
 .d_right_bottom{
@@ -311,43 +347,47 @@ iframe #i_frame_gallery{
 	padding: 0;
     top: 6px;
 }
+..d_ccmt_content{
+    height: 24px;
+    max-height: 24px;
+}
 #i_cmt_box,
 #i_report_box{
+    margin-right: 4px;
 	float: left;
-    width: 82%;
-    max-width: 82%;
-}
-#i_btn_send{
-	float: right;
+    width: 84%;
+    max-width: 84%;
 }
 .d_txt_write_cmt{
-    margin-top: 23px;
-    text-align: center;
+    padding-left: 5px;
     font-size: smaller;
 }
 .d_one_comment,
 .d_reasons_container{
     zborder: 1px #ddd solid;
-    height: 125px;
     width: initial;
     border-radius: 4px;
     padding: 0;
 }
+.d_one_comment{
+    height: 65px;
+}
 .d_cmt_container{
-	height: 445px;
+	height: 356px;
 	overflow-y: auto;
 }
 .d_each_event{
 	height: auto;
+    margin-right: 5px;
 }
 .d_ee_content{
 	margin-bottom: 10px;
-	border-bottom: 1px lightgrey solid;
+	border-bottom: 1px #F1F1F1 solid;
 }
 .no-comment {
     padding-top: 30px;
-
 }
+
 /**************************************************** Comment tab > Chạy ngang comment ***/
 .d_ccmt_ava_user{
 	display: flex;
@@ -388,11 +428,30 @@ iframe #i_frame_gallery{
 	margin: 0;
 	width: 80%;
 	float: left;
+    color: lightgrey;
+    font-size: smaller;
+}
+.d_write_cmt{
+    margin-top: 6px;
 }
 
 /**************************************************** Report Tab ***/
-#i_reason1{
-	margin-top: 0;
+#i_report_tab {
+    margin-left: 10px;
+    height: 0;
 }
-
+.d_rp_fade{
+    position: relative;
+    height: 90px;
+    top: -100px;
+    background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* Standard syntax (must be last) */
+}
+.d_write_report{
+    width: 104%;
+    padding: 0;
+    margin-left: -11px;
+}
 /**************************************************** Decorate CSS ***/

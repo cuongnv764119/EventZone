@@ -26,7 +26,7 @@ function OnSignInRequestSucceeded(data) {
     } else {
         $("#signin-password").val("");
         $("#alertPanelSignIn").empty();
-        $("#alertPanelSignIn").append("<p>Invalid username or password</p>");
+        $("#alertPanelSignIn").append("<p>"+data.message+"</p>");
         $("#alertPanelSignIn").show();
     }
     console.log("This event is fired when a request has been sent to server successfully");

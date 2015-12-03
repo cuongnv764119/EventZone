@@ -1,0 +1,59 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@model IEnumerable<EventZone.Models.Report>
+@{
+    Event evt = null;
+    if (Model != null && Model.ToList().Count > 0) {
+       evt = EventDatabaseHelper.Instance.GetEventByID(Model.ToList()[0].EventID);
+        
+    }
+    string type = TempData["typeView"].ToString();
+}
+@if (evt != null&&Model!=null&&Model.ToList().Count>0)
+{
+    <div id="all-report-@evt.EventID-@type" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        Reports of <b id="view-report-title">@evt.EventName</b>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    @for (int i = 0; i < Model.ToList().Count; i++)
+                    {
+                        var item = Model.ToList()[i];
+                        <div class="d_a_each_reason">
+                            User @UserDatabaseHelper.Instance.GetUserByID(item.SenderID).UserName <p> reporteds this event as @item.ReportType<p> at @item.ReportDate
+                        </div>
+
+                        <div id="handle-report-@item.ReportID">
+                            @if (item.ReportStatus == EventZoneConstants.Approved || item.ReportStatus == EventZoneConstants.Rejected)
+                            {
+                                string status = item.ReportStatus == EventZoneConstants.Approved ? "Approved" : "Rejected";
+                                <div> @status by @UserDatabaseHelper.Instance.GetUserByID(item.HandleBy).UserName at @item.HandleDate</div>
+                            }
+                            else if (item.ReportStatus == EventZoneConstants.Closed)
+                            {
+                                <label>Closed</label>
+                            }
+                            else if (item.ReportStatus == EventZoneConstants.Pending)
+                            {
+                                <div class="unhandle-report">
+                                    Pending
+                                </div>
+                            }
+
+                        </div>
+                        <hr>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

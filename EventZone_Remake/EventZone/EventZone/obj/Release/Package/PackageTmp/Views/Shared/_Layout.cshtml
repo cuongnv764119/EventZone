@@ -1,6 +1,9 @@
 ﻿@using EventZone.Helpers
+@using EventZone.Models
 @{
     var user = UserHelpers.GetCurrentUser(Session);
+
+    
     List<EventZone.Models.Category> category = CommonDataHelpers.Instance.GetAllCategory();
 }
 <!DOCTYPE html>
@@ -12,6 +15,7 @@
     <!--Style-->
     <link href="~/Content/bootstrap.css" rel="stylesheet"/>
     <link href="~/Content/_Layout/_Layout.css" rel="stylesheet"/>
+    <link href="~/Content/Home/myCSS_index_2.css" rel="stylesheet" />
     <!--Script-->
     <script src="~/Scripts/_Layout/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/jquery-2.1.4.js"></script>
@@ -63,10 +67,31 @@
                                     console.log(errorThrown);
                                 }
                             })
-                           </text>
+        </text>
                     }
                 }
+        }
+        else if (user != null)
+        {
+            if (user.AccountStatus == EventZoneConstants.Lock) { 
+                <text>
+                $.ajax({
+                    url: "/Account/Signout",
+                    type: "POST",
+                    dataType: "html",
+                    success: function () {
+                        location.reload();
+                        errorShow("Locked Account", "Your account has been locked! Please contact with our support");
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                })
+                </text>
             }
+        }
     })
 </script>
 
@@ -87,7 +112,7 @@
             </button>
             <!-- Brand -->
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle navbar-brand" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Event Zone</a>
+                <a href="/Home/Index" id="i_brand">Event Zone</a>
                 <ul class="dropdown-menu d_brand_menu">
                     <li>
                         <a href="/Home/Policy">Policy</a>
@@ -100,16 +125,16 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="dropdown">
+                <li class="dropdown" id="i_drdn_cate">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
                     <ul class="dropdown-menu" style="width: 200px;">
-                        @if (category != null) { 
-                        foreach (var item in category)
+                        @if (category != null)
+                        {
+                            foreach (var item in category)
                             {
                                 <li>
                                     <a href="/Search/CategorySearch?categoryid=@item.CategoryID">@Html.DisplayFor(modelItem => item.CategoryName)</a>
                                 </li>
-
                             }
                         }
                     </ul>
@@ -130,10 +155,10 @@
                             <!-- Modal content-->
                             <div class="panel panel-info d_margin_top">
                                 <div class="panel-heading">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                     <div class="panel-title">Welcome to Event Zone</div>
-                                    <div style="float: right; font-size: 80%; position: relative; top: -17px">
-                                        <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
-                                    </div>
                                 </div>
                                 <div class="panel-body">
                                     <div class="cover_all_functions">
@@ -164,79 +189,95 @@
                             <button type="submit" class="btn btn-default btn-sm"><span class=" glyphicon glyphicon-plus" aria-hidden="true"></span>  &nbsp Create Event</button>
                         </form>
                     </li>
-                    <li>
+                    <li class="dropdown">
                         <img id="i_avatar" src="@EventDatabaseHelper.Instance.GetImageByID(@user.Avartar).ImageLink">
-                        <div id="i_noti">
-                            <p>8</p>x
-                        </div>
+                       
+                        @if (NotificationDataHelpers.Instance.CountTotalNewNotification(user.UserID) > 0)
+                        {
+                            <div id="i_noti">
+                                @NotificationDataHelpers.Instance.CountTotalNewNotification(user.UserID)
+                            </div>
+                        }
+                        <ul class="dropdown-menu sm-nowrap d_user_dropdown" role="group" aria-hidden="true" aria-expanded="false">
+                            @if (NotificationDataHelpers.Instance.GetUserNotification(user.UserID, false).Count > 0) {
+
+                                List<NotificationChange> listNewNotification = NotificationDataHelpers.Instance.RemoveDupilicateNotify(NotificationDataHelpers.Instance.GetUserNotification(user.UserID, false),user.UserID);
+                                
+                                for (int i = listNewNotification.Count - 1; i >=0; i--) {
+                                    NotificationChange item = listNewNotification[i];
+                                    int notiType = NotificationDataHelpers.Instance.GetNotificationObjectByID(item.NotificationObjectID).Type;  
+                                    if (notiType == EventZoneConstants.FollowingUserAddNewEvent)
+                                    {
+                                        <li>
+                                        <a href="@Url.Action("Details", "Event", new { id=item.EventID})"><b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b> add a new event</a>
+                                        </li>
+                                    }
+                                    else if (notiType == EventZoneConstants.CommentNotification) { 
+                                        <li>
+                                            <a href="@Url.Action("Details", "Event", new { id=item.EventID})">
+                                                <b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b>
+                                                @if (EventDatabaseHelper.Instance.GetUniqueUserComment(item.EventID).Count > 1)
+                                                {
+                                                    <text>
+                                                        and  @EventDatabaseHelper.Instance.GetUniqueUserComment(item.EventID).GetRange(1, EventDatabaseHelper.Instance.GetUniqueUserComment(item.EventID).Count - 1).Count other peopel comment on a post you are following
+                                                    </text>
+
+
+                                                }
+                                            </a>
+                                        </li>
+                                            
+                                    }
+                                    else if (notiType == EventZoneConstants.NewFollower) { 
+                                        <li>
+                                          <a href="@Url.Action("Index","User")">You Have new @NotificationDataHelpers.Instance.GetNewUserFollowNotify(item.ActorID, user.UserID,false).Count follower(s)</a>
+                                        </li>
+                                    }
+                                    else if (notiType == EventZoneConstants.RequestUploadImage) { 
+                                        <li>
+                                            <a href="@Url.Action("Details", "Event", new { id=item.EventID})">@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID) request add images to your event</a>
+                                            @listNewNotification.RemoveAll(o => o.EventID==item.EventID&&o.ActorID==item.ActorID&&o.NotificationObjectID==notiType)
+                                        </li>
+                                    }
+                                    else if (notiType == EventZoneConstants.EventHasBeenLocked)
+                                    {
+                                        <li>
+                                            <a href="@Url.Action("Details", "Event", new { id= item.EventID})">Your event @EventDatabaseHelper.Instance.GetEventByID(item.EventID).EventName has been locked</a>
+                                        </li>
+                                    }
+                                    else if (notiType == EventZoneConstants.EventHasBeenUnLocked) { 
+                                        <li>
+                                            <a href="@Url.Action("Details", "Event", new { id= item.EventID})">Good new! Your event @EventDatabaseHelper.Instance.GetEventByID(item.EventID).EventName has been unlocked</a>
+                                        </li>
+                                    }
+                                    else if (notiType == EventZoneConstants.ReportNotification)
+                                    {
+                                        
+                                        <li>
+                                            <a href="@Url.Action("Details", "Event", new { id= item.EventID})">
+                                                Your event has been reported by <b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b>
+                                                @if (EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count > 1)
+                                                { <text>
+                                                    and @EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).GetRange(1, EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count - 1).Count other users </text>}
+                                            </a>
+                                        </li>
+                                    }
+                                }
+                            }
+                        </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="has-submenu" aria-haspopup="true" aria-expanded="false">
                             @user.UserName <span class="caret"></span></a>
                         <ul class="dropdown-menu sm-nowrap d_user_dropdown" role="group" aria-hidden="true" aria-expanded="false">
-                            <li class="dropdown-header">Manage</li>
+
                             <li>
-                                <a href="@Url.Action("ManageProfile", "User")">My Profile</a>
+                                <a href="@Url.Action("Index", "User")">My Profile</a>
                             </li>
                             <li>
-                                <a href="@Url.Action("ManageEvent","Event")">My Events</a>
+                                <a href="@Url.Action("Event","User")">My Events</a>
                             </li>
-                            <li class="dropdown-header">Quick access</li>
-                            <li class="">
-                                <a href="#" class="has-submenu" aria-haspopup="true" aria-expanded="false">Upload Image to <span class="caret"></span></a>
-                                <ul class="dropdown-menu sm-nowrap" role="group" aria-hidden="true" aria-expanded="false" style="display: none; left: 0px; margin-left: -171px; margin-top: -32px; max-width: 20em; min-width: 10em; top: auto; width: auto;">
-                                    <li>
-                                        <a href="#">Event 1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Event 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Event 3</a>
-                                    </li>
-                                    <li>
-                                        <input type="text" class="form-control d_quick_search" placeholder="Search ...">
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="">
-                                <a href="#" class="has-submenu" aria-haspopup="true" aria-expanded="false">Upload Video to <span class="caret"></span></a>
-                                <ul class="dropdown-menu sm-nowrap" role="group" aria-hidden="true" aria-expanded="false" style="display: none; left: 0px; margin-left: -171px; margin-top: -32px; max-width: 20em; min-width: 10em; top: auto; width: auto;">
-                                    <li>
-                                        <a href="#">Event 1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Event 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Event 3</a>
-                                    </li>
-                                    <li>
-                                        <input type="text" class="form-control d_quick_search" placeholder="Search ...">
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="">
-                                <a href="#" class="has-submenu" aria-haspopup="true" aria-expanded="false">Recent <span class="caret"></span></a>
-                                <ul class="dropdown-menu sm-nowrap" role="group" aria-hidden="true" aria-expanded="false" style="display: none; left: 0px; margin-left: -171px; margin-top: -32px; max-width: 40em; min-width: 10em; top: auto; width: auto;">
-                                    <li>
-                                        <a href="#">Event 1</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Event 2</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Event 3</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Event 4</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Event 5</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-header">Others</li>
+                           
                             <li>@Html.ActionLink("Sign out", "Signout", "Account", null, new {id = "SignOutLink"})</li>
                         </ul>
                     </li>
@@ -245,7 +286,7 @@
         </div>
     </div>
 </nav>
-<div class="container body-content">
+<div class="body-content">
     <script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=initAutocomplete"
             async defer></script>
     @RenderBody()
@@ -253,6 +294,7 @@
 <script>
     function clearError() {
         $("#error-modal").modal('hide');
+        $('#policyError').hide();
         $(".field-validation-error").empty();
     }
 </script>

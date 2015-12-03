@@ -1,0 +1,68 @@
+﻿@model EventZone.Models.UserCreatedByAdmin
+    <!-- bao toàn bộ chức năng SIGN UP -->
+    <div class="my_function_cover f_sign_up">
+        <div style="padding-top: 30px" class="panel-body">
+            <div style="display: none" id="add-new-user-alert" class="alert alert-danger col-sm-12"></div>
+            @using (Ajax.BeginForm("AddNewUserPost", "Admin", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "OnSucess"
+            }, new { id = "AddnewUser" }))
+            {
+                @Html.AntiForgeryToken()
+                var alertStyle = "";
+
+                if (ViewData.ModelState == null || !ViewData.ModelState.Any(m => m.Value.Errors.Any()))
+                {
+                    alertStyle = "display:none;";
+                }
+                <div id='alertPanelAddUser'
+                     class="alert alert-danger"
+                     style='@alertStyle'>
+                </div>
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @placeholder = "Username" })
+                </div>
+                @Html.ValidationMessageFor(model => model.UserName)
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Email" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Email)
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", @placeholder = "Password", @id = "addUser-Password" })
+                </div>
+                @Html.ValidationMessageFor(model => model.Password)
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", @placeholder = "Re-enter Password", @id = "addUser-ConfirmPassword" })
+                </div>
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="margin-bottom: 10px">
+                    @Html.TextBoxFor(model => model.UserFirstName, new { @class = "form-control", @placeholder = "First Name" })
+                    @Html.ValidationMessageFor(model => model.UserFirstName)
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div style="margin-bottom: 10px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-gift"></i></span>
+                        @Html.TextBoxFor(model => model.UserDOB, new { @class = "form-control", @type = "date", @style = "border-radius:4px" })
+                    </div>
+                    @Html.ValidationMessageFor(model => model.UserDOB)
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <div style="margin-top: 10px">
+                        <!-- Button -->
+                        <div class="controls">
+                            <button type="submit" class="btn btn-success">Create</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+<script src="~/Scripts/Admin/AddNewUser.js"></script>
+<script src="~/Scripts/jquery.md5.js"></script>

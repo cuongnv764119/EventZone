@@ -24,5 +24,4 @@ function OnChangeEmailSucess(data) {
         $("#ChangeEmailError").append("<p>" + data.message + "</p>");
         $("#ChangeEmailError").show();
     }
-    
 };

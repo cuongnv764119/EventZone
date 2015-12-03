@@ -1,9 +1,20 @@
 /*********************************************** Thêm ***/
-iframe{
-	width: 100%;
-	height: 100px;
-	border: 0;
+
+/*********************************************** Sửa Flip ***/
+.flipper-container #flipper-inside>._flipper-back{
+    padding: 5px;
 }
+/*********************************************** Sửa BxSlider ***/
+.d_e_container .bx-prev{
+    margin-right: 15px;
+}
+.bx-wrapper .bx-controls-direction a{
+    top: 0;
+    margin-top: -33px;
+    margin-right: 5px;
+    z-index: 1;
+}
+
 /*********************************************** Sửa Bootstrap ***/
 .form-horizontal .form-group {
     margin-right: 0px;
@@ -11,6 +22,7 @@ iframe{
 }
 body{
 	overflow-x: hidden;
+    overflow-y: scroll;
 }
 .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
     border-top-right-radius: 5px;
@@ -18,6 +30,13 @@ body{
 }
 .nav > li > a:hover, .nav > li > a:focus{
 	background-color: transparent;
+}
+.table > tbody > tr > td {
+    border:0;
+}
+.radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline, .radio-inline, .checkbox-inline{
+    margin-left: 0;
+    margin-right:10px;
 }
 /*********************************************** Background ***/
 video{
@@ -27,70 +46,7 @@ video{
 }
 
 /*********************************************** Top Menu ***/
-.d_navbar{
-	background-color: rgba(100, 200, 255, .8);
-	color: #fff;
-	border: 0px;
-}
-.d_navbar a{
-	color: #fff;
-}
-li{
-	list-style-type: none;
-}
-.d_topmenu_bg{
-	border-radius: inherit;
-	width: 100%;
-}
-#i_brand_website{
-	font-size: 25px;
-}
-.d_brand_menu{
-	margin-top: 50px;
-	border-top-right-radius: 0px;
-	border-top-left-radius: 0px;
-}
-#i_create_event{
-	border: 1px white solid;
-	border-radius: 6px;
-}
-#i_signin_btn{
-	margin-left: 20px;
-}
-#i_avatar{
-	height: 35px;
-	width: 35px;
-	border-radius: 3px;
-	border: 1px white solid;
-	margin: 7px 0px 7px 20px;
-}
-#i_noti{
-    width: 20px;
-    height: 20px;
-    border: 1px red solid;
-    background-color: red;
-    position: relative;
-    top: -47px;
-    left: 40px;
-    border-radius: 3px;
-    text-align: center;
-}
-#i_noti p{
-    color: white;
-	font-size: 14px;
-	margin-top: -1px;
-	font-weight: bold;
-}
-.d_user_dropdown{
-	width: auto; top: auto; left: 0px; margin-left: -70px; margin-top: 0px; min-width: 10em; max-width: 20em;
-	padding-right: 10px;
-	padding-left: 10px;
-}
-.d_recent_dropdown{
-	width: auto; display: none; top: auto; left: 0px; margin-left: -171px; margin-top: -32px; min-width: 10em; max-width: 20em;
-	padding-right: 10px;
-	padding-left: 10px;
-}
+
 
 /*********************************************** Sửa Bootstrap */
 .glyphicon{
@@ -120,7 +76,7 @@ li{
 
 /*********************************************** MIDDLE Category ***/
 .d_md_body{
-	margin-top: 200px;
+	margin-top: 150px;
 	font-family: segoe ui;
 	color: #fff;
 	background-color: transparent;
@@ -132,9 +88,10 @@ li{
 }
 .d_mc_text_1{
 	font-size: 60px;
+    font-weight: 800;
 }
 .d_mc_text_2{
-	font-size: 30px;
+	font-size: 20px;
 	font-weight: lighter;
 }
 .d_mc_text_2 a,
@@ -143,11 +100,11 @@ li{
 }
 .d_mc_category{
 	margin-top: 50px;
-	margin-bottom: 250px;
+	margin-bottom: 180px;
 }
 .d_mc_category button{
 	color: #fff;
-	border: 0px;
+	border: 1px solid red;
 	border-radius: 5px;
 	margin-bottom: 10px;
 	font-size: 15px;
@@ -158,6 +115,10 @@ li{
 	background-color: rgba(255,255,255,.5);
 }
 /*********************************************** Middle Category > Statistic for each button ***/
+.d_popup_stat {
+    color: black;
+    left:-180px;
+}
 .d_stat_cover{
 	zborder: 1px red solid;
 	zbackground-color: lightgrey;
@@ -200,19 +161,37 @@ li{
 	width: 500px;
 }
 /*********************************************** d_3_column ***/
-.d_cc_body{
-	margin-top: 90px;
-	font-family: segoe ui;
-	background-color: transparent;
+.d_3_column {
+    background: white;
+    height: 560px;
 }
 .d_cc_title{
-	zpadding-left: 15px;
-	color: #fff;
+	color: blue;
 	font-family: segoe ui;
 	font-size: 25px;
 	font-weight: lighter;
 	margin-bottom: 15px;
+    height: 50px;
+    float:left;
 }
+d_e_container {
+    
+}
+.d_cc_column{
+    width: 33.33%;
+    height: 500px;
+    float: left;
+}
+.d_cc_body{
+	margin-top: 90px;
+	font-family: segoe ui;
+	background-color: transparent;
+    overflow-x: hidden;		
+    width: 100%;		
+	height: 100px;		
+	border: 0;		
+}	
+
 .d_cc_event_container{
 	zborder: 1px red solid;
 	height: 500px;
@@ -228,6 +207,10 @@ li{
 	padding: 0;
 	font-family: segoe ui;
 	background-color: rgba(255, 255, 255, 0.5);
+    overflow: hidden;		
+    width: 100%;		
+	height: 100px;		
+	border: 0;
 }
 .d_ee_live,
 .d_ee_thumb{
@@ -277,7 +260,45 @@ li{
 	padding: 0;
 	padding-left: 10px;
 }
+/*********************************************** d_big_row: các Hàng lớn chứa Sự kiện ngang ***/
+.d_big_row {
+    width: 96%;
+    margin-left: 2%;
+    height: 200px;
+    padding:5px;
+    background-color: rgba(255, 255, 255, .7);
+    margin-bottom: 20px;
+}
+.d_big_row .d_title{
+    font-size: 20px;
+    color: #F44336;
+    padding: 0px 5px;
+    margin-bottom: 5px;
+}
+.d_big_row .d_e_container{
 
+    height: 163px;
+}
+/*********************************************** d_big_row > d_row_1 ***/
+
+/*********************************************** Footer ***/
+.d_footer{
+    padding: 0px 2%;
+	color: #fff;
+	height: 350px;
+	background-color: #222;
+}
+.d_footer_column_1,
+.d_footer_column_3{
+	border-left: 1px gray dashed;
+	border-right: 1px gray dashed;
+	height: 80%;
+	margin-top: 2%;
+}
+.d_footer_column_2{
+	height: 80%;
+	margin-top: 2%;	
+}
 /*********************************************** About ***/
 /************************************ Tạm thời Không có About ***/
 .d_about_body{
@@ -285,15 +306,38 @@ li{
 }
 
 /*********************************************** MODAL Advanced Search ***/
-#i_frame_md_ad_search{
-	width: 100%;
-	height: 444px;
+#myModal .panel-body {
+    padding: 0 15px;
 }
-.d_md_ad_search{
-	float: right;
+.d_md_ad_search {
+    width: 100%;
+    text-align: center;
 }
-
 /*********************************************** MODAL Sign In Sign Up ***/
+#myModal2 .panel-body {
+    padding: 15px 0px;
+}
+.d_signin_tab{
+    margin-left: 10px;
+}
+.f_sign_in {
+    padding: 0 15px;
+}
+.checkbox{
+    left: 20px;
+}
+#i_signup_section .panel-body {
+    padding: 15px 15px;
+}
+.f_sign_up .panel-body {
+    padding: 15px 0;
+}
+.d_agree_policy .checkbox {
+    left: 0;
+}
+#UserDOB {
+    border-radius: 0;
+}
 #i_frame_signin{
 	height: 415px;
 }

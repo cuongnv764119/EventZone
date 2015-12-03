@@ -1,151 +1,477 @@
-﻿<link rel="stylesheet" type="text/css" href="../Content/bootstrap.css"> <!-- Plugin Bootstrap -->
-<link rel="stylesheet" type="text/css" href="../Content/uikit.css"> <!-- Plugin UIkit -->
-<link rel="stylesheet" type="text/css" href="../Content/perfect-scrollbar.css">
-<link rel="stylesheet" type="text/css" href="../Content/myCSS_chung.css">  <!-- CSS của riêng mình, có kèm OutSource -->
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@model EventZone.Models.User
+@{
+    ViewBag.Title = "User";
+    var errorTitle = TempData["errorTitle"];
+    var errorMessage = TempData["errorMessage"];
+    User currentUser = UserHelpers.GetCurrentUser(Session);
+    User user= Model as User;
+    if (user==null && currentUser == null)
+    {
+        Response.Redirect("~/Home");
+    }
+    List<Event> latestEvent = UserDatabaseHelper.Instance.GetUserEvent(user.UserID);    
+    bool isOwner= false;
+    if(user!=null&&user==currentUser){
+        isOwner=true;
+    }
+}
 
-<link rel="stylesheet" href="../Content/jquery.m.flip.css" type="text/css" /> <!-- Plugin Flip Effect -->
-<link rel="stylesheet" href="../Content/m.flip.css" type="text/css" />        <!-- Plugin Flip Effect -->
-<!-- Bao toàn bộ phần 3 Cột Chia sự kiện -->
-<div class="container-fluid">
-    <div class="row d_bottom_3_column_container">
-        <!-- Chứa thuộc tính khung chứa -->
-        <!-- Chứa cột 1 -->
-        <div class="col-md-4 text-center d_column">
-            <h2>The First Column</h2>
-            <div class="container-fluid d_card_container d_scrollbar_style">
-                <div class="d_each_event container-fluid">
+<link href="~/Content/myCSS_u_m_p.css" rel="stylesheet" />
+<style>
+   
+    .thumb_anh {
+        vertical-align: middle;
+        height: 200px;
+        width: 200px;
+    }
 
-                </div>
-                <div class="d_each_event container-fluid">
+    .setCenter {
+        padding-top: 50px;
+    }
+</style>
+<div class="setCenter">
+    <div class="d_body">
+        <div class="d_left_side">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#i_tab_info" data-toggle="tab">User Info</a></li>
+                <li><a href="#i_tab_follow" data-toggle="tab">Follow</a></li>
+            </ul>
+            <div class="tab-content i_tab_info">
+                <!-- Khung chứa User info -->
+                <div class="tab-pane active" id="i_tab_info">
+                    <div class="d_info_tren">
+                        <div class="d_ava">
+                           <img src="@EventDatabaseHelper.Instance.GetImageByID(user.Avartar).ImageLink">
+                          @if (currentUser == user)
+                          {
+                            <center>  <button data-toggle="modal" id="i_btn_chg_ava" data-target="#user-upload-avatar-modal" class="btn btn-primary btn-sm">Change</button></center>
+                            <div class="modal fade" id="user-upload-avatar-modal" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="panel panel-info d_margin_top">
+                                        <div class="panel-heading">
+                                            <div class="panel-title">Upload avatar</div>
+                                            <div style="float: right; font-size: 80%; position: relative; top: -17px">
+                                                <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="cover_all_functions">
+                                                <div class="tab-content">
+                                                    <!--thumb uploaded image-->
+                                                    <div class="col-md-4 col-sm-3 col-xs-4 thumb" style="width:inherit">
+                                                        <div id="list"></div>
+                                                    </div>
 
-                </div>
-                <div class="d_each_event container-fluid">
-                    <div class="container-fluid d_event_basic_info">
-                        <div class="d_thumb">
-                            <img src="~/img/sukien1.jpg">
-                        </div>
-                        <!-- <div class="d_info_icon glyphicon glyphicon-font"></div> -->   <!-- có nên đưa Icon cho Title vào k? -->
-                        <div class="d_info d_event_name">
-                            [HN] "Lập Trình Di Động
-                        </div>
-                        <div class="d_event_time">
-                            <div class="d_info_icon glyphicon glyphicon-time"></div>
-                            <div class="d_info">
-                                Từ 08:30 đến 16:30
+                                                    @using (Html.BeginForm("UploadAvatar", "User", FormMethod.Post, new { enctype = "multipart/form-data", id = "UploadAvatarForm" }))
+                                                    {
+                                                        <input id="uploadBtn" type="file" class="upload" name="file" data-max-size="10485760" accept="image/x-png, image/gif, image/jpeg" />
+                                                        <p>
+                                                            <input type="submit" class="btn btn-primary btn-sm" value="Upload" />
+                                                        </p>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                          }
+                          else
+                          {
+                            <center>  <button id="i_follow_user"class="btn btn-primary btn-sm">@if (currentUser != null && currentUser != user && UserDatabaseHelper.Instance.IsFollowingUser(currentUser.UserID, user.UserID)) { <span id="btn-following" onclick="Unfollow(@user.UserID)">Following</span>}else{<span id="btn-follow" onclick="Follow(@user.UserID)">Follow</span>}</button></center>
+                          }
                         </div>
-                        <div class="d_event_date">
-                            <div class="d_info_icon glyphicon glyphicon-calendar"></div>
-                            <div class="d_info">
-                                Ngày 26/09/2015
+                        <div class="d_info">
+                            <div class="d_user_name">
+                                @user.UserName
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="d_each_event container-fluid">
-
-                </div>
-                <div class="d_each_event container-fluid">
-
-                </div>
-                <div class="d_each_event container-fluid">
-
-                </div>
-                <div class="d_each_event container-fluid">
-
-                </div>
-                <div class="d_each_event container-fluid">
-
-                </div>
-            </div>
-        </div>
-        <!-- Chứa cột 2 -->
-        <div class="col-md-4 text-center d_column">
-            <h2>The Second Column</h2>
-            <div class="container-fluid d_card_container scrollbar d_scrollbar_style">
-                <div class="d_each_event container-fluid">
-                    <div class="container-fluid d_event_basic_info">
-                        <div class="box m-flip">
-                            <!--  -->
-                            <div class="front"><img src="~/img/sukien2.jpg" class="d_thumb"></div>
-                            <div class="back">
-                                <img src="~/img/sukien2.jpg" class="d_thumb_blur">
-                                <div class="d_btn_backside">
-
-                                    <a href="#" data-toggle="tooltip" title="Follow">
-                                        <div class="glyphicon glyphicon-star-empty" id="i_btn_bs_1"></div> <!-- bs: viết tắt của Backside -->
-                                    </a>
-                                    <a href="#" data-toggle="tooltip" title="Share">
-                                        <div class="glyphicon glyphicon-share-alt" id="i_btn_bs_3"></div>
-                                    </a>
+                            <div class="row">
+                                <div class="d_icon">
+                                    <span class="fa fa-calendar-plus-o"></span>
+                                </div>
+                                <div class="d_icon_info">
+                                    Date Join: @user.DataJoin.ToShortDateString()
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="d_icon">
+                                    <span class="fa fa-bookmark-o"></span>
+                                </div>
+                                <div class="d_icon_info">
+                                    Events: @UserDatabaseHelper.Instance.CountOwnedEvent(user.UserID)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="d_icon">
+                                    <span class="fa fa-users"></span>
+                                </div>
+                                <div class="d_icon_info">
+                                    Followers: @UserDatabaseHelper.Instance.NumberFollower(user.UserID)
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="d_icon">
+                                    <span class="fa fa-envelope"></span>
+                                </div>
+                                <div class="d_icon_info">
+                                    E-mail: <a href="mailto:@user.UserEmail" target="_top">@user.UserEmail</a>
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="d_info_icon glyphicon glyphicon-font"></div> -->   <!-- có nên đưa Icon cho Title vào k? -->
-                        <div class="d_info d_event_name">
-                            [HN] "Lập Trình Di Động
-                        </div>
-                        <div class="d_event_time">
-                            <div class="d_info_icon glyphicon glyphicon-time"></div>
-                            <div class="d_info">
-                                Từ 08:30 đến 16:30
+                    </div>
+                    <div class="d_info_duoi">
+                        @if (isOwner)
+                        {
+                            <div id="update-basic-info" hidden>
+                                @Html.Action("UpdateInfo", "User")
+                            </div>
+                        }
+                        
+                        <div id="view-basic-info">
+                        <div class="row">
+                            <!-- row FirstName -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                First Name:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @user.UserFirstName
                             </div>
                         </div>
-                        <div class="d_event_date">
-                            <div class="d_info_icon glyphicon glyphicon-calendar"></div>
-                            <div class="d_info">
-                                Ngày 26/09/2015
+                        <div class="row">
+                            <!-- row LastName -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Last Name:
                             </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (String.IsNullOrEmpty(user.UserLastName))
+                                {
+                                    <span>Not given yet</span>
+                                }
+                                else
+                                {
+                                    <span>@user.UserLastName</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row DOB -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Birthday:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.UserDOB != null)
+                                {
+                                    <span>@user.UserDOB.ToShortDateString()</span>
+                                }
+                                else
+                                {
+
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row Address -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Address:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.Place != null)
+                                {
+                                    <span>@user.Place</span>
+                                }
+                                else
+                                {
+                                    <span>Not given yet</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Gender:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.Gender == EventZoneConstants.isFemale)
+                                {
+                                    <span>Female</span>
+                                }
+                                else
+                                {
+                                    <span>Male</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row Phone Number -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                Phone:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.Phone != null)
+                                {
+                                    <span>@user.Phone</span>
+                                }
+                                else
+                                {
+                                    <span>Not given yet</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row ID card -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                                ID card:
+                            </div>
+                            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                @if (user.IDCard != null)
+                                {
+                                    <span>@user.IDCard</span>
+                                }
+                                else
+                                {
+                                    <span>Not given yet</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- row Update Button -->
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
+                            </div>
+                            @if (isOwner)
+                            {
+                                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 b">
+                                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#change-password-modal" id="i-change-password-btn" onclick="clearError()">ChangePassword</button>
+                                    </div>
+                                    <div class="modal fade" id="change-password-modal" role="dialog">
+                                        <div class="modal-dialog">
+                                            <!-- Modal content-->
+                                            <div class="panel panel-info d_margin_top">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title">Change Password</div>
+                                                    <div style="float: right; font-size: 80%; position: relative; top: -17px">
+                                                        <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
+                                                    </div>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div class="cover_all_functions">
+                                                        <div class="tab-content">
+                                                            @Html.Action("ChangePassword", "User")
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-primary btn-sm" id="btn-update">Update</button>
+                                </div>
+                            }
+                            
+
                         </div>
                     </div>
+                    </div>
                 </div>
-                <div class="d_each_event container-fluid">
-
+                <!-- Khung chứa Schedule -->
+                <div class="tab-pane" id="i_schedule_tab" style="text-align: center; margin-top: 200px">
+                    Function is being building...
                 </div>
-                <div class="d_each_event container-fluid">
+                <!-- Khung chứa Follow -->
+                <div class="tab-pane" id="i_tab_follow">
 
-                </div>
-                <div class="d_each_event container-fluid">
+                    @if (user != null)
+                    {
+                        @Html.Action("ManageFollow", "User", new { userID = user.UserID })
+                    }
+                    else
+                    {
+                        @Html.Action("ManageFollow", "User")
 
-                </div>
-                <div class="d_each_event container-fluid">
-
+                    }
                 </div>
             </div>
         </div>
-        <!-- Chứa cột 3 -->
-        <div class="col-md-4 text-center d_column">
-            <h2>The Third Column</h2>
-            <div class="container-fluid d_card_container scrollbar d_scrollbar_style">
-                <div class="d_each_event container-fluid">
-
+        <div class="d_right_side_top">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#i_events" data-toggle="tab">Latest Events</a></li>
+            </ul>
+            <div class="tab-content d_info_tab">
+                <!-- Khung chứa User info -->
+                <div class="tab-pane active" id="i_events">
+                    <div class="d_events_cover">
+                        @if (latestEvent != null&&latestEvent.Count!=0)
+                        {
+                            latestEvent=latestEvent.OrderByDescending(m=>m.EventRegisterDate).ToList();
+                            for(int i=0;i<latestEvent.Count;i++){
+                            Event currentEvent =  latestEvent[i];
+                            if (i == 3) {
+                                break;
+                            }
+                            <div class="d_each_event">
+                                <div class="d_thumb">
+                                    <img src="@EventDatabaseHelper.Instance.GetImageByID(currentEvent.Avatar).ImageLink">
+                                </div>
+                                <div class="d_info">
+                                    <div class="d_title">
+                                        @Html.ActionLink(currentEvent.EventName, "Details", "Event", new { id = currentEvent.EventID }, new { target="_blank"})
+                                    </div>
+                                    <div class="d_time_left">
+                                        Start in @currentEvent.EventStartDate.ToString()
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                            <div class="d_txt_show_all" style="text-align: center;">
+                                <a href="@Url.Action("Event", "User", new {userID = user.UserID })">View All</a>
+                            </div>
+                        }
+                        else
+                        {
+                            if (latestEvent == null || latestEvent.Count == 0)
+                            {
+                                if (currentUser != null && user == currentUser)
+                                {
+                                <div>You have no event.</div> <a href="@Url.Action("Create","Event")">Create now</a>
+                                }
+                                else
+                                {
+                                    <div>This user current has no event!</div>
+                                }
+                            }
+                        }                
+                    </div>
                 </div>
-                <div class="d_each_event container-fluid">
-
-                </div>
-                <div class="d_each_event container-fluid">
-
-                </div>
-                <div class="d_each_event container-fluid">
-
-                </div>
-                <div class="d_each_event container-fluid">
-
+            </div>
+        </div>
+        <div class="d_right_side_bottom">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#i_noti" data-toggle="tab">Notification</a></li>
+            </ul>
+            <div class="tab-content d_tab_noti">
+                <!-- Khung chứa User info -->
+                <div class="d_noti_cover">
+                    <div class="d_each_noti">
+                        <b>abc</b> blah blah
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function Follow(userID) {
+        if ('@currentUser' == null || '@currentUser' == "") {
+            errorShow("Require signin!", "Please signin to follow this user!")
+        } else {
+            $.ajax({
+                url: "/User/FollowUser",
+                type: "post",
+                dataType: "json",
+                data: { userID: userID },
+                success: function (data) {
+                    if (data.state == 0) {
+                        errorShow(data.error, data.message)
+                    } else {
+                        $("#i_follow_user").html('<span id="btn-following" onclick="Unfollow(' + data.userID + ')">Following</span>')
+                    }
+                },
+                error: function () {
+                    errorShow("Failed Connection!", "Failed to connect to server! Please try again later!")
+                }
+            })
+        }
+    }
 
-<!-- All script here -->
-<script type="text/javascript" src="../Scripts/jquery-2.1.4.js"></script>    <!-- Default JQuery -->
-<script type="text/javascript" src="../Scripts/bootstrap.min.js"></script>        <!-- Default Bootstrap, có Edited -->
-<script type="text/javascript" src="../Scripts/super-smooth.js"></script>         <!-- Plugin làm mượt scroll -->
-<script type="text/javascript" src="../Scripts/perfect-scrollbar.jquery.js"></script> <!-- Plugin thay Style Scrollbar -->
 
-<script type="text/javascript" src="../Scripts/jquery.m.flip.js"></script> <!-- Plugin Flip Effect -->
+    function Unfollow(userID) {
+        $.ajax({
+            url: "/User/UnFollowUser",
+            type: "post",
+            dataType: "json",
+            data: { userID: userID },
+            success: function (data) {
+                if (data.state == 0) {
+                    errorShow(data.error, data.message)
+                } else {
+                    $("#i_follow_user").html('<span id="btn-follow" onclick="Follow(' + data.userID + ')">Follow</span>')
+                }
+            },
+            error: function () {
+                errorShow("Failed Connection!", "Failed to connect to server! Please try again later!")
+            }
+        })
+    }
 
-<script type="text/javascript" src="../Scripts/uikit.js"></script> <!-- Plugin UIkit -->
+    var fileInput = $('#uploadBtn');
+    $("#UploadAvatarForm").submit(function (event) {
+        @if(user==null) {
+            <text>
+        $("#user-upload-avatar-modal").modal("hide")
+        errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
+        //@*Prevent this form from being submitted*@
+        event.preventDefault();
+        return false;
+        </text>
+        }else{
+        <text>
+        if (fileInput.get(0).files.length) {
+            var fileSize = fileInput.get(0).files[0].size; // in bytes
+            if (fileSize > 10485760) {
+                $(".modal").modal("hide");
+                errorShow("File too large", "Please choose a file has size lower than 10 Mb!")
+                $('#uploadBtn').val("")
+                event.preventDefault();
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            $(".modal").modal("hide");
+            errorShow("Error","Please choose a image file!");
+            event.preventDefault();
+            return false;
+        }
+        </text>
+        }
+    });
 
-<script type="text/javascript" src="../Scripts/myJS_chung.js"></script> <!-- JS của riêng mình, có kèm OutSource -->
-<!-- <script type="text/javascript" src="../Scripts/myJS_test_script.js"></script> JS đang test -->
+    function handleFileSelect(evt) {
+        var files = evt.target.files; // FileList object
+
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Render thumbnail.
+                    $("#list").empty();
+                    var span = document.createElement('span');
+                    span.innerHTML = ['<img class="thumb_anh" src="', e.target.result,
+                                      '" title="', escape(theFile.name), '"/>'].join('');
+                    document.getElementById('list').insertBefore(span, null);
+                };
+            })(f);
+
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+        }
+    }
+    if (document.getElementById('uploadBtn') != null) {
+        document.getElementById('uploadBtn').addEventListener('change', handleFileSelect, false);
+    }
+    $("#btn-update").click(function () {
+        $("#update-basic-info").show();
+        $("#view-basic-info").hide();
+    })
+</script>

@@ -28,8 +28,9 @@ function OnChangePasswordRequestSucceeded(data) {
         $("#change-password-modal").modal("toggle");
         $(".modal-backdrop").remove();
     } else {
-        $("#signup-Password").val("");
-        $("#signup-ConfirmPassword").val("");
+        $("#chg-password-old-password").val("");
+        $("#chg-password-new-password").val("");
+        $("#chg-confirm-password").val("");
         $("#alertPanelChangePassword").empty();
         $("#alertPanelChangePassword").append("<p>" + data.message + "</p>");
         $("#alertPanelChangePassword").show();

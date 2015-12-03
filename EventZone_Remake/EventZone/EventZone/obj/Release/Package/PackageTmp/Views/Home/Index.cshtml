@@ -2,40 +2,43 @@
 @{
     var user = UserHelpers.GetCurrentUser(Session);
     ViewBag.Title = "Home Page";
-    List<EventZone.Models.Category> listCategory= CommonDataHelpers.Instance.GetAllCategory();
+    List<EventZone.Models.Category> listCategory = CommonDataHelpers.Instance.GetAllCategory();
 }
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         @if (TempData["errorTitle"] != null)
         {
             <text>
-            errorShow('@TempData["errorTitle"]', '@TempData["errorMessage"]')
-            </text>
+        errorShow('@TempData["errorTitle"]', '@TempData["errorMessage"]')
+        </text>
         }
     })
 </script>
+<script>
+    $('#myFlipper').flipper();
+</script>
+ 
 
-<link href="~/Content/Home/Index.css" rel="stylesheet"/>
+<link href="~/Content/Home/Index.css" rel="stylesheet" />
 <link href="~/Content/Home/bootstrap-social.css" rel="stylesheet" />
-<link href="~/Content/Home/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/Home/font-awesome.min.css" rel="stylesheet"/>
+<link href="~/Content/Home/jquery.bxslider.css" rel="stylesheet" />
 <script src="~/Scripts/Home/bootstrap-hover-dropdown.min.js"></script>
-
+<link href="~/Content/Home/flipper.min.css" rel="stylesheet" />
+<link href="~/Content/Home/myCSS_index_2.css" rel="stylesheet" />
 <div class="full-screen-bg">
     <video class="fullscreen-bg__video" autoplay loop muted>
         <source src="https://s3-us-west-2.amazonaws.com/eventzone/bgvideo1080-cut.mp4" type="video/mp4">
         <source src="https://s3-us-west-2.amazonaws.com/eventzone/bgvideo1080-cut.webm" type="video/webm" />
     </video>
 </div>
-<div class="d_middle_category" style="margin-top: 200px">
+<div class="d_middle_category">
     <div class="d_md_body">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_mc_text_1">
+        <div class="d_mc_text_1">
             Event Zone!
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_mc_text_2">
+        <div class="d_mc_text_2">
             Only one zone for all Activities. Promote, manage, and host successful events.
-           <p> <a href="#" id="i_learn_more">
-                Learn More
-            </a>
         </div>
         <div class="d_mc_category">
             @if (listCategory != null)
@@ -44,7 +47,7 @@
                 {
                     <div class="btn-group d_btn_middle">
                         <a type="button" class="btn btn-default" data-hover="dropdown" aria-haspopup="true" aria-expanded="false" href="/Search/CategorySearch?categoryid=@item.CategoryID">@item.CategoryName</a>
-                        <ul class="dropdown-menu" style="color: black">
+                        <ul class="dropdown-menu d_popup_stat">
                             <div class="d_mc_cate_stat_body">
                                 <div class="d_stat_cover">
                                     <div class="d_stat_new_event">
@@ -82,7 +85,6 @@
                                                     <text>
                                                         Following
                                                     </text>
-
                                                 }
                                                 else
                                                 {
@@ -101,35 +103,150 @@
             }
         </div>
     </div>
-
-
 </div>
-<div class="d_3_column">
-    <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11">
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 d_cc_column d_cc_column_1">
-            <div class="d_cc_title" style="color: white">
-                New Event
-            </div>
-           @Html.Action("NewEvent","Home")
-        </div>
+<!-- Phần giữa chứa 3 Hangf -->
+<div class="d_big_row d_row_1">
+    <div class="d_title">
+        New Event
+    </div>
+    <div class="d_e_container">
+        @Html.Action("NewEvent", "Home")
+    </div>
+</div>
 
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 d_cc_column d_cc_column_2">
-            <div class="d_cc_title" style="color: white">
-                Hot Event
-            </div>
-           @Html.Action("HotEvent", "Home")
-        </div>
+<div class="d_big_row d_row_2">
+    <div class="d_title">
+        Hot Event
+    </div>
+    <div class="d_e_container">
+        @Html.Action("HotEvent", "Home")
+    </div>
+</div>
 
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 d_cc_column d_cc_column_3">
-            <div class="d_cc_title" style="color: white">
-                Live Streaming
-            </div>
-           @Html.Action("LiveEvent","Home")
+<div class="d_big_row d_row_3">
+    <div class="d_title">
+        Live Event
+    </div>
+    <div class="d_e_container">
+        @Html.Action("LiveEvent", "Home")
+    </div>
+</div>
+<!-- Phần FOOTER -->
+<div class="d_footer">
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 d_footer_column_1">
+        <div class="d_col_title">
+            <!-- TÊN của cột trong FOOTER -->
+            Share Our Website
+        </div>
+        <div class="d_col_content">
+            <!-- Cột trong FOOTER chứa CONTENT ... -->
+            <ul>
+                <li>Link 1</li>
+                <li>Link 2</li>
+                <li>Link 3</li>
+                <li>Link 4</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 d_footer_column_2">
+        <div class="d_col_title">
+            <!-- TÊN của cột trong FOOTER -->
+            Sponsored by ABC
+        </div>
+        <div class="d_col_content">
+            <!-- Cột trong FOOTER chứa CONTENT ... -->
+            <ul>
+                <li>Donor 1</li>
+                <li>Donor 2</li>
+                <li>Donor 3</li>
+                <li>Donor 4</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 d_footer_column_3">
+        <div class="d_col_title">
+            <!-- TÊN của cột trong FOOTER -->
+            Other Sites
+        </div>
+        <div class="d_col_content">
+            <!-- Cột trong FOOTER chứa CONTENT ... -->
+            <ul>
+                <li>Link 1</li>
+                <li>Link 2</li>
+                <li>Link 3</li>
+                <li>Link 4</li>
+            </ul>
         </div>
     </div>
 </div>
-<script src="~/Scripts/Home/jquery.flip.min.js"></script>
 <script src="~/Scripts/Home/Index.js"></script>
+<script src="~/Scripts/shareFacebook.js"></script>
+<script src="~/Scripts/Home/jquery.bxslider.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.bxslider').bxSlider({
+            auto: 'true',
+            slideWidth: 500,
+            minSlides: 3,
+            maxSlides: 3,
+            slideMargin: 10,
+            moveSlides: 1,
+            autoHover: 'true',
+            pager:'false',
+            onSliderLoad: function () {
+                //$('.bxslider>li').addClass('resize');
+                //$('.bxslider>li:not(.bx-clone)').eq(1).addClass('active-slide').css("transform", "scale(1.1,1.1)");
+            },
+            onSlideAfter: function ($slideElement, oldIndex, newIndex) {
+               // $('.active-slide').css("transform", "scale(0.8,0.8)").removeClass('active-slide');
+                //$($slideElement).next().addClass('active-slide').css("transform", "scale(1.1,1.1)");
+            }
+        });
+    });
+
+</script>
+<script>
+    //handle follow event
+    function followEvent(eventID) {
+        @if(user!=null){
+            <text>
+        $.ajax({
+            url: "/User/FollowEvent",
+            type: "POST",
+            dataType: "json",
+            data: {
+                eventID: eventID
+            },
+            success: function (data) {
+                if (data.success) {
+                    if (data.state == 0) {
+                        $(".follow-" + eventID + "-status").text("Follow");
+                    } else if (data.state == 1) {
+                        $(".follow-" + eventID + "-status").text("Followed");
+                    }
+                } else {
+                    alert("ops.. somthing wrong!Please try again later...");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        })
+        </text>
+        }
+        else {
+            <text>
+        var x =
+        errorShow('Require Signin', 'Please signin to follow this event')
+        </text>
+        }
+
+    }
+
+</script>
+
 <script>
     //handle follow category
     function followCategory(categoryID) {
@@ -165,10 +282,10 @@
                }
                else {
                    <text>
-                    var x= 'Require Signin';
-                    var y='Please signin to follow this Category';
-                    errorShow(x, y);
-                    </text>
+        var x = 'Require Signin';
+        var y = 'Please signin to follow this Category';
+        errorShow(x, y);
+        </text>
                }
 
     }

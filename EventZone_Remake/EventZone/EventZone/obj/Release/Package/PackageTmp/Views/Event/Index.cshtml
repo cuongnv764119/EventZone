@@ -1,0 +1,299 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<link href="~/Content/Event/myCSS_u_m_e.css" rel="stylesheet" />
+
+
+<body class="d_body">
+
+    <div class="d_left_side">   
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active"><a href="#i_tab_event" data-toggle="tab">Events (10)</a></li>
+            <li><a href="#i_tab_follower" data-toggle="tab">Follower (1000)</a></li>
+            <li><a href="#i_tab_report" data-toggle="tab">Reported event (1000)</a></li>
+        </ul>
+        <div class="tab-content i_tab_event">
+            <!-- Khung chứa Events -->
+            <div class="tab-pane active" id="i_tab_event">
+                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#i_md_filter" id="i_btn_e_filter">
+                    Filter
+                </button>
+                <div class="d_events_cover">
+                    <div class="d_each_event">
+                        <div class="d_thumb">
+                            <img src="../img/bg3.jpg">
+                        </div>
+                        <div class="d_info">
+                            <div class="d_title">
+                                Title Title TitleTitle Title Title
+                            </div>
+                            <div class="d_time_left">
+                                5 days left
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d_each_event">
+                        <div class="d_thumb">
+                            <img src="../img/bg3.jpg">
+                        </div>
+                        <div class="d_info">
+                            <div class="d_title">
+                                Title Title TitleTitle Title Title
+                            </div>
+                            <div class="d_time_left">
+                                5 days left
+                            </div>
+                        </div>
+                        <button class="btn btn-success btn-xs">Edit</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Khung chứa Followers -->
+            <div class="tab-pane" id="i_tab_follower">
+                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#i_md_filter" id="i_btn_e_filter">
+                    Filter
+                </button>
+                <div class="d_users_cover">
+                    <div class="d_each_user">
+                        <div class="d_thumb">
+                            <img src="../img/bg3.jpg">
+                        </div>
+                        <div class="d_info">
+                            <div class="d_title">
+                                UserName
+                            </div>
+                            <div class="d_detail">
+                                <p>
+                                    <div class="d_icon">
+                                        <span class="fa fa-tv"></span>
+                                    </div>
+                                    <div class="d_icon_info">
+                                        Channel: Name
+                                    </div>
+                                </p>
+                                <div class="d_icon">
+                                    <span class="fa fa-calendar-check-o"></span>
+                                </div>
+                                <div class="d_icon_info">
+                                    Followed: 3 days ago
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Khung chứa Reported Event -->
+            <div class="tab-pane" id="i_tab_report">
+                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#i_md_filter" id="i_btn_e_filter">
+                    Filter
+                </button>
+                <div class="d_events_cover">
+                    <div class="d_each_event">
+                        <div class="d_thumb">
+                            <img src="../img/bg3.jpg">
+                        </div>
+                        <div class="d_info">
+                            <div class="d_title">
+                                Title Title TitleTitle Title Title
+                            </div>
+                            <div class="d_time_left">
+                                5 days left
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d_each_event">
+                        <div class="d_thumb">
+                            <img src="../img/bg3.jpg">
+                        </div>
+                        <div class="d_info">
+                            <div class="d_title">
+                                Title Title TitleTitle Title Title
+                            </div>
+                            <div class="d_time_left">
+                                5 days left
+                            </div>
+                        </div>
+                        <button class="btn btn-success btn-xs">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d_right_side">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active"><a href="#i_tab_stat" data-toggle="tab">Statistics</a></li>
+        </ul>
+        <div class="tab-content d_tab_stat">
+            <!-- Khung chứa User info -->
+            <div class="tab-pane active" id="i_tab_stat">
+                <div class="d_stat_cover">
+                    <div class="d_each_stat">
+                        <div class="d_number">
+                            20
+                        </div>
+                        <div class="d_number_info">
+                            Tổng số Sự kiện
+                        </div>
+                    </div>
+                    <div class="d_each_stat">
+                        <div class="d_number">
+                            5
+                        </div>
+                        <div class="d_number_info">
+                            Sự kiện trực tiếp
+                        </div>
+                    </div>
+                    <div class="d_each_stat">
+                        <div class="d_number">
+                            4
+                        </div>
+                        <div class="d_number_info">
+                            hello
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Filter -->
+    <div class="modal fade d_modal" id="i_md_filter" role="dialog">
+        <div class="modal-dialog" style="margin-top: 60px;">
+
+            <!-- Modal content-->
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="panel-title">Filter</div>
+                </div>
+                <div style="padding-top:10px" class="panel-body">
+                    <div class="cover_all_functions" style="text-align: -webkit-center;">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 100px">Criteria</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            Search
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" id="" placeholder="">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Category</td>
+                                        <td>
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d_checkbox" style="width: 200px;">
+                                                                <label><input type="checkbox" value="" id="i_chbox_All" class="item_checked">  All</label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d_checkbox">
+                                                                <label><input type="checkbox" value="" id="i_chbox_Music" class="item_checked">  Music</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d_checkbox">
+                                                                <label><input type="checkbox" value="" id="i_chbox_FaD" class="item_checked">  Food and Drink</label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d_checkbox">
+                                                                <label><input type="checkbox" value="" id="i_chbox_Classes" class="item_checked">  Classes</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d_checkbox">
+                                                                <label><input type="checkbox" value="" id="i_chbox_Arts" class="item_checked"> Arts</label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d_checkbox">
+                                                                <label><input type="checkbox" value="" id="i_chbox_Parties" class="item_checked">  Parties</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d_checkbox">
+                                                                <label><input type="checkbox" value="" id="i_chbox_SaW" class="item_checked">  Sports and wellness</label>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="d_checkbox">
+                                                                <label><input type="checkbox" value="" id="i_chbox_Networking" class="item_checked">  Networking</label>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Location</td>
+                                        <td>
+                                            <input type="text" class="form-control" id="" placeholder="Eg: Hà Nội">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Streaming</td>
+                                        <td>
+                                            <input type="checkbox">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Date</td>
+                                        <td>
+                                            <div>
+                                                <div class="radio-inline">
+                                                    <label><input type="radio" name="optradio" checked="true">Today</label>
+                                                </div>
+                                                <div class="radio-inline">
+                                                    <label><input type="radio" name="optradio">3 next days</label>
+                                                </div>
+                                                <div class="radio-inline">
+                                                    <label><input type="radio" name="optradio">7 next days</label>
+                                                </div>
+                                            </div>
+                                            <div class="input-daterange input-group" id="date">
+                                                <input type="date" class="input-sm form-control" name="start" />
+                                                <span class="input-group-addon">to</span>
+                                                <input type="date" class="input-sm form-control" name="end" />
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <form id="loginform" class="form-horizontal" role="form">
+                            <div class="form-group d_md_ad_search">
+                                <a href="#" class="btn btn-success">Look around!</a>
+                                <a href="#" class="btn btn-success">Search</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

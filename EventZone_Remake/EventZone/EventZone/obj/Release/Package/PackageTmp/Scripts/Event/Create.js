@@ -7,7 +7,13 @@
         useCurrent: false,
         keyBinds: false
     });
-    $('#dtpEndTime').data("DateTimePicker").minDate(moment());
+    $('#dtpEndTime').keypress(function (event) {
+        event.preventDefault();
+    });
+    $('#dtpStartTime').keypress(function (event) {
+        event.preventDefault();
+    });
+
 
     $("#dtpStartTime").on("dp.change", function (e) {
         $('#dtpEndTime').data("DateTimePicker").minDate(e.date);
@@ -18,7 +24,7 @@
 
 
 //Description
-    function initToolbarBootstrapBindings() {
+   /* function initToolbarBootstrapBindings() {
         var fonts = [
                 "Serif", "Sans", "Arial", "Arial Black", "Courier",
                 "Courier New", "Comic Sans MS", "Helvetica", "Impact", "Lucida Grande", "Lucida Sans", "Tahoma", "Times",
@@ -62,15 +68,15 @@
     initToolbarBootstrapBindings();
     $("#editor").wysiwyg({ fileUploadError: showErrorAlert });
     window.prettyPrint && prettyPrint();
-
-    $(".d_stream_cover").fadeOut("slow");
+    */
+    /*$(".d_stream_cover").fadeOut("slow");
     $("#IsLive").change(function() {
         if (this.checked) {
             $(".d_stream_cover").fadeIn("slow");
         } else {
             $(".d_stream_cover").fadeOut("slow");
         }
-    });
+    });*/
     $("#btnAddLocation").click(function() {
         var length = $("input[id^=Location-]").length;
         $("#LocationInput").append("<div id=\"wrapper\">" +
@@ -102,15 +108,18 @@
         //        $("#i_location_1").append(new Option($(item).val(), $(item).val(), true, true));
         //});
     });
-    $("#editor").bind("DOMSubtreeModified", function () {		    
-        $("#event-description").val($("#editor").text());		        
+    $('#editor').on('summernote.change', function() {
+        $("#event-description").val(htmlEncode($('#editor').code()).replace(/"/g, "'"));
     });
     //Binding Locations to One Location String
     $("#btnSubmit").click(function () {
         $(this).parents("form").submit();
     });
-
-
+    function htmlEncode(value) {
+        //create a in-memory div, set it's inner text(which jQuery automatically encodes)
+        //then grab the encoded contents back out.  The div never exists on the page.
+        return $('<div/>').text(value).html();
+    }
     //xu ly browse avatar
     function handleFileSelect(evt) {
         var files = evt.target.files; // FileList object

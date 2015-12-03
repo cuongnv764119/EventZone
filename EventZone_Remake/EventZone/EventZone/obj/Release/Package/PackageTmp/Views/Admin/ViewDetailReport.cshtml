@@ -1,0 +1,108 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@model IEnumerable<EventZone.Models.Report>
+@{
+     Event evt= null;
+    if (Model != null && Model.ToList().Count != 0)
+    {
+    evt= EventDatabaseHelper.Instance.GetEventByID(Model.ToList()[0].EventID);
+       
+    }
+}
+@if (evt != null)
+{
+    <div id="all-report-@evt.EventID" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        Reports of <b id="view-report-title">@evt.EventName</b>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    @for (int i = 0; i < Model.ToList().Count; i++)
+                    {
+                        var item = Model.ToList()[i];
+                        <div class="d_a_each_reason">
+                            User @UserDatabaseHelper.Instance.GetUserByID(item.SenderID).UserName <p> reporteds this event as @item.ReportType<p> at @item.ReportDate
+                        </div>
+
+                        <div id="handle-report-@item.ReportID">
+                            @if (item.ReportStatus == EventZoneConstants.Approved || item.ReportStatus == EventZoneConstants.Rejected)
+                            {
+                                string status = item.ReportStatus == EventZoneConstants.Approved ? "Approved" : "Rejected";
+                                <div> @status by @UserDatabaseHelper.Instance.GetUserByID(item.HandleBy).UserName at @item.HandleDate</div>
+                            }
+                            else if (item.ReportStatus == EventZoneConstants.Closed)
+                            {
+                                <label>Closed</label>
+                            }
+                            else if (item.ReportStatus == EventZoneConstants.Pending)
+                            {
+                                <div class="unhandle-report">
+                                    <button id="approve-@item.ReportID" onclick="ApproveReport(@item.ReportID)">approve</button>
+                                    <button id="reject-@item.ReportID" onclick="RejectReport(@item.ReportID)">reject</button>
+                                </div>
+                            }
+
+                        </div>
+                        <hr>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button id="lock-event-@evt.EventID" class="btn btn-default" onclick="LockReportedEvent(@evt.EventID)">Lock</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function ApproveReport(reportID){
+        $.ajax({
+            url: "/Admin/ApproveReport",
+            type: "POST",
+            dataType: "json",
+            data: { reportID: reportID },
+            success: function (data) {
+                if (data.state == 0) {
+                    $(".modal").modal("hide");
+                    errorShow(data.error, data.message)
+                } else {
+                    $("#handle-report-" + reportID).html("<p>Approved by " + data.handleBy + " at " + data.handleDate + "</p>");
+                    $(".unhandle-report").html("<label>Closed</label>")
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        })
+    }
+    function RejectReport(reportID) {
+        $.ajax({
+            url: "/Admin/RejectReport",
+            type: "POST",
+            dataType: "json",
+            data: { reportID: reportID },
+            success: function (data) {
+                if (data.state == 0) {
+                    $(".modal").modal("hide");
+                    errorShow(data.error, data.message)
+                } else {
+                    $("#handle-report-" + reportID).html("<p>Rejected by " + data.handleBy + " at " + data.handleDate + "</p>");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        })
+    }
+    
+
+</script>

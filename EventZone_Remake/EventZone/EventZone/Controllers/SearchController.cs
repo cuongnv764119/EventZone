@@ -204,12 +204,12 @@ namespace EventZone.Controllers
             else if (datepick == 2)
             {
                 startTime = DateTime.Today;
-                endTime = startTime.AddDays(3);
+                endTime = startTime.AddDays(4);
             }
             else if (datepick == 3)
             {
                 startTime = DateTime.Today;
-                endTime = startTime.AddDays(7);
+                endTime = startTime.AddDays(8);
             }
             else if (datepick == 4)
             {

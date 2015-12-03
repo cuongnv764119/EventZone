@@ -1,0 +1,102 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@model IEnumerable<EventZone.Models.Appeal>
+@{
+    Event evt = null;
+    if (Model != null && Model.ToList().Count != 0)
+    {
+        evt = EventDatabaseHelper.Instance.GetEventByID(Model.ToList()[0].EventID);
+    }
+}
+@if (evt != null)
+{
+    <div id="i_appeal_modal-@evt.EventID" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">
+                        Appeals of <b id="view-appeal-title">@evt.EventName</b>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    @for (int i = 0; i < Model.ToList().Count; i++)
+                    {
+                        var item = Model.ToList()[i];
+                        <div class="d_a_each_reason">
+                            @item.AppealContent
+                        </div>
+
+                        <div id="handle-appeal-@item.AppealID">
+                            @if (item.AppealStatus == EventZoneConstants.Approved || item.AppealStatus == EventZoneConstants.Rejected)
+                            {
+                                string status = item.AppealStatus == EventZoneConstants.Approved ? "Approved" : "Rejected";
+                                <div> @status by @UserDatabaseHelper.Instance.GetUserByID(item.HandleBy).UserName at @item.ResultDate</div>
+                            }
+                            else if (item.AppealStatus == EventZoneConstants.Pending)
+                            {
+                                <div class="unhandle-report">
+                                    <button id="approve-appeal-@item.AppealID" onclick="ApproveAppeal(@item.AppealID)">approve</button>
+                                    <button id="reject-appeal-@item.AppealID" onclick="RejectAppeal(@item.AppealID)">reject</button>
+                                </div>
+                            }
+
+                        </div>
+                        <hr>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    function ApproveAppeal(appealID){
+        $.ajax({
+            url: "/Admin/ApproveAppeal",
+            type: "POST",
+            dataType: "json",
+            data: { appealID: appealID },
+            success: function (data) {
+                if (data.state == 0) {
+                    $(".modal").modal("hide");
+                    errorShow(data.error, data.message)
+                } else {
+                    $("#handle-appeal-" + appealID).html("<p>Approved by " + data.handleBy + " at " + data.handleDate + "</p>");
+                    $(".unhandle-report").html("<label>Closed</label>")
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        })
+    }
+    function RejectAppeal(appealID) {
+        $.ajax({
+            url: "/Admin/RejectAppeal",
+            type: "POST",
+            dataType: "json",
+            data: { appealID: appealID },
+            success: function (data) {
+                if (data.state == 0) {
+                    $(".modal").modal("hide");
+                    errorShow(data.error, data.message)
+                } else {
+                    $("#handle-appeal-" + appealID).html("<p>Rejected by " + data.handleBy + " at " + data.handleDate + "</p>");
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.log(textStatus);
+                console.log(errorThrown);
+            }
+        })
+    }
+
+
+</script>

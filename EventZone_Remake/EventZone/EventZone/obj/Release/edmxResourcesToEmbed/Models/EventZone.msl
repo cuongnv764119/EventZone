@@ -18,6 +18,7 @@
           <ScalarProperty Name="AppealStatus" ColumnName="AppealStatus" />
           <ScalarProperty Name="SendDate" ColumnName="SendDate" />
           <ScalarProperty Name="ResultDate" ColumnName="ResultDate" />
+          <ScalarProperty Name="HandleBy" ColumnName="HandleBy" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -78,6 +79,7 @@
           <ScalarProperty Name="EditTime" ColumnName="EditTime" />
           <ScalarProperty Name="EditContent" ColumnName="EditContent" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="LockedReason" ColumnName="LockedReason" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -146,6 +148,35 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Notifications">
+      <EntityTypeMapping TypeName="EventZoneModel.Notification">
+        <MappingFragment StoreEntitySet="Notification">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NotificationChanges">
+      <EntityTypeMapping TypeName="EventZoneModel.NotificationChange">
+        <MappingFragment StoreEntitySet="NotificationChange">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NotificationObjectID" ColumnName="NotificationObjectID" />
+          <ScalarProperty Name="ActorID" ColumnName="ActorID" />
+          <ScalarProperty Name="EventID" ColumnName="EventID" />
+          <ScalarProperty Name="IsRead" ColumnName="IsRead" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NotificationObjects">
+      <EntityTypeMapping TypeName="EventZoneModel.NotificationObject">
+        <MappingFragment StoreEntitySet="NotificationObject">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="NotificationID" ColumnName="NotificationID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="PeopleFollows">
       <EntityTypeMapping TypeName="EventZoneModel.PeopleFollow">
         <MappingFragment StoreEntitySet="PeopleFollow">
@@ -165,7 +196,17 @@
           <ScalarProperty Name="ReportContent" ColumnName="ReportContent" />
           <ScalarProperty Name="ReportStatus" ColumnName="ReportStatus" />
           <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
-          <ScalarProperty Name="ResultDate" ColumnName="ResultDate" />
+          <ScalarProperty Name="HandleDate" ColumnName="HandleDate" />
+          <ScalarProperty Name="HandleBy" ColumnName="HandleBy" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReportDefines">
+      <EntityTypeMapping TypeName="EventZoneModel.ReportDefine">
+        <MappingFragment StoreEntitySet="ReportDefine">
+          <ScalarProperty Name="ReportTypeID" ColumnName="ReportTypeID" />
+          <ScalarProperty Name="ReportTypeName" ColumnName="ReportTypeName" />
+          <ScalarProperty Name="ReportDefine1" ColumnName="ReportDefine" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -223,6 +264,7 @@
           <ScalarProperty Name="Privacy" ColumnName="Privacy" />
           <ScalarProperty Name="PrimaryServer" ColumnName="PrimaryServer" />
           <ScalarProperty Name="BackupServer" ColumnName="BackupServer" />
+          <ScalarProperty Name="StreamName" ColumnName="StreamName" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

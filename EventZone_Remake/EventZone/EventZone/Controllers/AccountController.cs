@@ -265,6 +265,19 @@ namespace EventZone.Controllers
             }
             catch
             {
+                if (Request.Cookies["userName"] != null)
+                {
+                    HttpCookie userName = Request.Cookies["userName"];
+                    userName.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(userName);
+                }
+                //remove cookie password
+                if (Request.Cookies["password"] != null)
+                {
+                    HttpCookie password = Request.Cookies["password"];
+                    password.Expires = DateTime.Now.AddDays(-1);
+                    Request.Cookies.Add(password);
+                }
                 TempData["errorTitle"] = "Social Signin Error";
                 TempData["errorMessage"] = "Failed to connect with Google! Check your connection please...";
                 UserHelpers.SetCurrentUser(Session, null);
@@ -349,14 +362,14 @@ namespace EventZone.Controllers
             //remove cookie userName
             if (Request.Cookies["userName"] != null)
             {
-                HttpCookie userName = new HttpCookie("userName");
+                HttpCookie userName = Request.Cookies["userName"];
                 userName.Expires = DateTime.Now.AddDays(-1);
                 Response.Cookies.Add(userName);
             }
             //remove cookie password
             if (Request.Cookies["password"] != null)
             {
-                HttpCookie password = new HttpCookie("password");
+                HttpCookie password = Request.Cookies["password"];
                 password.Expires = DateTime.Now.AddDays(-1);
                 Request.Cookies.Add(password);
             }

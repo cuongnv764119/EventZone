@@ -51,7 +51,7 @@ namespace EventZone.Controllers
                 if (user == null)
                 {
                     TempData["errorTitle"] = "Require Signin";
-                    TempData["errorMessage"] = "Ops.. It's look like you are current is not signed in system! Please sign in first!";
+                    TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -236,7 +236,7 @@ namespace EventZone.Controllers
             if (user == null)
             {
                 TempData["errorTitle"]="Require Signin";
-                TempData["errorMessage"] = "Ops.. It's look like you are current is not signed in system! Please sign in first!";
+                TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -282,7 +282,7 @@ namespace EventZone.Controllers
                     else
                     {
                         TempData["errorTitle"] = "Not select file";
-                        TempData["errorMessage"] = "It's look like you forgot select an image! Are you getting old?";
+                        TempData["errorMessage"] = "It look like you forgot select an image! Are you getting old?";
                         return RedirectToAction("Index");
                     }
                 }
@@ -354,7 +354,7 @@ namespace EventZone.Controllers
             if (userSession == null)
             {
                 TempData["errorTitle"] = "Require Signin";
-                TempData["errorMessage"] = "Ops.. It's look like you are current is not signed in system! Please sign in first!";
+                TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
                 return RedirectToAction("Index", "Home");
             }
             EditUserModel editUserModel = new EditUserModel();
@@ -417,7 +417,7 @@ namespace EventZone.Controllers
                 if (user == null)
                 {
                     TempData["errorTitle"] = "Require Signin";
-                    TempData["errorMessage"] = "Ops.. It's look like you are current is not signed in system! Please sign in first!";
+                    TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
                     return PartialView("_ManageFollow");
                 }
                 else userID = user.UserID;
@@ -449,7 +449,7 @@ namespace EventZone.Controllers
                 {
                     state = 0,
                     error = "Require Signin",
-                    message = "Ops.. It's look like you are current is not signed in system! Please sign in first!",
+                    message = "Ops.. It look like you are current is not signed in system! Please sign in first!",
                 });
             }
             else if (user.UserID == EventDatabaseHelper.Instance.GetAuthorEvent(eventId).UserID)
@@ -517,7 +517,7 @@ namespace EventZone.Controllers
                 if (user == null)
                 {
                     TempData["errorTitle"] = "Require Signin";
-                    TempData["errorMessage"] = "Ops.. It's look like you are current is not signed in system! Please sign in first!";
+                    TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -552,7 +552,7 @@ namespace EventZone.Controllers
                 {
                     state = 0,
                     error = "Require Signin",
-                    message = "Ops.. It's look like you are current is not signed in system! Please sign in first!",
+                    message = "Ops.. It look like you are current is not signed in system! Please sign in first!",
                 });
             }
             else if (user.UserID != EventDatabaseHelper.Instance.GetAuthorEvent(eventID).UserID)

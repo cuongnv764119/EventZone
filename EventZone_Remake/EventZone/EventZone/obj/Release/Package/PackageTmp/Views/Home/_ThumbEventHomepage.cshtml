@@ -5,110 +5,105 @@
     User user = UserHelpers.GetCurrentUser(Session);    
 
 }
+
 @if (Model != null)
 {
-    foreach (var item in Model)
-    {
-    <!-- ee_ đánh dấu file Each_Event.html -->
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_cc_event_container" style="height: 130px">
-            <div class="d_ee_body">
-                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 d_ee_thumb">
-                    <div class="card">
-                        <div class="front">
-                            <img src="@item.avatar">
-                            @if(EventDatabaseHelper.Instance.isLive(@item.EventID)){
-                                <div class="d_ee_live">
-                                live
+    <ul class="bxslider">
+        @foreach (var item in Model)
+        {
+
+        <!-- ee_ đánh dấu file Each_Event.html -->
+
+        <li>
+            <div class="d_each_event">
+                <section id="myFlipper" class="flipper-container _flipper-left" style="perspective: 2000px;">
+                    <div id="flipper-inside" style="transition: all 0.5s ease;">
+                        <div class="front _flipper-front">
+                            <section class="front__content">
+                                <img src="@item.avatar">
+                                @if (EventDatabaseHelper.Instance.isLive(@item.EventID))
+                                {
+                                    <div class="d_live_mark">
+                                        <span class="glyphicon glyphicon-bookmark"></span>
+                                    </div>
+                                 <div class="d_live_text">
+                                    Live
                                 </div>
-                            }
+                                }
+                                <div class="d_ee_front_info">
+                                    <div class="d_title">
+                                        @Html.ActionLink(@item.EventName, "Details", "Event", new {id = item.EventID}, null)
+                                    </div>
+                                    <div class="d_time_left">
+                                        <div class="glyphicon glyphicon-time"></div>
+                                        <div class="d_short_des d_time_left">
+                                            2 days left
+                                        </div>
+                                    </div>
+                                    <div class="d_follow_no">
+                                        <div class="glyphicon glyphicon-user"></div>
+                                        <div class="d_short_des d_follow_no">
+                                            Followed: 123
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
-                        <div class="back">
-                            <div class="d_ee_thumb_back">
-                                <button type="button" onclick="followEvent(this.value)" class="d_ee_follow" value="@item.EventID" >
-                                    <span class="follow-@item.EventID-status">
-                                    @if (user != null && UserDatabaseHelper.Instance.IsFollowingEvent(user.UserID,@item.EventID)) { 
-                                        <text>Followed</text>
-                                    }
-                                    else
-                                    {
-                                       <text>Follow</text>
-                                    }                                         
-                                    </span>
-                                </button>
-                                <button class="d_ee_share" onclick="share(@item.EventID)">
-                                    Share
-                                </button>
-                            </div>
+                        <div class="back _flipper-back">
+                            <section class="back__content">
+                                <div class="d_ee_back_info">
+                                    <div class="d_time first">
+                                        <div class="glyphicon glyphicon-time"></div>
+                                        <div class="d_short_des d_time">
+                                            Thời gian: @item.StartDate.DayOfWeek <span> @item.StartDate.Day</span><span>/@item.StartDate.Month</span><span>/@item.StartDate.Year</span>
+                                        </div>
+                                    </div>
+                                    <div class="d_date">
+                                        <div class="glyphicon glyphicon-calendar"></div>
+                                        <div class="d_short_des d_date">
+                                            Ngày: 21/11/2015
+                                        </div>
+                                    </div>
+                                    <div class="d_location">
+                                        <div class="glyphicon glyphicon-map-marker"></div>
+                                        <div class="d_short_des d_location">
+                                            @item.listLocation[0].LocationName
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d_group_btn">
+                                    <button type="button" class="btn btn-default btn-xs">
+                                        Description
+                                    </button>
+                                    <br>
+                                    <button type="button" class="btn btn-default btn-xs">
+                                        @Html.ActionLink("View Detail","Details", "Event", new { id = item.EventID },null)
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-xs" onclick="followEvent(this.value)" value="@item.EventID">
+                                        <span class="follow-@item.EventID-status">
+                                            @if (user != null && UserDatabaseHelper.Instance.IsFollowingEvent(user.UserID, @item.EventID))
+                                            {
+                                                <text>Followed</text>
+                                            }
+                                            else
+                                            {
+                                                <text>Follow</text>
+                                            }
+                                        </span>
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-xs" onclick="share(@item.EventID)">
+                                        Share
+                                    </button>
+                                </div>
+                            </section>
                         </div>
                     </div>
-                </div>
-                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 d_ee_info_cover">
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_ee_title">
-                       @Html.ActionLink(@item.EventName, "Details", "Event", new { id = item.EventID },null)
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_ee_datetime">
-                        <div class="col-xs-1 col-sm-1 col-md-2 col-lg-2 d_ee_icon">
-                            <span class="glyphicon glyphicon-time"></span>
-                        </div>
-                        <div class="col-xs-11 col-sm-11 col-md-10 col-lg-10 d_ee_datetime2">
-                            @item.StartDate.DayOfWeek <span> @item.StartDate.Day</span><span>/@item.StartDate.Month</span><span>/@item.StartDate.Year</span>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_ee_location">
-                        <div class="col-xs-1 col-sm-1 col-md-2 col-lg-2 d_ee_icon">
-                            <span class="glyphicon glyphicon-map-marker"></span>
-                        </div>
-                        <div class="col-xs-11 col-sm-11 col-md-10 col-lg-10 d_ee_location2">
-                            @item.listLocation[0].LocationName
-                        </div>
-                    </div>
-                </div>
+                </section>
             </div>
-        </div>
-    }
-}
-<script src="~/Scripts/shareFacebook.js"></script>
-<script src="~/Scripts/Home/jquery.flip.min.js"></script>
-<script src="~/Scripts/Home/Index.js"></script>
-
-<script>
-    //handle follow event
-    function followEvent(eventID) {
-        @if(user!=null){
-            <text>
-    $.ajax({
-     url: "/User/FollowEvent",
-     type: "POST",
-     dataType: "json",
-     data: {
-         eventID: eventID
-     },
-     success: function (data) {
-         if (data.success) {
-             if (data.state == 0) {
-                 $(".follow-" + eventID + "-status").text("Follow");
-             } else if (data.state == 1) {
-                 $(".follow-" + eventID + "-status").text("Followed");
-             }
-         } else {
-             alert("ops.. somthing wrong!Please try again later...");
-         }
-     },
-     error: function (jqXHR, textStatus, errorThrown) {
-         console.log(jqXHR);
-         console.log(textStatus);
-         console.log(errorThrown);
-     }
- })
-        </text>
+        </li>
         }
-        else {
-            <text>
-        var x=
-        errorShow('Require Signin','Please signin to follow this event')
-            </text>
-        }
-
+    </ul>
     }
 
-</script>
+
+

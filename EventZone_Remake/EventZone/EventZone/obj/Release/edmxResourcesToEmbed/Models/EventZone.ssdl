@@ -17,6 +17,7 @@
     <Property Name="AppealStatus" Type="int" Nullable="false" />
     <Property Name="SendDate" Type="date" Nullable="false" />
     <Property Name="ResultDate" Type="date" />
+    <Property Name="HandleBy" Type="bigint" />
   </EntityType>
   <EntityType Name="Category">
     <Key>
@@ -72,6 +73,7 @@
     <Property Name="EditTime" Type="datetime" />
     <Property Name="EditContent" Type="nvarchar(max)" />
     <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="LockedReason" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="EventFollow">
     <Key>
@@ -131,6 +133,32 @@
     <Property Name="Latitude" Type="float" Nullable="false" />
     <Property Name="LocationName" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NotificationChange">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NotificationObjectID" Type="bigint" Nullable="false" />
+    <Property Name="ActorID" Type="bigint" />
+    <Property Name="EventID" Type="bigint" />
+    <Property Name="IsRead" Type="bit" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NotificationObject">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NotificationID" Type="bigint" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="PeopleFollow">
     <Key>
       <PropertyRef Name="PeopleFollowID" />
@@ -143,14 +171,23 @@
     <Key>
       <PropertyRef Name="ReportID" />
     </Key>
-    <Property Name="ReportID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="EventID" Type="bigint" Nullable="false" />
     <Property Name="SenderID" Type="bigint" Nullable="false" />
-    <Property Name="ReportType" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ReportType" Type="int" Nullable="false" />
     <Property Name="ReportContent" Type="nvarchar(max)" />
     <Property Name="ReportStatus" Type="int" Nullable="false" />
     <Property Name="ReportDate" Type="datetime" Nullable="false" />
-    <Property Name="ResultDate" Type="datetime" />
+    <Property Name="HandleDate" Type="datetime" />
+    <Property Name="HandleBy" Type="bigint" />
+  </EntityType>
+  <EntityType Name="ReportDefine">
+    <Key>
+      <PropertyRef Name="ReportTypeID" />
+    </Key>
+    <Property Name="ReportTypeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReportTypeName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ReportDefine" Type="nvarchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="Share">
     <Key>
@@ -204,6 +241,7 @@
     <Property Name="Privacy" Type="int" Nullable="false" />
     <Property Name="PrimaryServer" Type="nvarchar" MaxLength="50" />
     <Property Name="BackupServer" Type="nvarchar" MaxLength="50" />
+    <Property Name="StreamName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <Association Name="FK_Appeal_Event1">
     <End Role="Event" Type="Self.Event" Multiplicity="1" />
@@ -214,6 +252,18 @@
       </Principal>
       <Dependent Role="Appeal">
         <PropertyRef Name="EventID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Appeal_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Appeal" Type="Self.Appeal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Appeal">
+        <PropertyRef Name="HandleBy" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -409,6 +459,66 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Notification_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Notification">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NotificationChange_Event">
+    <End Role="Event" Type="Self.Event" Multiplicity="0..1" />
+    <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="EventID" />
+      </Principal>
+      <Dependent Role="NotificationChange">
+        <PropertyRef Name="EventID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NotificationChange_NotificationObject">
+    <End Role="NotificationObject" Type="Self.NotificationObject" Multiplicity="1" />
+    <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NotificationObject">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NotificationChange">
+        <PropertyRef Name="NotificationObjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NotificationChange_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="NotificationChange">
+        <PropertyRef Name="ActorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NotificationObject_Notification">
+    <End Role="Notification" Type="Self.Notification" Multiplicity="1" />
+    <End Role="NotificationObject" Type="Self.NotificationObject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Notification">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NotificationObject">
+        <PropertyRef Name="NotificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PeopleFollow_User">
     <End Role="User" Type="Self.User" Multiplicity="1" />
     <End Role="PeopleFollow" Type="Self.PeopleFollow" Multiplicity="*" />
@@ -442,6 +552,18 @@
       </Principal>
       <Dependent Role="Report">
         <PropertyRef Name="EventID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Report_ReportDefine">
+    <End Role="ReportDefine" Type="Self.ReportDefine" Multiplicity="1" />
+    <End Role="Report" Type="Self.Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReportDefine">
+        <PropertyRef Name="ReportTypeID" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="ReportType" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -556,14 +678,22 @@
     <EntitySet Name="Image" EntityType="Self.Image" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="LikeDislike" EntityType="Self.LikeDislike" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NotificationChange" EntityType="Self.NotificationChange" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NotificationObject" EntityType="Self.NotificationObject" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PeopleFollow" EntityType="Self.PeopleFollow" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ReportDefine" EntityType="Self.ReportDefine" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Share" EntityType="Self.Share" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TrackingAction" EntityType="Self.TrackingAction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Video" EntityType="Self.Video" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Appeal_Event1" Association="Self.FK_Appeal_Event1">
       <End Role="Event" EntitySet="Event" />
+      <End Role="Appeal" EntitySet="Appeal" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Appeal_User" Association="Self.FK_Appeal_User">
+      <End Role="User" EntitySet="User" />
       <End Role="Appeal" EntitySet="Appeal" />
     </AssociationSet>
     <AssociationSet Name="FK_CategoryFollow_Category" Association="Self.FK_CategoryFollow_Category">
@@ -630,6 +760,26 @@
       <End Role="User" EntitySet="User" />
       <End Role="LikeDislike" EntitySet="LikeDislike" />
     </AssociationSet>
+    <AssociationSet Name="FK_Notification_User" Association="Self.FK_Notification_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Notification" EntitySet="Notification" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NotificationChange_Event" Association="Self.FK_NotificationChange_Event">
+      <End Role="Event" EntitySet="Event" />
+      <End Role="NotificationChange" EntitySet="NotificationChange" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NotificationChange_NotificationObject" Association="Self.FK_NotificationChange_NotificationObject">
+      <End Role="NotificationObject" EntitySet="NotificationObject" />
+      <End Role="NotificationChange" EntitySet="NotificationChange" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NotificationChange_User" Association="Self.FK_NotificationChange_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="NotificationChange" EntitySet="NotificationChange" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NotificationObject_Notification" Association="Self.FK_NotificationObject_Notification">
+      <End Role="Notification" EntitySet="Notification" />
+      <End Role="NotificationObject" EntitySet="NotificationObject" />
+    </AssociationSet>
     <AssociationSet Name="FK_PeopleFollow_User" Association="Self.FK_PeopleFollow_User">
       <End Role="User" EntitySet="User" />
       <End Role="PeopleFollow" EntitySet="PeopleFollow" />
@@ -640,6 +790,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Report_Event" Association="Self.FK_Report_Event">
       <End Role="Event" EntitySet="Event" />
+      <End Role="Report" EntitySet="Report" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Report_ReportDefine" Association="Self.FK_Report_ReportDefine">
+      <End Role="ReportDefine" EntitySet="ReportDefine" />
       <End Role="Report" EntitySet="Report" />
     </AssociationSet>
     <AssociationSet Name="FK_Report_User" Association="Self.FK_Report_User">

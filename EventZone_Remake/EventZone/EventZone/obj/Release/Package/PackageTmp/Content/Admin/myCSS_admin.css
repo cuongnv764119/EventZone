@@ -190,14 +190,7 @@
 .d_admin_body{
 	overflow-y: scroll;
 }
-.d_result_container{
-	height: 600px;
-	padding: 10px;
-	margin-right: 10px;
-	margin-left: 10px;
-	border: 1px red solid;
-	border-radius: 5px;
-}
+
 .d_me_container,
 .d_mu_container,
 .d_re_container,

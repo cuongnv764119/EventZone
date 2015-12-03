@@ -2,16 +2,11 @@
 @using EventZone.Models
 @using EventZone.Helpers
 
-@{
-    var errorTitle = TempData["errorTitle"];
-    var errorMessage = TempData["errorMessage"];
-    User user = UserHelpers.GetCurrentUser(Session);
-}
 <style>
     .thumb_anh {
         vertical-align: middle;
         height: 200px;
-        border: 1px red solid;
+        width: 200px;
     }
 </style>
 
@@ -47,7 +42,7 @@
 
                                 @using (Html.BeginForm("UploadAvatar", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
                                 {
-                                        <input id="uploadBtn" type="file" class="upload" name="file" />
+                                    <input id="uploadBtn" type="file" class="upload" name="file" accept="image/x-png, image/gif, image/jpeg" />
                                     <p>
                                         <input type="submit" class="btn btn-primary btn-sm" value="Upload"/>
                                     </p>
@@ -60,8 +55,6 @@
         </div>
     </div>
 </div>
-
-
 
 <script>
     function handleFileSelect(evt) {

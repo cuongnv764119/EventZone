@@ -22,19 +22,10 @@
         {
             alertStyle = "display:none;margin-bottom:0px";
         }
-        <div id='alertPanelChangePassword'
-             class="alert alert-danger"
-             style='@alertStyle'>
-        </div>
         <div class="my_function_cover ">
             <div class="panel-body">
-                <div class="row b">
 
-                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 b">
-                        <hr>
-                    </div>
-                </div>
-                <div class="row b">
+                <div class="row">
                     <!-- row FirstName -->
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
                         First Name:
@@ -43,7 +34,7 @@
                         @Html.TextBoxFor(modal => modal.UserFirstName) @Html.ValidationMessageFor(model => model.UserFirstName)
                     </div>
                 </div>
-                <div class="row b">
+                <div class="row">
                     <!-- row LastName -->
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
                         Last Name:
@@ -52,7 +43,7 @@
                        @Html.TextBoxFor(modal => modal.UserLastName)  @Html.ValidationMessageFor(model => model.UserLastName)
                     </div>
                 </div>
-                <div class="row b">
+                <div class="row">
                     <!-- row DOB -->
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
                         Birthday:
@@ -67,16 +58,18 @@
                         @Html.ValidationMessageFor(model => model.UserDOB)
                     </div>
                 </div>
-                <div class="row b">
+                <div class="row">
                     <!-- row Address -->
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
                         Address:
                     </div>
+
                     <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 b">
-                        
+                        @Html.TextBoxFor(modal => modal.Place)  @Html.ValidationMessageFor(model => model.Place)
                     </div>
+                   
                 </div>
-                <div class="row b">
+                <div class="row">
 
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
                         Gender:
@@ -87,7 +80,7 @@
                         @Html.ValidationMessageFor(model => model.Gender)
                     </div>
                 </div>
-                <div class="row b">
+                <div class="row">
                     <!-- row Phone Number -->
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
                         Phone Number:
@@ -96,7 +89,7 @@
                         @Html.TextBoxFor(model=>model.Phone) @Html.ValidationMessageFor(model => model.Phone)
                     </div>
                 </div>
-                <div class="row b">
+                <div class="row">
                     <!-- row ID card -->
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
                         ID card:
@@ -105,7 +98,7 @@
                         @Html.TextBoxFor(model => model.IDCard) @Html.ValidationMessageFor(model => model.IDCard)
                     </div>
                 </div>
-                <div class="row b">
+                <div class="row">
                     <!-- row Update Button -->
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 b d_label">
                     </div>

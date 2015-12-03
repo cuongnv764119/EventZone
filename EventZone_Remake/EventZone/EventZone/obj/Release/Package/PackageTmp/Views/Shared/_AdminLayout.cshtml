@@ -13,12 +13,15 @@
     <link href="~/Content/Admin/bootstrap-social.css" rel="stylesheet" />
     <link href="~/Content/Admin/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/Admin/myCSS_admin.css" rel="stylesheet" />
+    <link href="~/Content/Admin/myCSS_s_r.css" rel="stylesheet" />
     <script src="~/Scripts/Admin/jquery-1.11.3.min.js"></script>
-    <script src="~/Scripts/Admin/myJS_s_r.js"></script>
+    <script src="~/Scripts/jquery.ajaxform.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/_Layout/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/ErrorAlert.js"></script>
+    <script src="~/Scripts/Admin/myJS_s_r.js"></script>
     <!--Script-->
     <script>
     $(document).ready(function () {
@@ -121,13 +124,6 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        @*@Html.ActionLink("Statistic", "Statistic", "Admin")
-                        @Html.ActionLink("ManageEvent", "ManageEvent", "Admin")
-                        @Html.ActionLink("ManageUser", "ManageUser", "Admin")
-                        @Html.ActionLink("ManageReport", "ManageReport", "Admin")*@
-
-
-
 
                         <li class="">@Html.ActionLink("Statistic","Statistic","Admin")</li>
                         <li class="">@Html.ActionLink("Manage Event", "ManageEvent", "Admin")</li>

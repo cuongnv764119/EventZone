@@ -33,33 +33,36 @@
 }
 <link href="~/Content/User/myCSS_s_r.css" rel="stylesheet" />
 <div class="d_all_result container">
-    <div class="col-xs-8 col-sm-9 col-md-9 col-lg-10 d_result_container">
+    <div class="col-xs-8 col-sm-9 col-md-9 col-lg-10" id="pannel-result">
         <!-- Tab panes -->
         <div class="tab-content">
             <!-- EVENT Result: e_ đánh dấu CSS Event -->
-            <div class="tab-pane active b" id="event-r">
-                <div class="d_e_result_container">
+            <div class="tab-pane active b d_result_container" >
+                <div class="d_result_container" id="event-r">
                     @if (listEvent != null)
                     {
-                        foreach (var item in listEvent)
-                        {
-                                @Html.Partial("_ThumbEvent", item)
+                        for (int i = 0; i < listEvent.Count; i++) {
+                            if (i == 10) { break; } 
+                            @Html.Partial("_ThumbEvent", listEvent[i])
                         }
                     }
+                    @Html.Partial("_Loading");
                 </div>
             </div>
             <!-- Live Event Result: c_ đánh dấu CSS Live Event -->
-            <div class="tab-pane b" id="liveEvent-r">
+            <div class="tab-pane b d_result_container" >
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_c_result_container">
-                    @if (listLiveStream != null)
-                    {
-                        foreach (var item in listLiveStream)
+                    <div class="d_result_container" id="liveEvent-r">
+                        @if (listLiveStream != null)
                         {
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                @Html.Partial("_ThumbEvent", item)
-                            </div>
+                            foreach (var item in listLiveStream)
+                            {
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                    @Html.Partial("_ThumbEvent", item)
+                                </div>
+                            }
                         }
-                    }
+                    </div>
                 </div>
             </div>
             <!-- USER Result: u_ đánh dấu CSS User -->
@@ -97,3 +100,8 @@
     </div>
 </div>
 
+<script>
+    var pageNumberIndex = 1;
+    var pageNumberWish = 1;
+    var pageNumberHot = 1;
+</script>

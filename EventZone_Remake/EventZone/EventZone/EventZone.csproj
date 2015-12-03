@@ -461,6 +461,8 @@
     </Content>
     <None Include="Properties\PublishProfiles\EventZone - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\EventZone - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\LiveEvent - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\LiveEvent - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\Account\ForgotAccount.js" />
     <Content Include="Scripts\Account\SignUpGoogle.js" />
@@ -601,6 +603,7 @@
     <Content Include="Views\User\_ViewAppeal.cshtml" />
     <Content Include="Views\Admin\ViewDetailAppeal.cshtml" />
     <Content Include="Views\Admin\AddNewUser.cshtml" />
+    <Content Include="Views\Shared\_Loading.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

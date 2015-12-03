@@ -18,7 +18,9 @@
     <Property Name="AppealStatus" Type="Int32" Nullable="false" />
     <Property Name="SendDate" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="ResultDate" Type="DateTime" Precision="0" />
+    <Property Name="HandleBy" Type="Int64" />
     <NavigationProperty Name="Event" Relationship="Self.FK_Appeal_Event1" FromRole="Appeal" ToRole="Event" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Appeal_User" FromRole="Appeal" ToRole="User" />
   </EntityType>
   <EntityType Name="Category">
     <Key>
@@ -82,6 +84,7 @@
     <Property Name="EditTime" Type="DateTime" Precision="3" />
     <Property Name="EditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Status" Type="Boolean" Nullable="false" />
+    <Property Name="LockedReason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Appeals" Relationship="Self.FK_Appeal_Event1" FromRole="Event" ToRole="Appeal" />
     <NavigationProperty Name="Category" Relationship="Self.FK_Event_Category" FromRole="Event" ToRole="Category" />
     <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_Event1" FromRole="Event" ToRole="Comment" />
@@ -90,6 +93,7 @@
     <NavigationProperty Name="EventImages" Relationship="Self.FK_EventImage_Event" FromRole="Event" ToRole="EventImage" />
     <NavigationProperty Name="EventPlaces" Relationship="Self.FK_EventPlace_Event1" FromRole="Event" ToRole="EventPlace" />
     <NavigationProperty Name="LikeDislikes" Relationship="Self.FK_LikeDislike_Event1" FromRole="Event" ToRole="LikeDislike" />
+    <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_Event" FromRole="Event" ToRole="NotificationChange" />
     <NavigationProperty Name="Reports" Relationship="Self.FK_Report_Event" FromRole="Event" ToRole="Report" />
     <NavigationProperty Name="Shares" Relationship="Self.FK_Share_Event1" FromRole="Event" ToRole="Share" />
   </EntityType>
@@ -164,6 +168,39 @@
     <Property Name="LocationName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="EventPlaces" Relationship="Self.FK_EventPlace_Location" FromRole="Location" ToRole="EventPlace" />
   </EntityType>
+  <EntityType Name="Notification">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int64" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Notification_User" FromRole="Notification" ToRole="User" />
+    <NavigationProperty Name="NotificationObjects" Relationship="Self.FK_NotificationObject_Notification" FromRole="Notification" ToRole="NotificationObject" />
+  </EntityType>
+  <EntityType Name="NotificationChange">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NotificationObjectID" Type="Int64" Nullable="false" />
+    <Property Name="ActorID" Type="Int64" />
+    <Property Name="EventID" Type="Int64" />
+    <Property Name="IsRead" Type="Boolean" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Event" Relationship="Self.FK_NotificationChange_Event" FromRole="NotificationChange" ToRole="Event" />
+    <NavigationProperty Name="NotificationObject" Relationship="Self.FK_NotificationChange_NotificationObject" FromRole="NotificationChange" ToRole="NotificationObject" />
+    <NavigationProperty Name="User" Relationship="Self.FK_NotificationChange_User" FromRole="NotificationChange" ToRole="User" />
+  </EntityType>
+  <EntityType Name="NotificationObject">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NotificationID" Type="Int64" Nullable="false" />
+    <Property Name="Type" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Notification" Relationship="Self.FK_NotificationObject_Notification" FromRole="NotificationObject" ToRole="Notification" />
+    <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_NotificationObject" FromRole="NotificationObject" ToRole="NotificationChange" />
+  </EntityType>
   <EntityType Name="PeopleFollow">
     <Key>
       <PropertyRef Name="PeopleFollowID" />
@@ -178,16 +215,27 @@
     <Key>
       <PropertyRef Name="ReportID" />
     </Key>
-    <Property Name="ReportID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="EventID" Type="Int64" Nullable="false" />
     <Property Name="SenderID" Type="Int64" Nullable="false" />
-    <Property Name="ReportType" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ReportType" Type="Int32" Nullable="false" />
     <Property Name="ReportContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="ReportStatus" Type="Int32" Nullable="false" />
     <Property Name="ReportDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="ResultDate" Type="DateTime" Precision="3" />
+    <Property Name="HandleDate" Type="DateTime" Precision="3" />
+    <Property Name="HandleBy" Type="Int64" />
     <NavigationProperty Name="Event" Relationship="Self.FK_Report_Event" FromRole="Report" ToRole="Event" />
+    <NavigationProperty Name="ReportDefine" Relationship="Self.FK_Report_ReportDefine" FromRole="Report" ToRole="ReportDefine" />
     <NavigationProperty Name="User" Relationship="Self.FK_Report_User" FromRole="Report" ToRole="User" />
+  </EntityType>
+  <EntityType Name="ReportDefine">
+    <Key>
+      <PropertyRef Name="ReportTypeID" />
+    </Key>
+    <Property Name="ReportTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ReportTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ReportDefine1" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Reports" Relationship="Self.FK_Report_ReportDefine" FromRole="ReportDefine" ToRole="Report" />
   </EntityType>
   <EntityType Name="Share">
     <Key>
@@ -232,7 +280,8 @@
     <Property Name="AccountStatus" Type="Boolean" Nullable="false" />
     <Property Name="Gender" Type="Int32" Nullable="false" />
     <Property Name="Avartar" Type="Int64" />
-    <Property Name="DataJoin" Type="DateTime" Precision="0" Nullable="false" />
+    <Property Name="DataJoin" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Appeals" Relationship="Self.FK_Appeal_User" FromRole="User" ToRole="Appeal" />
     <NavigationProperty Name="CategoryFollows" Relationship="Self.FK_CategoryFollow_User" FromRole="User" ToRole="CategoryFollow" />
     <NavigationProperty Name="Comments" Relationship="Self.FK_Comment_User" FromRole="User" ToRole="Comment" />
     <NavigationProperty Name="Channels" Relationship="Self.FK_Channel_User" FromRole="User" ToRole="Channel" />
@@ -240,6 +289,8 @@
     <NavigationProperty Name="Images" Relationship="Self.FK_Gallery_User" FromRole="User" ToRole="Image" />
     <NavigationProperty Name="Image" Relationship="Self.FK_User_Image" FromRole="User" ToRole="Image" />
     <NavigationProperty Name="LikeDislikes" Relationship="Self.FK_LikeDislike_User" FromRole="User" ToRole="LikeDislike" />
+    <NavigationProperty Name="Notifications" Relationship="Self.FK_Notification_User" FromRole="User" ToRole="Notification" />
+    <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_User" FromRole="User" ToRole="NotificationChange" />
     <NavigationProperty Name="PeopleFollows" Relationship="Self.FK_PeopleFollow_User" FromRole="User" ToRole="PeopleFollow" />
     <NavigationProperty Name="PeopleFollows1" Relationship="Self.FK_PeopleFollow_User3" FromRole="User" ToRole="PeopleFollow" />
     <NavigationProperty Name="Reports" Relationship="Self.FK_Report_User" FromRole="User" ToRole="Report" />
@@ -259,6 +310,7 @@
     <Property Name="Privacy" Type="Int32" Nullable="false" />
     <Property Name="PrimaryServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="BackupServer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="StreamName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="EventPlace" Relationship="Self.FK_Video_EventPlace" FromRole="Video" ToRole="EventPlace" />
   </EntityType>
   <Association Name="FK_TrackingAction_ActorAction">
@@ -282,6 +334,18 @@
       </Principal>
       <Dependent Role="Appeal">
         <PropertyRef Name="EventID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Appeal_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Appeal" Type="Self.Appeal" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Appeal">
+        <PropertyRef Name="HandleBy" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -417,6 +481,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_NotificationChange_Event">
+    <End Role="Event" Type="Self.Event" Multiplicity="0..1" />
+    <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="EventID" />
+      </Principal>
+      <Dependent Role="NotificationChange">
+        <PropertyRef Name="EventID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_Report_Event">
     <End Role="Event" Type="Self.Event" Multiplicity="1" />
     <End Role="Report" Type="Self.Report" Multiplicity="*" />
@@ -525,6 +601,54 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_Notification_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Notification" Type="Self.Notification" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Notification">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NotificationObject_Notification">
+    <End Role="Notification" Type="Self.Notification" Multiplicity="1" />
+    <End Role="NotificationObject" Type="Self.NotificationObject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Notification">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NotificationObject">
+        <PropertyRef Name="NotificationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NotificationChange_NotificationObject">
+    <End Role="NotificationObject" Type="Self.NotificationObject" Multiplicity="1" />
+    <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NotificationObject">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="NotificationChange">
+        <PropertyRef Name="NotificationObjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_NotificationChange_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="NotificationChange" Type="Self.NotificationChange" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="NotificationChange">
+        <PropertyRef Name="ActorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PeopleFollow_User">
     <End Role="User" Type="Self.User" Multiplicity="1" />
     <End Role="PeopleFollow" Type="Self.PeopleFollow" Multiplicity="*" />
@@ -546,6 +670,18 @@
       </Principal>
       <Dependent Role="PeopleFollow">
         <PropertyRef Name="FollowingUserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Report_ReportDefine">
+    <End Role="ReportDefine" Type="Self.ReportDefine" Multiplicity="1" />
+    <End Role="Report" Type="Self.Report" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ReportDefine">
+        <PropertyRef Name="ReportTypeID" />
+      </Principal>
+      <Dependent Role="Report">
+        <PropertyRef Name="ReportType" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -612,8 +748,12 @@
     <EntitySet Name="Images" EntityType="Self.Image" />
     <EntitySet Name="LikeDislikes" EntityType="Self.LikeDislike" />
     <EntitySet Name="Locations" EntityType="Self.Location" />
+    <EntitySet Name="Notifications" EntityType="Self.Notification" />
+    <EntitySet Name="NotificationChanges" EntityType="Self.NotificationChange" />
+    <EntitySet Name="NotificationObjects" EntityType="Self.NotificationObject" />
     <EntitySet Name="PeopleFollows" EntityType="Self.PeopleFollow" />
     <EntitySet Name="Reports" EntityType="Self.Report" />
+    <EntitySet Name="ReportDefines" EntityType="Self.ReportDefine" />
     <EntitySet Name="Shares" EntityType="Self.Share" />
     <EntitySet Name="TrackingActions" EntityType="Self.TrackingAction" />
     <EntitySet Name="Users" EntityType="Self.User" />
@@ -624,6 +764,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_Appeal_Event1" Association="Self.FK_Appeal_Event1">
       <End Role="Event" EntitySet="Events" />
+      <End Role="Appeal" EntitySet="Appeals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Appeal_User" Association="Self.FK_Appeal_User">
+      <End Role="User" EntitySet="Users" />
       <End Role="Appeal" EntitySet="Appeals" />
     </AssociationSet>
     <AssociationSet Name="FK_CategoryFollow_Category" Association="Self.FK_CategoryFollow_Category">
@@ -670,6 +814,10 @@
       <End Role="Event" EntitySet="Events" />
       <End Role="LikeDislike" EntitySet="LikeDislikes" />
     </AssociationSet>
+    <AssociationSet Name="FK_NotificationChange_Event" Association="Self.FK_NotificationChange_Event">
+      <End Role="Event" EntitySet="Events" />
+      <End Role="NotificationChange" EntitySet="NotificationChanges" />
+    </AssociationSet>
     <AssociationSet Name="FK_Report_Event" Association="Self.FK_Report_Event">
       <End Role="Event" EntitySet="Events" />
       <End Role="Report" EntitySet="Reports" />
@@ -706,6 +854,22 @@
       <End Role="User" EntitySet="Users" />
       <End Role="LikeDislike" EntitySet="LikeDislikes" />
     </AssociationSet>
+    <AssociationSet Name="FK_Notification_User" Association="Self.FK_Notification_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Notification" EntitySet="Notifications" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NotificationObject_Notification" Association="Self.FK_NotificationObject_Notification">
+      <End Role="Notification" EntitySet="Notifications" />
+      <End Role="NotificationObject" EntitySet="NotificationObjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NotificationChange_NotificationObject" Association="Self.FK_NotificationChange_NotificationObject">
+      <End Role="NotificationObject" EntitySet="NotificationObjects" />
+      <End Role="NotificationChange" EntitySet="NotificationChanges" />
+    </AssociationSet>
+    <AssociationSet Name="FK_NotificationChange_User" Association="Self.FK_NotificationChange_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="NotificationChange" EntitySet="NotificationChanges" />
+    </AssociationSet>
     <AssociationSet Name="FK_PeopleFollow_User" Association="Self.FK_PeopleFollow_User">
       <End Role="User" EntitySet="Users" />
       <End Role="PeopleFollow" EntitySet="PeopleFollows" />
@@ -713,6 +877,10 @@
     <AssociationSet Name="FK_PeopleFollow_User3" Association="Self.FK_PeopleFollow_User3">
       <End Role="User" EntitySet="Users" />
       <End Role="PeopleFollow" EntitySet="PeopleFollows" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Report_ReportDefine" Association="Self.FK_Report_ReportDefine">
+      <End Role="ReportDefine" EntitySet="ReportDefines" />
+      <End Role="Report" EntitySet="Reports" />
     </AssociationSet>
     <AssociationSet Name="FK_Report_User" Association="Self.FK_Report_User">
       <End Role="User" EntitySet="Users" />

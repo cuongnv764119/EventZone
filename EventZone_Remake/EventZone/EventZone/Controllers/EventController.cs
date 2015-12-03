@@ -360,7 +360,7 @@ namespace EventZone.Controllers
                         UserHelpers.SetCurrentUser(Session, user);
                     }
                     TempData["errorTitle"] = "Require Signin";
-                    TempData["errorMessage"] = "Ops.. It's look like you are current is not signed in system! Please sign in first!";
+                    TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
                     return RedirectToAction("Details", "Event", new { id = EventID });
                 }
             }
@@ -403,7 +403,7 @@ namespace EventZone.Controllers
                         UserHelpers.SetCurrentUser(Session, user);
                     }
                     TempData["errorTitle"] = "Require Signin";
-                    TempData["errorMessage"] = "Ops.. It's look like you are current is not signed in system! Please sign in first!";
+                    TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
                     return RedirectToAction("Details", "Event", new { id = eventID });
                 }
             }
@@ -535,7 +535,7 @@ namespace EventZone.Controllers
              if (user == null)
              {
                  TempData["errorTitle"] = "Require Signin";
-                 TempData["errorMessage"] = "Ops.. It's look like you are current is not signed in system! Please sign in first!";
+                 TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
                  return RedirectToAction("Index", "Home");
              }
              else
@@ -585,7 +585,7 @@ namespace EventZone.Controllers
                      else
                      {
                          TempData["errorTitle"] = "Not select file";
-                         TempData["errorMessage"] = "It's look like you fogot select an image! Are you getting old?";
+                         TempData["errorMessage"] = "It look like you fogot select an image! Are you getting old?";
                   
                          return PartialView("_ImagePartial", listImage);
                      }
@@ -604,7 +604,7 @@ namespace EventZone.Controllers
              if (user == null)
              {
                  TempData["errorTitle"] = "Require Signin";
-                 TempData["errorMessage"] = "Ops.. It's look like you are current is not signed in system! Please sign in first!";
+                 TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
                  return RedirectToAction("Index", "Home");
              }
              else { 
@@ -613,6 +613,10 @@ namespace EventZone.Controllers
                  return View();
              }
          
+         }
+         public ActionResult Load(List<ViewThumbEventModel> list, int page)
+         {
+             return View("_ThumbEvent", list[page]);
          }
     }
 }

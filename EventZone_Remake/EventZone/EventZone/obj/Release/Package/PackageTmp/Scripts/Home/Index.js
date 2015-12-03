@@ -6,9 +6,5 @@ $(document).ready(function(){
 	$('.d_middle_category iframe').height(mc_height);
 	$('.d_3_column iframe').height(mc_height);
 	$('.d_about iframe').height(mc_height);
-	$(".card").flip({
-	    axis: 'y',
-	    trigger: 'hover'
-	});
 
 });

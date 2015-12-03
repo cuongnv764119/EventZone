@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
-  <parameter name="IIS Web Application Name" description="" value="EventZone" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\Eventzone\ versions\\EventZone_Remake\\EventZone\\EventZone\\obj\\Release\\Package\\PackageTmp$" />
-    <parameterEntry kind="ProviderPath" scope="setAcl" match="^D:\\Eventzone\ versions\\EventZone_Remake\\EventZone\\EventZone\\obj\\Release\\Package\\PackageTmp$" />
+  <parameter name="IIS Web Application Name" description="" value="LiveEvent" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\EventZone\\EventZone_Remake\\EventZone\\EventZone\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^D:\\EventZone\\EventZone_Remake\\EventZone\\EventZone\\obj\\Release\\Package\\PackageTmp$" />
   </parameter>
-  <parameter name="EventZoneEntities-Web.config Connection String" description="" value="metadata=res://*/Models.EventZone.csdl|res://*/Models.EventZone.ssdl|res://*/Models.EventZone.msl;provider=System.Data.SqlClient;provider connection string=&quot;Data Source=eventzone.database.windows.net,1433;Initial Catalog=EventZone;User ID=eventzone;Password=Scylla7601&quot;" tags="">
-    <parameterEntry kind="XmlFile" scope="D:\\Eventzone\ versions\\EventZone_Remake\\EventZone\\EventZone\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='EventZoneEntities']/@connectionString" />
+  <parameter name="EventZoneEntities-Web.config Connection String" description="" value="metadata=res://*/Models.EventZone.csdl|res://*/Models.EventZone.ssdl|res://*/Models.EventZone.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=qjhunbf104.database.windows.net,1433;initial catalog=EventZone;user id=eventzone;password=Scylla7601;integrated security=False;multipleactiveresultsets=True;App=EntityFramework&quot;" tags="">
+    <parameterEntry kind="XmlFile" scope="D:\\EventZone\\EventZone_Remake\\EventZone\\EventZone\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='EventZoneEntities']/@connectionString" />
   </parameter>
 </parameters>

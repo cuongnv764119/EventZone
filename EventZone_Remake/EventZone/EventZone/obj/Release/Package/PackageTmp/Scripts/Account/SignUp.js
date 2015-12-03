@@ -5,9 +5,13 @@
     var isValidForm = $("#SignUpForm").validate().form();
 
     //@*Form is invalid.*@
-    if (!isValidForm||()) {
+    if (!isValidForm) {
         $("#signup-Password").val("");
         $("#signup-ConfirmPassword").val("");
+        return false;
+    }
+    if (!($('#policy').is(':checked'))) {
+        $('#policyError').show();
         return false;
     }
     //hash password

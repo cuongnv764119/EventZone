@@ -1688,7 +1688,7 @@ namespace EventZone.Helpers
             DateTime today = DateTime.Now;
             foreach (var item in listEvent)
             {
-                if (item.EventStartDate.CompareTo(startDate) >= 0 && item.EventEndDate.CompareTo(endDate) <= 0)
+                if (item.EventStartDate.CompareTo(startDate) >= 0 && item.EventStartDate.CompareTo(endDate) <= 0)
                     result.Add(item);
             }
 

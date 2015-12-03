@@ -1,0 +1,320 @@
+/**************************************** USER MANAGE PROFILE ***/
+
+/**************************************** Sửa Bootstrap ***/
+.row{
+	margin: 0;
+}
+.panel-group {
+	margin-bottom: 0px;
+}
+.panel-default > .panel-heading{
+	border-radius: 0px;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+}
+
+/**************************************** Decorate ***/
+.d_body{
+}
+.d_left_side{
+	height: 560px;
+	padding: 5px;
+	width: 59%;
+	background-color: #f5f5f5;
+	min-width: 500px;
+	border-radius: 5px;
+	zmargin-top: 50px;
+	border: 1px solid lightgrey;
+	float: left;
+}
+#i_frame_info,
+#i_frame_schedule,
+#i_frame_follow {
+	width: 100%;
+	height: 500px;
+	border: 1px solid lightgrey;
+	border-top: 0;
+}
+.d_ump_info, 
+.d_ump_gallery,
+.d_ump_follow{
+	margin-top: 10px;
+}
+.d_label{
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+/**************************************** User Info ***/
+
+
+/**************************************** User Info >> trên ***/
+.d_events_cover,
+.d_noti_cover,
+.d_info_tren{
+    margin-bottom: 6px;
+	height: 200px;
+	padding: 10px;
+	background-color: white;
+	border: 1px solid;
+	border-color: #DDDDDD;
+	border-top: 0;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+.d_info_tren .d_ava{
+	width: 25%;
+    height: inherit;
+    float: left;
+}
+.d_info_tren .d_ava img{
+	width: 160px;
+    height: 120px;
+}
+#i_btn_chg_ava{
+    margin-top: 20px;
+}
+.d_info_tren .d_info{
+    width: 73%;
+    margin-left: 2%;
+    float: left;
+}
+.d_info_tren .d_info .row{
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.d_info_tren .d_user_name{
+	font-weight: bold;
+	font-size: 17px;
+}
+.d_info_tren .row .d_icon{
+	text-align: center;
+	width: 7%;
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+.d_info_tren .row .d_icon_info{
+	width: 90%;
+	float: left;
+}
+
+/**************************************** User Info >> dưới ***/
+.d_info_duoi{
+    height: 300px;
+	padding: 10px;
+	background-color: white;
+	border: 1px solid;
+	border-color: #DDDDDD;
+	border-radius: 5px;
+}
+.d_info_duoi .row {
+	margin: 5px 0;
+}
+.d_info_duoi .row .d_criteria{
+	width: 33%;
+	float: left;
+	text-align: right;
+}
+.d_info_duoi .row .d_value{
+	width: 60%;
+	float: left;
+	margin-left: 2%;
+}
+#i_btn_edit{
+	margin-top: 10px;
+}
+/**************************************** Schedule ***/
+
+/**************************************** Follow **/
+#i_tab_follow{
+	margin-top: 5px;
+}
+#i_fl_event {
+    height: 365px;
+    max-height: 365px;
+    overflow-y: auto;
+}
+#i_fl_event .d_events_cover{
+	padding: 10px;
+	max-height: 412px;
+}
+#i_fl_user .d_user_cover{
+	padding: 10px;
+	max-height: 412px;
+}
+
+/**************************************** Follow > Each Event **/
+#i_fl_event .d_events_cover {
+	border: 0;
+	height: initial;
+	overflow-y: auto;
+}
+#i_fl_event .d_events_cover .d_each_event{
+	border-bottom: 1px solid #eee;
+	margin-bottom: 5px;
+	height: 80px;
+}
+#i_fl_event .d_events_cover .d_each_event .d_thumb{
+	width: 25%;
+	float: left;
+	height: inherit;
+}
+#i_fl_event .d_events_cover .d_each_event img{
+	float: left;
+	height: auto;
+	width: 100%;
+}
+#i_fl_event .d_events_cover .d_each_event .d_title,
+#i_fl_event .d_events_cover .d_each_event .d_time_left{
+	float: left;
+	width: 70%;
+	margin-left: 2%;
+}
+#i_fl_event .d_events_cover .d_each_event .d_title{
+	font-weight: bold;
+	font-size: 15px;
+    max-height: 45px;
+    overflow-y: hidden;
+}
+#i_fl_event .d_events_cover .d_each_event .d_time_left{
+	color: #999;
+}
+.d_each_event {
+    height:80px;
+    border-bottom: 1px solid #DDDDDD;
+    padding: 5px;
+}
+.d_each_event .d_thumb{
+    height: 70px;
+    width: 100px;
+    float: left;
+}
+.d_each_event .d_thumb img{
+    height:100%;
+    width: 100%;
+}
+.d_each_event .d_info{
+    margin-left:15px;
+    float:left;
+}
+.d_each_event .d_info .d_title{
+        font-size: 16px;
+    font-weight: bold;
+}
+.d_each_event .d_info .d_time_left{
+    color: lightgrey;
+}
+/**************************************** Follow > Each User **/
+#i_fl_user .d_user_cover {
+	border: 0;
+	height: initial;
+	overflow-y: auto;
+}
+#i_fl_user .d_user_cover .d_each_user{
+	border-bottom: 1px solid #eee;
+	margin-bottom: 5px;
+	height: 80px;
+}
+#i_fl_user .d_user_cover .d_each_user .d_thumb{
+	width: 25%;
+	float: left;
+	height: inherit;
+}
+#i_fl_user .d_user_cover .d_each_user img{
+	float: left;
+	height: auto;
+	width: 100%;
+}
+#i_fl_user .d_user_cover .d_each_user .d_title,
+#i_fl_user .d_user_cover .d_each_user .d_time_left{
+	float: left;
+	width: 70%;
+	margin-left: 2%;
+}
+#i_fl_user .d_user_cover .d_each_user .d_title{
+	font-weight: bold;
+	font-size: 15px;
+    max-height: 45px;
+    overflow-y: hidden;
+}
+#i_fl_user .d_user_cover .d_each_user .d_time_left{
+	color: #999;
+}
+#i_fl_user .d_user_cover .d_each_user .d_btn_more {
+    height: 0;
+    width: 1px;
+    position: relative;
+    top: -100%;
+    left: 93%;
+}
+ul.dropdown-menu {
+    left: -139px;
+    position: inherit;
+}
+/********************************************* Right_side **/
+/**************************************** Some Events **/
+.d_right_side_top,
+.d_right_side_bottom{
+	float: right;
+	width: 40%;
+	background-color: whitesmoke;
+	height: 305px;
+	margin-bottom: 10px;
+	border: 1px solid lightgrey;
+	border-radius: 5px;
+	padding: 5px;
+}
+.d_right_side_top .d_events_cover {
+	height: 250px;
+	padding: 10px;
+}
+.d_events_cover .d_each_event{
+	border-bottom: 1px solid #eee;
+	margin-bottom: 5px;
+	height: 65px;
+}
+.d_events_cover .d_each_event .d_thumb{
+	width: 100px;
+	float: left;
+	height: 60px;
+}
+.d_events_cover .d_each_event img{
+	float: left;
+	height: 100%;;
+	width: 100%;
+}
+.d_events_cover .d_each_event .d_title,
+.d_events_cover .d_each_event .d_time_left{
+	float: left;
+	width: 70%;
+	margin-left: 2%;
+}
+.d_events_cover .d_each_event .d_title{
+	font-weight: bold;
+	font-size: 15px;
+    max-height: 45px;
+    overflow-y: hidden;
+}
+.d_events_cover .d_each_event .d_time_left{
+	color: #999;
+}
+/**************************************** Notification Area **/
+.d_right_side_bottom{
+	height: 245px;
+}
+.d_right_side_bottom .d_noti_cover{
+	height: 191px;
+	overflow-y: auto;
+}
+.d_each_noti{
+	border-bottom: 1px solid #eee;
+	margin-bottom: 5px;
+}
+
+/**************************************** thêm ***/
+
+/**************************************** thêm ***/
+
+/**************************************** thêm ***/
+

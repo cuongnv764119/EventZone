@@ -2,13 +2,14 @@
 @using EventZone.Helpers
 
 @{
-    if (EventZone.Helpers.UserHelpers.GetCurrentUser(Session) == null)
-    {
-        Response.Redirect("~/Home");
-    }
+
     List<ViewThumbEventModel> listEventThum = TempData["ListEventThumb"]as List<ViewThumbEventModel>;
-    int countEvent = 0;
-    if (listEventThum != null) { countEvent = listEventThum.Count; }
+    List<User> listFollowingUser = TempData["ListFollowing"] as List<User>;
+    List<User> listFollower = TempData["ListFollower"] as List<User>;
+    int countFollowingUser= listFollowingUser==null?0:listFollowingUser.Count;
+    int countEvent = listEventThum==null?0:listEventThum.Count;
+    int countFollower = listFollower == null ? 0 : listFollower.Count;
+    
 }
 
     <!-- ump_ đánh dấu CSS thuộc về USER MANAGE PROFILE -->
@@ -20,14 +21,29 @@
                     <h4 class="panel-title">
                         <!-- fl_ đánh dấu CSS FOLLOW -->
                         <a href="#i_fl_event" data-toggle="collapse" data-parent="#result-list" class="" aria-expanded="true">
-                            <div class="">Followed Event (@countEvent)</div>
+                            <div class="">Following Event (@countEvent)</div>
                         </a>
                     </h4>
                 </div>
                 <div id="i_fl_event" class="panel-collapse collapse in" aria-expanded="true">
-                    @if(countEvent!=0){
-                        foreach (var item in listEventThum) { 
-                        @Html.Partial("_ThumbEvent", item)
+                    @if (countEvent != 0)
+                    {
+                        foreach (var item in listEventThum)
+                        {
+                           
+                                    <div class="d_each_event">
+                                        <div class="d_thumb">
+                                            <img src="@EventDatabaseHelper.Instance.GetImageByID(item.evt.Avatar).ImageLink">
+                                        </div>
+                                        <div class="d_info">
+                                            <div class="d_title">
+                                               @Html.ActionLink(@item.evt.EventName,"Details","Event",new{id=@item.evt.EventID},new{target="_blank"}) 
+                                            </div>
+                                            <div class="d_time_left">
+                                            </div>
+                                        </div>
+                                    </div>
+                               
                         }
                     }
                 </div>
@@ -36,18 +52,94 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a href="#i_fl_user" data-toggle="collapse" data-parent="#result-list" class="collapsed" aria-expanded="false">
-                            <div class="xxx">Followed User (10)</div>
+                            <span class="xxx">Following User (@countFollowingUser)</span>
                         </a>
                     </h4>
                 </div>
                 <div id="i_fl_user" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
-                    Followed User
+                    @if (listFollowingUser != null)
+                    {
+                        for (int i = 0; i < listFollowingUser.Count; i++)
+                        {
+                            User eachUser = listFollowingUser[i];
+
+                            <div id="i_fl_event" class="panel-collapse collapse in" aria-expanded="true">
+                                <div class="tab-pane active d_events_cover">
+                                    <div class="d_each_event">
+                                        <div class="d_thumb">
+                                            <img src="@EventDatabaseHelper.Instance.GetImageByID(eachUser.Avartar).ImageLink">
+                                        </div>
+                                        <div class="d_info">
+                                            <div class="d_title">
+                                                @Html.ActionLink(@eachUser.UserName, "Index", "User", new { userID = @eachUser.UserID }, new { target = "_blank" })
+                                            </div>
+                                            <div class="d_u_cate">
+                                                
+                                                <div class="d_fill_in">Number Event: <a href=""><i>@UserDatabaseHelper.Instance.CountOwnedEvent(eachUser.UserID)</i></a></div>
+                                            </div>
+                                            <div class="d_u_follower">
+                                               
+                                                <div class="d_fill_in">Follower: <a href=""><i>@UserDatabaseHelper.Instance.NumberFollower(eachUser.UserID)</i></a></div>
+                                            </div>
+                                            <div class="d_u_time">
+                                                
+                                                <div class="d_fill_in" id="email-display-@eachUser.UserID">Email: @eachUser.UserEmail</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a href="#i_fling_user" data-toggle="collapse" data-parent="#result-list" class="collapsed" aria-expanded="false">
+                            <span class="xxx">Followers(@countFollower)</span>
+                        </a>
+                    </h4>
+                </div>
+                <div id="i_fling_user" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                    @if (listFollower != null)
+                    {
+                        for (int i = 0; i < listFollower.Count; i++)
+                        {
+                            User eachUser = listFollower[i];
+
+                            <div id="i_fl_event" class="panel-collapse collapse in" aria-expanded="true">
+                                <div class="tab-pane active d_events_cover">
+                                    <div class="d_each_event">
+                                        <div class="d_thumb">
+                                            <img src="@EventDatabaseHelper.Instance.GetImageByID(eachUser.Avartar).ImageLink">
+                                        </div>
+                                        <div class="d_info">
+                                            <div class="d_title">
+                                                @Html.ActionLink(@eachUser.UserName, "Index", "User", new { userID = @eachUser.UserID }, new { target = "_blank" })
+                                            </div>
+                                            <div class="d_u_cate">
+
+                                                <div class="d_fill_in">Number Event: <a href=""><i>@UserDatabaseHelper.Instance.CountOwnedEvent(eachUser.UserID)</i></a></div>
+                                            </div>
+                                            <div class="d_u_follower">
+
+                                                <div class="d_fill_in">Follower: <a href=""><i>@UserDatabaseHelper.Instance.NumberFollower(eachUser.UserID)</i></a></div>
+                                            </div>
+                                            <div class="d_u_time">
+
+                                                <div class="d_fill_in" id="email-display-@eachUser.UserID">Email: @eachUser.UserEmail</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
         </div>
     </div>
-
-
     <!-- All script here -->
     <!-- Default JQuery -->
     @*<script type="text/javascript" src="../Scripts/jquery-2.1.4.js"></script>*@

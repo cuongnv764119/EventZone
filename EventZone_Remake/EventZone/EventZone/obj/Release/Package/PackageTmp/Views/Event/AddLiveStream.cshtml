@@ -36,32 +36,7 @@
 <link href="~/Content/Event/m.flip.css" rel="stylesheet" />
 <!-- myCSS -->
 <link href="~/Content/Event/Create.css" rel="stylesheet" />
-<div class="container b" id="ConfirmCreateLive">
-    <div class="col-xs-12 col-sm-12 col-lg-12 d_leftside b">
-        <!-- Khung Đăng ký sự kiện -->
-        <div class="widget" id="widget_tabs">
-            <ul class="nav nav-tabs" id="myTab">
-                <li id="i_first_tab" class="active">
-                    <a href="#" data-toggle="tab">Congratulations</a>
-                </li>
-            </ul>
-            <input hidden name="eventID" value="@Model.eventID">
-            <div class="tab-content">
-                <div id="CreateLiveEventModal" class="tab-pane active">
-                    <div style="text-align: center">
-                        <p>Congratulation! Your event has been created! Do you want to create live event. "Yes" for create and "No" for redirecting to view event page</p>
-                        @using (Html.BeginForm("Details", "Event", new { id = @Model.eventID }))
-                        {
-                            <button id="ConfirmYes" class="btn btn-success" type="button">Yes</button>
-                            <button id="ConfirmNo" class="btn btn-danger" type="submit">No</button>
-                        }
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container b" id="createForm" style="display: none">
+<div class="container b" id="createForm">
     <div class="col-xs-12 col-sm-12 col-lg-12 d_leftside b">
         <!-- Khung Đăng ký sự kiện -->
         <div class="widget">
@@ -171,7 +146,6 @@
                     <div class="form-group" style="text-align:center">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" id="btnSubmit" class="btn btn-success" value="Create" />
-                            @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-danger" })
                         </div>
 
                     </div>
@@ -193,11 +167,6 @@
 
 <script>
     $(document).ready(function () {
-        $('#createForm').hide();
-        $('#ConfirmYes').click(function () {
-            $('#createForm').show();
-            $('#ConfirmCreateLive').hide();
-        });
         $('#dtpStartTimeYoutube').datetimepicker({
             keyBinds: false
         });
