@@ -1,0 +1,85 @@
+﻿/*********************************************** Thêm */
+
+/*********************************************** Sửa Bootstrap */
+body {
+    background-color: transparent;
+    padding-top: 70px;
+}
+
+/*********************************************** Khung bao chức năng chính: Map & các event bên phải */
+.body-content{
+    width: 80%;
+    margin-left: 10%;
+    border: 0px red solid;
+}
+
+/*********************************************** chứa Map */
+.d_left_content{
+    width: 49%;
+    float: left;
+    border-radius: 5px;
+    border: 1px gray solid;
+}
+#map {
+    height: 500px;
+}
+.d_btn_show_all {
+    position: absolute;
+    left: 40%;
+    margin-top: 11px;
+    height: 31px;
+    border-radius: 3px;
+    border: 1px solid rgba(158, 158, 158, 0.2);
+    font-size: smaller;
+}
+/*********************************************** chứa Event */
+.d_right_content{
+    width: 49%;
+    float: right;
+    height: 500px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+.d_top_title{
+    padding: 5px;
+    margin: 0;
+    text-align: center;
+    color: grey;
+    border-bottom: 1px solid lightgrey;
+    background-color: whitesmoke;
+}
+.d_input_km{
+    width:90%;
+    margin-left: 5%;
+}
+.d_event_cover{
+    margin-top: 5px;
+    height: 455px;
+    overflow: auto;
+    margin-left: 5px;
+}
+.d_each_event{
+    width: 98%;
+    border-bottom: 1px rgba(0, 0, 0, 0.2) solid;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+.d_event_title{
+    height: 25px;
+    max-height: 25px;
+    font-weight: bolder;
+}
+.d_info_piece{
+    color: gray;
+}
+.d_icon {
+    float: left;
+    margin-right: 5px;
+    margin-left: 10px;
+    color: lightgrey;
+}
+.d_icon_info {
+    color: lightgrey;
+    font-style: italic;
+}

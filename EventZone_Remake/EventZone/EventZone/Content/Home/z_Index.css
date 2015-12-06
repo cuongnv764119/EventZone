@@ -1,0 +1,227 @@
+/*********************************************** Thêm ***/
+
+/*********************************************** Sửa Bootstrap ***/
+.form-horizontal .form-group {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+body{
+	overflow-x: hidden;
+}
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.nav > li > a:hover, .nav > li > a:focus{
+	background-color: transparent;
+}
+/*********************************************** Background ***/
+video{
+	height: auto;
+	position: fixed;
+	z-index: -1;
+}
+
+/*********************************************** Top Menu ***/
+.d_navbar{
+	background-color: rgba(100, 200, 255, .8);
+	color: #fff;
+	border: 0px;
+}
+.d_navbar a{
+	color: #fff;
+}
+li{
+	list-style-type: none;
+}
+.d_topmenu_bg{
+	border-radius: inherit;
+	width: 100%;
+}
+#i_brand_website{
+	font-size: 25px;
+}
+
+#i_create_event{
+	border: 1px white solid;
+	border-radius: 6px;
+}
+
+#i_avatar{
+	height: 35px;
+	width: 35px;
+	border-radius: 3px;
+	border: 1px white solid;
+	margin: 7px 0px 7px 20px;
+}
+#i_noti{
+    width: 20px;
+    height: 20px;
+    border: 1px red solid;
+    background-color: red;
+    position: relative;
+    top: -47px;
+    left: 40px;
+    border-radius: 3px;
+    text-align: center;
+}
+#i_noti p{
+    color: white;
+	font-size: 14px;
+	margin-top: -1px;
+	font-weight: bold;
+}
+.d_user_dropdown{
+	width: auto; top: auto; left: 0px; margin-left: -70px; margin-top: 0px; min-width: 10em; max-width: 20em;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+.d_recent_dropdown{
+	width: auto; display: none; top: auto; left: 0px; margin-left: -171px; margin-top: -32px; min-width: 10em; max-width: 20em;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+/*********************************************** Sửa Bootstrap */
+.glyphicon{
+	color: black;
+}
+.btn-sm{
+	margin-top: 7px;
+    height: 35px;
+}
+@media (min-width: 768px){
+	.navbar-right{
+		height: 50px;
+	}
+}
+.dropdown-header{
+	margin-left: -10px;
+	color: gray;
+}
+.d_quick_search{
+	margin: 10px auto;
+	width: 90%;
+}
+/* Plug-in khác */
+
+/*********************************************** MIDDLE Category ***/
+
+/*********************************************** Middle Category > Statistic for each button ***/
+
+/*********************************************** d_3_column >> each_event***/
+.d_each_event{
+	height: 100px;
+	margin-bottom: 10px;
+}
+#flipper-inside{
+    width: 100%;
+    background-color: whitesmoke;
+}
+.front img{
+    width: 40%;
+    height: 100px;
+    float: left;
+}
+.d_live_text,
+.d_live_mark{
+    position: absolute;
+    font-size: 40px;
+}
+.d_live_mark .glyphicon{
+	color: #CE4919;
+}
+.d_live_text{
+    top: 10px;
+    left: 12px;
+	color: white;
+	font-size: 10px;
+	font-style: italic;
+}
+.front .d_ee_front_info{
+    width: 55%;
+    float: left;
+    margin-left: 2%;
+}
+.front .d_ee_front_info div{
+	margin-left: 5px;
+	float: left;
+}
+.front .d_ee_front_info .d_title{
+	height: 60px;
+	max-height: 60px;
+	margin-left: 0;
+	width: 100%;
+	font-weight: 600;
+	font-size: 14px;
+}
+.front .d_ee_front_info .d_time_left,
+.front .d_ee_front_info .d_follow_no{
+	width: 100%;
+	display: flex;
+}
+
+.d_ee_back_info{
+	width: 75%;
+	float: left;
+}
+.d_ee_back_info .d_time,
+.d_ee_back_info .d_date,
+.d_ee_back_info .d_location{
+	width: 100%;
+	display: flex;
+	margin-left: 5px;
+}
+.d_ee_back_info .first{
+	margin-top: 5px;
+}
+.back__content .d_group_btn{
+	width: 20%;
+	float: left;
+	margin-left: 10px;
+}
+.back__content .d_group_btn .btn{
+	width: 100%;
+}
+
+/*********************************************** About ***/
+/************************************ Tạm thời Không có About ***/
+.d_about_body{
+	border: 1px red solid;
+}
+
+/*********************************************** MODAL Advanced Search ***/
+.d_md_ad_search{
+	float: right;
+}
+
+/*********************************************** MODAL Sign In Sign Up ***/
+#i_first_name,
+#i_last_name{
+	margin-bottom: 10px;
+}
+/*********************************************** Footer ***/
+.d_ft_footer{
+	color: #fff;
+	height: 350px;
+	background-color: #222;
+}
+.d_ft_footer_column_1,
+.d_ft_footer_column_3{
+	border-left: 1px gray dashed;
+	border-right: 1px gray dashed;
+	height: 80%;
+	margin-top: 2%;
+}
+.d_ft_footer_column_2{
+	height: 80%;
+	margin-top: 2%;	
+}
+
+/*********************************************** Decorate ***/
+/*********************************************** Thêm ***/
+
+/*********************************************** Thêm ***/
+
+/*********************************************** Thêm ***/
+

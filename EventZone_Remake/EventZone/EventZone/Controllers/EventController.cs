@@ -20,6 +20,7 @@ using Amazon.S3;
 using Newtonsoft.Json;
 using Google.Apis.Util.Store;
 using Google.Apis.Auth.OAuth2.Mvc;
+using System.Web.Script.Serialization;
 
 namespace EventZone.Controllers
 {
@@ -131,16 +132,33 @@ namespace EventZone.Controllers
 
             }
             listPlace = EventDatabaseHelper.Instance.GetEventPlaceByEvent(model.eventID);
-            TempData["EventPlace"] = listPlace;           
+            TempData["EventPlace"] = listPlace;
+            //cookie eventModel
+            
             return PartialView(model);
         }
 
         public async Task<ActionResult> IndexAsync(LiveStreamingModel liveModel, CancellationToken cancellationToken)
         {
-            if (ModelState.IsValid) { 
+            if (!ModelState.IsValid)
+            {
+                JavaScriptSerializer objJavascript = new JavaScriptSerializer();
+                liveModel = objJavascript.Deserialize<LiveStreamingModel>(Request.Cookies["liveModel"].Value);
+            }
+            else {
+
+                if (liveModel.Quality != null)
+                {
+                    HttpCookie newModel = new HttpCookie("liveModel");
+                    newModel.Value = new JavaScriptSerializer().Serialize(liveModel);
+                    newModel.Expires = DateTime.Now.AddHours(10);
+                    Response.Cookies.Add(newModel);
+                }
+            }
                 var result = await new AuthorizationCodeMvcApp(this, new AppFlowMetadata()).
                 AuthorizeAsync(cancellationToken);
-
+                
+                
                 if (result.Credential != null)
                 {
                     var youtubeService = new YouTubeService(new BaseClientService.Initializer()
@@ -209,7 +227,7 @@ namespace EventZone.Controllers
                         TempData["errorTitle"] = "Error";
                         TempData["errorMessage"] = ex.Message;
                         result.Credential.RevokeTokenAsync(CancellationToken.None).Wait();
-                        return RedirectToAction("AddLiveStream", "Event", liveModel);
+                        return RedirectToAction("Details", "Event", liveModel.eventID);
                     }
                     
                     //Return Value
@@ -232,17 +250,17 @@ namespace EventZone.Controllers
                     HttpCookie newEventID = new HttpCookie("CreateEventID");
                     newEventID.Expires = DateTime.Now.AddDays(-1);
                     Request.Cookies.Add(newEventID);
+                    HttpCookie newModel = new HttpCookie("liveModel");
+                    newModel.Value = new JavaScriptSerializer().Serialize(liveModel);
+                    newModel.Expires = DateTime.Now.AddHours(-1);
+                    Response.Cookies.Add(newModel);
+                    result.Credential.RevokeTokenAsync(CancellationToken.None).Wait();
                     return RedirectToAction("Details", "Event", new { id = EventDatabaseHelper.Instance.GetEventPlaceByID(liveModel.EventPlaceID).EventID });
             }
             else
             {
                 return new RedirectResult(result.RedirectUri);
             }
-            }
-            TempData["errorTitle"] = "Error";
-            TempData["errorMessage"] = "Invalid Input, please try again";
-           
-            return RedirectToAction("AddLiveStream", "Event", liveModel);
         }
         /// <summary>
         /// View detail of event 
@@ -251,15 +269,7 @@ namespace EventZone.Controllers
         /// <returns></returns>
         public ActionResult Details(long? id)
         {
-            if (id == null||
-                EventDatabaseHelper.Instance.GetEventByID(id)==null||
-                EventDatabaseHelper.Instance.GetEventByID(id).Status==EventZoneConstants.Lock||
-                EventDatabaseHelper.Instance.GetEventByID(id).Privacy==EventZoneConstants.privateEvent)
-            {
-                TempData["errorTitle"] = "Failed to load event";
-                TempData["errorMessage"] = "This event is not available! It may be locked or set private!";
-                return RedirectToAction("Index", "Home");
-            }
+            
             User user = UserHelpers.GetCurrentUser(Session);
             if (user == null)
             {
@@ -282,7 +292,33 @@ namespace EventZone.Controllers
                 }
             }
 
+            if (id == null)
+            {
+                TempData["errorTitle"] = "Failed to load event";
+                TempData["errorMessage"] = "Event not avaiable!";
+                return RedirectToAction("Index", "Home");
+            }
             Event evt = EventDatabaseHelper.Instance.GetEventByID(id);
+            if (evt == null)
+            {
+                TempData["errorTitle"] = "Failed to load event";
+                TempData["errorMessage"] = "Event not avaiable!";
+                return RedirectToAction("Index", "Home");
+            }
+            else {
+                if (evt.Privacy == EventZoneConstants.privateEvent || evt.Status == EventZoneConstants.Lock) {
+                    if (user != null && (EventDatabaseHelper.Instance.IsEventOwnedByUser(id, user.UserID) || user.UserRoles == EventZoneConstants.Mod))
+                    {
+                    }
+                    else {
+                        TempData["errorTitle"] = "Failed to load event";
+                        TempData["errorMessage"] = "This event is set to private or has been locked!";
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                }
+            }
+
             ViewDetailEventModel viewDetail = new ViewDetailEventModel();
 
             viewDetail.createdBy = EventDatabaseHelper.Instance.GetAuthorEvent(evt.EventID);
@@ -300,7 +336,6 @@ namespace EventZone.Controllers
             viewDetail.NumberDisLike = EventDatabaseHelper.Instance.CountDisLike(evt.EventID);
             viewDetail.NumberFowllower = EventDatabaseHelper.Instance.CountFollowerOfEvent(evt.EventID);
             viewDetail.eventLocation = EventDatabaseHelper.Instance.GetEventLocation(evt.EventID);
-            viewDetail.eventImage = EventDatabaseHelper.Instance.GetEventImage(evt.EventID);
             viewDetail.eventVideo = EventDatabaseHelper.Instance.GetEventVideo(evt.EventID);
             viewDetail.eventComment = EventDatabaseHelper.Instance.GetListComment(evt.EventID);
             viewDetail.Category = EventDatabaseHelper.Instance.GetEventCategory(evt.EventID);
@@ -311,7 +346,16 @@ namespace EventZone.Controllers
             TempData["LiveModel"] = liveModel;
             if (user != null)
             {
+
                 viewDetail.isOwningEvent = EventDatabaseHelper.Instance.IsEventOwnedByUser(evt.EventID, user.UserID);
+                if (viewDetail.isOwningEvent)
+                {
+                    viewDetail.eventImage = EventDatabaseHelper.Instance.GetEventImage(evt.EventID);
+                }
+                else
+                {
+                    viewDetail.eventImage = EventDatabaseHelper.Instance.GetEventApprovedImage(evt.EventID);
+                }
                 viewDetail.FindLike = UserDatabaseHelper.Instance.FindLike(user.UserID, evt.EventID);
                 if (viewDetail.FindLike == null)
                 {
@@ -320,6 +364,9 @@ namespace EventZone.Controllers
                 }
                 viewDetail.isFollowing = UserDatabaseHelper.Instance.IsFollowingEvent(user.UserID, evt.EventID);
             }
+            else {
+                viewDetail.eventImage = EventDatabaseHelper.Instance.GetEventApprovedImage(evt.EventID);
+            }   
             viewDetail.Privacy = evt.Privacy;
             if (TempData["EventDetailTask"] == null)
             {
@@ -417,17 +464,20 @@ namespace EventZone.Controllers
                 if (whiteListedExt.Contains(extension))
                 {
                     string pic = Guid.NewGuid()+ eventID.ToString() + extension;
+                    
                     using (AmazonS3Client s3Client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2))
-                        EventZoneUtility.FileUploadToS3("eventzone", pic, stream, true, s3Client);
-                    Image image = new Image();
-                    image.ImageLink = "https://s3-us-west-2.amazonaws.com/eventzone/"+pic;
-                    image.UserID = user.UserID;
-                    image.UploadDate = DateTime.Today;
-                  
-                    if (EventDatabaseHelper.Instance.AddImageToEvent(image,eventID))
-                    {
-                        TempData["ImageUploadError"] = null; // success
-                    }
+                        if (EventZoneUtility.FileUploadToS3("eventzone", pic, stream, true, s3Client)) {
+                            Image image = new Image();
+                            image.ImageLink = "https://s3-us-west-2.amazonaws.com/eventzone/" + pic;
+                            image.UserID = user.UserID;
+                            image.UploadDate = DateTime.Today;
+
+                            if (EventDatabaseHelper.Instance.AddImageToEvent(image, eventID))
+                            {
+                                TempData["ImageUploadError"] = null; // success
+                            }
+                        }
+                    
                     TempData["ImageUploadError"] = "Something wrong.."; // success 
                 }
                 else
@@ -506,10 +556,6 @@ namespace EventZone.Controllers
             });
 
         }
-         public ActionResult EventImage(long? id) {
-             List<Image> listImage = EventDatabaseHelper.Instance.GetEventImage(id);
-             return PartialView("_EventImage", listImage);
-         }
         [HttpPost]
          public ActionResult ImageDelete(long? imageID, long? eventID)
         {
@@ -529,76 +575,7 @@ namespace EventZone.Controllers
             db.SaveChanges();
             return RedirectToAction("Details", "Event", new { id = eventID });
         }
-         public ActionResult UploadImageEvent(HttpPostedFileBase eventImage, string eventId) {
-             long eventID = long.Parse(eventId);
-             User user = UserHelpers.GetCurrentUser(Session);
-             if (user == null)
-             {
-                 TempData["errorTitle"] = "Require Signin";
-                 TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
-                 return RedirectToAction("Index", "Home");
-             }
-             else
-             {
-                 List<Image> listImage = EventDatabaseHelper.Instance.GetEventImage(eventID);
-                 Image photo = new Image();
-                 try
-                 {
-                     if (eventImage != null)
-                     {
-                         string[] whiteListedExt = { ".jpg", ".gif", ".png", ".tiff" };
-                         Stream stream = eventImage.InputStream;
-                         string extension = Path.GetExtension(eventImage.FileName);
-                         if (whiteListedExt.Contains(extension))
-                         {
-                             string pic = Guid.NewGuid() + user.UserID.ToString() + extension;
-                             using (AmazonS3Client s3Client = new AmazonS3Client(Amazon.RegionEndpoint.USWest2))
-                                 EventZoneUtility.FileUploadToS3("eventzone", pic, stream, true, s3Client);
-                             Image image = new Image();
-                             image.ImageLink = "https://s3-us-west-2.amazonaws.com/eventzone/" + pic;
-                             image.UserID = user.UserID;
-                             image.UploadDate = DateTime.Today;
-                             if (EventDatabaseHelper.Instance.AddImageToEvent(image,eventID))
-                             {
-                                 TempData["errorTitle"] = null;
-                                 TempData["errorMessage"] = null;
-                                 listImage = EventDatabaseHelper.Instance.GetEventImage(eventID);
-                                 return PartialView("_ImagePartial",listImage);
-                             }
-                             else
-                             {
-                                 TempData["errorTitle"] = "Database Error";
-                                 TempData["errorMessage"] = "Ops... Some error is ocurred while we save to database! Please try again later!";
-                                 
-                                 return PartialView("_ImagePartial", listImage);
-                             }
 
-                         }
-                         else
-                         {
-                             TempData["errorTitle"] = "Database Error";
-                             TempData["errorMessage"] = "Ops... Some error is ocurred while we save to database! Please try again later!";
-                             
-                             return PartialView("_ImagePartial", listImage);
-                         }
-                     }
-                     else
-                     {
-                         TempData["errorTitle"] = "Not select file";
-                         TempData["errorMessage"] = "It look like you fogot select an image! Are you getting old?";
-                  
-                         return PartialView("_ImagePartial", listImage);
-                     }
-                 }
-                 catch
-                 {
-                     TempData["errorTitle"] = "Unknow Error";
-                     TempData["errorMessage"] = "Oops..Something wrong is happened! Please try again later...";
-                     
-                     return PartialView("_ImagePartial", listImage);
-                 }
-             }
-         }
          public ActionResult ManageEvent() {
              User user = UserHelpers.GetCurrentUser(Session);
              if (user == null)
@@ -614,6 +591,57 @@ namespace EventZone.Controllers
              }
          
          }
+
+         public ActionResult ChangeEventAvatar(HttpPostedFileBase file, long eventID)
+         {
+
+             User user = UserHelpers.GetCurrentUser(Session);
+             if (user == null)
+             {
+                 if (Request.Cookies["userName"] != null && Request.Cookies["password"] != null)
+                 {
+                     string userName = Request.Cookies["userName"].Value;
+                     string password = Request.Cookies["password"].Value;
+                     if (UserDatabaseHelper.Instance.ValidateUser(userName, password))
+                     {
+                         user = UserDatabaseHelper.Instance.GetUserByUserName(userName);
+                         if (UserDatabaseHelper.Instance.isLookedUser(user.UserName))
+                         {
+                             TempData["errorTitle"] = "Locked User";
+                             TempData["errorMessage"] = "Your account is locked! Please contact with our support";
+
+                             return RedirectToAction("Index", "Home");
+                         }
+                         UserHelpers.SetCurrentUser(Session, user);
+                     }
+                     TempData["errorTitle"] = "Require Signin";
+                     TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
+                     return RedirectToAction("Details", "Event", new { id = eventID });
+                 }
+             }
+
+             
+             if (file != null)
+             {
+                 Image photo = EventDatabaseHelper.Instance.UserAddImage(file, user.UserID);
+                 if (photo!=null) {
+                     if (EventDatabaseHelper.Instance.ChangeEventAvatar(eventID, photo))
+                     {
+                     }
+                 }
+                 else
+                 {
+                     TempData["errorTitle"] = "Erorr";
+                     TempData["errorMessage"] = "Something wrong! Please try again later!";
+                 }
+             }
+             else
+             {
+                 TempData["ImageUploadError"] = "Your must select a file to upload";
+             }
+             return RedirectToAction("Details", "Event", new { id = eventID });
+         }
+
          public ActionResult Load(List<ViewThumbEventModel> list, int page)
          {
              return View("_ThumbEvent", list[page]);

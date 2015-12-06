@@ -1,0 +1,60 @@
+﻿@model IEnumerable<EventZone.Models.ViewThumbEventModel>
+@using EventZone.Helpers
+@{
+    
+    bool hasMore= bool.Parse(TempData["LoadMore"].ToString());
+}
+<!-- BOOTSTRAP social -->
+<link href="~/Content/Home/font-awesome.min.css" rel="stylesheet" />
+<link href="~/Content/Home/bootstrap-social.css" rel="stylesheet" />
+<!-- myCSS -->
+<link href="~/Content/User/myCSS_s_r.css" rel="stylesheet" />
+
+<!-- Each event trong khung kết quả -->
+@foreach (var item in Model)
+{
+    <div class="d_each_event">
+        <!-- THUMBNAIL -->
+        <div class="d_event_thumbnail">
+            <img src="@EventDatabaseHelper.Instance.GetImageByID(@item.evt.Avatar).ImageLink" id="i_event_thumbnail">
+        </div>
+        <!-- DETAIL TITLE & INFO -->
+        <div class="d_event_info">
+            <!-- TITLE -->
+            <div class="d_event_title">
+                @Html.ActionLink(@item.evt.EventName, "Details", "Event", new { id = @item.evt.EventID }, null)
+            </div>
+            <!-- INFO -->
+            <div class="d_info_piece">
+                <div class="d_icon glyphicon glyphicon-th-list">
+                </div>
+                <div class="d_icon_info d_event_category">
+                    in <i>@EventDatabaseHelper.Instance.GetEventCategory(item.evt.EventID)</i>
+                </div>
+                <div class="d_icon glyphicon glyphicon-time">
+                </div>
+                <div class="d_icon_info d_event_time">
+                    From @item.evt.EventStartDate.DayOfWeek <span> @item.evt.EventStartDate.ToShortTimeString() @item.evt.EventStartDate.ToShortDateString()</span>
+                    @if (item.evt.EventEndDate != null && item.evt.EventEndDate > item.evt.EventEndDate)
+                    {
+                        <span><br />To   @item.evt.EventEndDate.DayOfWeek</span> <span>@item.evt.EventEndDate.ToShortTimeString() @item.evt.EventEndDate.ToShortDateString()</span>
+                    }
+                </div>
+                <div class="d_icon glyphicon glyphicon-map-marker">
+                </div>
+
+                <div class="d_icon_info d_event_location">
+                    @item.location[0].LocationName
+                    @if (item.location.Count > 1)
+                    {
+                        <text> and @item.location.GetRange(1, item.location.Count - 1).Count more localtion(s)</text>
+                    }
+                </div>    
+            </div>
+        </div>
+    </div>
+}
+@if (hasMore)
+{
+    @Html.Partial("_Loading")
+}

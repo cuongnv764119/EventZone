@@ -25,7 +25,7 @@ namespace EventZone.Controllers
             //    cur.Latitude = Double.Parse(Request.Form["longitude"]);
             //}
             listPlace = LocationHelpers.Instance.GetAllLocation();
-            listPlace.RemoveAll(item => (LocationHelpers.Instance.CalculateDistance(cur, item) - distance) > 1E-6);
+            listPlace.RemoveAll(item => (LocationHelpers.Instance.CalculateDistance(cur, item) - distance) > 1E-6);// tat ca cac dia diem o gan
             List<EventPlace> listEventPlace = new List<EventPlace>();
             List<EventPlace> nearlyEventPlace = new List<EventPlace>();
             listEventPlace = LocationHelpers.Instance.GetAllEventPlace();
@@ -51,7 +51,6 @@ namespace EventZone.Controllers
             nearlyEvent = nearlyEvent.Distinct().ToList();
             nearlyLocation = nearlyLocation.Distinct().ToList();
             ViewData["currentLocation"] = cur;
-            ViewData["nearlyEventPlace"] = nearlyEventPlace;
             ViewData["nearlyEvent"] = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(nearlyEvent);
             ViewData["nearlyLocation"] = nearlyLocation;
             return View();

@@ -1,10 +1,18 @@
 ﻿@using EventZone.Models
 @{
-    var listEvent = TempData["listEvent"] as List<ViewThumbEventModel>;
-    var listLiveStream = TempData["listLiveStream"] as List<ViewThumbEventModel>;
-    var listUser = TempData["listUser"] as List<ViewThumbUserModel>;
+    var listEvent = Session["listEvent"] as List<ViewThumbEventModel>;
+    var listLiveStream = Session["listLiveStream"] as List<ViewThumbEventModel>;
+    var listUser = Session["listUser"] as List<ViewThumbUserModel>;
     var task = TempData["task"];
     ViewBag.Title = TempData["task"];
+    var tab = "-1";
+    try
+    {
+        tab = TempData["TabSearch"].ToString();
+    }
+    catch { };
+    
+    
     int listUserCount, listLiveStreamCount, listEventCount;
     if (listUser == null)
     {
@@ -36,63 +44,98 @@
     <div class="col-xs-8 col-sm-9 col-md-9 col-lg-10" id="pannel-result">
         <!-- Tab panes -->
         <div class="tab-content">
-            <!-- EVENT Result: e_ đánh dấu CSS Event -->
-            <div class="tab-pane active b d_result_container" >
-                <div class="d_result_container" id="event-r">
-                    @if (listEvent != null)
+    <!-- EVENT Result: e_ đánh dấu CSS Event -->
+    @if (tab != "3")
+    {
+        <div class="tab-pane active b d_result_container" id="tab-all-event">
+            <div class="d_result_container" id="event-r">
+                @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 1 });
+            </div>
+
+        </div>
+    }
+
+    @if (tab == "3" || tab == "2")
+    {
+        <div class="tab-pane b active d_result_container" id="tab-live-event">
+
+            <div class="d_result_container" id="liveEvent-r">
+                @if (listLiveStream != null)
+                {
+                    for (int i = 0; i < listLiveStream.Count; i++)
                     {
-                        for (int i = 0; i < listEvent.Count; i++) {
-                            if (i == 10) { break; } 
-                            @Html.Partial("_ThumbEvent", listEvent[i])
-                        }
+                        if (i == 10) { break; }
+                        @Html.Partial("_ThumbEvent", listLiveStream[i])
                     }
-                    @Html.Partial("_Loading");
-                </div>
+                }
             </div>
-            <!-- Live Event Result: c_ đánh dấu CSS Live Event -->
-            <div class="tab-pane b d_result_container" >
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_c_result_container">
-                    <div class="d_result_container" id="liveEvent-r">
-                        @if (listLiveStream != null)
-                        {
-                            foreach (var item in listLiveStream)
-                            {
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                                    @Html.Partial("_ThumbEvent", item)
-                                </div>
-                            }
-                        }
-                    </div>
-                </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="tab-pane b d_result_container" id="tab-live-event">
+
+            <div class="d_result_container" id="liveEvent-r">
+                @if (listLiveStream != null)
+                {
+                    for (int i = 0; i < listLiveStream.Count; i++)
+                    {
+                        if (i == 10) { break; }
+                        @Html.Partial("_ThumbEvent", listLiveStream[i])
+                    }
+                }
             </div>
-            <!-- USER Result: u_ đánh dấu CSS User -->
+
+        </div>
+    }
+    <!-- Live Event Result: c_ đánh dấu CSS Live Event -->
+    <!-- USER Result: u_ đánh dấu CSS User -->
+    @if (tab != "3" && task == "Search")
+    {
+        <div class="tab-pane b d_result_container" id="tab-user">
             <div class="tab-pane b" id="user-r">
-                    @if (listUser != null)
+                @if (listUser != null)
+                {
+                    foreach (var item in listUser)
                     {
-                        foreach (var item in listUser)
-                        {
-                            <div class="d_each_user">
-                                @Html.Partial("_UserThumbnail", item)
-                            </div>
-                        }
+                        <div class="d_each_user">
+                            @Html.Partial("_UserThumbnail", item)
+                        </div>
                     }
+                }
             </div>
+        </div>
+    }
+            
         </div>
     </div>
     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-2 d_tab_container">
         <!-- required for floating -->
         <!-- Nav tabs -->
         <ul class="nav nav-tabs tabs-right">
+            @if (tab != "3")
+            {
+                <li class="active">
+                    <a href="search-result.html#tab-all-event" data-toggle="tab">Event (@listEventCount)</a>
+                </li>
+            }
+            @if (tab == "3"||tab=="2") { 
             <li class="active">
-                <a href="search-result.html#event-r" data-toggle="tab">Event (@listEventCount)</a>
+                <a href="search-result.html#tab-live-event" data-toggle="tab">Live Streaming (@listLiveStreamCount)</a>
             </li>
-            <li>
-                <a href="search-result.html#liveEvent-r" data-toggle="tab">Live Streaming (@listLiveStreamCount)</a>
-            </li>
-            @if (task == "Search")
+            }
+            else
             {
                 <li>
-                    <a href="search-result.html#user-r" data-toggle="tab">User(@listUserCount)</a>
+                    <a href="search-result.html#tab-live-event" data-toggle="tab">Live Streaming (@listLiveStreamCount)</a>
+                </li>
+            }
+           
+            @if (tab != "3"&&task == "Search")
+            {
+                <li>
+                    <a href="search-result.html#tab-user" data-toggle="tab">User(@listUserCount)</a>
                 </li>
             }
 
@@ -101,7 +144,31 @@
 </div>
 
 <script>
-    var pageNumberIndex = 1;
-    var pageNumberWish = 1;
-    var pageNumberHot = 1;
+    $(document).ready(function () {
+
+        $('#event-r').bind('scroll', chk_scroll);
+    });
+    var page= 1;
+    function chk_scroll(e) {
+        var elem = $(e.currentTarget);
+        if (elem[0].scrollHeight - elem.scrollTop() == elem.outerHeight()) {
+            console.log("abc")
+            $.ajax({
+                url: "/Search/LoadEventInPage",
+                type: "post",
+                dataType: "html",
+                data: { page: page, type: 1 },
+                success: function (data) {
+                    $("#loading").remove();
+                    $('#event-r').append(data);
+                    page = page + 1;
+                },
+                error: function () {
+                    errorShow("error","Error while connecting to sever!")
+                }
+
+            })
+        }
+
+    }
 </script>

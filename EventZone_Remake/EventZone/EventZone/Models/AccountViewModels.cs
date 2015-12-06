@@ -70,6 +70,7 @@ namespace EventZone.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
+        [Range(typeof(DateTime), "1/1/0001", "1/1/2016", ErrorMessage = "Value for {0} must be before {2}")]
         [DataType(DataType.Date)]
         [Display(Name = "Date of birth")]
         public DateTime UserDOB { get; set; }
@@ -110,6 +111,7 @@ namespace EventZone.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        [Range(typeof(DateTime), "1/1/0001", "1/1/2016", ErrorMessage = "Value for {0} must be before 1/1/2016")]
         [DataType(DataType.Date)]
         [Display(Name = "Date of birth")]
         public DateTime UserDOB { get; set; }

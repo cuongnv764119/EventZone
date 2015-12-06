@@ -40,24 +40,11 @@
 
             <div class="d_icon_info d_event_location">
                 @Model.location[0].LocationName
-            </div>
-
-            @if (Model.location.Count > 1)
-            {
-                for (int i = 1; i < Model.location.Count; i++)
+                @if (Model.location.Count > 1)
                 {
-                    <div class="d_icon_info d_event_time">
-                        @Model.location[i].LocationName
-                    </div>
+                    <text> and @Model.location.GetRange(1, Model.location.Count - 1).Count more localtion(s)</text>
                 }
-            }
+            </div>         
         </div>
-
-    </div>
-    <!-- BUTTONS -->
-    <div class="d_button_group">
-        <a class="btn btn-xs btn-default">
-            View detail
-        </a>
     </div>
 </div>

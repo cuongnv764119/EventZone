@@ -96,6 +96,7 @@
     <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_Event" FromRole="Event" ToRole="NotificationChange" />
     <NavigationProperty Name="Reports" Relationship="Self.FK_Report_Event" FromRole="Event" ToRole="Report" />
     <NavigationProperty Name="Shares" Relationship="Self.FK_Share_Event1" FromRole="Event" ToRole="Share" />
+    <Property Name="IsVerified" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="EventFollow">
     <Key>
@@ -116,6 +117,7 @@
     <Property Name="ImageID" Type="Int64" />
     <NavigationProperty Name="Event" Relationship="Self.FK_EventImage_Event" FromRole="EventImage" ToRole="Event" />
     <NavigationProperty Name="Image" Relationship="Self.FK_EventImage_Image" FromRole="EventImage" ToRole="Image" />
+    <Property Name="Approve" Type="Boolean" />
   </EntityType>
   <EntityType Name="EventPlace">
     <Key>

@@ -17,6 +17,9 @@ namespace EventZone.Models
         public string Keyword { get; set; }
         public long[] SelectedCategory { get; set; }
         public Location Location { get; set; }
+
+        public bool IsLive { get; set; }
+
         public DateTime StartDateRange { get; set; }
         public DateTime FinishDateRange { get; set; }
 
@@ -24,8 +27,6 @@ namespace EventZone.Models
         {
             get
             {
-
-
                 var list = CommonDataHelpers.Instance.GetAllCategory();
                 return list;
             }

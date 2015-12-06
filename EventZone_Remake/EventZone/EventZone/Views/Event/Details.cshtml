@@ -6,11 +6,11 @@
 @using EventZone.Helpers
 @{
     User user = UserHelpers.GetCurrentUser(Session);
+    User authorEvent= EventDatabaseHelper.Instance.GetAuthorEvent(Model.eventId);
     var task = ViewData["EventDetailTask"];
     int numberImage = 0;
-    if (Model != null && Model.eventImage.Count != 0)
+    if (Model != null && Model.eventImage!=null && Model.eventImage.Count != 0)
     {
-
         numberImage = Model.eventImage.Count;
     }
     int numberVideo = 0;
@@ -59,7 +59,47 @@
     <!-- THUMBNAIL -->
     <input id="eventID-detail" hidden value="@Model.eventId"/>
     <div class="d_event_thumbnail">
-        <img src="@Model.eventAvatar" id="i_event_thumbnail">
+        @if (Model.isOwningEvent)
+        {
+            <img src="@Model.eventAvatar" id="i_event_thumbnail">
+            <button data-toggle="modal" data-target="#change-event-avatar-modal" class="btn btn-primary btn-xs" id="btn-change-event-avatar">Upload</button>
+    <div class="modal fade" id="change-event-avatar-modal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="panel panel-info d_margin_top">
+                <div class="panel-heading">
+                    <div class="panel-title">Change Event Avatar</div>
+                    <div style="float: right; font-size: 80%; position: relative; top: -17px">
+                        <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="cover_all_functions">
+                        <div class="tab-content">
+                            <!--thumb uploaded image-->
+                            <div class="col-md-4 col-sm-3 col-xs-4 thumb" style="width: inherit">
+                                <div id="image-contain" ><img src="@Model.eventAvatar" id="i_event_avatar-change"></div>
+                            </div>
+                            @using (Html.BeginForm("ChangeEventAvatar", "Event", FormMethod.Post, new { enctype = "multipart/form-data", id = "ChangeEventAvatarForm" }))
+                            {
+                                <input id="new-avatar" type="file" class="upload" name="file" data-max-size="2097152" accept="image/x-png, image/gif, image/jpeg, image/bmp" />
+                                <input hidden name="eventID" value="@Model.eventId" />
+                                <p>
+                                    <input type="submit" class="btn btn-primary btn-sm" value="Upload" />
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        }
+        else
+        {
+            <img src="@Model.eventAvatar" id="i_event_thumbnail">
+        }
+        
     </div>
     <!-- DETAIL INFO -->
     <div class="d_event_info">
@@ -152,7 +192,7 @@
         <div class="panel-heading d_panel_1">
             <h4 class="panel-title">
                 <a href="#i_image_public" data-toggle="collapse" data-parent="#result-list" class="" aria-expanded="true">
-                    <span class="xxx">Image</span>
+                    <span class="xxx">Image( @EventDatabaseHelper.Instance.GetEventApprovedImage(Model.eventId).Count)</span>
                 </a>
             </h4>
         </div>
@@ -162,16 +202,45 @@
                 <div class="container-fluid d_thumbs_cover">
                     @if (Model.eventImage != null)
                     {
-                        foreach (var item in Model.eventImage)
+                        var listApprovedEvent= EventDatabaseHelper.Instance.GetEventApprovedImage(Model.eventId);
+                        foreach (var item in listApprovedEvent)
                         {
                             if (item != null)
                             {
                                 <div class="d_each_photo">
-                                    @using (Html.BeginForm("ImageDelete", "Event", FormMethod.Post))
-                                    {
-                                        <input type="hidden" name="imageID" value="@item.ImageID" />
-                                        <input type="hidden" name="eventID" value="@Model.eventId" />
-                                        <button type="submit" class="btn btn-default">Delete</button>
+                                    @if (Model.isOwningEvent) {
+                                        using (Html.BeginForm("ImageDelete", "Event", FormMethod.Post, new { id="DeleteImageForm"}))
+                                        {
+                                            <input type="hidden" name="imageID" value="@item.ImageID" />
+                                            <input type="hidden" name="eventID" value="@Model.eventId" />
+                                            <button type="button" class="btn btn-default" id="delete-image">Delete</button>
+
+                                            <div class="modal fade" id="confirm-delete-image-modal" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="panel panel-info d_margin_top">
+                                                        <div class="panel-heading">
+                                                            <div class="panel-title">Edit Event</div>
+                                                            <div style="float: right; font-size: 80%; position: relative; top: -17px">
+                                                                <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="cover_all_functions">
+                                                                <div class="tab-content">
+                                                                    Do you really want to delete this image ?
+                                                                    <button type="submit" class="btn btn-primary btn-xs" id="btn-yes-delete">Yes</button>
+                                                                    <button class="btn btn-primary btn-xs" id="btn-no-delete" data-dismiss="modal">No</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        }
                                     }
                                     <a class="lightview thumbnail" href="@item.ImageLink" data-lightview-group='imageEvent' data-lightview-title='@item.User.UserName' data-lightview-caption='@item.UploadDate.Day/@item.UploadDate.Month/@item.UploadDate.Year'>
                                         <img class="img-responsive" src="@item.ImageLink" alt="">
@@ -203,7 +272,7 @@
                                             </div>
                                             @using (Html.BeginForm("ImageUpload", "Event", FormMethod.Post, new { enctype = "multipart/form-data", id = "UploadImageForm" }))
                                             {
-                                                <input id="uploadBtn" type="file" class="upload" name="file" data-max-size="10485760" accept="image/x-png, image/gif, image/jpeg" />
+                                                <input id="uploadBtn" type="file" class="upload" name="file" data-max-size="10485760" accept="image/x-png, image/gif, image/jpeg, image/bmp" />
                                                 <input hidden name="eventID" value="@Model.eventId"/>
                                                 <p>
                                                     <input type="submit" class="btn btn-primary btn-sm" value="Upload"/>
@@ -219,31 +288,64 @@
             </div>
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-heading d_panel_1">
-            <h4 class="panel-title">
-                <a href="#i_image_pending" data-toggle="collapse" data-parent="#result-list" class="" aria-expanded="true">
-                    <span class="xxx">Pending Image</span>
-                </a>
-            </h4>
-        </div>
-        <div id="i_image_pending" class="panel-collapse collapse in" aria-expanded="true">
-            <div class="container-fluid d_image_cover">
+    @if (Model.isOwningEvent)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading d_panel_1">
+                <h4 class="panel-title">
+                    <a href="#i_image_public" data-toggle="collapse" data-parent="#result-list" class="" aria-expanded="true">
+                        <span class="xxx">Pending Image</span>
+                    </a>
+                </h4>
+            </div>
+            <div id="i_image_public" class="panel-collapse collapse in" aria-expanded="true">
+                <div class="container-fluid d_image_cover">
+                    <div class="container-fluid d_thumbs_cover">
+                        @if (Model.eventImage != null)
+                        {
+                            var listPending = EventDatabaseHelper.Instance.GetPendingImageInEvent(Model.eventId);
+                            foreach (var item in listPending)
+                            {
+                                if (item != null)
+                                {
+                                    <div class="d_each_photo">
+                                        @using (Html.BeginForm("ImageDelete", "Event", FormMethod.Post))
+                                        {
+                                            <input type="hidden" name="imageID" value="@item.ImageID" />
+                                            <input type="hidden" name="eventID" value="@Model.eventId" />
+                                            <button type="submit" class="btn btn-default">Delete</button>
+                                        }
+                                        <a class="lightview thumbnail" href="@item.ImageLink" data-lightview-group='imageEvent' data-lightview-title='@item.User.UserName' data-lightview-caption='@item.UploadDate.Day/@item.UploadDate.Month/@item.UploadDate.Year'>
+                                            <img class="img-responsive" src="@item.ImageLink" alt="">
+                                        </a>
+                                        <p class="d_photo_author">
+                                            by <i>@item.User.UserName</i> - @item.UploadDate.Day/@item.UploadDate.Month/@item.UploadDate.Year
+                                        </p>
+                                    </div>
+                                }
+                            }
+                        }
 
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    }
+    
 </div>
 <!-- Khung chứa Video -->
 <div class="tab-pane" id="i_video_tab">
-    <button data-toggle="modal" data-target="#user-upload-video-event-modal" class="btn btn-primary btn-xs">Add Video</button>
+    @if (Model.isOwningEvent)
+    {
+        <button data-toggle="modal" data-target="#user-upload-video-event-modal" class="btn btn-primary btn-xs">Add Video</button>
+    }
         @if (user != null)
         {
-        if (user.UserID == EventDatabaseHelper.Instance.GetAuthorEvent(Model.eventId).UserID)
-        {
-                    <button data-toggle="modal" data-target="#modelCreateLiveStream" class="btn btn-primary btn-xs">Add Streaming Video</button>
-                }
+            if (user.UserID == EventDatabaseHelper.Instance.GetAuthorEvent(Model.eventId).UserID)
+            {
+                <button data-toggle="modal" data-target="#modelCreateLiveStream" class="btn btn-primary btn-xs">Add Streaming Video</button>
             }
+        }
                     <div id="result-list" class="panel-group d_video_item_cover">
         <div class="panel panel-default">
             <div class="panel-heading d_panel_1">
@@ -268,14 +370,19 @@
                                         <div class="d_each_group d_thumb_location_1">
                                             @foreach (var video in videoInLocation)
                                             {
-                                                using (Html.BeginForm("VideoDelete", "Event", FormMethod.Post))
-                                                {
-                                                    <input type="hidden" name="videoID" value="@video.VideoID" />
-                                                    <input type="hidden" name="eventID" value="@Model.eventId" />
-                                                    <button type="submit" class="btn btn-default">Delete</button>
-                                                }
+
+
                                                 if (!EventDatabaseHelper.Instance.IsLiveVideo(video))
                                                 {
+                                                    if (Model.isOwningEvent)
+                                                    {
+                                                        using (Html.BeginForm("VideoDelete", "Event", FormMethod.Post))
+                                                        {
+                                                            <input type="hidden" name="videoID" value="@video.VideoID" />
+                                                            <input type="hidden" name="eventID" value="@Model.eventId" />
+                                                            <button type="submit" class="btn btn-default">Delete</button>
+                                                        }
+                                                    }
                                                     string thumbVideo = video.VideoLink.Replace("www.youtube", "img.youtube").Replace("watch?v=", "vi/") + "/default.jpg";
                                                     <div class="col-md-4 col-sm-3 col-xs-4 thumb">
                                                         <a href="@video.VideoLink.Replace("watch?v=", "embed/")" class="lightview" data-lightview-type="iframe" data-lightview-group="thumbnail-icon-example" data-lightview-options="width:638,height:360,viewport:'scale'">
@@ -306,19 +413,41 @@
                     <div class="panel-body">
                         @foreach (var video in EventDatabaseHelper.Instance.GetListLiveVideo(Model.eventVideo))
                         {
-                            using (Html.BeginForm("VideoDelete", "Event", FormMethod.Post))
+                            if (Model.isOwningEvent)
                             {
-                                <input type="hidden" name="videoID" value="@video.VideoID" />
-                                <input type="hidden" name="eventID" value="@Model.eventId" />
-                                <button type="submit" class="btn btn-default">Delete</button>
+                                using (Html.BeginForm("VideoDelete", "Event", FormMethod.Post))
+                                {
+                                    <input type="hidden" name="videoID" value="@video.VideoID" />
+                                    <input type="hidden" name="eventID" value="@Model.eventId" />
+                                    <button type="submit" class="btn btn-default">Delete</button>
+                                }
                             }
+
                             string thumbVideo = video.VideoLink.Replace("www.youtube", "img.youtube").Replace("watch?v=", "vi/") + "/default.jpg";
                             <div class="col-md-4 col-sm-3 col-xs-4 thumb">
                                 <a href="@video.VideoLink.Replace("watch?v=", "embed/")" class="lightview" data-lightview-type="iframe" data-lightview-group="thumbnail-icon-example" data-lightview-options="width:638,height:360,viewport:'scale'">
                                     <img class=" img-responsive" src="@thumbVideo">
                                 </a>
-                                Stream Name: @video.StreamName
-                                <p>Link watch : @video.VideoLink
+                                @if (Model.isOwningEvent) {
+                                    
+                                 <div>Stream Name: @video.StreamName</div>
+
+                                }
+                                else
+                                {
+                                    TimeSpan remainingDay = video.StartTime.Subtract(DateTime.Today);
+                                    if (remainingDay.Days >= 0)
+                                    {
+                                        <div>@remainingDay.Days day left</div>
+                                    }
+                                    else
+                                    {
+                                        <div>Started @remainingDay.Days day(s) ago</div>
+                                    }
+
+                                }
+                               
+                                
                             </div>
                         }
                     </div>
@@ -339,12 +468,14 @@
                 <div class="panel-body">
                     <div class="cover_all_functions">
                         <div class="tab-content">
-                            @using (Html.BeginForm("VideoAdd", "Event", FormMethod.Post, new {id = "UploadVideoForm"}))
+                            @if (Model.isOwningEvent) { 
+                            using (Html.BeginForm("VideoAdd", "Event", FormMethod.Post, new { id = "UploadVideoForm" }))
                             {
                                 <div class="row b">
                                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">Video URL*</div>
-                                    <input type="text" class="col-xs-9 col-sm-9 col-md-9 col-lg-9 form-group" id="VideoURL"name="VideoURL"/>
-                                    <p id="formatError" style="display: none">We only support these formats below <br/>
+                                    <input type="text" class="col-xs-9 col-sm-9 col-md-9 col-lg-9 form-group" id="VideoURL" name="VideoURL" />
+                                    <p id="formatError" style="display: none">
+                                        We only support these formats below <br />
                                     </p>
                                 </div>
                                 <div class="row b">
@@ -356,11 +487,13 @@
                                         }
                                     </select>
                                 </div>
-                                <input type="hidden" name="EventID" value="@Model.eventId"/>
+                                <input type="hidden" name="EventID" value="@Model.eventId" />
                                 <p>
-                                    <input type="submit" class="btn btn-primary btn-sm" id="submitAddVideo "value="Add"/>
+                                    <input type="submit" class="btn btn-primary btn-sm" id="submitAddVideo " value="Add" />
                                 </p>
                             }
+                            }
+                            
                         </div>
                     </div>
                 </div>
@@ -439,9 +572,9 @@
                             }
 
                             <div class="form-group d_write_report">
-                                <textarea id="i_report_box"
+                                <input type="text" id="i_report_box"
                                           class="form-control" rows="1"
-                                          placeholder="Write your reason..."></textarea>
+                                          placeholder="Write your reason..." maxlength="100"/>
                                 <button type="button" class="btn btn-success" id="btn-report-send">
                                     <span class="glyphicon glyphicon-send"></span>
                                 </button>
@@ -541,297 +674,338 @@
         </div>
     </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=init_map"
-        async defer></script>
-<script src="~/Scripts/Event/jquery-migrate-1.2.1.js"></script>
-<script src="~/Scripts/Event/jquery.transform.js"></script>
-<script src="~/Scripts/shareFacebook.js"></script>
-<script src="~/Scripts/Event/myJS_u_w_e.js"></script>
-<script>
-    $(window).load(function(){
-        $('#ConfirmCreateLive').modal('show')
-    });
-</script>
-<!--like+share+follow-->
-<script>
-    $("#btn-report-send").click(function () {
-        @if (user == null) {
+
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?signed_in=true&libraries=places&callback=init_map"
+            async defer></script>
+    <script src="~/Scripts/Event/jquery-migrate-1.2.1.js"></script>
+    <script src="~/Scripts/Event/jquery.transform.js"></script>
+    <script src="~/Scripts/shareFacebook.js"></script>
+    <script src="~/Scripts/Event/myJS_u_w_e.js"></script>
+    <script>
+        $(window).load(function () {
+            $('#ConfirmCreateLive').modal('show')
+        });
+    </script>
+    <!--like+share+follow-->
+    <script> 
+        $("#delete-image").click(function () {
+            $("#confirm-delete-image-modal").modal("show");
+        })
+        $("#btn-report-send").click(function () {
+            @if (user == null) {
              <text>
-        errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
-        </text>
+            errorShow("Require SignIn", "Let's sign in to report event!");
+            </text>
         }else{
          <text>
-        if ($("input[name='reportRadio']:checked").val() == null) {
-            errorShow("Error", "Please select a type of report!");
-        } else {
-            $.ajax({
-                url: "/User/ReportEvent",
-                type: "POST",
-                dataType: "json",
-                data: { eventId: '@Model.eventId', typeReport: $("input[name='reportRadio']:checked").val(), reportContent: $("#i_report_box").val() },
-                success: function (data) {
-                    if (data.state == 0) {
-                        errorShow(data.error, data.message)
-                    } else {
-                        $("#i_report_tab").empty();
-                        $("#i_report_tab").append('<div class="d_reasons_container b">' +
-                            'You have reported this event as ' + data.newReportType + ' <p> at ' + data.newReportDate + '<br> Your report is being review.</p>' +
-                        '</div>');
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
-                    console.log(textStatus);
-                    console.log(errorThrown);
-                }
-            })
-        }
-        </text>
-         }
-    })
-
-    function viewVideo(link) {
-        $("#li-video").removeClass("active");
-        $("#li-video-title").addClass("active");
-        $("#i_video_tab").removeClass("active");
-        $("#i_watch_video_tab").addClass("active");
-        link = link.replace("watch?v=", "embed/");
-        $("#i-view-video").attr("src", link);
-    }
-    var state = 0;
-    var followState = 0;
-    //dislike script
-    $(document).ready(function () {
-        $('.d_des_content').html($('#popupContent').text().replace(/&lt;/g, '<').replace(/&gt;/g, ">"));
-        $("#btn-dislike-event").click(function () {
-            @if (user == null) {
-            <text>
-            errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
-            </text>
-        }
-        else {
-            <text>
-            $.ajax({
-                type: "post",
-                url: "/User/Dislike",
-                cache: false,
-                data: { eventId: '@Model.eventId' },
-                success: function (data) {
-                    state = data.state;
-                    if (data.success == true) {
-                        if (state == 1) {
-                            $('#dislike-count').text(parseInt($('#dislike-count').text()) + 1);
-                            $('#like-count').text(parseInt($('#like-count').text()) - 1);
-                            state = -1;
-                        } else if (state == 0) {
-                            $('#dislike-count').text(parseInt($('#dislike-count').text()) + 1);
-                            state = -1;
-                        }
-                    }
-                },
-                error: function () {
-                    errorShow("Ops..Error", "Failed to connect to server!");
-                }
-
-            })
-            </text>
-        }
-        });
-
-        $("#btn-like-event").click(function () {
-            @if (user == null) {
-            <text>
-
-            errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
-            </text>
-        }
-        else {
-            <text>
-            $.ajax({
-                type: "post",
-                url: "/User/Like",
-                cache: false,
-                data: { eventId: '@Model.eventId' },
-                success: function (data) {
-                    state = data.state;
-                    if (data.success == true) {
-                        if (state == -1) {
-                            $('#like-count').text(parseInt($('#like-count').text()) + 1);
-                            $('#dislike-count').text(parseInt($('#dislike-count').text()) - 1);
-                            state = 1;
-                        } else if (state == 0) {
-                            $('#like-count').text(parseInt($('#like-count').text()) + 1);
-                            state = 1;
-                        }
-                    }
-                },
-                error: function () {
-                    errorShow("Ops..Error", "Failed to connect to server!");
-                }
-            })
-            </text>
-        }
-        });
-
-        if (followState == 1) {
-            //new da follow $('#follow-status').text("Following");
-        }
-        $("#btn-follow-event").click(function () {
-            @if (user == null) {
-            <text>
-            errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
-            </text>
-        }
-        else {
-            <text>
-            $.ajax({
-                url: "/User/FollowEvent",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    eventID: '@Model.eventId'
-                },
-                success: function (data) {
-                    if (data.success) {
-                        if (data.state == 0) {
-                            $('#follow-count').text(parseInt($('#follow-count').text()) - 1);
-                        } else if (data.state == 1) {
-                            $('#follow-count').text(parseInt($('#follow-count').text()) + 1);
-                        }
-                    } else {
-                        alert("ops.. somthing wrong!Please try again later...");
-                    }
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
-                    console.log(textStatus);
-                    console.log(errorThrown);
-                }
-            })
-            </text>
-        }
-        });
-    })
-</script>
-<!--upload image event-->
-<script>
-    var fileInput = $('#uploadBtn');
-    $("#uploadBtn").change(function (event) {
-        @if(user==null) {
-            <text>
-        $("#user-upload-image-event-modal").modal("hide")
-        errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
-        //@*Prevent this form from being submitted*@
-        event.preventDefault();
-        return false;
-        </text>
-        }else{
-        <text>
-        if (fileInput.get(0).files.length) {
-            var fileSize = fileInput.get(0).files[0].size; // in bytes
-            if (fileSize > 10485760) {
-                $(".modal").modal("hide");
-                errorShow("File too large", "Please choose a file has size lower than 10 Mb!")
-                event.preventDefault();
-                return false;
+            if ($("input[name='reportRadio']:checked").val() == null) {
+                errorShow("Error", "Please select a type of report!");
             } else {
-                return true;
+                $.ajax({
+                    url: "/User/ReportEvent",
+                    type: "POST",
+                    dataType: "json",
+                    data: { eventId: '@Model.eventId', typeReport: $("input[name='reportRadio']:checked").val(), reportContent: $("#i_report_box").val() },
+                    success: function (data) {
+                        if (data.state == 0) {
+                            errorShow(data.error, data.message)
+                        } else {
+                            $("#i_report_tab").empty();
+                            $("#i_report_tab").append('<div class="d_reasons_container b">' +
+                                'You have reported this event as ' + data.newReportType + ' <p> at ' + data.newReportDate + '<br> Your report is being review.</p>' +
+                            '</div>');
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                })
             }
-        } else {
-            $(".modal").modal("hide");
-            errorShow("File is empty","Please choose a image file!");
+            </text>
+         }
+        })
+
+        function viewVideo(link) {
+            $("#li-video").removeClass("active");
+            $("#li-video-title").addClass("active");
+            $("#i_video_tab").removeClass("active");
+            $("#i_watch_video_tab").addClass("active");
+            link = link.replace("watch?v=", "embed/");
+            $("#i-view-video").attr("src", link);
+        }
+        var state = 0;
+        var followState = 0;
+        //dislike script
+        $(document).ready(function () {
+            $('.d_des_content').html($('#popupContent').text().replace(/&lt;/g, '<').replace(/&gt;/g, ">"));
+            $("#btn-dislike-event").click(function () {
+                @if (user == null) {
+            <text>
+                errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
+                </text>
+        }
+        else {
+            <text>
+                $.ajax({
+                    type: "post",
+                    url: "/User/Dislike",
+                    cache: false,
+                    data: { eventId: '@Model.eventId' },
+                    success: function (data) {
+                        state = data.state;
+                        if (data.success == true) {
+                            if (state == 1) {
+                                $('#dislike-count').text(parseInt($('#dislike-count').text()) + 1);
+                                $('#like-count').text(parseInt($('#like-count').text()) - 1);
+                                state = -1;
+                            } else if (state == 0) {
+                                $('#dislike-count').text(parseInt($('#dislike-count').text()) + 1);
+                                state = -1;
+                            }
+                        }
+                    },
+                    error: function () {
+                        errorShow("Ops..Error", "Failed to connect to server!");
+                    }
+
+                })
+                </text>
+        }
+            });
+
+            $("#btn-like-event").click(function () {
+                @if (user == null) {
+            <text>
+
+                errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
+                </text>
+        }
+        else {
+            <text>
+                $.ajax({
+                    type: "post",
+                    url: "/User/Like",
+                    cache: false,
+                    data: { eventId: '@Model.eventId' },
+                    success: function (data) {
+                        state = data.state;
+                        if (data.success == true) {
+                            if (state == -1) {
+                                $('#like-count').text(parseInt($('#like-count').text()) + 1);
+                                $('#dislike-count').text(parseInt($('#dislike-count').text()) - 1);
+                                state = 1;
+                            } else if (state == 0) {
+                                $('#like-count').text(parseInt($('#like-count').text()) + 1);
+                                state = 1;
+                            }
+                        }
+                    },
+                    error: function () {
+                        errorShow("Ops..Error", "Failed to connect to server!");
+                    }
+                })
+                </text>
+        }
+            });
+
+            if (followState == 1) {
+                //new da follow $('#follow-status').text("Following");
+            }
+            $("#btn-follow-event").click(function () {
+                @if (user == null) {
+            <text>
+                errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
+                </text>
+        }
+        else {
+            <text>
+                $.ajax({
+                    url: "/User/FollowEvent",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        eventID: '@Model.eventId'
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            if (data.state == 0) {
+                                $('#follow-count').text(parseInt($('#follow-count').text()) - 1);
+                            } else if (data.state == 1) {
+                                $('#follow-count').text(parseInt($('#follow-count').text()) + 1);
+                            }
+                        } else {
+                            alert("ops.. somthing wrong!Please try again later...");
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                })
+                </text>
+        }
+            });
+        })
+    </script>
+    <!--upload image event-->
+    <script>
+        var fileInput = $('#uploadBtn');
+        var newAvatar = ('#new-avatar');
+
+        $("#new-avatar").change(function (event) {
+            @if(user==null) {
+           <text>
+            $("#user-upload-image-event-modal").modal("hide")
+            errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
+            //@*Prevent this form from being submitted*@
             event.preventDefault();
             return false;
-        }
-        </text>
-        }
-    });
-    function handleFileSelect(evt) {
-        var files = evt.target.files; // FileList object
-
-        // Loop through the FileList and render image files as thumbnails.
-        for (var i = 0, f; f = files[i]; i++) {
-
-            // Only process image files.
-            if (!f.type.match('image.*')) {
-                continue;
+            </text>
+       }else{
+           <text>
+            if (newAvatar.get(0).files.length) {
+                var fileSize = newAvatar.get(0).files[0].size; // in bytes
+                if (fileSize > 2097152) {
+                    $(".modal").modal("hide");
+                    errorShow("File too large", "Image size must be less than 2Mb!")
+                    event.preventDefault();
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                $(".modal").modal("hide");
+                errorShow("File is empty", "Please choose a image file!");
+                event.preventDefault();
+                return false;
             }
-
-            var reader = new FileReader();
-
-            // Closure to capture the file information.
-            reader.onload = (function (theFile) {
-                return function (e) {
-                    // Render thumbnail.
-                    $("#image-contain").empty();
-                    var span = document.createElement('span');
-                    span.innerHTML = ['<img style="height:200px;width:200px" class="thumb_anh" src="', e.target.result,
-                        '" title="', escape(theFile.name), '"/>'].join('');
-                    document.getElementById('image-contain').insertBefore(span, null);
-                };
-            })(f);
-
-            // Read in the image file as a data URL.
-            reader.readAsDataURL(f);
-        }
+            </text>
     }
-    document.getElementById('uploadBtn').addEventListener('change', handleFileSelect, false);
-</script>
-<!--Show map-->
-<script>
-    var index = 0;
-    /*** OUTSOURCE: Google Map ***/
-    /*** OUTSOURCE: Google Map ***/
-    function init_map() {
-        var var_location = new google.maps.LatLng('@Model.eventLocation[0].Latitude', '@Model.eventLocation[0].Longitude');
-        var var_mapoptions = {
-            center: var_location,
-            zoom: 9
-        };
-        var var_map = new google.maps.Map(document.getElementById("map-container"),
-            var_mapoptions);
+        });
 
-        @if(Model.eventLocation!=null){
+
+        $("#uploadBtn").change(function (event) {
+            @if(user==null) {
+            <text>
+            $("#user-upload-image-event-modal").modal("hide")
+            errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
+            //@*Prevent this form from being submitted*@
+            event.preventDefault();
+            return false;
+            </text>
+        }else{
+        <text>
+            if (fileInput.get(0).files.length) {
+                var fileSize = fileInput.get(0).files[0].size; // in bytes
+                if (fileSize > 2097152) {
+                    $(".modal").modal("hide");
+                    errorShow("File too large", "Image size must be less than 2Mb!")
+                    event.preventDefault();
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                $(".modal").modal("hide");
+                errorShow("File is empty", "Please choose a image file!");
+                event.preventDefault();
+                return false;
+            }
+            </text>
+        }
+        });
+        function handleFileSelect(evt) {
+            var files = evt.target.files; // FileList object
+
+            // Loop through the FileList and render image files as thumbnails.
+            for (var i = 0, f; f = files[i]; i++) {
+
+                // Only process image files.
+                if (!f.type.match('image.*')) {
+                    continue;
+                }
+
+                var reader = new FileReader();
+
+                // Closure to capture the file information.
+                reader.onload = (function (theFile) {
+                    return function (e) {
+                        // Render thumbnail.
+                        $("#image-contain").empty();
+                        var span = document.createElement('span');
+                        span.innerHTML = ['<img style="height:200px;width:200px" class="thumb_anh" src="', e.target.result,
+                            '" title="', escape(theFile.name), '"/>'].join('');
+                        document.getElementById('image-contain').insertBefore(span, null);
+                    };
+                })(f);
+
+                // Read in the image file as a data URL.
+                reader.readAsDataURL(f);
+            }
+        }
+        document.getElementById('uploadBtn').addEventListener('change', handleFileSelect, false);
+        document.getElementById('new-avatar').addEventListener('change', handleFileSelect, false);
+    </script>
+    <!--Show map-->
+    <script>
+        var index = 0;
+        /*** OUTSOURCE: Google Map ***/
+        /*** OUTSOURCE: Google Map ***/
+        function init_map() {
+            var var_location = new google.maps.LatLng('@Model.eventLocation[0].Latitude', '@Model.eventLocation[0].Longitude');
+            var var_mapoptions = {
+                center: var_location,
+                zoom: 9
+            };
+            var var_map = new google.maps.Map(document.getElementById("map-container"),
+                var_mapoptions);
+
+            @if(Model.eventLocation!=null){
         foreach (var item in @Model.eventLocation) {
             <text>
-        index = index + 1;
-        (function (index) {
-            var marker = new google.maps.Marker({
-                position: new google.maps.LatLng('@item.Latitude', '@item.Longitude'),
-                map: var_map
-            });
-            var infoMarker = new google.maps.InfoWindow({
-                content: '@item.LocationName'
-            });
-            marker.setMap(var_map);
-            google.maps.event.addListener(marker, 'mouseover', function () {
-                infoMarker.open(var_map, marker);
-            });
-            google.maps.event.addListener(marker, 'mouseout', function () {
-                infoMarker.close();
-            });
-        })(index);
-        </text>
+            index = index + 1;
+            (function (index) {
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng('@item.Latitude', '@item.Longitude'),
+                    map: var_map
+                });
+                var infoMarker = new google.maps.InfoWindow({
+                    content: '@item.LocationName'
+                });
+                marker.setMap(var_map);
+                google.maps.event.addListener(marker, 'mouseover', function () {
+                    infoMarker.open(var_map, marker);
+                });
+                google.maps.event.addListener(marker, 'mouseout', function () {
+                    infoMarker.close();
+                });
+            })(index);
+            </text>
         }
         }
-    }
-    google.maps.event.addDomListener(window, 'load', init_map);
-    //document.addEventListener('DOMContentLoaded', init_map);
-    /*** End of OUTSOURCE: Google Map ***/
-</script>
-<script>
-    function youtubeVideoValid(url) {
-        var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
-        return (url.match(p)) ? RegExp.$1 : false;
-    }
+        }
+        google.maps.event.addDomListener(window, 'load', init_map);
+        //document.addEventListener('DOMContentLoaded', init_map);
+        /*** End of OUTSOURCE: Google Map ***/
+    </script>
+    <script>
+        function youtubeVideoValid(url) {
+            var p = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+            return (url.match(p)) ? RegExp.$1 : false;
+        }
 
-    $('#VideoURL').bind("change keyup input", function () {
-        var url = $('#VideoURL').val();
-        if (youtubeVideoValid(url) !== false) {
-            $('#formatError').hide();
-        } else {
-            $('#formatError').show();
-        }
-            
-    });
-</script>
+        $('#VideoURL').bind("change keyup input", function () {
+            var url = $('#VideoURL').val();
+            if (youtubeVideoValid(url) !== false) {
+                $('#formatError').hide();
+            } else {
+                $('#formatError').show();
+            }
+
+        });
+    </script>

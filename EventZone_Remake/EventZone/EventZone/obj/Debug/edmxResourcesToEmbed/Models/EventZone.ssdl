@@ -73,6 +73,7 @@
     <Property Name="EditTime" Type="datetime" />
     <Property Name="EditContent" Type="nvarchar(max)" />
     <Property Name="Status" Type="bit" Nullable="false" />
+    <Property Name="IsVerified" Type="bit" Nullable="false" />
     <Property Name="LockedReason" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="EventFollow">
@@ -90,6 +91,7 @@
     <Property Name="EventImageID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="EventID" Type="bigint" />
     <Property Name="ImageID" Type="bigint" />
+    <Property Name="Approve" Type="bit" />
   </EntityType>
   <EntityType Name="EventPlace">
     <Key>

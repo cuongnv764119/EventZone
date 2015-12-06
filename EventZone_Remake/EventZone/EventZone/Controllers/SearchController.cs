@@ -64,7 +64,7 @@ namespace EventZone.Controllers
             return PartialView(new AdvanceSearch());
         }
 
-        public ActionResult CategorySearch(long categoryid)
+        public ActionResult CategorySearch(long categoryid, long tab=-1)
         {
             User user = UserHelpers.GetCurrentUser(Session);
             if (user == null)
@@ -96,12 +96,13 @@ namespace EventZone.Controllers
                 TempData["task"] = "Category " + CommonDataHelpers.Instance.GetCategoryById(categoryid).CategoryName;
             }
             catch { }
-            TempData["listLiveStream"] = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(liveEvent);
-            TempData["listEvent"] = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(listEvent);
+            TempData["TabSearch"] = tab;
+            Session["listLiveStream"] = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(liveEvent);
+            Session["listEvent"] = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(listEvent);
             return View("SearchResult");
         }
         [HttpPost]
-        public ActionResult BasicSearch(BasicSearch model)
+        public ActionResult BasicSearch(BasicSearch model, int tab = -1)
         {
             User user = UserHelpers.GetCurrentUser(Session);
             if (user == null)
@@ -134,18 +135,19 @@ namespace EventZone.Controllers
                 keyword = model.Keyword;
             }
             keyword = keyword.Trim();
-            TempData["listEvent"] =
+            TempData["TabSearch"] = tab;
+            Session["listEvent"] =
                 EventDatabaseHelper.Instance.GetThumbEventListByListEvent(
                     EventDatabaseHelper.Instance.SearchEventByKeyword(keyword));
-            TempData["listLiveStream"] =
+            Session["listLiveStream"] =
                 EventDatabaseHelper.Instance.GetThumbEventListByListEvent(
                     EventDatabaseHelper.Instance.SearchLiveStreamByKeyword(keyword));
-            TempData["listUser"] = UserDatabaseHelper.Instance.GetUserThumbByList(UserDatabaseHelper.Instance.SearchUserByKeyword(keyword));
+            Session["listUser"] = UserDatabaseHelper.Instance.GetUserThumbByList(UserDatabaseHelper.Instance.SearchUserByKeyword(keyword));
             TempData["task"] = "Search";
             return View("SearchResult");
         }
 
-        public ActionResult AdvanceSearch(AdvanceSearch model, int datepick)
+        public ActionResult AdvanceSearch(AdvanceSearch model, int datepick, int tab = -1)
         {
             User user = UserHelpers.GetCurrentUser(Session);
             if (user == null)
@@ -168,6 +170,7 @@ namespace EventZone.Controllers
                     }
                 }
             }
+           
             List<Event> listEvent = new List<Event>();
             AdvanceSearch myModel = model;
             List<Event> listLiveStream = new List<Event>();
@@ -176,18 +179,17 @@ namespace EventZone.Controllers
                 model.Keyword = model.Keyword.Trim();
             }
             listEvent = EventDatabaseHelper.Instance.SearchEventByKeyword(model.Keyword);
-            listLiveStream = EventDatabaseHelper.Instance.SearchLiveStreamByKeyword(model.Keyword);
             if (model.SelectedCategory != null && model.SelectedCategory.Length != 0)
             {
                 listEvent = EventDatabaseHelper.Instance.SearchByListCategory(listEvent, model.SelectedCategory);
-                listLiveStream = EventDatabaseHelper.Instance.SearchByListCategory(listLiveStream, model.SelectedCategory);
+
             }
 
             if (model.Location != null && model.Location.LocationName != null &&
                 !(model.Location.Longitude == 0 && model.Location.Latitude == 0))
             {
                 listEvent = EventDatabaseHelper.Instance.GetEventAroundLocation(model.Location, 20, listEvent);
-                listLiveStream = EventDatabaseHelper.Instance.GetEventAroundLocation(model.Location, 20, listLiveStream);
+
             }
             DateTime startTime = new DateTime();
             DateTime endTime = new DateTime();
@@ -216,19 +218,64 @@ namespace EventZone.Controllers
                 startTime = model.StartDateRange;
                 endTime = model.FinishDateRange.AddDays(1);
             }
-
             listEvent = EventDatabaseHelper.Instance.GetEventInDateRange(startTime, endTime, listEvent);
-            listLiveStream = EventDatabaseHelper.Instance.GetEventInDateRange(startTime, endTime, listLiveStream);
-            TempData["listEvent"] = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(listEvent);
-            TempData["listLiveStream"] = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(listLiveStream);
-            TempData["listUser"] = new List<ViewThumbUserModel>();
+            listLiveStream = EventDatabaseHelper.Instance.GetLiveStreamingFromList(listEvent);
+            Session["listEvent"] = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(listEvent);
+            Session["listLiveStream"] = EventDatabaseHelper.Instance.GetThumbEventListByListEvent(listLiveStream);
+            Session["listUser"] = new List<ViewThumbUserModel>();
             TempData["task"] = "Search";
+
+            if (model.IsLive)
+            {
+                    tab = 3;
+                  
+            }
+            TempData["TabSearch"] = tab;
+
             if (model.Keyword == null||model.Keyword.Trim().IsEmpty())
             {
                 TempData["task"] = "AdvanceSearch";
             }
-           
             return View("SearchResult");
+        }
+        public ActionResult LoadEventInPage(int page, int type){
+
+            var listEvent = Session["listEvent"] as List<ViewThumbEventModel>;
+            var listLiveStream = Session["listLiveStream"] as List<ViewThumbEventModel>;
+
+            int listEventstartAt = page * 10;
+            int ListEventendAt = (listEvent.Count) < (page * 10) ? (listEvent.Count - 1) : (page * 10) - 1;
+            
+
+            int listLiveEventstartAt = page * 10;
+            int listLiveEventendtAt = (listLiveStream.Count) < (page * 10) ? (listLiveStream.Count - 1) : (page * 10) - 1;
+            
+            if (type == 1)
+            {
+                if (listEvent.Count > (page * 10))
+                {
+                    TempData["LoadMore"] = true;
+                }
+                else
+                {
+                    TempData["LoadMore"] = false;
+                }
+                List<ViewThumbEventModel> listView = listEvent.GetRange(listEventstartAt, ListEventendAt);
+                return PartialView("_EventThumbPage", listView);
+            }   
+            else {
+                if (listLiveStream.Count > (page * 10))
+                {
+                    TempData["LoadMore"] = true;
+                }
+                else
+                {
+                    TempData["LoadMore"] = false;
+                }
+                List<ViewThumbEventModel> listLiveView = listLiveStream.GetRange(listLiveEventstartAt, listLiveEventendtAt);
+                return PartialView("_EventThumbPage", listLiveView);
+            }
+            
         }
     }
 }

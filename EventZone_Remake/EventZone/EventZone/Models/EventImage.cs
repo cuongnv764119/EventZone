@@ -17,6 +17,7 @@ namespace EventZone.Models
         public long EventImageID { get; set; }
         public Nullable<long> EventID { get; set; }
         public Nullable<long> ImageID { get; set; }
+        public Nullable<bool> Approve { get; set; }
     
         public virtual Event Event { get; set; }
         public virtual Image Image { get; set; }

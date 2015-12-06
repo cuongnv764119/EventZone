@@ -63,7 +63,6 @@ namespace EventZone.Models
         public long eventID { get; set; }
 
         [Required(ErrorMessage = "Please enter your Title")]
-        [RegularExpression("(^[a-zA-Z0-9 ,.'-]+$)", ErrorMessage = "Only Allowed Alphabet, numberic and white Character In Title")]
         [MaxLength(50, ErrorMessage = "Title must less than 50 characters.")]
         public string Title { get; set; }
         public long EventPlaceID { get; set; }

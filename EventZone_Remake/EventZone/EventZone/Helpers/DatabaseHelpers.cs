@@ -150,7 +150,7 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public Channel GetUserChannel(long userID)
+        public Channel GetUserChannel(long? userID)
         {
             try {
                 Channel channel = (from a in db.Channels where a.UserID == userID select a).ToList()[0];
@@ -985,21 +985,42 @@ namespace EventZone.Helpers
         {
             try
             {
-                List<EventImage> eventImage = (from a in db.EventImages where a.EventID == id select a).ToList();
-                if (eventImage != null) {
-                var listImage = new List<Image>();
-                foreach (var item in eventImage) {
-                    listImage.Add(GetImageByID(item.ImageID));
-                }          
+                List<Image> listImage = (from a in db.EventImages join b in db.Images on a.ImageID equals b.ImageID where a.EventID==id select b).ToList();   
                 return listImage;
-                }
+                
             }
             catch {
                 return null;
             }
-            return null;
+
         }
 
+        public List<Image> GetEventApprovedImage(long? id)
+        {
+            try
+            {
+                List<Image> listImage = (from a in db.EventImages join b in db.Images on a.ImageID equals b.ImageID where a.EventID == id  && a.Approve==true select b).ToList();
+                return listImage;
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public List<Image> GetPendingImageInEvent(long? id) {
+            try
+            {
+                List<Image> listImage = (from a in db.EventImages join b in db.Images on a.ImageID equals b.ImageID where a.EventID == id && a.Approve == false select b).ToList();
+                return listImage;
+
+            }
+            catch
+            {
+                return null;
+            }
+        }
         /// <summary>
         ///     Get all video of an event
         /// </summary>
@@ -1079,7 +1100,7 @@ namespace EventZone.Helpers
 
         }
         //Check is event owned by user or not
-        public bool IsEventOwnedByUser(long eventID, long UserID)
+        public bool IsEventOwnedByUser(long? eventID, long? UserID)
         {
             try
             {
@@ -1400,6 +1421,13 @@ namespace EventZone.Helpers
                 db.Images.Add(image);
                 db.SaveChanges();
                 EventImage evtImage = new EventImage { EventID=evtID,ImageID=image.ImageID};
+                if (!IsEventOwnedByUser(evtID, image.UserID))
+                {
+                    evtImage.Approve = false;
+                }
+                else {
+                    evtImage.Approve = true;
+                }
                 db.EventImages.Add(evtImage);
                 db.SaveChanges();
                 return true;
@@ -1477,6 +1505,12 @@ namespace EventZone.Helpers
             result=result.Distinct().ToList();
             return result;
         }
+        /// <summary>
+        /// select all approved image in list
+        /// </summary>
+        /// <param name="listImage"></param>
+        /// <returns></returns>
+       
         public List<ThumbEventHomePage> GetThumbEventHomepage(List<Event> ListEvent)
         {
             List<ThumbEventHomePage> listThumb = new List<ThumbEventHomePage>();
@@ -1855,6 +1889,47 @@ namespace EventZone.Helpers
             return false;
             
         }
+        /// <summary>
+        /// get Live streaming from list
+        /// </summary>
+        /// <param name="listEvent"></param>
+        /// <returns></returns>
+        internal List<Event> GetLiveStreamingFromList(List<Event> listEvent)
+        {
+            if (listEvent == null||listEvent.Count==0)
+            {
+                return null;
+            }
+            List<Event> result = new List<Event>();
+            try
+            {
+                for (int i = 0; i < listEvent.Count - 1; i++) { 
+                    if(isLive(listEvent[i].EventID)){
+                        result.Add(listEvent[i]);
+                    }
+                }
+            }
+            catch { }
+            return result;
+        }
+        /// <summary>
+        /// change event avatar
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public bool ChangeEventAvatar( long eventID, Image image)
+        {
+            try {
+                Event evt = db.Events.Find(eventID);
+                evt.Avatar = image.ImageID;
+                db.Entry(evt).State = EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+            catch { }
+            return false;
+        }
     }
 
     /// <summary>
@@ -2224,12 +2299,13 @@ namespace EventZone.Helpers
         /// <returns></returns>
         public bool LockEvent(long adminID, long eventID, string reason) {
             try {
+                User user = EventDatabaseHelper.Instance.GetAuthorEvent(eventID);
                 TrackingAction newAction = new TrackingAction
                 {
                     SenderID = adminID,
                     SenderType = UserDatabaseHelper.Instance.GetUserByID(adminID).UserRoles,
-                    ReceiverID = EventDatabaseHelper.Instance.GetAuthorEvent(eventID).UserID,
-                    ReceiverType = EventDatabaseHelper.Instance.GetAuthorEvent(eventID).UserRoles,
+                    ReceiverID = user.UserID,
+                    ReceiverType = EventDatabaseHelper.Instance.GetAuthorEvent(user.UserID).UserRoles,
                     ActionID = EventZoneConstants.LockEvent,
                     ActionTime = DateTime.Now
                 };

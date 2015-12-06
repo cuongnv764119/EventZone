@@ -137,7 +137,8 @@
                                                             <div class="modal-body">
                                                                 <input hidden id="eventID" />
                                                                 Content:
-                                                                <textarea id="appeal-content_@item.EventID"></textarea>
+                                                                <textarea id="appeal-content_@item.EventID" maxlength="100"></textarea>
+                                                                <div><i>Reason appeal limited by 100 characters</i></div>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button onclick="SendAppeal(@item.EventID)">Send</button>
@@ -342,10 +343,10 @@
         if (eventID == null || eventID == "") {
             $(".modal").modal("hide");
             errorShow("error","Could not found event!")
-        } else if (contentAppeal == null || contentAppeal == "") {
+        } else if (contentAppeal == null || contentAppeal == ""||contentAppeal.length<20) {
             $(".modal").modal("hide");
-            errorShow("Content is empty","Please enter your appeal!")
-        } else {
+            errorShow("Error","Reason appeal must content more than 20 characters.!")
+        }else {
             $.ajax({
                 url: "/User/Appeal",
                 type: "post",

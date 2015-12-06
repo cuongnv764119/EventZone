@@ -1,6 +1,7 @@
 ﻿@model EventZone.Models.CommentViewModel
 @using EventZone.Models
 @using EventZone.Helpers
+@using EventZone.Hubs
 @{
     ViewBag.Title = "_CommentPartial";
     User user = UserHelpers.GetCurrentUser(Session) ;
@@ -150,18 +151,95 @@
         </div>
         <div class="d_write_cmt">
             <div class="form-group">
-                <textarea id="i_cmt_box" autofocus
-                          class="form-control" rows="1"
-                          placeholder="Your comment..."></textarea>
-                <button type="button" class="btn btn-success" id="i_send_btn">
+                <input type="text" id="i_cmt_box" autofocus
+                       class="form-control" rows="1"
+                       placeholder="Your comment..." maxlength="200" />
+                <button type="submit" class="btn btn-success" id="i_send_btn">
                     <span class="glyphicon glyphicon-send"></span>
                 </button>
             </div>
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
+
+<script src="~/Scripts/Hub/jquery.signalR-2.0.0.js"></script>
+<script src="~/Scripts/Hub/jquery.signalR-2.0.0.min.js"></script>
+<script src="/signalr/hubs" type="text/javascript"></script>
+ <script>
+
+     var objDiv = document.getElementById("comment-content");
+     objDiv.scrollTop = objDiv.scrollHeight;
+
+        var chat = $.connection.chatHub;
+
+        chat.client.broadcastMessage = function (data) {
+            console.log("1");
+            // Html encode display name and message. 
+            $("#comment-content").append(data);
+            $("#i_cmt_box").val("");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        };
+        
+        $("#i_cmt_box").attr("disabled", "disabled");
+       
+        $.connection.hub.start().done(function () {
+            $("#i_cmt_box").removeAttr("disabled");
+            $('#i_cmt_box').bind("enterKey", function (e) {
+                $("#i_send_btn").click();
+            });
+            $('#i_cmt_box').keyup(function (e) {
+                if (e.keyCode == 13) {
+                    $(this).trigger("enterKey");
+                }
+            });
+
+
+            $("#i_send_btn").click(function () {
+                @if (user == null) {
+                    <text>
+                    errorShow("Require Signin", "Ops.. It's look like you are current is not signed in system! Please sign in first!");
+                    </text>
+                }
+                else {
+                    <text>
+                if ($("#i_cmt_box").val() == null || $("#i_cmt_box").val().trim() == "") {
+                } else {
+                    $.ajax({
+                        type: "post",
+                        url: "/Event/Comment",
+                        dataType: 'json',
+                        cache: false,
+                        data: { eventID: parseInt('@Model.eventID'), commentContent: $("#i_cmt_box").val() },
+                        success: function (data) {
+                            if (data.state == 0) {
+                                errorShow(data.title, data, message)
+                            } else {
+                                chat.server.send(data.dataAppend);
+                                console.log("sent");
+                            }
+                        },
+                        error: function () {
+                            alert('Error while request..');
+                        }
+                    })
+                }
+                </text>
+            }
+            });
+
+        });
+
+
+        @*$('#i_cmt_box').bind("enterKey", function (e) {
+            $("#i_send_btn").click();
+        });
+        $('#i_cmt_box').keyup(function (e) {
+            if (e.keyCode == 13) {
+                $(this).trigger("enterKey");
+            }
+        });
+
+
         $("#i_send_btn").click(function () {
             @if (user == null) {
             <text>
@@ -194,7 +272,7 @@
             }
             </text>
            }
-        });
-    })
+        });*@
 
 </script>
+
