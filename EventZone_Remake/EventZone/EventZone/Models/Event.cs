@@ -47,8 +47,8 @@ namespace EventZone.Models
     
         public virtual ICollection<Appeal> Appeals { get; set; }
         public virtual Category Category { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
         public virtual Channel Channel { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<EventFollow> EventFollows { get; set; }
         public virtual ICollection<EventImage> EventImages { get; set; }
         public virtual ICollection<EventPlace> EventPlaces { get; set; }

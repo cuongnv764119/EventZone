@@ -526,9 +526,6 @@ namespace EventZone.Controllers
                     NotificationDataHelpers.Instance.SendNotyNewComment(user.UserID,eventID);
                     string dataAppend = " <div class='d_each_event'>"
                         + "<div class='d_ee_ava_user'>"
-                         + "   <div class='d_ee_ava'>"
-                           + "    <img src=" + EventDatabaseHelper.Instance.GetImageByID(UserDatabaseHelper.Instance.GetUserByID(newcmt.UserID).Avartar).ImageLink + ">"
-                            + "</div>"
                             + "<div class='d_ee_user'>"
                               + "<i>" + UserDatabaseHelper.Instance.GetUserDisplayName(newcmt.UserID) + "</i>"
                            + " </div>"

@@ -40,53 +40,52 @@
     }
 }
 <link href="~/Content/User/myCSS_s_r.css" rel="stylesheet" />
-<div class="d_all_result container">
-    <div class="col-xs-8 col-sm-9 col-md-9 col-lg-10" id="pannel-result">
+<div class="d_result_cover ">
+    <div class="col-xs-8 col-sm-9 col-md-9 col-lg-10 d_result_container" id="pannel-result" style="height:550px">
         <!-- Tab panes -->
         <div class="tab-content">
-    <!-- EVENT Result: e_ đánh dấu CSS Event -->
-    @if (tab != "3")
-    {
-        <div class="tab-pane active b d_result_container" id="tab-all-event">
-            <div class="d_result_container" id="event-r">
-                @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 1 });
-            </div>
+            <!-- EVENT Result: e_ đánh dấu CSS Event -->
+            @if (tab != "3")
+            {
+                <div class="tab-pane active" id="tab-all-event">
+                    <div class="d_result_container" id="event-r">
+                        @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 1 });
+                    </div>
 
-        </div>
-    }
+                </div>
+            }
 
-    @if (tab == "3" || tab == "2")
-    {
-        <div class="tab-pane b active d_result_container" id="tab-live-event">
+            @if (tab == "3" || tab == "2")
+            {
+                <div class="tab-pane" id="tab-live-event">
 
-            <div class="d_result_container" id="liveEvent-r">
-                @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 2 });
-            </div>
+                    <div class="d_result_container" id="liveEvent-r">
+                        @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 2 });
+                    </div>
 
-        </div>
-    }
-    else
-    {
-        <div class="tab-pane b d_result_container" id="tab-live-event">
+                </div>
+            }
+            else
+            {
+                <div class="tab-pane" id="tab-live-event">
 
-            <div class="d_result_container" id="liveEvent-r">
-                @Html.Action("LoadEventInPage", "Search", new { page = 1,type =2});
-            </div>
+                    <div class="d_result_container" id="liveEvent-r">
+                        @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 2 });
+                    </div>
 
-        </div>
-    }
-    <!-- Live Event Result: c_ đánh dấu CSS Live Event -->
-    <!-- USER Result: u_ đánh dấu CSS User -->
-    @if (tab != "3" && task == "Search")
-    {
-        <div class="tab-pane b d_result_container" id="tab-user">
-            <div class="d_result_container" id="user-r">
-                
-                @Html.Action("LoadUserInPage", "Search", new { page = 1});
-            </div>
-        </div>
-    }
-            
+                </div>
+            }
+            <!-- Live Event Result: c_ đánh dấu CSS Live Event -->
+            <!-- USER Result: u_ đánh dấu CSS User -->
+            @if (tab != "3" && task == "Search")
+            {
+                <div class="tab-pane" id="tab-user">
+                    <div class="d_result_container" id="user-r">
+                        @Html.Action("LoadUserInPage", "Search", new { page = 1 });
+                    </div>
+                </div>
+            }
+
         </div>
     </div>
     <div class="col-xs-4 col-sm-3 col-md-3 col-lg-2 d_tab_container">
@@ -99,10 +98,11 @@
                     <a href="search-result.html#tab-all-event" data-toggle="tab">Event (@listEventCount)</a>
                 </li>
             }
-            @if (tab == "3"||tab=="2") { 
-            <li class="active">
-                <a href="search-result.html#tab-live-event" data-toggle="tab">Live Streaming (@listLiveStreamCount)</a>
-            </li>
+            @if (tab == "3" || tab == "2")
+            {
+                <li class="active">
+                    <a href="search-result.html#tab-live-event" data-toggle="tab">Live Streaming (@listLiveStreamCount)</a>
+                </li>
             }
             else
             {
@@ -110,8 +110,8 @@
                     <a href="search-result.html#tab-live-event" data-toggle="tab">Live Streaming (@listLiveStreamCount)</a>
                 </li>
             }
-           
-            @if (tab != "3"&&task == "Search")
+
+            @if (tab != "3" && task == "Search")
             {
                 <li>
                     <a href="search-result.html#tab-user" data-toggle="tab">User(@listUserCount)</a>

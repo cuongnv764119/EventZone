@@ -1,10 +1,11 @@
 /**************************************************** thêm CSS ***/
 /**************************************************** Sửa CSS BOOTSTRAP ***/
 body{
-	background-color: white;
+	background-color: #eee;
 	color: grey;
 	font-family: segoe ui;
 	min-width: 400px;
+    overflow-y: scroll;
 }
 .container-fluid{
 	padding: 0;
@@ -26,9 +27,12 @@ body{
 	background-color: rgba(0, 0, 0, .1);
 }
 .tab-content{
-	padding: 10px 5px 5px 5px;
+	/*padding: 5px 0px 5px 0px;*/
 	background-color: white;
 	border-radius: 4px;
+}
+	#myModal2 .tab-content{				
+    padding:0;				
 }
 .d_tab-content_cover{
 	overflow: auto;
@@ -47,7 +51,7 @@ body{
 }
 .panel-default > .panel-heading {
     color: #AFAFAF;
-    background-color: rgba(0,0,0, 0);
+    background-color: #f5f5f5;
 }
 .panel-title{
 	color: gray;
@@ -63,7 +67,7 @@ body{
 }
 .carousel-indicators{
 	top: 66px;
-    left: 262px;
+    left: 300px;
 }
 .carousel-control{
 	border-radius: 50px;
@@ -96,11 +100,23 @@ body{
 }
 .nav-tabs > li > a:hover {
     background-color: #eee;
+}		
+.modal .modal-dialog{		
+    background: #fff;		
+    border-radius: 5px;		
+}		
+/**************************************************** Sửa CSS plugin khác ***/				
+.note-editable{				
+    height: 300px;
 }
 /**************************************************** Khung chức năng TỔNG QUÁT ***/
 .d_uwe_body{
 	font-family: segoe ui;
     margin-top: 70px;
+    width: 80%;
+        padding: 0;
+    min-width: 430px;
+    margin-left: 10%;
 }
 .d_all_function_cover{
     padding: 0;
@@ -136,6 +152,9 @@ body{
 	height: auto;
 	padding: 0px;
 }
+	/*.d_info_tab{				
+    padding: 5px 5px;				
+}*/
 #i_info_tab .d_event_thumbnail {
     margin-right: 10px;
     width: 30%;
@@ -143,6 +162,23 @@ body{
 	padding: 0;
 	height: 180px;
 	overflow: hidden;
+       }				
+.d_info_tab .d_btn_group .btn{				
+    width: 100%;				
+    text-align: left;				
+}				
+.d_info_tab .d_btn_group .btn .glyphicon,				
+.d_info_tab .d_btn_group .btn .fa{				
+    width: 15%;				
+    text-align: center;				
+    margin-right: 11px;				
+}				
+.d_info_tab .d_btn_group #facebook-share{				
+    width: 30%;				
+}				
+.d_info_tab .d_btn_group #i_btn_edit .glyphicon{				
+    margin-right: 15px;				
+    color: #fff;
 }
 
 /**************************************************** Event Info tab - Thumb & info */
@@ -201,6 +237,8 @@ body{
 }
 .d_des_content{
     margin-top: 10px;
+    height: 180px;				
+    overflow-y: hidden;
 }
 .d_des_content_sample{
 	margin-top: 30px;
@@ -213,12 +251,13 @@ body{
 	text-align: justify;
 }
 .d_des_fade{
+    position: relative;
     margin: 0;
-    margin-top: -25px;
+    margin-top: -190px;
     border: 1px solid lightgrey;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    height: 180px;
+    height: 190px;
 	background: -webkit-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0), rgba(255,255,255,1)); /* For Firefox 3.6 to 15 */
@@ -238,14 +277,25 @@ body{
 /**************************************************** Image tab **/
 #i_image_tab{
 	border: 0px solid white;
-    padding-left: 5px;
+    /*padding-left: 5px;*/
     overflow-y: hidden;
     text-align: center;
 }
+.d_btn_upload_pending button{		
+   float: right;		
+   margin-left: 10px;		
+}		
+#i_image_tab .d_image_cover{		
+    width: 100%;		
+    float: right;		
+    margin-top: 5px;		
+    height: 368px;		
+    overflow-y: auto;		
+}
 #i_image_tab .d_each_photo{
-    width: 32%;
+    width: 30%;
     float: left;
-    margin-right: 5px;
+    margin: 5px 1.5% 10px 1.5%;
 }
 #i_image_tab .d_each_photo img {
     height: 100%;
@@ -254,6 +304,23 @@ body{
 }
 #i_image_tab .d_each_photo .d_photo_author{
     text-align: left;
+}
+#i_image_tab .d_each_photo .d_date_image{		
+    text-align: left;		
+    margin-left: 20px;		
+    font-size: smaller;		
+    color: lightgrey;		
+}		
+#i_image_tab .d_each_photo .d_btn_del{		
+    position: relative;		
+    margin-left: 83%;		
+    margin-top: -146%;		
+}		
+#i_image_tab .d_each_photo .d_btn_del .glyphicon{		
+    color: #fff;		
+}		
+#i_image_tab .d_each_photo form{		
+    height: 0;		
 }
 .d_image_cover{
     margin-top: 5px;
@@ -270,11 +337,21 @@ body{
 }
 
 /**************************************************** Video tab **/
+#i_video_tab {
+        background-color: #fff;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
 .d_info_tab{
-    padding: 10px 0 5px 0;
+   /* padding: 10px 0 5px 0;*/
     background-color: #fff;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
+    }		
+#i_btn_add_vid,		
+#i_btn_add_live{		
+    float: right;		
+    margin-left: 10px;
 }
 .d_panel_1{
 	padding-top: 0;
@@ -300,6 +377,53 @@ body{
     height: auto;
     margin-bottom: 0px;
 }
+#i_video_tab #i_video{		
+    float: right;		
+    width: 100%;		
+    margin-top: 5px;		
+}		
+#i_video_tab #i_video .panel-heading{		
+    background-color: #eee;		
+}		
+#i_video_tab .d_location{		
+    margin: 5px 0px 5px 11px;		
+    font-size: large;		
+    font-style: italic;		
+}		
+#i_video_tab .d_image_cover{		
+    height: 370px;		
+    overflow-y: auto;		
+}		
+#i_video_tab .d_each_photo {		
+    width: 30%;		
+    float: left;		
+    margin: 5px 1.5% 10px 1.5%;		
+}		
+#i_video_tab .d_each_photo img {		
+    height: 100%;		
+    width: 100%;		
+    border: 1px solid #607D8B;		
+}		
+#i_video_tab .d_each_photo .d_photo_author{		
+    text-align: left;		
+}		
+#i_video_tab .d_each_photo .d_date_image{		
+    text-align: left;		
+    margin-left: 20px;		
+    font-size: smaller;		
+    color: lightgrey;		
+}		
+#i_video_tab .d_each_photo .d_btn_del{		
+    position: relative;		
+    margin-left: 83%;		
+    margin-top: -146%;		
+}		
+#i_video_tab .d_each_photo .d_btn_del .glyphicon{		
+    color: #fff;		
+}		
+#i_video_tab .d_each_photo form{		
+    height: 0;		
+}	
 
 /**************************************************** Watch Video tab **/
 .d_watch_video_tab{
@@ -319,6 +443,9 @@ body{
 }
 
 /**************************************************** Map tab **/
+.d_right_top .tab-content{				
+    padding: 5px;				
+}
 #map-container{
 	height: 230px;
     border-radius: 3px;
@@ -338,16 +465,20 @@ body{
     right: 0px;
     z-index: 1;
 }
-.d_right_bottom{
+.d_right_bottom.d_right_bottom{
 	position: relative;
 }
-.d_write_comment,
-.d_write_report{
+.d_right_bottom.d_write_comment,
+.d_right_bottom.d_write_report{
 	width: 100%;
 	padding: 0;
     top: 6px;
 }
-..d_ccmt_content{
+.d_right_bottom.d_write_comment .form-group,		
+.d_right_bottom.d_write_report .form-group{		
+    margin: 0px 0 10px 5px;		
+}		
+.d_ccmt_content{
     height: 24px;
     max-height: 24px;
 }
@@ -355,8 +486,8 @@ body{
 #i_report_box{
     margin-right: 4px;
 	float: left;
-    width: 84%;
-    max-width: 84%;
+    width: 86%;
+    max-width: 86%;
 }
 .d_txt_write_cmt{
     padding-left: 5px;
@@ -389,6 +520,7 @@ body{
 }
 
 /**************************************************** Comment tab > Chạy ngang comment ***/
+
 .d_ccmt_ava_user{
 	display: flex;
 	width: 100%;
@@ -414,7 +546,15 @@ body{
     float: left;
 }
 /**************************************************** Comment tab > bổ sung load sau ***/
+.d_cmt_after .d_each_cmt{		
+    margin: 5px 1% 5px 1%;		
+}
 .d_ee_ava_user{
+}
+	.d_cmt_after .d_ec_ava {		
+    width: 50px;		
+    height: 50px;		
+    float: left;		
 }
 .d_ee_ava{
 	float: left;
@@ -433,6 +573,47 @@ body{
 }
 .d_write_cmt{
     margin-top: 6px;
+        	    padding-right: 5px;				
+}				
+.d_write_cmt #i_btn_send{				
+    float: right;				
+}				
+.d_write_cmt #i_btn_send .glyphicon{				
+    color: #fff;
+}
+.d_cmt_after .d_ec_ava img{		
+    width: 100%;		
+    height: 100%;		
+}		
+.d_cmt_after .d_ec_user{		
+	margin: 0;		
+	width: 70%;		
+	float: left;		
+}		
+.d_cmt_after .d_ec_time{		
+	margin: 0;		
+	width: 70%;		
+	float: left;		
+    color: lightgrey;		
+    font-size: smaller;		
+}		
+.d_cmt_after .d_ec_content{		
+	margin: 0;		
+	width: 100%;		
+	float: left;		
+}		
+.d_cmt_after .d_write_cmt{		
+    margin-top: 6px;		
+}		
+.d_cmt_after .d_write_cmt #i_btn_send{		
+    float: right;		
+}		
+.d_cmt_after .d_write_cmt #i_btn_send .glyphicon{		
+    color: #fff;		
+}		
+.d_cmt_after .d_write_cmt .form-group{		
+    margin-top: 9px;		
+    padding: 0 5px;		
 }
 
 /**************************************************** Report Tab ***/
@@ -455,3 +636,171 @@ body{
     margin-left: -11px;
 }
 /**************************************************** Decorate CSS ***/
+/**************************************************** Modal Watch Video ***/				
+.d_md_watch_live{				
+    width: 80%;				
+}				
+/**************************************************** Modal Watch Video >> Left side ***/				
+.d_md_watch_live .d_left_side{				
+    width: 70%;				
+    float: left;				
+    border: 1px solid lightgrey;				
+    border-radius: 4px;				
+    height: 500px;				
+    padding: 5px;				
+    text-align: center;				
+}				
+/**************************************************** Modal Watch Video >> Right side ***/				
+.d_md_watch_live .d_right_side{				
+    width: 29%;				
+    float: right;				
+}				
+/**************************************************** Modal Add Video ***/				
+#user-upload-video-event-modal .modal-dialog{				
+    width: 40%;				
+}				
+#user-upload-video-event-modal .col-lg-3,				
+#user-upload-video-event-modal .col-md-3{				
+    text-align: right;				
+    margin-top: 5px;				
+}				
+#VideoURL{							
+    margin-bottom: 5px;				
+}				
+#i_location{				
+    width: 100%;				
+}				
+#i_location{				
+    width: 100%;				
+}				
+#modelCreateLiveStream .modal-dialog{				
+    width: 40%;				
+}				
+#modelCreateLiveStream .panel-body .row{				
+    margin-bottom: 5px;				
+    padding: 0;				
+}				
+#modelCreateLiveStream .panel-body .col-md-3,				
+#modelCreateLiveStream .panel-body .col-lg-3{				
+    text-align: right;				
+}				
+#modelCreateLiveStream .panel-body .col-md-9,				
+#modelCreateLiveStream .panel-body .col-lg-9{				
+    text-align: left;				
+}		
+/**************************************************** Modal Create Live Stream ***/				
+#modelCreateLiveStream .modal-dialog{				
+    width: 40%;				
+}				
+#modelCreateLiveStream .panel-body .row{				
+    margin-bottom: 5px;				
+    padding: 0;				
+}				
+#modelCreateLiveStream .panel-body .col-md-3,				
+#modelCreateLiveStream .panel-body .col-lg-3{				
+    text-align: right;				
+}				
+#modelCreateLiveStream .panel-body .col-md-9,				
+#modelCreateLiveStream .panel-body .col-lg-9{				
+    text-align: left;				
+}				
+/**************************************************** Modal Edit Event ***/				
+/************************************************** Modal Edit Event >> Setup chung ***/				
+#modelEditEvent .modal-dialog{				
+    width: 90%;				
+}				
+#modelEditEvent .panel-body{				
+    padding: 10px;				
+    height: 500px;				
+}				
+#modelEditEvent .panel-body .row{				
+    padding: 0;				
+    margin: 0;				
+    margin-bottom: 10px;				
+}				
+#modelEditEvent .d_leftside{				
+    width: 47.5%;				
+    float: left;				
+    margin-left: 1%;				
+    height: 450px;				
+    overflow-y: auto;				
+}				
+#modelEditEvent .d_rightside{				
+    width: 47.5%;				
+    float: right;				
+    margin-right: 1%;				
+}				
+#modelEditEvent .d_criteria{				
+    width: 25%;				
+    float: left;				
+}				
+#modelEditEvent .d_value{				
+    width: 75%;				
+    float: left;				
+}				
+/************************************************** Modal Edit Event >> thông tin trái ***/				
+#modelEditEvent .d_value .d_datetime_1{				
+    width: 49%;				
+    float: left;				
+}				
+#modelEditEvent .d_value .d_datetime_2{				
+    width: 49%;				
+    float: right;				
+}				
+#modelEditEvent .d_value .d_textbox{				
+    width: 88%;				
+    float: left;				
+}				
+#modelEditEvent .d_value .d_btn_plus{				
+    float: right;				
+}				
+#modelEditEvent .d_value #i_btn_save{				
+    float: right;				
+}				
+/************************************************** Modal Pending Image ***/				
+#i_md_pending_img .panel{				
+    margin: 0;				
+}				
+#i_md_pending_img .panel-body{				
+    padding: 0;				
+    height: 460px;				
+    overflow-y: auto;				
+}				
+#i_md_pending_img .modal-footer{				
+    padding: 5px;				
+}				
+#i_md_pending_img .modal-footer button{				
+    margin-top: 0px;				
+}				
+#i_md_pending_img .d_image_cover{				
+    width: 100%;				
+    float: right;				
+    margin-top: 5px;				
+    height: 368px;				
+    overflow-y: auto;				
+}				
+#i_md_pending_img .d_each_photo {				
+    width: 30%;				
+    float: left;				
+    margin: 5px 1.5% 10px 1.5%;				
+}				
+#i_md_pending_img .d_each_photo img {				
+    height: 100%;				
+    width: 100%;				
+    border: 1px solid #607D8B;				
+}				
+#i_md_pending_img .d_each_photo .d_photo_author{				
+    text-align: left;				
+}				
+#i_md_pending_img .d_each_photo .d_date_image{				
+    text-align: left;				
+    margin-left: 20px;				
+    font-size: smaller;				
+    color: lightgrey;				
+}				
+#i_md_pending_img .d_each_photo .d_btn_del .glyphicon{				
+    color: #fff;				
+}				
+#i_md_pending_img .d_each_photo form{				
+    height: 0;				
+}		

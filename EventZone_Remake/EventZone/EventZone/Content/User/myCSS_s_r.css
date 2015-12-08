@@ -26,14 +26,15 @@
 }
 /*************************************************** Bao hết phần chính ***/
 .d_all_result{
-	height: initial;
+	height: 515px;
     padding: 5px;
     
-	margin: 70px auto;
-	min-width: 460px;
+	/*margin: 70px auto;
+        	width: 1060px;
+	min-width: 460px;*/
 	border: 1px rgba(0,0,0,0.2) solid;
 	border-radius: 4px;
-	width: 1060px;
+
 }
 .d_sum_result{
 	padding-left: 10px;

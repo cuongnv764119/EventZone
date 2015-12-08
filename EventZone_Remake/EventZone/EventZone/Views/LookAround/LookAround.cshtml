@@ -20,26 +20,23 @@
         width: 500px;
         padding-top:50px;
     }
-    .look-around{
-        padding-top:20px;
-    }
     #id-name-place{
         height:50px;
 
     }
 </style>
+<link href="~/Content/myCSS_l_a.css" rel="stylesheet" />
 
 
-<div id="id-place-detail" class="look-around">
-    <div class="right-content col-md-5" id="map"></div>
-    <div class="right-content col-md-5">
-        <h3><span id="id-name-place" >All Event Near you show in the map</span></h3>
-        <div id="id-list-event-in-place" class="col-md-push-5">
-            @Html.Partial("_ViewEventInPlace",nearlyEvent)
+    <div class="d_left_content" id="map"></div>
+<div class="d_right_content">
+    <div class="d_event_cover tse-scrollable trackpad">
+        <div id="id-list-event-in-place tse-content">
+            @Html.Partial("_ViewEventInPlace", nearlyEvent)
         </div>
     </div>
-
 </div>
+
 <script src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"
         async defer>
 </script>

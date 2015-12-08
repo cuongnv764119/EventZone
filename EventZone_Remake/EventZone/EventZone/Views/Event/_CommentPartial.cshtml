@@ -123,18 +123,18 @@
             {
                 foreach (var item in Model.listComment)
                 {
-                    <div class="d_each_event">
+                    <div class="d_each_cmt">
                         <!-- ee_ đánh dấu Each Event -->
-                        <div class="d_ee_ava_user">
-                            
-                            <div class="d_ee_user">
+                        <div class="d_ec_ava_user">
+
+                            <div class="d_ec_user">
                                 <i>@UserDatabaseHelper.Instance.GetUserDisplayName(item.UserID)</i>
                             </div>
-                            <div class="d_ee_time">
+                            <div class="d_ec_time">
                                 <i>@item.DateIssue</i>
                             </div>
                         </div>
-                        <div class="d_ee_content">
+                        <div class="d_ec_content">
                             @item.CommentContent
                         </div>
                     </div>

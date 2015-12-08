@@ -16,9 +16,13 @@
 	border-top-left-radius: 5px;
 }
 .dropdown{
-    width: 0%;
 }
-
+	.d_fix_width{		
+    width: 113px;		
+}		
+.d_fix_width_2{		
+    width: 115px;		
+}
 
 /**************************************** Decorate ***/
 .d_body{
@@ -38,7 +42,7 @@
 
 /**************************************** Tab EVENTS ***/
 #i_tab_report,
-#i_tab_stat,
+#i_tab_stat,#i_tab_stats,
 #i_tab_follower,
 #i_tab_event{
 	margin-bottom: 6px;
@@ -59,44 +63,50 @@
 	overflow-y: auto;
     height: 460px;
 }
-.i_tab_event .d_each_event{
+#i_tab_event .d_each_event{
 	margin-right: 10px;
 	height: 18%;
 	border-bottom: 1px solid #DDDDDD;
 	margin-bottom: 5px;
 }
-.i_tab_event .d_events_cover .d_thumb{
-	width: 25%;
-	height: inherit;
+#i_tab_event .d_events_cover .d_thumb{
+    width: 130px;
+	height: 80px;
 	float: left;
 }
-.i_tab_event .d_events_cover .d_thumb img{
+#i_tab_event .d_events_cover .d_thumb img{
 	width: 100%;
+     height: 100%;
 }
-.i_tab_event .d_events_cover .d_info{
+#i_tab_event .d_events_cover .d_info{
 	width: 66%;
 	margin-left: 2%;
 	float: left;
 }
-.i_tab_event .d_events_cover .d_info{
+#i_tab_event .d_events_cover .d_info{
 }
-.i_tab_event .d_events_cover .d_info .d_title{
+#i_tab_event .d_events_cover .d_info .d_title{
     font-weight: bold;
     height: 50px;
     max-height: 50px;
     font-size: 17px;
     overflow-y: hidden;
 }
-.i_tab_event .d_events_cover .d_info .d_icon{
+#i_tab_event .d_events_cover .d_info .d_icon{
 	text-align: center;
 	width: 7%;
 	float: left;
 	margin-left: 5px;
 	margin-right: 5px;
 }
-.i_tab_event .d_events_cover .d_info .d_icon_info{
+#i_tab_event .d_events_cover .d_info .d_icon_info{
 	width: 90%;
 	float: left;
+}
+	#i_tab_event .d_each_event .d_time_left{		
+    margin-left: inherit;		
+    color: lightgrey;		
+    font-style: italic;		
 }
 #i_btn_more{
 	position: absolute;
@@ -106,52 +116,113 @@
     left: inherit;
     right: 0;
 }
-/**************************************** Tab REPORT ***/
-#i_btn_e_filter{
+/**************************************** Tab Follower **/
+#i_btn_f_filter{
 	margin-bottom: 10px;
 }
-#i_tab_report .d_events_cover{
+#i_tab_follower .d_events_cover{
 	overflow-y: auto;
     height: 460px;
 }
-.i_tab_report .d_each_event{
-	margin-right: 10px;
-	height: 18%;
-	border-bottom: 1px solid #DDDDDD;
-	margin-bottom: 5px;
+#i_tab_follower .d_each_event{
+    margin-right: 10px;
+    height: 96px;
+    border-bottom: 1px solid #DDDDDD;
+    margin-bottom: 5px;
 }
-.i_tab_report .d_events_cover .d_thumb{
-	width: 25%;
-	height: inherit;
+#i_tab_follower .d_each_event .d_thumb{
+    width: 90px;
+    height: 90px;
+    float: left;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+#i_tab_follower .d_each_event .d_thumb img{
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+#i_tab_follower .d_each_event .d_info{
+	width: 79%;
+	margin-left: 1%;
 	float: left;
 }
-.i_tab_report .d_events_cover .d_thumb img{
-	width: 100%;
-}
-.i_tab_report .d_events_cover .d_info{
-	width: 66%;
-	margin-left: 2%;
-	float: left;
-}
-.i_tab_report .d_events_cover .d_info{
-}
-.i_tab_report .d_events_cover .d_info .d_title{
+#i_tab_follower .d_each_event .d_info .d_title{
     font-weight: bold;
     height: 50px;
     max-height: 50px;
     font-size: 17px;
     overflow-y: hidden;
 }
-.i_tab_report .d_events_cover .d_info .d_icon{
+#i_tab_follower .d_each_event .d_info .d_icon{
 	text-align: center;
 	width: 7%;
 	float: left;
 	margin-left: 5px;
 	margin-right: 5px;
 }
-.i_tab_report .d_events_cover .d_info .d_icon_info{
+#i_tab_follower .d_each_event .d_info .d_icon_info{
 	width: 90%;
 	float: left;
+}
+#i_tab_follower .d_each_event .d_time_left{
+    margin-left: inherit;
+    color: lightgrey;
+    font-style: italic;
+}
+
+/**************************************** Tab REPORT ***/
+#i_btn_r_filter{
+	margin-bottom: 10px;
+}
+#i_tab_report .d_events_cover{
+	overflow-y: auto;
+    height: 460px;
+}
+#i_tab_report .d_each_event{
+	margin-right: 10px;
+    height: 96px;
+	border-bottom: 1px solid #DDDDDD;
+	margin-bottom: 5px;
+}
+#i_tab_report .d_events_cover .d_thumb{
+    width: 130px;
+	height: 80px;
+	float: left;
+}
+#i_tab_report .d_events_cover .d_thumb img{
+	width: 100%;
+    height: 100%;
+}
+#i_tab_report .d_events_cover .d_info{
+	width: 66%;
+	margin-left: 2%;
+	float: left;
+}
+#i_tab_report .d_events_cover .d_info{
+}
+#i_tab_report .d_events_cover .d_info .d_title{
+    font-weight: bold;
+    height: 50px;
+    max-height: 50px;
+    font-size: 17px;
+    overflow-y: hidden;
+}
+#i_tab_report .d_events_cover .d_info .d_icon{
+	text-align: center;
+	width: 7%;
+	float: left;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+#i_tab_report .d_events_cover .d_info .d_icon_info{
+	width: 90%;
+	float: left;
+}
+#i_tab_report .d_each_event .d_time_left{
+    margin-left: inherit;
+    color: lightgrey;
+    font-style: italic;
 }
 #i_btn_more{
 	position: absolute;

@@ -16,13 +16,13 @@
                 <div class="d_title">
                     @Html.ActionLink(item.EventName, "Details", "Event", new { id = item.EventID }, new { target = "_blank" })
                 </div>
-                <div>
+                <div class="d_time_left">
                     All report:<a href="#" data-toggle="modal" data-target="#all-report-@item.EventID--1"><i>@EventDatabaseHelper.Instance.GetListReportOfEvent(item.EventID).Count</i></a>
                     @Html.Action("ViewReport", "User", new { eventID = item.EventID })
                 </div>
                 @if (EventDatabaseHelper.Instance.GetEventAppeal(item.EventID) != null && EventDatabaseHelper.Instance.GetEventAppeal(item.EventID).Count > 0)
                 {
-                    <div>
+                    <div class="d_time_left">
                         All Appeal:<a href="#" data-toggle="modal" data-target="#all-appeal-@item.EventID--1"><i>@EventDatabaseHelper.Instance.GetEventAppeal(item.EventID).Count</i></a>
                         @Html.Action("ViewAppeal", "User", new { eventID = item.EventID })
                     </div>
@@ -32,26 +32,26 @@
                 {
                     if (EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending) != null && EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count > 0)
                     {
-                        <div>
+                        <div class="d_time_left">
                             Pending report:<a href="#" data-toggle="modal" data-target="#all-report-@item.EventID-@EventZoneConstants.Pending"><i>@EventDatabaseHelper.Instance.GetListReportOfEvent(item.EventID).FindAll(a => a.ReportStatus == EventZoneConstants.Pending).ToList().Count</i></a>
                             @Html.Action("ViewReport", "User", new { eventID = item.EventID, type = EventZoneConstants.Pending })
                         </div>
                     }
 
-                    <div>Status: Active</div>
+                    <div class="d_time_left">Status: Active</div>
                     if (UserDatabaseHelper.Instance.AppealSuccess(item.EventID) && @EventDatabaseHelper.Instance.GetListReportOfEvent(item.EventID).FindAll(a => a.ReportStatus == EventZoneConstants.Pending).ToList().Count == 0)
                     {
-                        <div>Congrazts! We have reviewed your event again and determine that your event is satisfy with our TOS, so we decided make it available again! Thanks you for contact with us! </div>
+                        <div class="d_time_left">Congrazts! We have reviewed your event again and determine that your event is satisfy with our TOS, so we decided make it available again! Thanks you for contact with us! </div>
                     }
                 }
                 @if (item.Status == EventZoneConstants.Lock)
                 {
-                    <div>Status: Locked</div>
-                    <div>Reason: @item.LockedReason</div>
+                    <div class="d_time_left">Status: Locked</div>
+    <div class="d_time_left">Reason: @item.LockedReason</div>
 
                     if (EventDatabaseHelper.Instance.GetEventAppeal(item.EventID, EventZoneConstants.Pending) != null && EventDatabaseHelper.Instance.GetEventAppeal(item.EventID, EventZoneConstants.Pending).Count != 0)
                     {
-                        <div>
+                        <div class="d_time_left">
                             You appeal current be reviewing! Click <a href="#" data-toggle="modal" data-target="#all-appeal-@item.EventID-@EventZoneConstants.Pending">here</a> to view detail
                             @Html.Action("ViewAppeal", "User", new { eventID = item.EventID, type = EventZoneConstants.Pending })
                         </div>
@@ -59,7 +59,7 @@
                     }
                     else if (UserDatabaseHelper.Instance.AppealFailed(item.EventID))
                     {
-                        <div>
+                        <div class="d_time_left">
                             We have reviewed your appeal and decided still lock your event because it againts our TOS. Please read clearly our TOS before upload an event
                         </div>
                     }

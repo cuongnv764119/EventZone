@@ -19,134 +19,135 @@
     }
 </style>
 <script src="~/Scripts/Event/summernote.min.js"></script>
-<div class="container b">
-    <div class="col-xs-12 col-sm-12 col-lg-12 d_leftside b">
-        <!-- Khung Đăng ký sự kiện -->
-        <div class="widget" id="widget_tabs">
-            <ul class="nav nav-tabs" id="myTab">
-                <li id="i_first_tab" class="active">
-                    <a href="#i_info_tab" data-toggle="tab">Event Info</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <!-- Khung chứa Thông tin cơ bản & Description -->
-                <div class="tab-pane active" id="i_info_tab">
-                    @using (Html.BeginForm("EditEventPost", "Event", FormMethod.Post, new { enctype = "multipart/form-data" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.HiddenFor(model=>model.eventID)
+@using (Html.BeginForm("EditEventPost", "Event", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+<div class="d_leftside" id="i_info_tab">
+    <!-- Khung chứa Thông tin cơ bản & Description -->
+
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.eventID)
+        <div class="form-group">
+            <div class="row">
+                <!-- row Title -->
+                <div class="d_criteria">
+                    Title *
+                </div>
+                <div class="d_value">
+                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @style = "width:100%" })
+                    @Html.ValidationMessageFor(model => model.Title)
+                </div>
+            </div>
+            <div class="row">
+                <!-- row Date Time -->
+                <div class="d_criteria">
+                    Date & Time *
+                </div>
+                <div class="d_value">
+                    <div class="d_datetime_1">
                         <div class="form-group">
-                            <div class="row b">
-                                <!-- row Title -->
-                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
-                                    Title *
-                                </div>
-                                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b">
-                                    @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @style = "width:100%" })
-                                    @Html.ValidationMessageFor(model => model.Title)
-                                </div>
+                            <div class="input-group date" id="dtpStartTime">
+                                @Html.TextBoxFor(model => model.StartTime, new { @type = "text", @class = "form-control", @placeholder = "from", @id = "i_start_time" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
                             </div>
-                            <div class="row b">
-                                <!-- row Date Time -->
-                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
-                                    Date & Time *
-                                </div>
-                                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 b">
-                                    <div class="form-group">
-                                        <div class="input-group date" id="dtpStartTime" style="z-index: 2">
-                                            @Html.TextBoxFor(model => model.StartTime, new { @type = "text", @class = "form-control", @placeholder = "from", @id = "i_start_time" })
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.StartTime)
-                                    </div>
-                                </div>
-                                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 b">
-                                    <div class="form-group">
-                                        <div class="input-group date" id="dtpEndTime" style="z-index: 2">
-                                            @Html.TextBoxFor(model => model.EndTime, new { @type = "text", @class = "form-control", @placeholder = "to", @id = "i_end_time" })
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
-                                        @Html.ValidationMessageFor(model => model.EndTime)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row b" id="LocationDiv">
-                                <div id="LocationInput">
-                                    @{
-                                        var index = 0;
-                                        foreach (var item in Model.Location)
-                                         {
-                                             <div id="wrapper">
-
-                                                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
-                                                     @if (index == 0)
-                                                     {
-                                                         <text>Location* </text>
-                                                     }
-                                                 </div>
-                                                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 b">
-                                                     @Html.TextBoxFor(model => model.Location[index].LocationName, new {@class = "LocationInput form-control", @onfocus = "searchLocation(this)", @id = String.Format("Location-{0}", index)})
-                                                     @Html.HiddenFor(model => model.Location[index].Longitude, new {@id = String.Format("Longitude-{0}", index)})
-                                                     @Html.HiddenFor(model => model.Location[index].Latitude, new {@id = String.Format("Lattitude-{0}", index)})
-                                                 </div>
-                                                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
-                                                     @if (index == 0)
-                                                     {
-                                                         <button type="button" class="btn btn-primary d_btn_x" id="btnAddLocation">Add Location</button>
-                                                     }
-                                                     else
-                                                     {
-                                                         <button type="button" id="btnRemove-@index" class="btn btn-primary btnRemoveLocation\">Remove</button>
-                                                     }
-                                                 </div>
-                                             </div>
-                                             index++;
-                                         }
-                                    }
-                                    @Html.ValidationMessageFor(model => model.Location)
-                                </div>
-                            </div>
-                            <div class="row b">
-                                <!-- row Privacy -->
-                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
-                                    Privacy *
-                                </div>
-                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
-                                    @Html.DropDownList("Privacy", new SelectList(ListPrivacy, "Value", "Text"), new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Privacy)
-                                </div>
-                            </div>
-                            <div class="row b">
-                                <!-- row Description -->
-                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
-                                    Description
-                                </div>
-                                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b">
-                                    <div>
-                                        <div id="alerts"></div>
-                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b" id="editor" style="z-index: -1"></div>
-                                        @Html.HiddenFor(model => model.Description, new {@id = "event-description"})
-                                        @Html.ValidationMessageFor(model => model.Description)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <input type="submit" id="btnSubmit" class="btn btn-default" value="Edit" />
-                                </div>
-
-                            </div>
+                            @Html.ValidationMessageFor(model => model.StartTime)
                         </div>
+                    </div>
+                    <div class="d_datetime_2">
+                        <div class="form-group">
+                            <div class="input-group date" id="dtpEndTime">
+                                @Html.TextBoxFor(model => model.EndTime, new { @type = "text", @class = "form-control", @placeholder = "to", @id = "i_end_time" })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                            @Html.ValidationMessageFor(model => model.EndTime)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row b" id="LocationDiv">
+                <div id="LocationInput">
+                    @{
+        var index = 0;
+        foreach (var item in Model.Location)
+        {
+            <div id="wrapper">
+
+                <div class="d_criteria">
+                    @if (index == 0)
+                    {
+                        <text>Location* </text>
                     }
+                </div>
+                <div class="d_value">
+                    <div class="d_textbox">
+                        @Html.TextBoxFor(model => model.Location[index].LocationName, new { @class = "LocationInput form-control", @onfocus = "searchLocation(this)", @id = String.Format("Location-{0}", index) })
+                        @Html.HiddenFor(model => model.Location[index].Longitude, new { @id = String.Format("Longitude-{0}", index) })
+                        @Html.HiddenFor(model => model.Location[index].Latitude, new { @id = String.Format("Lattitude-{0}", index) })
+                    </div>
+                    <div class="d_btn_plus">
+                        @if (index == 0)
+                        {
+                            <button type="button" class="btn btn-primary d_btn_add_loc" id="btnAddLocation">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="button" id="btnRemove-@index" class="btn btn-primary btnRemoveLocation\">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+                        index++;
+        }
+                    }
+                    @Html.ValidationMessageFor(model => model.Location)
+                </div>
+            </div>
+            <div class="row b">
+                <!-- row Privacy -->
+                <div class="d_criteria">
+                    Privacy *
+                </div>
+                <div class="d_value">
+                    @Html.DropDownList("Privacy", new SelectList(ListPrivacy, "Value", "Text"), new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Privacy)
+                </div>
+            </div>
+        </div>
+    
+</div>
+
+<div class="d_rightside" id="i_info_tab">
+    <!-- Khung Description -->
+    <div class="row">
+        <!-- row Description & Save button -->
+        <div class="d_criteria">
+            Description
+        </div>
+        <div class="d_value">
+            <div class="form-group">
+                <div id="i_btn_save">
+                    <input type="submit" id="btnSubmit" class="btn btn-success" value="Save" />
                 </div>
             </div>
         </div>
     </div>
+        <div class="form-group">
+            <!-- row Description -->
+            <div id="alerts"></div>
+            <div class="d_value" id="editor" style="z-index: -1"></div>
+            @Html.HiddenFor(model => model.Description, new { @id = "event-description" })
+            @Html.ValidationMessageFor(model => model.Description)
+        </div>
 </div>
+        }
+
 <!-- All script here -->
 <!-- Default JQuery -->
 <script src="~/Scripts/Event/jquery.hotkeys.js"></script>
@@ -155,13 +156,13 @@
 <script src="~/Scripts/Event/prettify-1.0.min.js"></script>
 <script src="~/Scripts/Event/Edit.js"></script>
 <script src="~/Scripts/Event/bootstrap-datetimepicker.min.js"></script>
-<script> 
+<script>
     $(window).load(function () {
         $('#editor').html($('.d_des_content').html());
         $('#editor').summernote({
-            height: 100,
-            minHeight: 100,
-            maxHeight: 100,
+            height: 300,
+            minHeight: 300,
+            maxHeight: 300,
             toolbar: [
                 ['style', ['bold', 'italic', 'underline', 'clear', 'fontname', 'fontsize']],
                 ['font', ['strikethrough', 'superscript', 'subscript']],

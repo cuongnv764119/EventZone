@@ -1,5 +1,18 @@
 /**************************************************** Thêm ***/
-
+.scroll-content {		
+overflow: auto; /* This is changed by enscroll, but must be defined */		
+width: 100%;   /* The arbitrary width and height of the view pane */		
+}		
+.vertical-track {		
+width: 10px;            /* How wide is the scrollbar going to be? */		
+background-color: rgba(0,0,0,0.18); /* What color should the vertical track be? */		
+    border-radius: 10px;		
+}		
+.vertical-handle {		
+width: 10px;            /* How wide is the scrollbar handle? */		
+background-color: rgba(202,77,32,1); /* What color should the handle be? */		
+    border-radius: 10px;		
+}
 /**************************************************** Sửa BOOTSTRAP ***/
 .navbar-inverse {
     border-radius: 0;

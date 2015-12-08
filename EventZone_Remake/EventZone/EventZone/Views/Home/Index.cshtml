@@ -77,7 +77,7 @@
                                         </div>
                                     </div>
                                     <div class="d_follow_cate">
-                                        <button type="button" class="btn btn-default btn-md" style="color: black" onclick="followCategory(this.value)" id="btn-follow-category-@item.CategoryID" value="@item.CategoryID">
+                                        <button type="button" class="btn btn-default btn-md d_btn_follow" onclick="followCategory(this.value)" id="btn-follow-category-@item.CategoryID" value="@item.CategoryID">
                                             <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
                                             <span class="categoryText" id="follow-category-@item.CategoryID-status">
                                                 @if (user != null && UserDatabaseHelper.Instance.IsFollowingCategory(user.UserID, item.CategoryID))

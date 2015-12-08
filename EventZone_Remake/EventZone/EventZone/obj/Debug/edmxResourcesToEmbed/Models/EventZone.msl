@@ -40,6 +40,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Channels">
+      <EntityTypeMapping TypeName="EventZoneModel.Channel">
+        <MappingFragment StoreEntitySet="Channel">
+          <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ChannelName" ColumnName="ChannelName" />
+          <ScalarProperty Name="ChannelDescription" ColumnName="ChannelDescription" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Comments">
       <EntityTypeMapping TypeName="EventZoneModel.Comment">
         <MappingFragment StoreEntitySet="Comment">
@@ -48,16 +58,6 @@
           <ScalarProperty Name="UserID" ColumnName="UserID" />
           <ScalarProperty Name="CommentContent" ColumnName="CommentContent" />
           <ScalarProperty Name="DateIssue" ColumnName="DateIssue" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Channels">
-      <EntityTypeMapping TypeName="EventZoneModel.Channel">
-        <MappingFragment StoreEntitySet="Channel">
-          <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="ChannelName" ColumnName="ChannelName" />
-          <ScalarProperty Name="ChannelDescription" ColumnName="ChannelDescription" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

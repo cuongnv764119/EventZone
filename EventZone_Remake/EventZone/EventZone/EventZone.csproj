@@ -340,7 +340,7 @@
     <Content Include="Content\Admin\bootstrap-social.css" />
     <Content Include="Content\Admin\font-awesome.min.css" />
     <Content Include="Content\Admin\myCSS_admin.css" />
-    <Content Include="Content\Admin\myCSS_s_r.css" />
+    <Content Include="Content\Admin\z_myCSS_s_r.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -350,6 +350,7 @@
     <Content Include="Content\Event\Create.css" />
     <Content Include="Content\Event\font-awesome.min.css" />
     <Content Include="Content\Event\lightview.css" />
+    <Content Include="Content\myCSS_l_a.css" />
     <Content Include="img\verifiedEvent.png" />
     <Content Include="img\verify.jpg" />
     <Content Include="Scripts\Admin\AddNewUser.js" />
@@ -390,7 +391,7 @@
     <Content Include="Views\Event\images\transparent.png" />
     <Content Include="Content\Event\jquery.m.flip.css" />
     <Content Include="Content\Event\m.flip.css" />
-    <Content Include="Content\Event\Details.css" />
+    <Content Include="Content\Event\z_Details.css" />
     <Content Include="Content\Event\summernote.css" />
     <Content Include="Scripts\Admin\highcharts.js" />
     <Content Include="Scripts\Event\summernote.min.js" />
@@ -611,6 +612,7 @@
     <Content Include="Views\Shared\_EventThumbPage.cshtml" />
     <Content Include="Views\User\_EventPage.cshtml" />
     <Content Include="Views\User\_ViewReport.cshtml" />
+    <Content Include="Views\Shared\_LocationEvent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

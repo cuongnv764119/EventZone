@@ -8,22 +8,24 @@
 {
     foreach (var item in Model)
     {
-        <div class="d_u_avatar">
-            <img src="@EventDatabaseHelper.Instance.GetImageByID(@item.Avatar).ImageLink">
-        </div>
-        <div class="d_u_info_cover">
-            <div class="d_u_name">
-                <b>Name: </b> @item.Name
+        <div class="d_each_user">
+            <div class="d_u_avatar">
+                <img src="@EventDatabaseHelper.Instance.GetImageByID(@item.Avatar).ImageLink">
             </div>
-            <div class="d_u_event">
-                <b>Total Events: </b>@item.NumberOwnedEvent
+            <div class="d_u_info_cover">
+                <div class="d_u_name">
+                    <b>Name: </b> @item.Name
+                </div>
+                <div class="d_u_event">
+                    <b>Total Events: </b>@item.NumberOwnedEvent
+                </div>
+                <div class="d_u_follower">
+                    <b>Total Follower: </b>@item.NumberFollower
+                </div>
             </div>
-            <div class="d_u_follower">
-                <b>Total Follower: </b>@item.NumberFollower
+            <div class="d_u_follow_btn">
+                <button type="button" class="btn btn-info btn-xs d_follow_btn">Follow</button>
             </div>
-        </div>
-        <div class="d_u_follow_btn">
-            <button type="button" class="btn btn-info btn-xs d_follow_btn">Follow</button>
         </div>
         <link href="~/Content/User/myCSS_s_r.css" rel="stylesheet" />
         <script src="~/Scripts/User/myJS_s_r.js"></script>

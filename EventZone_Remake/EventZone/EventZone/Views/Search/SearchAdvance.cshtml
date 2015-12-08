@@ -4,12 +4,6 @@
     @using (Html.BeginForm("AdvanceSearch", "Search", FormMethod.Post, new {@class = "navbar-form navbar-left"}))
     {
         <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th style="width: 100px">Criteria</th>
-                <th>Value</th>
-            </tr>
-            </thead>
             <tbody>
             <tr>
                 <td>
@@ -86,8 +80,8 @@
             <a id="id-lookaround-btn" href="/LookAround/LookAround?" class="btn btn-success" onclick="shareLocation()">
                 <span>Look around</span>
             </a>
-            <button type="submit" class="btn btn-success">Search</button>
-            <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a>
+            <button type="submit" class="btn btn-success" id="i_btn_search"><span class="glyphicon glyphicon-search"></span>Search</button>
+            
         </div>
     }
 </div>

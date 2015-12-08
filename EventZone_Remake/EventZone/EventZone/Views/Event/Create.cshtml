@@ -35,54 +35,46 @@
 }
 </style>
 <script src="~/Scripts/Event/summernote.min.js"></script>
-<div class="container b">
-<div class="col-xs-12 col-sm-12 col-lg-12 d_leftside b">
-<!-- Khung Đăng ký sự kiện -->
-<div class="widget" id="widget_tabs">
-<ul class="nav nav-tabs" id="myTab">
-    <li id="i_first_tab" class="active">
-        <a href="#i_info_tab" data-toggle="tab">Event Info</a>
-    </li>
-</ul>
-<div class="tab-content">
+
+<div class="body-content">
 <!-- Khung chứa Thông tin cơ bản & Description -->
 <div class="tab-pane active" id="i_info_tab">
 @using (Html.BeginForm("CreateEvent", "Event", FormMethod.Post, new { enctype = "multipart/form-data",id="CreateForm" }))
 {
     @Html.AntiForgeryToken()
     <div class="form-group">
-    <div class="row b">
+    <div class="row">
         <!-- row Thumbnail -->
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
             Thumbnail
         </div>
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 d_thumb b" id="imageView">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 d_thumb" id="imageView">
             <img src="~/img/upload.png">
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
             <div class="fileUpload btn btn-primary">
                 <span>Browse File</span>
                 <input name="file" type="file" class="upload" data-max-size="2097152" id="image-upload-btn" accept="image/x-png, image/gif, image/jpeg, image/bmp" />
             </div>
         </div>
     </div>
-    <div class="row b">
+    <div class="row">
         <!-- row Title -->
 
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
             Title *
         </div>
-        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
             @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @style = "width:100%", @maxlength = "50" })
             @Html.ValidationMessageFor(model => model.Title)
         </div>
     </div>
-    <div class="row b">
+    <div class="row">
         <!-- row Date Time -->
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
             Date & Time *
         </div>
-        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 b">
+        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
             <div class="form-group">
                 <div class="input-group date" id="dtpStartTime" style="z-index: 2">
                     @Html.TextBoxFor(model => model.StartTime, new { @type = "text", @class = "form-control", @placeholder = "from", @id = "i_start_time" })
@@ -93,7 +85,7 @@
                 @Html.ValidationMessageFor(model => model.StartTime)
             </div>
         </div>
-        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5 b">
+        <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
             <div class="form-group">
                 <div class="input-group date" id="dtpEndTime" style="z-index: 2">
                     @Html.TextBoxFor(model => model.EndTime, new { @type = "text", @class = "form-control", @placeholder = "to", @id = "i_end_time" })
@@ -107,10 +99,10 @@
     </div>
     <div class="row b">
         <!-- row Category -->
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
             Category
         </div>
-        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
             @Html.DropDownList("CategoryId", null, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.CategoryID)
         </div>
@@ -118,15 +110,15 @@
     <div class="row b" id="LocationDiv">
         <div id="LocationInput">
             <div id="wrapper">
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                     Location *
                 </div>
-                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 b">
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                     @Html.TextBoxFor(model => model.Location[0].LocationName, new { @class = "LocationInput form-control", @onfocus = "searchLocation(this)", @id = "Location-0" })
                     @Html.HiddenFor(model => model.Location[0].Longitude, new { @id = "Longitude-0" })
                     @Html.HiddenFor(model => model.Location[0].Latitude, new { @id = "Lattitude-0" })
                 </div>
-                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                     <button type="button" class="btn btn-primary d_btn_x" id="btnAddLocation">Add Location</button>
                 </div>
             </div>
@@ -134,25 +126,25 @@
         </div>
     </div>
 
-    <div class="row b">
+    <div class="row">
         <!-- row Privacy -->
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
             Privacy *
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 b">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
             @Html.DropDownList("Privacy", new SelectList(ListPrivacy, "Value", "Text"), new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Privacy)
         </div>
     </div>
-    <div class="row b">
+    <div class="row ">
         <!-- row Description -->
-        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 b">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
             Description
         </div>
-        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b">
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
             <div>
                 <div id="alerts"></div>
-                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 b" id="editor" style="z-index:-1"></div>
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" id="editor" style="z-index:-1"></div>
                 @Html.HiddenFor(model => model.Description, new { @id = "event-description"})
                 @Html.ValidationMessageFor(model => model.Description)
             </div>
@@ -169,9 +161,7 @@
 }
 </div>
 </div>
-</div>
-</div>
-</div>
+
 <!-- All script here -->
 <!-- Default JQuery -->
 <script src="~/Scripts/Event/jquery.hotkeys.js"></script>

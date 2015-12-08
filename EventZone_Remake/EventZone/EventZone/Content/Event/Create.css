@@ -1,10 +1,35 @@
 /* USER CREATE EVENT CSS */
-
+.note-popover .popover .popover-content, .panel-heading.note-toolbar{
+    padding: 5px;
+}
 /*** Sửa file BOOTSTRAP ***/
 img {
     height: auto;
     max-width: 100%;
 }
+.form-group {
+    margin: 0;
+}
+	/*************************************************** KHUNG ĐĂNG KÝ ***/				
+.zd_body{				
+    width: 60%;				
+    margin: 70px 0 0 20%;				
+}				
+	.zd_body .row{				
+    margin-bottom: 10px;				
+}				
+.zd_body .d_cate{				
+    margin-bottom: 0;				
+}		
+#imageView img {		
+    width: 100%;		
+}		
+#LocationInput div{				
+    margin-top: 5px;				
+}				
+#LocationInput .glyphicon{				
+    color: #fff;				
+}	
 .fileUpload {
     position: relative;
     overflow: hidden;

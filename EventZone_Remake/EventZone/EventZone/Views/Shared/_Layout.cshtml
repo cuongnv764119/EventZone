@@ -111,7 +111,7 @@
                 <span class="icon-bar"></span>
             </button>
             <!-- Brand -->
-            <li class="dropdown">
+            <li class="d_fix_width dropdown">
                 <a href="/Home/Index" id="i_brand">Event Zone</a>
                 <ul class="dropdown-menu d_brand_menu">
                     <li>
@@ -145,7 +145,7 @@
                 @if (user==null)
                 {
                     <li>
-                        <button data-toggle="modal" data-target="#myModal2" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  &nbsp Create Event</button>
+                        <button data-toggle="modal" data-target="#myModal2" class="btn btn-default btn-sm d_btn_create"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  &nbsp Create Event</button>
                     </li>
                     <li>
                         <a href="#" data-toggle="modal" data-target="#myModal2" id="i_signin_btn" onclick="clearError()">Sign In</a>
@@ -186,7 +186,7 @@
                 {
                     <li>
                         <form action="@Url.Action("Create", "Event")">
-                            <button type="submit" class="btn btn-default btn-sm"><span class=" glyphicon glyphicon-plus" aria-hidden="true"></span>  &nbsp Create Event</button>
+                            <button type="submit" class="btn btn-default btn-sm d_btn_create"><span class=" glyphicon glyphicon-plus" aria-hidden="true"></span>  &nbsp Create Event</button>
                         </form>
                     </li>
                     <li class="dropdown">

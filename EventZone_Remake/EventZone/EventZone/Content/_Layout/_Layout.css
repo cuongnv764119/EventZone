@@ -1,5 +1,34 @@
 ﻿/*********************************************** Thêm ***/
+	.body-content{				
+    margin: 0 10% 0 10%;				
+    width: 80%;				
+    padding: 70px 1%;				
+}				
+.d_white_bg{				
+    z-index: -1;				
+    position: fixed;				
+    width: 80%;				
+    margin-left: 10%;				
+    background-color: #fff;				
+    height: 100%;				
+}		
+.scroll-content {		
+overflow: auto; /* This is changed by enscroll, but must be defined */		
+width: 100%;   /* The arbitrary width and height of the view pane */		
+}		
+.vertical-track {		
+width: 10px;            /* How wide is the scrollbar going to be? */		
+background-color: #aaa; /* What color should the vertical track be? */		
+}		
+.vertical-handle {		
+width: 10px;            /* How wide is the scrollbar handle? */		
+background-color: rgba(202,77,32,1); /* What color should the handle be? */		
+}		
+
 /*********************************************** Sửa Bootstrap ***/
+	body{		
+    background: #eee;		
+}
 	body .navbar-header{		
     margin-top:5px;		
 }
@@ -7,7 +36,17 @@
     margin-left: 0px;
     margin-right: 0px;
 }
-
+		.modal-backdrop.in { z-index: 20; }				
+.modal-dialog{				
+    margin: 0 auto;				
+    margin-top: 65px;				
+}				
+#i_md_ad_search .panel-body {				
+    padding: 10px 15px;				
+}		
+.dropdown-menu{		
+    margin: 0;		
+}
 
 /*********************************************** Background ***/
 
@@ -45,7 +84,40 @@ li { list-style-type: none; }
     border-top-right-radius: 0px;
     margin-top: 10px;
 }
-
+	/*********************************************** Top Menu >> Search box ***/				
+#i_md_ad_search{				
+    border-radius: 0;				
+}				
+/*********************************************** Top Menu >> Create Button ***/				
+.d_btn_create {				
+    border: 0;				
+    font-size: medium;				
+    background-color: rgb(230, 89, 38);				
+    color: #fff;				
+}				
+.d_btn_create:hover {				
+    background-color: rgba(202,77,32,1);				
+    color: #fff;				
+}				
+.d_btn_create:focus {				
+    background-color: rgba(202,77,32,1);				
+    color: #fff;				
+}				
+.d_btn_create:active:hover,				
+.d_btn_create.active:hover,				
+.open > .dropdown-toggle.d_btn_create:hover,				
+.d_btn_createactive:focus,				
+.d_btn_create.active:focus,				
+.open > .dropdown-toggle.d_btn_create:focus,				
+.d_btn_create:active.focus,				
+.d_btn_create.active.focus,				
+.open > .dropdown-toggle.d_btn_create.focus {				
+  color: #fff;				
+  background-color: rgba(202,77,32,1);				
+}				
+.d_btn_create .glyphicon{				
+    color: #fff;				
+}
 #i_create_event {
     border: 1px white solid;
     border-radius: 6px;
@@ -152,20 +224,57 @@ li { list-style-type: none; }
 
 
 /*********************************************** MODAL Advanced Search ***/
-
+#i_md_ad_search .model-dialog {
+    width: 50%;
+}
+#i_md_ad_search .panel-body {		
+    padding: 0 15px;		
+}		
+#i_md_ad_search .table-bordered{		
+    border: 0;		
+}
 #i_frame_md_ad_search {
     height: 444px;
     width: 100%;
 }
 
-.d_md_ad_search { float: right; }
+.d_md_ad_search { float: right;text-align: center; }
+
+    .d_md_ad_search #i_btn_search .glyphicon {
+        color: #fff;
+        margin-right: 5px;
+    }
 
 /*********************************************** MODAL Sign In Sign Up ***/
-
+#myModal2 .panel-body {
+    padding: 10px;
+    background-color: whitesmoke;
+}
 #i_frame_signin { height: 415px; }
 
 #i_first_name,
 #i_last_name { margin-bottom: 10px; }
+#myModal2 .d_my_function_cover {		
+    background-color: white;		
+    border-bottom-left-radius: 4px;		
+    border-top-right-radius: 4px;		
+    border: 1px solid #DDDDDD;		
+    border-top: 0;		
+}		
+#btn-fblogin{		
+    background-color: #dd4b39;		
+    color: white;		
+}		
+ #btn-fblogin:hover{		
+    background-color: #CC4534;		
+    color: white;		
+}		
+.checkbox{		
+    left: 20px;		
+}		
+.d_agree_policy .checkbox {		
+    left: 0;		
+}
 
 /*********************************************** Decorate ***/
 
