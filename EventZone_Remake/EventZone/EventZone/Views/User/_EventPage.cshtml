@@ -1,0 +1,31 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@model IEnumerable<EventZone.Models.Event>
+@{
+    bool hasMore = bool.Parse(TempData["LoadMore"].ToString());
+    
+}
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div class="d_each_event">
+            <div class="d_thumb">
+                <img src="@EventDatabaseHelper.Instance.GetImageByID(item.Avatar).ImageLink">
+            </div>
+            <div class="d_info">
+                <div class="d_title">
+                    @Html.ActionLink(item.EventName, "Details", "Event", new { id = item.EventID }, new { target = "_blank" })
+                </div>
+                <div class="d_time_left">
+                    Start in @item.EventStartDate.ToString()
+                </div>
+            </div>
+            <button class="btn btn-success btn-xs">Edit</button>
+        </div>
+    }
+    if (hasMore) { 
+    @Html.Partial("_Loading");
+    }
+
+}

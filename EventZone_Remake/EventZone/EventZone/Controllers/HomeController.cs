@@ -182,7 +182,6 @@ namespace EventZone.Controllers
         }
         public ActionResult HotEvent()
         {
-            
             List<ThumbEventHomePage> listThumb = new List<ThumbEventHomePage>();
             List<Event> listEvent = new List<Event>();
             listEvent = EventDatabaseHelper.Instance.GetHotEvent();

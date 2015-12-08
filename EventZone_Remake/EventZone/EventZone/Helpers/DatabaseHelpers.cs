@@ -1567,10 +1567,10 @@ namespace EventZone.Helpers
             List<Event> result = new List<Event>();
             try {
       
-                result=(from a in db.Events join b in db.EventRanks on a.EventID equals b.EventId orderby b.Score descending select a).Take(5).ToList();
+                result=(from a in db.Events join b in db.EventRanks on a.EventID equals b.EventId orderby b.Score descending select a).Take(50).ToList();
             }
             catch {
-                result = (from a in db.Events select a).Take(5).ToList();
+                result = (from a in db.Events select a).Take(50).ToList();
             }
             return result;
             
