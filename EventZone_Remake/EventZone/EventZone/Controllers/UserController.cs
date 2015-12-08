@@ -589,6 +589,62 @@ namespace EventZone.Controllers
             }
         
         }
+        public ActionResult PagingEventManage(long userID, int page, bool isOwner)
+        {
+            List<Event> listEvent = UserDatabaseHelper.Instance.GetUserEvent(userID, -1, isOwner);
+            int startIndex = (page - 1) * 10;
+            int endIndex = (listEvent.Count) < (page * 10) ? (listEvent.Count - 1) : (page * 10) - 1;
+            if (startIndex > endIndex) {
+                return null;
+            }
+            if (listEvent == null)
+            {
+                TempData["LoadMore"] = false;
+                return PartialView("_UserThumbnail", null);
+            }
+            if (listEvent.Count > (page * 10))
+            {
+                TempData["LoadMore"] = true;
+            }
+            else
+            {
+                TempData["LoadMore"] = false;
+            }
+            List<Event> listView = new List<Event>();
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                listView.Add(listEvent[i]);
+            }
+            return PartialView("_EventPage", listView);
+        }
+        public ActionResult PagingReportManage(int page) {
+            User user = UserHelpers.GetCurrentUser(Session);
+            List<Event> listEventHasReports = UserDatabaseHelper.Instance.GetAllEventHasReports(user.UserID);
+            int startIndex = (page - 1) * 10;
+            int endIndex = (listEventHasReports.Count) < (page * 10) ? (listEventHasReports.Count - 1) : (page * 10) - 1;
+              if (startIndex > endIndex) {
+                return null;
+            }
+            if (listEventHasReports == null)
+            {
+                TempData["LoadMore"] = false;
+                return PartialView("_ViewReport", null);
+            }
+            if (listEventHasReports.Count > (page * 10))
+            {
+                TempData["LoadMore"] = true;
+            }
+            else
+            {
+                TempData["LoadMore"] = false;
+            }
+            List<Event> listView= new List<Event>();
+            for (int i = startIndex; i < endIndex; i++) { 
+                listView.Add(listEventHasReports[i]);
+            }
+       
+            return PartialView("_ViewReport", listView);
+        }
     }
    
 }

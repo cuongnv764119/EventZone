@@ -64,7 +64,6 @@
     <EntitySetMapping Name="Events">
       <EntityTypeMapping TypeName="EventZoneModel.Event">
         <MappingFragment StoreEntitySet="Event">
-          <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
           <ScalarProperty Name="EventID" ColumnName="EventID" />
           <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
           <ScalarProperty Name="EventName" ColumnName="EventName" />
@@ -80,6 +79,7 @@
           <ScalarProperty Name="EditTime" ColumnName="EditTime" />
           <ScalarProperty Name="EditContent" ColumnName="EditContent" />
           <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
           <ScalarProperty Name="LockedReason" ColumnName="LockedReason" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -96,10 +96,10 @@
     <EntitySetMapping Name="EventImages">
       <EntityTypeMapping TypeName="EventZoneModel.EventImage">
         <MappingFragment StoreEntitySet="EventImage">
-          <ScalarProperty Name="Approve" ColumnName="Approve" />
           <ScalarProperty Name="EventImageID" ColumnName="EventImageID" />
           <ScalarProperty Name="EventID" ColumnName="EventID" />
           <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <ScalarProperty Name="Approve" ColumnName="Approve" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

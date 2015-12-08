@@ -350,6 +350,8 @@
     <Content Include="Content\Event\Create.css" />
     <Content Include="Content\Event\font-awesome.min.css" />
     <Content Include="Content\Event\lightview.css" />
+    <Content Include="img\verifiedEvent.png" />
+    <Content Include="img\verify.jpg" />
     <Content Include="Scripts\Admin\AddNewUser.js" />
     <Content Include="Scripts\Event\Edit.js" />
     <Content Include="Scripts\Event\lightview.js" />
@@ -607,6 +609,8 @@
     <Content Include="Views\Admin\AddNewUser.cshtml" />
     <Content Include="Views\Shared\_Loading.cshtml" />
     <Content Include="Views\Shared\_EventThumbPage.cshtml" />
+    <Content Include="Views\User\_EventPage.cshtml" />
+    <Content Include="Views\User\_ViewReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

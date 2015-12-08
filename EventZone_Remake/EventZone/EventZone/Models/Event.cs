@@ -42,8 +42,8 @@ namespace EventZone.Models
         public Nullable<System.DateTime> EditTime { get; set; }
         public string EditContent { get; set; }
         public bool Status { get; set; }
-        public string LockedReason { get; set; }
         public bool IsVerified { get; set; }
+        public string LockedReason { get; set; }
     
         public virtual ICollection<Appeal> Appeals { get; set; }
         public virtual Category Category { get; set; }

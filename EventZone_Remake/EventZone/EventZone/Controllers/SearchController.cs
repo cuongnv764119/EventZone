@@ -243,15 +243,18 @@ namespace EventZone.Controllers
             var listEvent = Session["listEvent"] as List<ViewThumbEventModel>;
             var listLiveStream = Session["listLiveStream"] as List<ViewThumbEventModel>;
 
-            int listEventstartAt = page * 10;
+            int listEventstartAt = (page-1) * 10;
             int ListEventendAt = (listEvent.Count) < (page * 10) ? (listEvent.Count - 1) : (page * 10) - 1;
             
-
-            int listLiveEventstartAt = page * 10;
-            int listLiveEventendtAt = (listLiveStream.Count) < (page * 10) ? (listLiveStream.Count - 1) : (page * 10) - 1;
+            int listLiveEventstartAt = (page-1) * 10;
+            int listLiveEventendtAt = (listLiveStream.Count) < (page * 10) ? (listLiveStream.Count) : (page * 10) - 1;
             
             if (type == 1)
             {
+                if (listEvent == null) {
+                    TempData["LoadMore"] = false;
+                    return PartialView("_EventThumbPage", null);
+                }
                 if (listEvent.Count > (page * 10))
                 {
                     TempData["LoadMore"] = true;
@@ -260,10 +263,19 @@ namespace EventZone.Controllers
                 {
                     TempData["LoadMore"] = false;
                 }
-                List<ViewThumbEventModel> listView = listEvent.GetRange(listEventstartAt, ListEventendAt);
+                List<ViewThumbEventModel> listView = new List<ViewThumbEventModel>();
+                for(int i=listEventstartAt;i<ListEventendAt;i++){
+                    listView.Add(listEvent[i]);
+                }
+               
                 return PartialView("_EventThumbPage", listView);
             }   
             else {
+                if (listLiveStream == null)
+                {
+                    TempData["LoadMore"] = false;
+                    return PartialView("_EventThumbPage", null);
+                }
                 if (listLiveStream.Count > (page * 10))
                 {
                     TempData["LoadMore"] = true;
@@ -272,10 +284,44 @@ namespace EventZone.Controllers
                 {
                     TempData["LoadMore"] = false;
                 }
-                List<ViewThumbEventModel> listLiveView = listLiveStream.GetRange(listLiveEventstartAt, listLiveEventendtAt);
-                return PartialView("_EventThumbPage", listLiveView);
+                List<ViewThumbEventModel> listView = new List<ViewThumbEventModel>();
+                for (int i = listLiveEventstartAt; i < listLiveEventendtAt; i++)
+                {
+                    listView.Add(listLiveStream[i]);
+                }
+
+                return PartialView("_EventThumbPage", listView);
             }
             
         }
+        public ActionResult LoadUserInPage(int page)
+        {
+            var listUser = Session["listUser"] as List<ViewThumbUserModel>;
+
+            int startIndex = (page - 1) * 10;
+            int endIndex = (listUser.Count) < (page * 10) ? (listUser.Count - 1) : (page * 10) - 1;
+            if (listUser == null)
+            {
+                TempData["LoadMore"] = false;
+                return PartialView("_UserThumbnail", null);
+            }
+            if (listUser.Count > (page * 10))
+            {
+                TempData["LoadMore"] = true;
+            }
+            else
+            {
+                TempData["LoadMore"] = false;
+            }
+            List<ViewThumbUserModel> listView = new List<ViewThumbUserModel>();
+                for (int i = startIndex; i < endIndex; i++) {
+                    listView.Add(listUser[i]);
+                }
+            return PartialView("_UserThumbnail", listView);
+        }
+
+            
+
+        
     }
 }

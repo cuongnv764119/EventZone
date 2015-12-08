@@ -48,9 +48,7 @@
                             <div class="d_carousel_cmt_cover">
                                 <!-- ccmt_ đánh dấu Carousel Comment -->
                                 <div class="d_ccmt_ava_user">
-                                    <div class="d_ccmt_ava">
-                                        <img src="@EventDatabaseHelper.Instance.GetImageByID(UserDatabaseHelper.Instance.GetUserByID(Model.listComment[Model.listComment.Count-1].UserID).Avartar).ImageLink">
-                                    </div>
+       
                                     <div class="d_ccmt_user">
                                         <i>@UserDatabaseHelper.Instance.GetUserDisplayName(Model.listComment[Model.listComment.Count-1].UserID)</i>
                                     </div>
@@ -68,9 +66,7 @@
                                     <div class="d_carousel_cmt_cover">
                                         <!-- ccmt_ đánh dấu Carousel Comment -->
                                         <div class="d_ccmt_ava_user">
-                                            <div class="d_ccmt_ava">
-                                                <img src="@EventDatabaseHelper.Instance.GetImageByID(UserDatabaseHelper.Instance.GetUserByID(Model.listComment[i].UserID).Avartar).ImageLink">
-                                            </div>
+                                          
                                             <div class="d_ccmt_user">
                                                 <i>@UserDatabaseHelper.Instance.GetUserDisplayName(Model.listComment[i].UserID)</i>
                                             </div>
@@ -90,9 +86,7 @@
                                     <div class="d_carousel_cmt_cover">
                                         <!-- ccmt_ đánh dấu Carousel Comment -->
                                         <div class="d_ccmt_ava_user">
-                                            <div class="d_ccmt_ava">
-                                                <img src="@EventDatabaseHelper.Instance.GetImageByID(UserDatabaseHelper.Instance.GetUserByID(Model.listComment[i].UserID).Avartar).ImageLink">
-                                            </div>
+                                           
                                             <div class="d_ccmt_user">
                                                 <i>@UserDatabaseHelper.Instance.GetUserDisplayName(Model.listComment[i].UserID)</i>
                                             </div>
@@ -132,9 +126,7 @@
                     <div class="d_each_event">
                         <!-- ee_ đánh dấu Each Event -->
                         <div class="d_ee_ava_user">
-                            <div class="d_ee_ava">
-                                <img src="@EventDatabaseHelper.Instance.GetImageByID(UserDatabaseHelper.Instance.GetUserByID(item.UserID).Avartar).ImageLink">
-                            </div>
+                            
                             <div class="d_ee_user">
                                 <i>@UserDatabaseHelper.Instance.GetUserDisplayName(item.UserID)</i>
                             </div>
@@ -166,7 +158,6 @@
 <script src="~/Scripts/Hub/jquery.signalR-2.0.0.min.js"></script>
 <script src="/signalr/hubs" type="text/javascript"></script>
  <script>
-
      var objDiv = document.getElementById("comment-content");
      objDiv.scrollTop = objDiv.scrollHeight;
 

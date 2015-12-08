@@ -327,7 +327,7 @@ namespace EventZone.Controllers
 
             viewDetail.eventAvatar = EventDatabaseHelper.Instance.GetImageByID(evt.Avatar).ImageLink;
             viewDetail.numberView = evt.View;
-           
+            viewDetail.isVerified = evt.IsVerified;
             viewDetail.eventDescription = evt.EventDescription;
             viewDetail.StartTime = evt.EventStartDate;
             viewDetail.EndTime = evt.EventEndDate;
@@ -642,9 +642,5 @@ namespace EventZone.Controllers
              return RedirectToAction("Details", "Event", new { id = eventID });
          }
 
-         public ActionResult Load(List<ViewThumbEventModel> list, int page)
-         {
-             return View("_ThumbEvent", list[page]);
-         }
     }
 }

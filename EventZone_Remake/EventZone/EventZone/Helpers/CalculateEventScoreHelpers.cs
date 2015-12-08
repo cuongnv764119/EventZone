@@ -15,7 +15,8 @@ namespace EventZone.Helpers
         {
            using (var db = new EventZoneEntities())
             {
-                foreach (var item in db.EventRanks.ToList())
+               var listRank=db.EventRanks.ToList();
+               foreach (var item in listRank)
                 {
                     item.Score = EventDatabaseHelper.Instance.CalculateEventScore(item.EventId);
                 }

@@ -33,6 +33,10 @@
         public static bool ActiveUser = true;
         public static bool LockedUser = false;
 
+
+        public static bool isVerified = true;
+
+
         //phan constants cua tracking action
         public static int Event = 4;
         public static int Report = 5;

@@ -131,7 +131,7 @@
         @foreach (var item in nearlyLocation)
         {
             <text>
-        index = index + 1;
+        
         (function (index) {
             var otherMaker = new google.maps.Marker({
                 position: new google.maps.LatLng('@item.Latitude', '@item.Longitude'),
@@ -149,9 +149,8 @@
             google.maps.event.addListener(otherMaker, 'click', function () {
                 searchDetailModule.loadEventInPlace(index, '@item.LocationID', '@item.LocationName');
             });
-
         })(index);
-
+        index = index + 1;
         </text>
         }
 

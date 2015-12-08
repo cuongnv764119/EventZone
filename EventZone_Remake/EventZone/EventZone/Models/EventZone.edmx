@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="EventZoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="EventZoneModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Action">
           <Key>
             <PropertyRef Name="ActionID" />
@@ -836,7 +836,8 @@
             <End Role="Video" EntitySet="Video" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="EventZoneModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -924,6 +925,7 @@
           <Property Name="EditTime" Type="DateTime" Precision="3" />
           <Property Name="EditContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Status" Type="Boolean" Nullable="false" />
+          <Property Name="IsVerified" Type="Boolean" Nullable="false" />
           <Property Name="LockedReason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Appeals" Relationship="Self.FK_Appeal_Event1" FromRole="Event" ToRole="Appeal" />
           <NavigationProperty Name="Category" Relationship="Self.FK_Event_Category" FromRole="Event" ToRole="Category" />
@@ -936,7 +938,6 @@
           <NavigationProperty Name="NotificationChanges" Relationship="Self.FK_NotificationChange_Event" FromRole="Event" ToRole="NotificationChange" />
           <NavigationProperty Name="Reports" Relationship="Self.FK_Report_Event" FromRole="Event" ToRole="Report" />
           <NavigationProperty Name="Shares" Relationship="Self.FK_Share_Event1" FromRole="Event" ToRole="Share" />
-          <Property Name="IsVerified" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="EventFollow">
           <Key>
@@ -955,9 +956,9 @@
           <Property Name="EventImageID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="EventID" Type="Int64" />
           <Property Name="ImageID" Type="Int64" />
+          <Property Name="Approve" Type="Boolean" />
           <NavigationProperty Name="Event" Relationship="Self.FK_EventImage_Event" FromRole="EventImage" ToRole="Event" />
           <NavigationProperty Name="Image" Relationship="Self.FK_EventImage_Image" FromRole="EventImage" ToRole="Image" />
-          <Property Name="Approve" Type="Boolean" />
         </EntityType>
         <EntityType Name="EventPlace">
           <Key>
@@ -1810,7 +1811,6 @@
           <EntitySetMapping Name="Events">
             <EntityTypeMapping TypeName="EventZoneModel.Event">
               <MappingFragment StoreEntitySet="Event">
-                <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
                 <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
                 <ScalarProperty Name="EventName" ColumnName="EventName" />
@@ -1826,6 +1826,7 @@
                 <ScalarProperty Name="EditTime" ColumnName="EditTime" />
                 <ScalarProperty Name="EditContent" ColumnName="EditContent" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsVerified" ColumnName="IsVerified" />
                 <ScalarProperty Name="LockedReason" ColumnName="LockedReason" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1842,10 +1843,10 @@
           <EntitySetMapping Name="EventImages">
             <EntityTypeMapping TypeName="EventZoneModel.EventImage">
               <MappingFragment StoreEntitySet="EventImage">
-                <ScalarProperty Name="Approve" ColumnName="Approve" />
                 <ScalarProperty Name="EventImageID" ColumnName="EventImageID" />
                 <ScalarProperty Name="EventID" ColumnName="EventID" />
                 <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+                <ScalarProperty Name="Approve" ColumnName="Approve" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

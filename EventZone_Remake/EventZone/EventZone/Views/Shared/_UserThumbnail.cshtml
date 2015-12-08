@@ -1,22 +1,35 @@
-﻿@model EventZone.Models.ViewThumbUserModel
+﻿@model IEnumerable<EventZone.Models.ViewThumbUserModel>
 @using EventZone.Helpers
+@{
+    var hasMore = bool.Parse(TempData["LoadMore"].ToString());
+}
 <!-- u_ để đánh dấu CSS USER -->
-<div class="d_u_avatar">
-    <img src="@EventDatabaseHelper.Instance.GetImageByID(@Model.Avatar).ImageLink">
-</div>
-<div class="d_u_info_cover">
-    <div class="d_u_name">
-        <b>Name: </b> @Model.Name
-    </div>
-    <div class="d_u_event">
-        <b>Total Events: </b>@Model.NumberOwnedEvent
-    </div>
-    <div class="d_u_follower">
-        <b>Total Follower: </b>@Model.NumberFollower
-    </div>
-</div>
-<div class="d_u_follow_btn">
-    <button type="button" class="btn btn-info btn-xs d_follow_btn">Follow</button>
-</div>
-<link href="~/Content/User/myCSS_s_r.css" rel="stylesheet" />
-<script src="~/Scripts/User/myJS_s_r.js"></script>
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div class="d_u_avatar">
+            <img src="@EventDatabaseHelper.Instance.GetImageByID(@item.Avatar).ImageLink">
+        </div>
+        <div class="d_u_info_cover">
+            <div class="d_u_name">
+                <b>Name: </b> @item.Name
+            </div>
+            <div class="d_u_event">
+                <b>Total Events: </b>@item.NumberOwnedEvent
+            </div>
+            <div class="d_u_follower">
+                <b>Total Follower: </b>@item.NumberFollower
+            </div>
+        </div>
+        <div class="d_u_follow_btn">
+            <button type="button" class="btn btn-info btn-xs d_follow_btn">Follow</button>
+        </div>
+        <link href="~/Content/User/myCSS_s_r.css" rel="stylesheet" />
+        <script src="~/Scripts/User/myJS_s_r.js"></script>
+    }
+    if (hasMore)
+    {
+        @Html.Partial("_Loading")
+    }
+}

@@ -106,6 +106,8 @@
         <!-- TITLE -->
         <div id="i_event_title">
             <p>@Model.eventName</p>
+            @if(Model.isVerified){<img src="~/img/verifiedEvent.png">}
+       
 @if (user != null)
 {
     if (user.UserID == EventDatabaseHelper.Instance.GetAuthorEvent(Model.eventId).UserID)

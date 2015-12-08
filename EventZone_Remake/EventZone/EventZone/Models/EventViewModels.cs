@@ -92,6 +92,7 @@ namespace EventZone.Models
         public long numberView { get; set; }
         public int NumberLike { get; set; }
         public int NumberDisLike { get; set; }
+        public bool isVerified { get; set; }
         public LikeDislike FindLike { get; set; }
         public int NumberFowllower { get; set; }
         public string eventDescription { get; set; }
@@ -112,6 +113,7 @@ namespace EventZone.Models
         public string EventName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool IsVeried { get; set; }
         public List<Location> listLocation { get; set; }
     }
     public class CommentViewModel

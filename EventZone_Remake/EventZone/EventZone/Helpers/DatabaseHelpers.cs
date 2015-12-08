@@ -1156,7 +1156,14 @@ namespace EventZone.Helpers
         public long CalculateEventScore(long eventId) {
             long score = 0;
             try {
-                score = GetEventByID(eventId).View * 4 + (CountDisLike(eventId) + CountLike(eventId))*20 + CountUniqueUserComment(eventId) * 30 + CountFollowerOfEvent(eventId) * 40;
+                Event evt= GetEventByID(eventId);
+                double point= (evt.View * 0.001746201
+            + (CountDisLike(eventId) + CountLike(eventId)) * 0.29578499
+            + CountUniqueUserComment(eventId) ) *0.7+  CountFollowerOfEvent(eventId) * 0.3;
+                score = long.Parse((point * 1000).ToString());
+                if (evt.IsVerified) {
+                    score = score + 100000;
+                }
             }
             catch
             {
@@ -1523,6 +1530,7 @@ namespace EventZone.Helpers
                 thumbevt.EventName = item.EventName; 
                 thumbevt.avatar = GetImageByID(item.Avatar).ImageLink;
                 thumbevt.StartDate = item.EventStartDate;
+                thumbevt.IsVeried = item.IsVerified;
                 if (item.EventEndDate != null) {
                     thumbevt.EndDate = item.EventEndDate;
                 }
@@ -1786,7 +1794,10 @@ namespace EventZone.Helpers
         {
             var newEvent = new Event();
             newEvent.EventName = model.Title;
-            
+            User user= UserDatabaseHelper.Instance.GetUserByID(userid);
+            if (user != null && user.UserRoles == EventZoneConstants.Mod || user.UserRoles==EventZoneConstants.Admin) {
+                newEvent.IsVerified = true;
+            }
             newEvent.ChannelID = UserDatabaseHelper.Instance.GetUserChannel(userid).ChannelID;
             newEvent.EventStartDate = model.StartTime;
             newEvent.EventEndDate = model.EndTime;
@@ -1801,6 +1812,7 @@ namespace EventZone.Helpers
             newEvent.EditBy = userid;
             newEvent.EditTime = DateTime.Now;
             newEvent.EditContent = null;
+
             newEvent.Status = EventZoneConstants.Active; 
             // insert Event to Database
             try
@@ -2123,6 +2135,25 @@ namespace EventZone.Helpers
                                       select a).ToList()[0];
             return eventPlaces.EventPlaceID;
         }
+
+        internal List<Location> RemovePlaceByDistance(List<Location> listPlace, double distance)
+        {
+
+            for (int i = listPlace.Count-1; i > 1; i--) {
+             
+                for (int j = i-1; j >=0 ; j--)
+                {
+                    if (j == -1) {
+                        continue;
+                    }
+                    if (CalculateDistance(listPlace[i], listPlace[j]) < distance) {
+                        listPlace.Remove(listPlace[j]);
+                        i--;
+                    }
+                }
+            }
+            return listPlace;
+        }
     }
 
     public class CommonDataHelpers : SingletonBase<CommonDataHelpers>
@@ -2305,7 +2336,7 @@ namespace EventZone.Helpers
                     SenderID = adminID,
                     SenderType = UserDatabaseHelper.Instance.GetUserByID(adminID).UserRoles,
                     ReceiverID = user.UserID,
-                    ReceiverType = EventDatabaseHelper.Instance.GetAuthorEvent(user.UserID).UserRoles,
+                    ReceiverType = user.UserRoles,
                     ActionID = EventZoneConstants.LockEvent,
                     ActionTime = DateTime.Now
                 };
@@ -2336,12 +2367,13 @@ namespace EventZone.Helpers
         {
             try
             {
+                User user = EventDatabaseHelper.Instance.GetAuthorEvent(eventID);
                 TrackingAction newAction = new TrackingAction
                 {
                     SenderID = adminID,
                     SenderType = UserDatabaseHelper.Instance.GetUserByID(adminID).UserRoles,
-                    ReceiverID = EventDatabaseHelper.Instance.GetAuthorEvent(eventID).UserID,
-                    ReceiverType = UserDatabaseHelper.Instance.GetUserByID(eventID).UserRoles,
+                    ReceiverID = user.UserID,
+                    ReceiverType = user.UserRoles,
                     ActionID = EventZoneConstants.UnlockEvent,
                     ActionTime = DateTime.Now
                 };
@@ -2786,7 +2818,6 @@ namespace EventZone.Helpers
                 }
             }
             return result;
-
         }
 
         public Dictionary<Location, int> GetTopLocation()

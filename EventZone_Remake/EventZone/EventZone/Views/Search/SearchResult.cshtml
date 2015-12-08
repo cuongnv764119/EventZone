@@ -60,14 +60,7 @@
         <div class="tab-pane b active d_result_container" id="tab-live-event">
 
             <div class="d_result_container" id="liveEvent-r">
-                @if (listLiveStream != null)
-                {
-                    for (int i = 0; i < listLiveStream.Count; i++)
-                    {
-                        if (i == 10) { break; }
-                        @Html.Partial("_ThumbEvent", listLiveStream[i])
-                    }
-                }
+                @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 2 });
             </div>
 
         </div>
@@ -77,14 +70,7 @@
         <div class="tab-pane b d_result_container" id="tab-live-event">
 
             <div class="d_result_container" id="liveEvent-r">
-                @if (listLiveStream != null)
-                {
-                    for (int i = 0; i < listLiveStream.Count; i++)
-                    {
-                        if (i == 10) { break; }
-                        @Html.Partial("_ThumbEvent", listLiveStream[i])
-                    }
-                }
+                @Html.Action("LoadEventInPage", "Search", new { page = 1,type =2});
             </div>
 
         </div>
@@ -94,16 +80,9 @@
     @if (tab != "3" && task == "Search")
     {
         <div class="tab-pane b d_result_container" id="tab-user">
-            <div class="tab-pane b" id="user-r">
-                @if (listUser != null)
-                {
-                    foreach (var item in listUser)
-                    {
-                        <div class="d_each_user">
-                            @Html.Partial("_UserThumbnail", item)
-                        </div>
-                    }
-                }
+            <div class="d_result_container" id="user-r">
+                
+                @Html.Action("LoadUserInPage", "Search", new { page = 1});
             </div>
         </div>
     }
@@ -144,31 +123,81 @@
 </div>
 
 <script>
-    $(document).ready(function () {
 
-        $('#event-r').bind('scroll', chk_scroll);
+    //paging for event result
+    $(document).ready(function () {
+        $('#event-r').bind('scroll', eventScroll);
     });
-    var page= 1;
-    function chk_scroll(e) {
+    var pageEvent = 2;
+    function eventScroll(e) {
         var elem = $(e.currentTarget);
         if (elem[0].scrollHeight - elem.scrollTop() == elem.outerHeight()) {
-            console.log("abc")
+            
             $.ajax({
                 url: "/Search/LoadEventInPage",
                 type: "post",
                 dataType: "html",
-                data: { page: page, type: 1 },
+                data: { page: pageEvent, type: 1 },
                 success: function (data) {
                     $("#loading").remove();
                     $('#event-r').append(data);
-                    page = page + 1;
+                    pageEvent = pageEvent + 1;
                 },
                 error: function () {
-                    errorShow("error","Error while connecting to sever!")
+                    $("#loading").remove();
                 }
-
             })
         }
+    }
 
+    //paging for live event result
+    $(document).ready(function () {
+        $('#liveEvent-r').bind('scroll', liveEventScroll);
+    });
+    var pageLive = 2;
+    function liveEventScroll(e) {
+        var elem = $(e.currentTarget);
+        if (elem[0].scrollHeight - elem.scrollTop() == elem.outerHeight()) {
+            
+            $.ajax({
+                url: "/Search/LoadEventInPage",
+                type: "post",
+                dataType: "html",
+                data: { page: pageLive, type: 2 },
+                success: function (data) {
+                    $("#loading").remove();
+                    $('#liveEvent-r').append(data);
+                    pageLive = pageLive + 1;
+                },
+                error: function () {
+                    $("#loading").remove();
+                }
+            })
+        }
+    }
+    //paging for user-result
+    $(document).ready(function () {
+          $('#user-r').bind('scroll', UserScroll);
+    });
+    var pageUser = 2;
+    function UserScroll(e) {
+        var elem = $(e.currentTarget);
+        if (elem[0].scrollHeight - elem.scrollTop() == elem.outerHeight()) {
+  
+            $.ajax({
+                url: "/Search/LoadUserInPage",
+                type: "post",
+                dataType: "html",
+                data: { page: pageUser},
+                success: function (data) {
+                    $("#loading").remove();
+                    $('#user-r').append(data);
+                    pageUser = pageUser + 1;
+                },
+                error: function () {
+                    $("#loading").remove();
+                }
+            })
+        }
     }
 </script>
