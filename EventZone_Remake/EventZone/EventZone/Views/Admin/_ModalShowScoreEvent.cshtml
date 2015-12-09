@@ -1,0 +1,35 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@model EventZone.Models.Event
+
+<div class="modal fade score" id="score-detail-modal-@Model.EventID" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="panel panel-info d_margin_top">
+            <div class="panel-heading">
+                <div class="panel-title">Score detail of @Model.EventName</div>
+                <div style="float: right; font-size: 80%; position: relative; top: -17px">
+                    <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon">View</span>
+                    @Model.View
+                </div>
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon">Like</span>
+                    @EventDatabaseHelper.Instance.CountLike(Model.EventID)
+                </div>
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon">DisLike</span>
+                    @EventDatabaseHelper.Instance.CountDisLike(Model.EventID)
+                </div>
+                <div style="margin-bottom: 10px" class="input-group">
+                    <span class="input-group-addon">Follower</span>
+                    @EventDatabaseHelper.Instance.CountFollowerOfEvent(Model.EventID)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

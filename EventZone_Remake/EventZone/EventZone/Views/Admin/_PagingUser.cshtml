@@ -1,0 +1,147 @@
+﻿@using EventZone.Helpers
+@using EventZone.Models
+@model IEnumerable<EventZone.Models.User>
+@{
+    bool hasMore = false;
+    User admin = UserHelpers.GetCurrentAdmin(Session);
+    if (TempData["LoadMore"] != null)
+    {
+        hasMore = bool.Parse(TempData["LoadMore"].ToString());
+
+    }
+    else
+    {
+        hasMore = false;
+    }
+    int numberResult = 0;
+    if (TempData["TotalResult"] != null)
+    {
+        try
+        {
+            numberResult = int.Parse(TempData["TotalResult"].ToString());
+        }
+        catch { }
+    }
+}
+
+<script>
+
+    @if (TempData["TotalResult"] == null || TempData["TotalResult"].ToString()=="NoMore")
+    {
+
+    }else if(TempData["TotalResult"].ToString()=="NotFound"){
+     <text> $("#number-result").text("Not Found")</text>
+    }
+    else
+    {
+        <text>
+    $("#number-result").html('<span>' +@TempData["TotalResult"].ToString() + ' Results</span>');
+    </text>
+    }
+</script>
+
+@if (Model != null)
+{
+    foreach (var user in Model)
+    {
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_user_card_cover">
+            <!-- e_ để đánh dấu CSS EVENT -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2 d_u_thumb">
+                <img src="@EventDatabaseHelper.Instance.GetImageByID(user.Avartar).ImageLink">
+            </div>
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-10 d_u_info_cover">
+                <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 d_u_title">
+                    @Html.ActionLink(UserDatabaseHelper.Instance.GetUserDisplayName(user.UserID), "Index", "User", new { userID = user.UserID }, new { target = "_blank" })
+                </div>
+                @if (user.UserRoles != EventZoneConstants.RootAdmin)
+                {
+                    <h4>
+                        <div id="lock-icon-@user.UserID">
+                            @if (user.AccountStatus == EventZoneConstants.Lock)
+                            {
+                                <span class="col-md-1 col-lg-1 label label-danger">
+                                    <span class=" glyphicon glyphicon-lock"></span>
+                                </span>
+                            }
+                        </div>
+                    </h4>
+                }
+                <h4>
+                    @if (user.UserRoles == EventZoneConstants.Mod)
+                    {
+                        <span id="role-define-@user.UserID" class="col-md-1 col-lg-1 label label-primary" style="font-size:86%">Mod</span>
+                    }
+                    else if (user.UserRoles == EventZoneConstants.Admin)
+                    {
+                        <span id="role-define-@user.UserID" class="col-md-1 col-lg-1 label label-info" style="font-size:86%">Admin</span>
+                    }
+                    else if (user.UserRoles == EventZoneConstants.RootAdmin)
+                    {
+                        <span id="role-define-@user.UserID" class="col-md-2 col-lg-2 label label-danger" style="font-size:86%">Root Admin</span>
+                    }
+                    else
+                    {
+                        <span id="role-define-@user.UserID" class="col-md-1 col-lg-1 label label-success" style="font-size:86%">User</span>
+                    }
+                </h4>
+                <div class="btn-group d_u_btn_more col-md-1 col-lg-1">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-option-vertical"></span>
+                    </button>
+                    <ul class="dropdown-menu d_u_drop_menu" id="ul-lock-unlock-@user.UserID">
+                        @if (user.AccountStatus == EventZoneConstants.Active)
+                        {
+                            <li><a href="#" id="lock-user-@user.UserID" onclick="LockUser(@user.UserID)">Lock</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="#" id="unlock-user-@user.UserID" onclick="UnlockUser(@user.UserID)">Unlock</a></li>
+                        }
+                        <li><a href="#" onclick="ShowChangeEmailModal(@user.UserID)">Change Email</a></li>
+                        @if (user.UserRoles != EventZoneConstants.Mod)
+                        {
+                            <li><a href="#" id="set-mod-@user.UserID" onclick="SetMod(@user.UserID)">Set Mod</a></li>
+                        }
+                        else if (user.UserRoles == EventZoneConstants.Mod)
+                        {
+                            <li><a href="#" id="unset-mod-@user.UserID" onclick="UnSetMod(@user.UserID)">UnSet Mod</a></li>
+                        }
+                        @if (user.UserRoles != EventZoneConstants.Admin && admin.UserRoles == EventZoneConstants.RootAdmin)
+                        {
+                            <li><a href="#" id="set-admin-@user.UserID" onclick="SetAdmin(@user.UserID)">Set Admin</a></li>
+                        }
+                        else if (user.UserRoles == EventZoneConstants.Admin && admin.UserRoles == EventZoneConstants.RootAdmin)
+                        {
+                            <li><a href="#" id="unset-mod-@user.UserID" onclick="UnSetAdmin(@user.UserID)">UnSet Admin</a></li>
+
+                        }
+                    </ul>
+                </div>
+                <div class="d_u_cate">
+                    <i class="fa fa-font"></i>
+                    <div class="d_fill_in">Number Event: <a href="@Url.Action("Event", "User", new { userID=user.UserID})"><i>@UserDatabaseHelper.Instance.CountOwnedEvent(user.UserID, true)</i></a></div>
+                </div>
+                <div class="d_u_follower">
+                    <i class="fa fa-star"></i>
+                    <div class="d_fill_in">Follower: <a href=""><i>@UserDatabaseHelper.Instance.NumberFollower(user.UserID)</i></a></div>
+                </div>
+                <div class="d_u_date">
+                    <i class="fa fa-calendar-o"></i>
+                    <div class="d_fill_in">Date Join: @user.DataJoin.ToShortDateString()</div>
+                </div>
+                <div class="d_u_time">
+                    <i class="fa fa-clock-o"></i>
+                    <div class="d_fill_in" id="email-display-@user.UserID">Email: @user.UserEmail</div>
+                </div>
+
+            </div>
+
+        </div>
+    }
+}
+
+@if (hasMore)
+{
+    @Html.Partial("_Loading")
+}
+

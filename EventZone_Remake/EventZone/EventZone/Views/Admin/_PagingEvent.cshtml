@@ -1,0 +1,148 @@
+﻿@using EventZone.Helpers
+@using EventZone.Models
+@model IEnumerable<EventZone.Models.Event>
+@{
+     bool hasMore=false;
+    if (TempData["LoadMore"] != null)
+    {
+        hasMore = bool.Parse(TempData["LoadMore"].ToString());
+
+    }
+    else {
+        hasMore = false;
+    }
+    int numberResult= 0;
+    if (TempData["TotalResult"] != null)
+    {
+        try { 
+        numberResult = int.Parse(TempData["TotalResult"].ToString());
+        }
+        catch { }
+    }
+ }
+<script>
+
+    @if (TempData["TotalResult"] == null || TempData["TotalResult"].ToString()=="NoMore")
+    {
+
+    }else if(TempData["TotalResult"].ToString()=="NotFound"){
+     <text> $("#number-result").text("Not Found")</text>
+    }
+    else
+    {
+        <text>
+    $("#number-result").html('<span>' +@TempData["TotalResult"].ToString() + ' Results</span>');
+    </text>
+    }
+</script>
+
+
+@if (Model != null)
+{
+    foreach (var evt in Model)
+    {
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_event_card_cover">
+            <!-- e_ để đánh dấu CSS EVENT -->
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2 d_e_thumb">
+                <img style="height:140px;width:180px;" src="@EventDatabaseHelper.Instance.GetImageByID(evt.Avatar).ImageLink">
+                @if (EventDatabaseHelper.Instance.isLive(evt.EventID))
+                {
+                    <div class="d_txt_live">
+                        Live
+                    </div>
+                }
+            </div>
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-10 d_e_info_cover">
+                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10 d_e_title">
+                    @Html.ActionLink(@evt.EventName, "Details", "Event", new { id = evt.EventID }, new { target = "_blank" })
+                    <span id="verified-icon-@evt.EventID">
+                        @if (evt.IsVerified)
+                        {
+                            <img style="height:24px;width:24px;" src="~/img/verifiedEvent.png">
+                        }
+                    </span>
+                </div>
+
+                <h4>
+                    <span id="lock-icon-@evt.EventID">
+                        @if (evt.Status == EventZoneConstants.Lock)
+                        {
+                            <span class="col-md-1 col-lg-1 label label-danger">
+                                <span class=" glyphicon glyphicon-lock"></span>
+                            </span>
+                        }
+
+                    </span>
+                </h4>
+
+                <div class="btn-group d_e_btn_more col-md-1 col-lg-1">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-option-vertical"></span>
+                    </button>
+                    <ul class="dropdown-menu d_e_drop_menu" id="ul-lock-unlock-@evt.EventID">
+                        @if (evt.Status == EventZoneConstants.Active)
+                        {
+                            <li><a href="#" id="lock-event-@evt.EventID" onclick="LockEvent(@evt.EventID)">Lock</a></li>
+                        }
+                        else
+                        {
+                            <li><a href="#" id="unlock-event-@evt.EventID" onclick="UnlockEvent(@evt.EventID)">Unlock</a></li>
+                        }
+                        <li id="verify-panel-@evt.EventID">
+                            @if (!evt.IsVerified)
+                            {
+                                <a href="#" id="Verify-@evt.EventID" onclick="VerifyEvent(@evt.EventID)">Verify</a>
+
+                            }
+                            else
+                            {
+                                <a href="#" id="UnVerify-@evt.EventID" onclick="UnVerifyEvent(@evt.EventID)">UnVerify</a>
+                            }
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="d_e_cate">
+                    <i class="fa fa-list-ul"></i>
+                    <div class="d_fill_in">in <a href=""><i>@CommonDataHelpers.Instance.GetCategoryById(evt.CategoryID).CategoryName</i></a></div>
+                </div>
+                <div class="d_e_follower">
+                    <i class="fa fa-star"></i>
+                    <div class="d_fill_in" id="showScore-@evt.EventID">Score: <a onclick="showScoreDetail(@evt.EventID)">@EventDatabaseHelper.Instance.GetEventScore(@evt.EventID)</a> </div>
+                </div>
+                <div class="d_e_date">
+                    <i class="fa fa-calendar-o"></i>
+                    <div class="d_fill_in">From: @evt.EventStartDate.ToShortTimeString()<span> - </span>@evt.EventStartDate.ToShortDateString() </div>
+                </div>
+                <div class="d_e_time">
+                    <i class="fa fa-calendar-o"></i>
+                    <div class="d_fill_in">From: @evt.EventEndDate.ToShortTimeString()<span> - </span>@evt.EventEndDate.ToShortDateString() </div>
+                </div>
+                <div class="d_e_user">
+                    <i class="fa fa-user"></i>
+                    <div class="d_fill_in">Created by: @UserDatabaseHelper.Instance.GetUserDisplayName(EventDatabaseHelper.Instance.GetAuthorEvent(evt.EventID).UserID)</div>
+                </div>
+                <div class="d_e_location">
+                    <i class="fa fa-map-marker"></i>
+                    <div class="d_fill_in">Location: @EventDatabaseHelper.Instance.GetEventLocation(evt.EventID)[0].LocationName</div>
+                    @if (EventDatabaseHelper.Instance.GetEventLocation(evt.EventID).Count > 1)
+                    {
+                        int remainLocation = EventDatabaseHelper.Instance.GetEventLocation(evt.EventID).Count - 1;
+                        <span> ( and more @remainLocation <span>locations)</span></span>
+                    }
+                </div>
+                <div class="d_e_btn_desciption">
+                    <i class="fa fa-file-text"></i>
+                    <div class="d_fill_in"><a href="#" onclick="showModalDescription('@evt.EventName','@evt.EventDescription')"><i>View Description</i></a></div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+@if(hasMore){
+    @Html.Partial("_Loading")
+}
+
+
