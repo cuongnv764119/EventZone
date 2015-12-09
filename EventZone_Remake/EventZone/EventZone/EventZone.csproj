@@ -366,6 +366,9 @@
     <Content Include="Scripts\Event\spinners.min.js" />
     <Content Include="Scripts\Hub\jquery.signalR-2.0.0.js" />
     <Content Include="Scripts\Hub\jquery.signalR-2.0.0.min.js" />
+    <Content Include="Scripts\_Layout\enscroll-0.6.1.min.js" />
+    <Content Include="Content\_Layout\nprogress.css" />
+    <Content Include="Scripts\_Layout\nprogress.js" />
     <Content Include="Views\Event\images\Arrowhead-Left-01-48.png" />
     <Content Include="Views\Event\images\Arrowhead-Left.png" />
     <Content Include="Views\Event\images\Arrowhead-Right-01-48.png" />
@@ -444,6 +447,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="img\hanoi.webm" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>

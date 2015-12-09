@@ -29,7 +29,7 @@
             <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#i_md_filter" id="i_btn_e_filter">
                 Filter
             </button>
-            <div class="d_events_cover" id="event-cover">
+            <div class="d_events_cover scroll-content" id="event-cover">
                 @if (UserDatabaseHelper.Instance.CountOwnedEvent(viewingUser.UserID, isOwner) > 0)
                 {
                     
@@ -43,11 +43,11 @@
                 <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#i_md_filter" id="i_btn_e_filter">
                     Filter
                 </button>
-                <div class="d_events_cover" id="report-cover">
+                <div class="d_events_cover scroll-content" id="report-cover" style="">
                     @if (UserDatabaseHelper.Instance.GetAllEventHasReports(curUser.UserID).Count > 0)
                     {
-                      
-                        @Html.Action("PagingReportManage", "User", new { page=1})
+
+                        @Html.Action("PagingReportManage", "User", new { page = 1 })
                     }
                 </div>
             </div>

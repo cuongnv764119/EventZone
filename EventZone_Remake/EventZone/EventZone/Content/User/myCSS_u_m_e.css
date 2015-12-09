@@ -106,7 +106,7 @@
 	#i_tab_event .d_each_event .d_time_left{		
     margin-left: inherit;		
     color: lightgrey;		
-    font-style: italic;		
+    font-style: italic;
 }
 #i_btn_more{
 	position: absolute;
@@ -181,7 +181,7 @@
 }
 #i_tab_report .d_each_event{
 	margin-right: 10px;
-    height: 96px;
+    height: 140px;
 	border-bottom: 1px solid #DDDDDD;
 	margin-bottom: 5px;
 }
@@ -223,6 +223,7 @@
     margin-left: inherit;
     color: lightgrey;
     font-style: italic;
+    	    float: left;
 }
 #i_btn_more{
 	position: absolute;

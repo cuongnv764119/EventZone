@@ -1,8 +1,17 @@
-﻿a {
+﻿za {
     color: #F44336;
 }
-a:hover,
-a:focus {
+za:hover,
+za:focus {
   color: #F44336;
   text-decoration: underline;
+}
+
+.d_btn_main{
+    background-color: rgba(202,77,32,1);
+    color: #fff;
+}
+.d_btn_main:hover{
+    background-color: rgb(230, 89, 38);
+    color: #fff;
 }

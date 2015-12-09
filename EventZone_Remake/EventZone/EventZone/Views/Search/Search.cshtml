@@ -1,22 +1,22 @@
 ﻿@model EventZone.Models.BasicSearch
 
-@using (Html.BeginForm("BasicSearch", "Search", FormMethod.Post, new {@class = "navbar-form navbar-left"}))
+@using (Html.BeginForm("BasicSearch", "Search", FormMethod.Post, new { @class = "navbar-form navbar-left" }))
 {
-    <div class="input-group" style="width: 100px;">
+    <div class="input-group d_search_group">
         <input type="text" name="Keyword" id="Keyword" class="form-control" aria-label="Text input with segmented button dropdown" placeholder="Search for event, channel or user" style="width: 250px;">
         <div class="input-group-btn">
-    <button class="btn btn-default" type="submit">
-        <span class="glyphicon glyphicon-search"></span>
-    </button>
-    <button type="button" class="btn btn-default data-toggle=" modal" data-target="#i_md_ad_search" id="i_advanced_search">
-        <a href="#" id="i_advanced_search">
-            <span class="glyphicon glyphicon-chevron-down"></span>
-        </a>
-    </button>
-    <button type="button" class="btn btn-default" id="i_look_around"  data-toggle="tooltip" data-placement="bottom" title="Look Around">
-<a href="#">
-    <span class="glyphicon glyphicon-map-marker"></span>
-</a>
+            <button class="btn btn-default d_btn_search" type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+            <button type="button" class="btn btn-default " data-toggle="modal" data-target="#i_md_ad_search" id="i_advanced_search">
+                <a href="#" id="i_advanced_search">
+                    <span class="glyphicon glyphicon-zoom-in"></span>
+                </a>
+            </button>
+            <button type="button" class="btn btn-default" id="i_look_around" data-toggle="tooltip" data-placement="bottom" title="Look Around">
+                <a href="#">
+                    <span class="glyphicon glyphicon-map-marker"></span>
+                </a>
             </button>
         </div>
     </div>
@@ -28,11 +28,9 @@
             <div class="panel-heading">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <div class="panel-title">Advanced Search</div>
-                <div style="float: right; font-size: 80%; position: relative; top: -17px">
-                    <a href="#" data-dismiss="modal" id="i_close_modal">Close</a>
-                </div>
+
             </div>
-            <div style="padding-top: 10px" class="panel-body">
+            <div class="panel-body">
                 <!-- md_ đánh dấu CSS của MODAL -->
                 @Html.Action("SearchAdvance", "Search", new { @id = "i_frame_md_ad_search" })
             </div>

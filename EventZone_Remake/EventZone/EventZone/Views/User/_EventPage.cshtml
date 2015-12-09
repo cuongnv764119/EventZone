@@ -15,13 +15,15 @@
             </div>
             <div class="d_info">
                 <div class="d_title">
-                    @Html.ActionLink(item.EventName, "Details", "Event", new { id = item.EventID }, new { target = "_blank" })
+                    @Html.ActionLink(item.EventName, "Details", "Event", new {id = item.EventID}, new {target = "_blank"})
                 </div>
                 <div class="d_time_left">
                     Start in @item.EventStartDate.ToString()
                 </div>
             </div>
+            <h5><span class="col-md-1 col-lg-1 label label-danger"><span class=" glyphicon glyphicon-lock"></span> Locked</span></h5>
             <button class="btn btn-success btn-xs">Edit</button>
+            <button class="btn btn-success btn-xs">Lock</button>
         </div>
     }
     if (hasMore) { 

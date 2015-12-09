@@ -21,11 +21,12 @@ body{
 .thumbnail > img, .thumbnail a > img {
 	border-radius: inherit;
 }
+/*
 #myTab {
 	padding-left: 10px;
 	padding-top: 5px;
 	background-color: rgba(0, 0, 0, .1);
-}
+}*/
 .tab-content{
 	/*padding: 5px 0px 5px 0px;*/
 	background-color: white;
@@ -118,6 +119,7 @@ body{
     min-width: 430px;
     margin-left: 10%;
 }
+
 .d_all_function_cover{
     padding: 0;
     min-width: 430px;
@@ -126,7 +128,7 @@ body{
 .d_right_top,
 .d_right_bottom{
 	margin-bottom: 16px;
-	border: 1px lightgrey solid;
+	/*border: 1px lightgrey solid;*/
 	padding: 0;
 	border-radius: 4px;
 }
@@ -145,8 +147,7 @@ body{
     padding: 0 5px;
 }
 #event-tab{
-    padding: 10px 0 0 10px;
-    background: #E6E6E6;
+    /*padding: 10px 0 0 10px;*/
 }
 .d_basic_info{
 	height: auto;
@@ -644,7 +645,7 @@ body{
 .d_md_watch_live .d_left_side{				
     width: 70%;				
     float: left;				
-    border: 1px solid lightgrey;				
+   /* border: 1px solid lightgrey;		*/		
     border-radius: 4px;				
     height: 500px;				
     padding: 5px;				

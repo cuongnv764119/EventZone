@@ -371,7 +371,7 @@ d_e_container {
     margin-bottom: 20px;
 }
 .d_big_row .d_title{
-    font-size: 20px;
+    font-size: 15px;
     color: #F44336;
     padding: 0px 5px;
     margin-bottom: 5px;
@@ -389,7 +389,7 @@ d_e_container {
 	margin-bottom: 10px;				
 }				
 .d_each_event img{				
-    width: 40%;				
+    width: 25%;				
     height: 100px;				
     float: left;				
 }				
@@ -414,7 +414,7 @@ d_e_container {
     margin-left: 2%;				
 }				
 .d_ee_info .d_title {				
-    max-height: 60px;				
+    max-height: 13px;				
     height: 60px;				
     font-size: 16px;				
     overflow: hidden;				

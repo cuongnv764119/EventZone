@@ -1,10 +1,13 @@
 ﻿/*********************************************** Thêm ***/
-	.body-content{				
+	.body-content{
+	    top: 0;
+	    position: absolute;		
     margin: 0 10% 0 10%;				
     width: 80%;				
-    padding: 70px 1%;				
+    padding: 70px 1% 0 1%;				
 }				
-.d_white_bg{				
+.d_white_bg{
+    top: 0;			
     z-index: -1;				
     position: fixed;				
     width: 80%;				
@@ -19,10 +22,12 @@ width: 100%;   /* The arbitrary width and height of the view pane */
 .vertical-track {		
 width: 10px;            /* How wide is the scrollbar going to be? */		
 background-color: #aaa; /* What color should the vertical track be? */		
+    border-radius: 10px;
 }		
 .vertical-handle {		
 width: 10px;            /* How wide is the scrollbar handle? */		
-background-color: rgba(202,77,32,1); /* What color should the handle be? */		
+background-color: rgba(202,77,32,1); /* What color should the handle be? */
+    border-radius: 10px;
 }		
 
 /*********************************************** Sửa Bootstrap ***/
@@ -63,8 +68,57 @@ li { list-style-type: none; }
 .d_topmenu_bg {
     border-radius: inherit;
     width: 100%;
+     background-color: #E65926;
 }
-
+.d_topmenu_bg .navbar-nav > li > a{		
+    background-color: transparent;		
+    color: #fff;		
+}		
+.d_topmenu_bg .navbar-nav > li > a:hover{		
+    background-color: rgba(202,77,32,1);		
+    color: #fff;		
+}		
+/**************************************************** Common Style & Decorate CSS ***/		
+.d_style_of_tabs{		
+    padding: 0;		
+}		
+.d_style_of_tabs > .nav-tabs{		
+    margin-bottom: 10px;		
+}		
+.d_style_of_tabs .nav-tabs > li.active > a,		
+.d_style_of_tabs .nav-tabs > li.active > a:hover,		
+.d_style_of_tabs .nav-tabs > li.active > a:focus{		
+    border: 0px;		
+    border-bottom: 3px solid;		
+    color: rgb(255, 68, 0);		
+    background: transparent;		
+}		
+.d_style_of_tabs .nav-tabs > li > a{		
+    background-color: transparent;		
+    border: 0px;		
+    color: rgba(255, 68, 0, .6);		
+}.d_style_of_tabs .nav-tabs > li > a:hover{		
+     background-color: transparent;		
+    border: 0px;		
+    color: rgba(255, 68, 0, .8);		
+}		
+/******************************************************** Style of Modal ***/		
+.modal .panel{		
+    border: 0;		
+}		
+.modal .panel-info > .panel-heading{		
+    color: #FFFFFF;		
+    font-weight: 600;		
+    background-color: rgb(197, 74, 30);		
+    border-color: #FFFFFF;		
+}		
+.modal .panel-body{		
+    background-color: #fff;		
+}
+.modal .d_md_content {
+    background-color: #fff;
+    padding: 10px;
+}
 #i_brand_website { font-size: 25px; }
 	#i_brand {		
     color: white;		
@@ -85,10 +139,44 @@ li { list-style-type: none; }
     margin-top: 10px;
 }
 	/*********************************************** Top Menu >> Search box ***/				
-#i_md_ad_search{				
-    border-radius: 0;				
+.d_search_group #Keyword{
+    width: 250px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+.d_search_group .btn{
+    background-color: transparent;
+    border: 0;
+}
+.d_search_group .btn:hover{
+    background-color: transparent;
+    border: 0;
+}
+.d_search_group .btn:focus{
+    background-color: transparent;
+    border: 0;
+}
+.d_search_group .btn .glyphicon{
+    color: #fff;
+        font-size: larger;
+}
+#i_md_ad_search{		
+    border-radius: 0;		
 }				
 /*********************************************** Top Menu >> Create Button ***/				
+/*********************************************** Top Menu >> Create Button ***/		
+.d_topmenu_bg .d_btn_create{
+    background-color: #fff;
+    color: rgba(202,77,32,1);
+    font-size: medium;
+}
+.d_topmenu_bg .d_btn_create .glyphicon{
+    color: rgba(202,77,32,1);
+}
+/*********************************************** Top Menu >> SignIn/SignUp btn ***/
+#i_signin_btn { 
+    margin: 0px 20px; 
+}
 .d_btn_create {				
     border: 0;				
     font-size: medium;				
@@ -123,7 +211,6 @@ li { list-style-type: none; }
     border-radius: 6px;
 }
 
-	#i_signin_btn { margin: 0px 20px; }
 
 #i_avatar {
     border: 1px white solid;
@@ -175,6 +262,37 @@ li { list-style-type: none; }
     padding-right: 10px;
     top: auto;
     width: auto;
+}
+/* Chung */		/*********************************************** Sửa Bootstrap */
+.d_drop_user,		
+.d_drop_cate {		
+    position: fixed;		
+    background-color: #fff;		
+    border-bottom-left-radius: 5px;		
+    border-bottom-right-radius: 5px;		
+    border-bottom: 0;		
+    margin-left: 0px;		
+    width: 200px;		
+    padding: 0 25px;		
+    top: 51px;		
+}		
+.d_drop_user li,		
+.d_drop_cate li {		
+    margin: 15px 0;		
+}		
+.d_drop_user li a,		
+.d_drop_cate li a{		
+    color: rgb(230, 89, 38);		
+    text-decoration: none;		
+}		
+.d_drop_cate li a:hover{		
+    color: rgba(202,77,32,1);		
+    text-decoration: none;		
+}		
+.d_drop_user{		
+    right: 0;		
+    width: 130px;		
+    margin-right: 5px;		
 }
 
 /*********************************************** Sửa Bootstrap */
@@ -232,6 +350,34 @@ li { list-style-type: none; }
 }		
 #i_md_ad_search .table-bordered{		
     border: 0;		
+}
+.d_md_ad_search {
+    width: 100%;
+    text-align: center;
+}
+.d_md_ad_search #i_btn_search .glyphicon{
+    color: #fff;
+    margin-right: 5px;
+}
+
+/*********************************************** MODAL Sign In Sign Up ***/
+#btn-fblogin{
+    background-color: #dd4b39;
+    color: white;
+}
+ #btn-fblogin:hover{
+    background-color: #CC4534;
+    color: white;
+}
+.checkbox{
+    left: 20px;
+}
+.d_agree_policy .checkbox {
+    left: 0;
+}
+#i_first_name,
+#i_last_name{
+	margin-bottom: 10px;
 }
 #i_frame_md_ad_search {
     height: 444px;

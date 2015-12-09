@@ -25,12 +25,11 @@
                         </a>
                     </h4>
                 </div>
-                <div id="i_fl_event" class="panel-collapse collapse in" aria-expanded="true">
+                <div id="i_fl_event" class="panel-collapse collapse in scroll-content" aria-expanded="true" style="width:100%">
                     @if (countEvent != 0)
                     {
                         foreach (var item in listEventThum)
                         {
-                           
                                     <div class="d_each_event">
                                         <div class="d_thumb">
                                             <img src="@EventDatabaseHelper.Instance.GetImageByID(item.evt.Avatar).ImageLink">
@@ -43,7 +42,6 @@
                                             </div>
                                         </div>
                                     </div>
-                               
                         }
                     }
                 </div>
@@ -56,16 +54,14 @@
                         </a>
                     </h4>
                 </div>
-                <div id="i_fl_user" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                <div id="i_fl_user" class="panel-collapse collapse scroll-content" aria-expanded="false" style="height: 0px;width:100%">
                     @if (listFollowingUser != null)
                     {
                         for (int i = 0; i < listFollowingUser.Count; i++)
                         {
                             User eachUser = listFollowingUser[i];
-
-                            <div id="i_fl_event" class="panel-collapse collapse in" aria-expanded="true">
-                                <div class="tab-pane active d_events_cover">
-                                    <div class="d_each_event">
+                                
+                                    <div class="d_each_event" id="i_tab_event">
                                         <div class="d_thumb">
                                             <img src="@EventDatabaseHelper.Instance.GetImageByID(eachUser.Avartar).ImageLink">
                                         </div>
@@ -87,8 +83,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+
                         }
                     }
                 </div>
@@ -101,15 +96,15 @@
                         </a>
                     </h4>
                 </div>
-                <div id="i_fling_user" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                <div id="i_fling_user" class="panel-collapse collapse scroll-content" aria-expanded="false" style="height: 0px;width:100%">
                     @if (listFollower != null)
                     {
                         for (int i = 0; i < listFollower.Count; i++)
                         {
                             User eachUser = listFollower[i];
 
-                            <div id="i_fl_event" class="panel-collapse collapse in" aria-expanded="true">
-                                <div class="tab-pane active d_events_cover">
+                      
+                              
                                     <div class="d_each_event">
                                         <div class="d_thumb">
                                             <img src="@EventDatabaseHelper.Instance.GetImageByID(eachUser.Avartar).ImageLink">
@@ -132,8 +127,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                
+                           
                         }
                     }
                 </div>

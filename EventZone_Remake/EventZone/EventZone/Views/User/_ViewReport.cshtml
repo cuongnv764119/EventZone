@@ -47,7 +47,7 @@
                 @if (item.Status == EventZoneConstants.Lock)
                 {
                     <div class="d_time_left">Status: Locked</div>
-    <div class="d_time_left">Reason: @item.LockedReason</div>
+                    <div class="d_time_left" style="width:inherit">Reason: @item.LockedReason</div>
 
                     if (EventDatabaseHelper.Instance.GetEventAppeal(item.EventID, EventZoneConstants.Pending) != null && EventDatabaseHelper.Instance.GetEventAppeal(item.EventID, EventZoneConstants.Pending).Count != 0)
                     {
@@ -65,8 +65,8 @@
                     }
                     else
                     {
-                        <div id="pannel-button-appeal-@item.EventID">
-                            <div id="appeal-panel-@item.EventID"><button data-toggle="modal" data-target="#i_appeal_modal_@item.EventID">Appeal</button></div>
+                        <div id="pannel-button-appeal-@item.EventID" class="d_info">
+                            <div id="appeal-panel-@item.EventID"><button data-toggle="modal" data-target="#i_appeal_modal_@item.EventID" class="btn btn-success btn-xs">Appeal</button></div>
                             <div id="i_appeal_modal_@item.EventID" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
                                     <!-- Modal content-->

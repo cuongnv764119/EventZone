@@ -48,7 +48,7 @@
             @if (tab != "3")
             {
                 <div class="tab-pane active" id="tab-all-event">
-                    <div class="d_result_container" id="event-r">
+                    <div class="d_result_container scroll-content" id="event-r">
                         @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 1 });
                     </div>
 
@@ -59,8 +59,8 @@
             {
                 <div class="tab-pane" id="tab-live-event">
 
-                    <div class="d_result_container" id="liveEvent-r">
-                        @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 2 });
+                    <div class="d_result_container scroll-content" id="liveEvent-r" style="width:100%">
+                        @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 2 })
                     </div>
 
                 </div>
@@ -69,8 +69,8 @@
             {
                 <div class="tab-pane" id="tab-live-event">
 
-                    <div class="d_result_container" id="liveEvent-r">
-                        @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 2 });
+                    <div class="d_result_container scroll-content" id="liveEvent-r" style="width:100%">
+                        @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 2 })
                     </div>
 
                 </div>

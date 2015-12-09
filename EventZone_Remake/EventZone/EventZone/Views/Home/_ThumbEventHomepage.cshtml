@@ -44,34 +44,10 @@
                                     <div class="d_title">
                                         @Html.ActionLink(@item.EventName, "Details", "Event", new {id = item.EventID}, null)
                                     </div>
-                                    <div class="d_time_left">
-                                        <div class="glyphicon glyphicon-time"></div>
-                                        <div class="d_short_des d_time_left">
-                                            2 days left
-                                        </div>
-                                    </div>
-                                    <div class="d_follow_no">
-                                        <div class="glyphicon glyphicon-user"></div>
-                                        <div class="d_short_des d_follow_no">
-                                            Followed: 123
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                        <div class="back _flipper-back">
-                            <section class="back__content">
-                                <div class="d_ee_back_info">
                                     <div class="d_time first">
                                         <div class="glyphicon glyphicon-time"></div>
                                         <div class="d_short_des d_time">
-                                            Thời gian: @item.StartDate.DayOfWeek <span> @item.StartDate.Day</span><span>/@item.StartDate.Month</span><span>/@item.StartDate.Year</span>
-                                        </div>
-                                    </div>
-                                    <div class="d_date">
-                                        <div class="glyphicon glyphicon-calendar"></div>
-                                        <div class="d_short_des d_date">
-                                            Ngày: 21/11/2015
+                                            @item.StartDate.DayOfWeek <span> @item.StartDate.Day</span><span>/@item.StartDate.Month</span><span>/@item.StartDate.Year</span>
                                         </div>
                                     </div>
                                     <div class="d_location">
@@ -80,30 +56,81 @@
                                             @item.listLocation[0].LocationName
                                         </div>
                                     </div>
+                                    <div class="d_group_btn">
+                                        <button type="button" class="btn btn-default btn-xs" onclick="followEvent(this.value)" value="@item.EventID">
+                                            <span class="follow-@item.EventID-status">
+                                                @if (user != null && UserDatabaseHelper.Instance.IsFollowingEvent(user.UserID, @item.EventID))
+                                                {
+                                                    <text>Followed</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>Follow</text>
+                                                }
+                                            </span>
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="share(@item.EventID)">
+                                            Share
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="d_group_btn">
-                                    <button type="button" class="btn btn-default btn-xs">
-                                        Description
-                                    </button>
-                                    <br>
-                                    <button type="button" class="btn btn-default btn-xs">
-                                        @Html.ActionLink("View Detail","Details", "Event", new { id = item.EventID },null)
-                                    </button>
-                                    <button type="button" class="btn btn-default btn-xs" onclick="followEvent(this.value)" value="@item.EventID">
-                                        <span class="follow-@item.EventID-status">
-                                            @if (user != null && UserDatabaseHelper.Instance.IsFollowingEvent(user.UserID, @item.EventID))
-                                            {
-                                                <text>Followed</text>
-                                            }
-                                            else
-                                            {
-                                                <text>Follow</text>
-                                            }
-                                        </span>
-                                    </button>
-                                    <button type="button" class="btn btn-default btn-xs" onclick="share(@item.EventID)">
-                                        Share
-                                    </button>
+                            </section>
+                        </div>
+                        <div class="back _flipper-back">
+                            <section class="front__content">
+                                <img src="@item.avatar">
+                                @if (EventDatabaseHelper.Instance.isLive(@item.EventID))
+                                {
+                                    <div class="d_live_mark">
+                                        <span class="glyphicon glyphicon-bookmark"></span>
+                                    </div>
+                                    <div class="d_live_text">
+                                        Live
+                                    </div>
+                                }@if (@item.IsVeried)
+                                {
+                                    <div class="d_live_mark">
+                                        <span class="glyphicon glyphicon-bookmark"></span>
+                                        <img style="height:40px;width:40px" src="~/img/verifiedEvent.png" />
+                                    </div>
+                                    <div class="d_live_text">
+                                        Live
+                                    </div>
+
+                                }
+                                <div class="d_ee_front_info">
+                                    <div class="d_title">
+                                        @Html.ActionLink(@item.EventName, "Details", "Event", new { id = item.EventID }, null)
+                                    </div>
+                                    <div class="d_time first">
+                                        <div class="glyphicon glyphicon-time"></div>
+                                        <div class="d_short_des d_time">
+                                            @item.StartDate.DayOfWeek <span> @item.StartDate.Day</span><span>/@item.StartDate.Month</span><span>/@item.StartDate.Year</span>
+                                        </div>
+                                    </div>
+                                    <div class="d_location">
+                                        <div class="glyphicon glyphicon-map-marker"></div>
+                                        <div class="d_short_des d_location">
+                                            @item.listLocation[0].LocationName
+                                        </div>
+                                    </div>
+                                    <div class="d_group_btn">
+                                        <button type="button" class="btn btn-default btn-xs" onclick="followEvent(this.value)" value="@item.EventID">
+                                            <span class="follow-@item.EventID-status">
+                                                @if (user != null && UserDatabaseHelper.Instance.IsFollowingEvent(user.UserID, @item.EventID))
+                                                {
+                                                    <text>Followed</text>
+                                                }
+                                                else
+                                                {
+                                                    <text>Follow</text>
+                                                }
+                                            </span>
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-xs" onclick="share(@item.EventID)">
+                                            Share
+                                        </button>
+                                    </div>
                                 </div>
                             </section>
                         </div>

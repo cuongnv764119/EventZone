@@ -46,7 +46,7 @@
         </div>
     }
     <div class="d_all_function_cover">
-        <div class="col-sx-12 col-sm-12 col-md-8 col-lg-8 d_left_cover">
+        <div class="col-sx-12 col-sm-12 col-md-8 col-lg-8 d_left_cover d_style_of_tabs">
             <ul class="nav nav-tabs" id="event-tab">
                 <li class="active" id="li-event-info"><a href="#i_info_tab" data-toggle="tab">Event Info</a></li>
                 <li id="li-gallery"><a href="#i_image_tab" data-toggle="tab">Gallery (@numberImage)</a></li>
@@ -319,8 +319,8 @@
                                                     <div class="d_each_photo">
                                                         @using (Html.BeginForm("ImageDelete", "Event", FormMethod.Post))
                                                         {
-                                                            <input type="hidden" name="imageID" value="@item.ImageID"/>
-                                                            <input type="hidden" name="eventID" value="@Model.eventId"/>
+                                                            <input type="hidden" name="imageID" value="@item.ImageID" />
+                                                            <input type="hidden" name="eventID" value="@Model.eventId" />
                                                             <button type="submit" class="btn btn-default">Delete</button>
                                                             <div class="checkbox">
                                                                 <input type="checkbox" value="">
@@ -525,7 +525,7 @@
         </div>
         <div class="col-sx-12 col-sm-12 col-md-4 col-lg-4 d_right_cover">
             <!-- Thẻ Tab Map -->
-            <div class="d_right_top">
+            <div class="d_right_top d_style_of_tabs">
                 <ul class="nav nav-tabs" id="myTab">
                     <li role="presentation" class="active">
                         <a href="#i_map" aria-controls="i_map" role="tab" data-toggle="tab">Map</a>
@@ -539,7 +539,7 @@
                 </div>
             </div>
             <!-- Thẻ Tab Comment & Report -->
-            <div class="d_right_bottom">
+            <div class="d_right_bottom d_style_of_tabs">
                 <a class="d_reopen_map">Map</a>
                 <ul class="nav nav-tabs" id="myTab">
                     <li class="active"><a href="#i_comment" data-toggle="tab">Comment</a></li>
