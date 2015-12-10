@@ -13,11 +13,9 @@
                     <span class="glyphicon glyphicon-zoom-in"></span>
                 </a>
             </button>
-            <button type="button" class="btn btn-default" id="i_look_around" data-toggle="tooltip" data-placement="bottom" title="Look Around">
-                <a href="#">
-                    <span class="glyphicon glyphicon-map-marker"></span>
-                </a>
-            </button>
+            <a id="lookaround-btn" href="/LookAround/LookAround?" class="btn btn-success" onclick="lookAround()">
+                <span class="glyphicon glyphicon-map-marker"></span>
+            </a>
         </div>
     </div>
 }
@@ -37,3 +35,34 @@
         </div>
     </div>
 </div>
+<script>
+    // Geolocation get current location for lookAround
+    var lookAround = function () {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            $("#lookaround-btn").attr("href", $("#lookaround-btn").attr("href") + "longitude=" + position.coords.longitude + "&latitude=" + position.coords.latitude);
+        });
+    };
+    $(function () {
+        $("#lookaround-btn").click(function (evt) {
+            if ($(this).attr("href").slice(-1) == "?") {
+                swal({
+                    title: "Oops...",
+                    text: "You are not allowing getting location! Please allow us to get current location.",
+                    type: "warning",
+                    showCancelButton: false,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "OK!",
+                    closeOnConfirm: true,
+                    closeOnCancel: false
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        lookAround();
+                    }
+                });
+                return false;
+            }
+        });
+        lookAround();
+    });
+
+</script>

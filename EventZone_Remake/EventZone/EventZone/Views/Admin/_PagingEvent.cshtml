@@ -2,7 +2,7 @@
 @using EventZone.Models
 @model IEnumerable<EventZone.Models.Event>
 @{
-     bool hasMore=false;
+    bool hasMore=false;
     if (TempData["LoadMore"] != null)
     {
         hasMore = bool.Parse(TempData["LoadMore"].ToString());
@@ -24,7 +24,6 @@
 
     @if (TempData["TotalResult"] == null || TempData["TotalResult"].ToString()=="NoMore")
     {
-
     }else if(TempData["TotalResult"].ToString()=="NotFound"){
      <text> $("#number-result").text("Not Found")</text>
     }

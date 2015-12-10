@@ -160,8 +160,7 @@ namespace EventZone.Controllers
                     }
                 }
             }
-            List<Event> listEvent = EventDatabaseHelper.Instance.GetAllEvent();
-            return View(listEvent);
+            return View();
         }
         public JsonResult LockEvent(long eventID, string reason) {
             User admin = UserHelpers.GetCurrentAdmin(Session);
@@ -247,8 +246,7 @@ namespace EventZone.Controllers
                     }
                 }
             }
-            List<User> listUser = UserDatabaseHelper.Instance.GetAllUser();
-            return View(listUser);
+            return View();
         }
         public JsonResult LockUser(long userID)
         {
@@ -914,5 +912,335 @@ namespace EventZone.Controllers
                 message = "Something wrong! Please try again!"
             });
         }
+         public ActionResult VerifyEvent(long eventID) {
+            User admin = UserHelpers.GetCurrentAdmin(Session);
+            if (admin == null)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Require signin!",
+                    message = "You are not signed in..."
+                });
+            }
+            else if (admin.AccountStatus == EventZoneConstants.LockedUser)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Locked account",
+                    message = "Your account is locked. You cant use this feature!"
+                });
+            }
+            else if (admin.UserRoles != EventZoneConstants.RootAdmin && admin.UserRoles != EventZoneConstants.Admin&&admin.UserRoles!=EventZoneConstants.Mod)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Permission denied",
+                    message = "This feature not avaiable for you!"
+                });
+            }
+            if (admin.AccountStatus != EventZoneConstants.LockedUser)
+            {
+                Event evt= AdminDataHelpers.Instance.VerifyEvent(admin.UserID, eventID);
+                if (evt != null) {
+                    return Json(new
+                    {
+                        state = 1,
+                    });
+                }
+            }
+            return Json(new
+            {
+                state = 0,
+                error = "Erorr",
+                message = "Something wrong! Please try again!"
+            });
+        }
+        public ActionResult UnVerifyEvent(long eventID)
+        {
+            User admin = UserHelpers.GetCurrentAdmin(Session);
+            if (admin == null)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Require signin!",
+                    message = "You are not signed in..."
+                });
+            }
+            else if (admin.AccountStatus == EventZoneConstants.LockedUser)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Locked account",
+                    message = "Your account is locked. You cant use this feature!"
+                });
+            }
+            else if (admin.UserRoles != EventZoneConstants.RootAdmin && admin.UserRoles != EventZoneConstants.Admin && admin.UserRoles != EventZoneConstants.Mod)
+            {
+                return Json(new
+                {
+                    state = 0,
+                    error = "Permission denied",
+                    message = "This feature not avaiable for you!"
+                });
+            }
+            if (admin.AccountStatus != EventZoneConstants.LockedUser)
+            {
+                Event evt = AdminDataHelpers.Instance.UnVerifyEvent(admin.UserID, eventID);
+                if (evt != null)
+                {
+                    return Json(new
+                    {
+                        state = 1,
+                    });
+                }
+            }
+            return Json(new
+            {
+                state = 0,
+                error = "Erorr",
+                message = "Something wrong! Please try again!"
+            });
+        }
+        public ActionResult SearchEvent(string keyword="", bool all=true,bool locked=false, bool verified=false, bool live=false, string sort="default",int category=-1, int page=1) {
+            try
+            {
+                List<Event> listEvent = new List<Event>();
+                if (all)
+                {
+                    listEvent = EventDatabaseHelper.Instance.SearchEventByKeyword(keyword);
+                    if (category != -1)
+                    {
+                        listEvent = listEvent.FindAll(o => o.CategoryID == category);
+                    }
+                }
+                else
+                {
+                    listEvent = EventDatabaseHelper.Instance.SearchEventByKeyword(keyword);
+                    if (locked)
+                    {
+                        listEvent = listEvent.FindAll(o => o.Status == EventZoneConstants.Lock);
+                    }
+                    if (verified)
+                    {
+                        listEvent = listEvent.FindAll(o => o.IsVerified == true);
+                    }
+                    if (live)
+                    {
+                        listEvent = listEvent.FindAll(o => EventDatabaseHelper.Instance.isLive(o.EventID));
+                    }
+                    if (category != -1)
+                    {
+                        listEvent = listEvent.FindAll(o => o.CategoryID == category);
+                    }
+                }
+                int startIndex = (page - 1) * 10;
+                int endIndex = (listEvent.Count) < (page * 10) ? (listEvent.Count - 1) : (page * 10) - 1;
+                if (page == 1 && listEvent.Count == 0) {
+                    TempData["LoadMore"] = false;
+                    TempData["TotalResult"] = "NotFound";
+                    return PartialView("_PagingEvent", null);
+                }
+                if (startIndex > endIndex)
+                {
+                    TempData["LoadMore"] = false;
+                    TempData["TotalResult"] = "NoMore";
+                    return PartialView("_PagingEvent", null);
+                }
+                if (listEvent == null)
+                {
+                    TempData["LoadMore"] = false;
+                    TempData["TotalResult"] = "NotFound";
+                    return PartialView("_PagingEvent", null);
+                }
+                if (listEvent.Count > (page * 10))
+                {
+                    TempData["LoadMore"] = true;
+                }
+                else
+                {
+                    TempData["LoadMore"] = false;
+                }
+                
+                if (sort == "date")
+                {
+                    listEvent = listEvent.OrderByDescending(o => o.EventRegisterDate).ToList();
+                }
+               
+                List<Event> listView = new List<Event>();
+                for (int i = startIndex; i < endIndex+1; i++)
+                {
+                    listView.Add(listEvent[i]);
+                }
+                TempData["TotalResult"] = listEvent.Count;
+                return PartialView("_PagingEvent", listView);
+            }
+            catch {
+                TempData["TotalResult"] = "NoMore";
+                return PartialView("_PagingEvent", null);
+            }
+            
+       
+       
+        }
+        public ActionResult ViewScore(long eventID) {
+            Event evt = EventDatabaseHelper.Instance.GetEventByID(eventID);
+            return PartialView("_ModalShowScoreEvent", evt);
+        }
+        public ActionResult SearchUser(string keyword, bool all= true, bool user= false, bool mod= false, bool locked= false, string sort= "default", int page =1 ){
+         try
+            {
+                List<User> listUser = new List<User>();
+                if (all)
+                {
+                    listUser = UserDatabaseHelper.Instance.SearchUserByKeyword(keyword);
+                }
+                else
+                {
+                    listUser = UserDatabaseHelper.Instance.SearchUserByKeyword(keyword);
+                    if (locked)
+                    {
+                        listUser = listUser.FindAll(o => o.AccountStatus == EventZoneConstants.Lock);
+                    }
+                    if (user)
+                    {
+                        listUser = listUser.FindAll(o => o.UserRoles == EventZoneConstants.User);
+                    }
+                    if (mod)
+                    {
+                        listUser.RemoveAll(o => o.UserRoles==EventZoneConstants.User);
+                    }
+                }
+                int startIndex = (page - 1) * 10;
+                int endIndex = (listUser.Count) < (page * 10) ? (listUser.Count - 1) : (page * 10) - 1;
+                if (page == 1 && listUser.Count == 0)
+                {
+                    TempData["LoadMore"] = false;
+                    TempData["TotalResult"] = "NotFound";
+                    return PartialView("_PagingUser", null);
+                }
+                if (startIndex > endIndex)
+                {
+                    TempData["LoadMore"] = false;
+                    TempData["TotalResult"] = "NoMore";
+                    return PartialView("_PagingUser", null);
+                }
+                if (listUser == null)
+                {
+                    TempData["LoadMore"] = false;
+                    TempData["TotalResult"] = "NotFound";
+                    return PartialView("_PagingUser", null);
+                }
+                if (listUser.Count > (page * 10))
+                {
+                    TempData["LoadMore"] = true;
+                }
+                else
+                {
+                    TempData["LoadMore"] = false;
+                }
+                if (sort == "datejoin")
+                {
+                    listUser = listUser.OrderByDescending(o => o.DataJoin).ToList();
+                } if (sort == "userName") {
+                    listUser = listUser.OrderBy(o => o.UserName).ToList();
+                }
+                List<User> listView = new List<User>();
+                for (int i = startIndex; i < endIndex + 1; i++)
+                {
+                    listView.Add(listUser[i]);
+                }
+                TempData["TotalResult"] = listUser.Count;
+                return PartialView("_PagingUser", listView);
+            }
+            catch {
+                TempData["TotalResult"] = "NoMore";
+                return PartialView("_PagingUser", null);
+            }
+        }
+        public ActionResult SearchReport(string keyword, bool all= true, bool locked= false, bool pendingReport= false, bool pendingAppeal= false,int category=-1, int page=1)
+        {
+            try
+            {
+                List<Event> listEvent = new List<Event>();
+                if (keyword != null) {
+                    keyword.Trim();
+                }
+              
+                listEvent= EventDatabaseHelper.Instance.GetAllReportedEvent();
+                if (category != -1)
+                {
+                    listEvent = listEvent.FindAll(o => o.CategoryID == category);
+                }
+                if(!string.IsNullOrEmpty(keyword)){
+                    listEvent=listEvent.FindAll(e=>e.EventName.ToLower().Contains(keyword));
+                }
+                if (all)
+                {
+    
+                }
+                else
+                {
+                    
+                    if (locked)
+                    {
+                        listEvent = listEvent.FindAll(o => o.Status == EventZoneConstants.Lock);
+                    }
+                    if (pendingReport)
+                    {
+                        listEvent = listEvent.FindAll(o=>EventDatabaseHelper.Instance.HasPendingReport(o.EventID));
+                    }
+                    if (pendingAppeal)
+                    {
+                        listEvent = listEvent.FindAll(o =>EventDatabaseHelper.Instance.HasPendingAppeal(o.EventID));
+                    }
+                    
+                }
+                int startIndex = (page - 1) * 10;
+                int endIndex = (listEvent.Count) < (page * 10) ? (listEvent.Count - 1) : (page * 10) - 1;
+                if (page == 1 && listEvent.Count == 0)
+                {
+                    TempData["LoadMore"] = false;
+                    TempData["TotalResult"] = "NotFound";
+                    return PartialView("_PagingReport", null);
+                }
+                if (startIndex > endIndex)
+                {
+                    TempData["LoadMore"] = false;
+                    TempData["TotalResult"] = "NoMore";
+                    return PartialView("_PagingReport", null);
+                }
+                if (listEvent == null)
+                {
+                    TempData["LoadMore"] = false;
+                    TempData["TotalResult"] = "NotFound";
+                    return PartialView("_PagingReport", null);
+                }
+                if (listEvent.Count > (page * 10))
+                {
+                    TempData["LoadMore"] = true;
+                }
+                else
+                {
+                    TempData["LoadMore"] = false;
+                }
+               
+                List<Event> listView = new List<Event>();
+                for (int i = startIndex; i < endIndex + 1; i++)
+                {
+                    listView.Add(listEvent[i]);
+                }
+                TempData["TotalResult"] = listEvent.Count;
+                return PartialView("_PagingReport", listView);
+            }
+            catch {
+                TempData["TotalResult"] = "NoMore";
+                return PartialView("_PagingReport", null);
+            }
+        }		        
     }
 }

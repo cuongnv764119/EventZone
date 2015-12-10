@@ -1,9 +1,7 @@
 /*********************************************** Thêm ***/
 
 /*********************************************** Sửa Flip ***/
-.flipper-container #flipper-inside>._flipper-back{
-    padding: 5px;
-}
+
 /*********************************************** Sửa BxSlider ***/
 .d_e_container .bx-prev{
     margin-right: 15px;
@@ -144,6 +142,9 @@ li{
 .dropdown:hover .dropdown-menu {	/* Di chuột mở Menu, không cần click */
 	display: block;
 }
+.dropdown:hover .dropdown-menu {	/* Di chuột mở Menu, không cần click */
+	display: block;
+}
 
 /*********************************************** MIDDLE Category ***/
 .d_md_body{
@@ -262,124 +263,22 @@ li{
     color: #fff;
     margin-right: 5px;
 }
-/*********************************************** d_3_column ***/
-.d_3_column {
-    background: white;
-    height: 560px;
-}
-.d_cc_title{
-	color: blue;
-	font-family: segoe ui;
-	font-size: 25px;
-	font-weight: lighter;
-	margin-bottom: 15px;
-    height: 50px;
-    float:left;
-}
-d_e_container {
-    
-}
-.d_cc_column{
-    width: 33.33%;
-    height: 500px;
-    float: left;
-}
-.d_cc_body{
-	margin-top: 90px;
-	font-family: segoe ui;
-	background-color: transparent;
-    overflow-x: hidden;		
-    width: 100%;		
-	height: 100px;		
-	border: 0;		
-}	
-
-.d_cc_event_container{
-	zborder: 1px red solid;
-	height: 500px;
-	padding: 0;
-    overflow-y: scroll;
-}
-.d_3_column iframe{
-	margin-left: 4.5%;
-}
-/*********************************************** d_3_column >> each_event***/
-.d_ee_body{
-	zborder: 1px blue solid;
-	padding: 0;
-	font-family: segoe ui;
-	background-color: rgba(255, 255, 255, 0.5);
-    overflow: hidden;		
-    width: 100%;		
-	height: 100px;		
-	border: 0;
-}
-.d_ee_live,
-.d_ee_thumb{
-	position: relative;
-}
-.d_ee_info_cover,
-.d_ee_thumb{
-	padding: 0;
-}
-.d_ee_follow,
-.d_ee_share,
-.d_ee_live{
-	height: auto;
-	width: 50%;
-	margin: 5px 5px;
-	text-align: center;
-	border: 1px solid #fff;
-	border-radius: 4px;
-	background-color: rgba(0,0,0,.5);
-	color: #fff;
-	padding: 2px 0;
-}
-.d_ee_follow,
-.d_ee_share{
-	margin-left: 25%;
-}
-.d_ee_thumb .front,
-.d_ee_thumb .back{
-	height: 100%;
-	width: 100%;
-}
-.d_ee_thumb img{
-	position: absolute;
-	width: 100%;
-	height: auto;
-	max-height: 70px;
-}
-.d_ee_title{
-	font-size: 16px;
-	font-weight: bold;
-}
-.d_ee_icon{
-	padding: 0;
-}
-.d_ee_datetime2,
-.d_ee_location2{
-	padding: 0;
-	padding-left: 10px;
-}
 /*********************************************** d_big_row: các Hàng lớn chứa Sự kiện ngang ***/
 .d_big_row {
-
+    border: 2px solid white;
     height: 200px;
     padding:5px;
-    background-color: rgba(255, 255, 255, .7);
+    background-color: rgba(0, 0, 0, .5);
     margin-bottom: 20px;
+    border-radius: 5px;
 }
 .d_big_row .d_title{
-    font-size: 15px;
-    color: #F44336;
+    font-size: 18px;
+    color: #fff;
     padding: 0px 5px;
     margin-bottom: 5px;
 }
-.d_big_row .d_e_container{
 
-    height: 163px;
-}
 /*********************************************** d_big_row > d_row_1 ***/
 	        .bxslider .d_each_event{				
     margin: 0;				
@@ -389,25 +288,11 @@ d_e_container {
 	margin-bottom: 10px;				
 }				
 .d_each_event img{				
-    width: 25%;				
+    width: 120px;				
     height: 100px;				
     float: left;				
 }				
-.d_live_text,				
-.d_live_mark{				
-    position: absolute;				
-    font-size: 40px;				
-}				
-.d_live_mark .glyphicon{				
-	color: #CE4919;				
-}				
-.d_live_text{				
-    top: 10px;				
-    left: 12px;				
-	color: white;				
-	font-size: 10px;				
-	font-style: italic;				
-}				
+
 .d_ee_info{				
     width: 55%;				
     float: left;				
@@ -437,6 +322,80 @@ d_e_container {
     float: left;				
     margin-right: 5px;				
 }			
+.bx-wrapper .bx-pager.bx-default-pager a{		
+    background-color: #fff;		
+}		
+.bx-wrapper .bx-pager.bx-default-pager a:hover {		
+    background-color: rgba(230, 89, 38, .5);		
+}		
+.bx-wrapper .bx-pager.bx-default-pager a.active{		
+    background-color: rgb(230, 89, 38);		
+}		
+/*********************************************** d_big_row > d_row_1 > Each Event ***/		
+.bx-viewport{		
+    font-size: small;		
+    height: 130px;		
+}		
+.d_each_event #flipper-inside{		
+    background-color: #fff;		
+}		
+.d_each_event .front{		
+}		
+.d_each_event .front .glyphicon{		
+    margin: 0 10px 0 5px;		
+    float: left;		
+    width: 4%;		
+}		
+.d_live_text{		
+    top: 10px;		
+    left: 12px;		
+    font-weight: bold;		
+    color: #E65926;		
+    font-size: 10px;		
+    font-style: italic;		
+    background: rgba(255, 255, 255, .9);		
+    height: 18px;		
+    width: 45px;		
+    text-align: center;		
+    border-radius: 52px;		
+    border: 1px solid #E65926;				
+}		
+.d_live_dot {		
+    font-size: 13px;		
+    position: relative;		
+    margin: 1px;		
+    top: -1px;		
+    left: -2px;		
+    height: 0;		
+}		
+.d_each_event .back{		
+    background-color: rgb(230, 89, 38);		
+    color: #fff;		
+    padding: 2px;		
+}		
+.d_each_event .back .d_title{		
+    width: 100%;		
+    height: 40px;		
+    max-height: 40px;		
+    overflow-y: hidden;		
+    float: left;		
+}		
+.d_each_event .back a{		
+    color: #fff;		
+    text-decoration: none;		
+}		
+.d_each_event .back .glyphicon{		
+    margin: 0 10px 0 10px;		
+    float: left;		
+    width: 4%;		
+    color: #fff;		
+}		
+.d_each_event .back .d_time_left,		
+.d_each_event .back .d_author{		
+    width: 75%;		
+    float: left;		
+}		
+
 /*********************************************** Footer ***/
 .d_footer{
      width: 125%;
@@ -472,37 +431,6 @@ d_e_container {
     text-align: center;
 }
 /*********************************************** MODAL Sign In Sign Up ***/
-#myModal2 .panel-body {
-    padding: 15px 0px;
-}
-.d_signin_tab{
-    margin-left: 10px;
-}
-.f_sign_in {
-    padding: 0 15px;
-}
-.checkbox{
-    left: 20px;
-}
-#i_signup_section .panel-body {
-    padding: 15px 15px;
-}
-.f_sign_up .panel-body {
-    padding: 15px 0;
-}
-.d_agree_policy .checkbox {
-    left: 0;
-}
-#UserDOB {
-    border-radius: 0;
-}
-#i_frame_signin{
-	height: 415px;
-}
-#i_first_name,
-#i_last_name{
-	margin-bottom: 10px;
-}
 /*********************************************** Footer ***/
 .d_footer iframe{
 	height: 350px;
@@ -526,7 +454,66 @@ d_e_container {
 
 /*********************************************** Decorate ***/
 /*********************************************** Thêm ***/
-
+.d_live_text,		
+.d_live_mark{		
+    position: absolute;		
+    font-size: 40px;		
+}		
+.d_live_mark .glyphicon{		
+	color: #CE4919;		
+}		
+.d_live_text{		
+    top: 10px;		
+    left: 12px;		
+	color: white;		
+	font-size: 10px;		
+	font-style: italic;		
+}		
+.front .d_ee_front_info{		
+    width: 59%;		
+    float: left;		
+    margin-left: 2%;		
+}		
+.front .d_ee_front_info div{		
+	margin-left: 5px;		
+	float: left;		
+}		
+.front .d_ee_front_info .d_title{		
+	height: 40px;		
+	max-height: 40px;		
+	margin-left: 0;		
+	width: 100%;		
+	font-weight: 600;		
+	font-size: 14px;		
+}		
+.front .d_ee_front_info .d_time_left,		
+.front .d_ee_front_info .d_follow_no{		
+	width: 100%;		
+	display: flex;		
+}
+.d_ee_back_info{		
+	width: 75%;		
+	float: left;		
+}		
+.d_ee_back_info .d_time,		
+.d_ee_back_info .d_date,		
+.d_ee_back_info .d_location{		
+	width: 100%;		
+	display: flex;		
+	margin-left: 5px;		
+}		
+.d_ee_back_info .first{		
+	margin-top: 5px;		
+}		
+.back__content .d_group_btn{		
+	width: 20%;		
+    float: left;		
+    margin: -20px 0 0 3%;		
+}		
+.back__content .d_group_btn .btn{		
+	width: 100%;		
+    margin-bottom: 1px;		
+}
 /*********************************************** Thêm ***/
 
 /*********************************************** Thêm ***/

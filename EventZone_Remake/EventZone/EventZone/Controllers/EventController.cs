@@ -146,7 +146,6 @@ namespace EventZone.Controllers
                 liveModel = objJavascript.Deserialize<LiveStreamingModel>(Request.Cookies["liveModel"].Value);
             }
             else {
-
                 if (liveModel.Quality != null)
                 {
                     HttpCookie newModel = new HttpCookie("liveModel");
@@ -200,7 +199,7 @@ namespace EventZone.Controllers
                         TempData["errorTitle"] = "Error";
                         TempData["errorMessage"] = ex.Message;
                         result.Credential.RevokeTokenAsync(CancellationToken.None).Wait();
-                        return RedirectToAction("AddLiveStream", "Event", new { liveModel = liveModel});
+                        return RedirectToAction("Details", "Event", liveModel.eventID);
                     }
                     
                     //Set LiveStream Snippet

@@ -35,15 +35,6 @@
     <Property Name="CategoryID" Type="bigint" Nullable="false" />
     <Property Name="FollowerID" Type="bigint" Nullable="false" />
   </EntityType>
-  <EntityType Name="Channel">
-    <Key>
-      <PropertyRef Name="ChannelID" />
-    </Key>
-    <Property Name="ChannelID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="UserID" Type="bigint" Nullable="false" />
-    <Property Name="ChannelName" Type="nvarchar" MaxLength="512" Nullable="false" />
-    <Property Name="ChannelDescription" Type="nvarchar(max)" />
-  </EntityType>
   <EntityType Name="Comment">
     <Key>
       <PropertyRef Name="CommentID" />
@@ -53,6 +44,15 @@
     <Property Name="UserID" Type="bigint" Nullable="false" />
     <Property Name="CommentContent" Type="nvarchar(max)" Nullable="false" />
     <Property Name="DateIssue" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Channel">
+    <Key>
+      <PropertyRef Name="ChannelID" />
+    </Key>
+    <Property Name="ChannelID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="bigint" Nullable="false" />
+    <Property Name="ChannelName" Type="nvarchar" MaxLength="512" Nullable="false" />
+    <Property Name="ChannelDescription" Type="nvarchar(max)" />
   </EntityType>
   <EntityType Name="Event">
     <Key>
@@ -293,18 +293,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Channel_User">
-    <End Role="User" Type="Self.User" Multiplicity="1" />
-    <End Role="Channel" Type="Self.Channel" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="User">
-        <PropertyRef Name="UserID" />
-      </Principal>
-      <Dependent Role="Channel">
-        <PropertyRef Name="UserID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Comment_Event1">
     <End Role="Event" Type="Self.Event" Multiplicity="1" />
     <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
@@ -325,6 +313,18 @@
         <PropertyRef Name="UserID" />
       </Principal>
       <Dependent Role="Comment">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Channel_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Channel" Type="Self.Channel" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserID" />
+      </Principal>
+      <Dependent Role="Channel">
         <PropertyRef Name="UserID" />
       </Dependent>
     </ReferentialConstraint>
@@ -670,8 +670,8 @@
     <EntitySet Name="Appeal" EntityType="Self.Appeal" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CategoryFollow" EntityType="Self.CategoryFollow" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Channel" EntityType="Self.Channel" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Channel" EntityType="Self.Channel" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EventFollow" EntityType="Self.EventFollow" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EventImage" EntityType="Self.EventImage" Schema="dbo" store:Type="Tables" />
@@ -706,10 +706,6 @@
       <End Role="User" EntitySet="User" />
       <End Role="CategoryFollow" EntitySet="CategoryFollow" />
     </AssociationSet>
-    <AssociationSet Name="FK_Channel_User" Association="Self.FK_Channel_User">
-      <End Role="User" EntitySet="User" />
-      <End Role="Channel" EntitySet="Channel" />
-    </AssociationSet>
     <AssociationSet Name="FK_Comment_Event1" Association="Self.FK_Comment_Event1">
       <End Role="Event" EntitySet="Event" />
       <End Role="Comment" EntitySet="Comment" />
@@ -717,6 +713,10 @@
     <AssociationSet Name="FK_Comment_User" Association="Self.FK_Comment_User">
       <End Role="User" EntitySet="User" />
       <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Channel_User" Association="Self.FK_Channel_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Channel" EntitySet="Channel" />
     </AssociationSet>
     <AssociationSet Name="FK_Event_Category" Association="Self.FK_Event_Category">
       <End Role="Category" EntitySet="Category" />

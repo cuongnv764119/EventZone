@@ -36,7 +36,7 @@
 </style>
 <script src="~/Scripts/Event/summernote.min.js"></script>
 
-<div class="body-content">
+<div>
 <!-- Khung chứa Thông tin cơ bản & Description -->
 <div class="tab-pane active" id="i_info_tab">
 @using (Html.BeginForm("CreateEvent", "Event", FormMethod.Post, new { enctype = "multipart/form-data",id="CreateForm" }))
@@ -62,7 +62,7 @@
         <!-- row Title -->
 
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            Title *
+            Title <span id="i_required_mark"> *</span>
         </div>
         <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
             @Html.TextBoxFor(model => model.Title, new { @class = "form-control", @style = "width:100%", @maxlength = "50" })
@@ -72,7 +72,7 @@
     <div class="row">
         <!-- row Date Time -->
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            Date & Time *
+            Date & Time <span id="i_required_mark"> *</span>
         </div>
         <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
             <div class="form-group">
@@ -97,7 +97,7 @@
             </div>
         </div>
     </div>
-    <div class="row b">
+    <div class="row">
         <!-- row Category -->
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
             Category
@@ -107,11 +107,11 @@
             @Html.ValidationMessageFor(model => model.CategoryID)
         </div>
     </div>
-    <div class="row b" id="LocationDiv">
+    <div class="row" id="LocationDiv">
         <div id="LocationInput">
             <div id="wrapper">
                 <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                    Location *
+                    Location <span id="i_required_mark"> *</span>
                 </div>
                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                     @Html.TextBoxFor(model => model.Location[0].LocationName, new { @class = "LocationInput form-control", @onfocus = "searchLocation(this)", @id = "Location-0" })
@@ -129,7 +129,7 @@
     <div class="row">
         <!-- row Privacy -->
         <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-            Privacy *
+            Privacy <span id="i_required_mark"> *</span>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
             @Html.DropDownList("Privacy", new SelectList(ListPrivacy, "Value", "Text"), new { @class = "form-control" })
@@ -150,7 +150,7 @@
             </div>
         </div>
     </div>
-    <div class="form-group">
+    <div class="row" id="i_group_btn">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" id="btnSubmit" class="btn btn-default" value="Create"/>
             @Html.ActionLink("Cancel", "Index", "Home", null, new { @class = "btn btn-default" })

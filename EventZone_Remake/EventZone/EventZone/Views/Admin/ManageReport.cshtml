@@ -1,107 +1,235 @@
 ﻿@using EventZone.Helpers
 @using EventZone.Models
+
 @{
+    List<Category> listCategory= CommonDataHelpers.Instance.GetAllCategory();
     ViewBag.Title = "ManageReport";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    List<Event> allReportedEvent = EventDatabaseHelper.Instance.GetAllReportedEvent();
-}
-<div class="tab-pane b" id="reported-r">
-    @for (int i = 0; i < allReportedEvent.Count; i++)
-    {
-    Event reportedEvent = allReportedEvent[i];
+    }
+    <style>
+        .myButton {
+            -moz-box-shadow: inset 0px 0px 2px -29px #cc2288;
+            -webkit-box-shadow: inset 0px 0px 2px -29px #cc2288;
+            box-shadow: inset 0px 0px 2px -29px #cc2288;
+            background-color: #d3ebd9;
+            -moz-border-radius: 17px;
+            -webkit-border-radius: 17px;
+            border-radius: 17px;
+            display: inline-block;
+            cursor: pointer;
+            color: #ffffff;
+            font-family: Arial;
+            font-size: 17px;
+            padding: 7px 14px;
+            text-decoration: none;
+            text-shadow: 1px 0px 20px #2f6627;
+        }
 
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_event_card_cover">
-        <!-- e_ để đánh dấu CSS EVENT -->
-        <div class="d_e_info_cover">
-            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 d_e_title">
-                @Html.ActionLink(@EventDatabaseHelper.Instance.GetEventByID(reportedEvent.EventID).EventName, "Details", "Event", new { id = reportedEvent.EventID }, new { target = "_blank" })
-            </div>
-            <div class="col-lg-4 d_group_btn_right">
-                <div class="d_e_btn_more">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-option-vertical"></span>
-                    </button>
-                    <ul class="dropdown-menu d_e_drop_menu" id="ul-lock-unlock-@reportedEvent.EventID">
-                        @if (reportedEvent.Status == EventZoneConstants.Active)
-                        {
-                            <li><a href="#" id="lock-event-@reportedEvent.EventID" onclick="LockEvent(@reportedEvent.EventID)">Lock</a></li>
-                        }
-                        else
-                        {
-                            <li><a href="#" id="unlock-event-@reportedEvent.EventID" onclick="UnlockEvent(@reportedEvent.EventID)">Unlock</a></li>
-                        }
-                    </ul>
-                </div>
-                @if(reportedEvent.Status==EventZoneConstants.Lock){
-                    <div class="d_e_btn_lock">
-                        <button type="button" class="btn">
-                            <span class="fa fa-lock d_fa_icon">Locked</span> 
-                        </button>
-                    </div>
-                }
-                
-            </div>
-            <div class="d_e_cate">
-                <i class="fa fa-list-ul"></i>
-                <div class="d_fill_in">in <a href=""><i>@CommonDataHelpers.Instance.GetCategoryById(reportedEvent.CategoryID).CategoryName</i></a></div>
-            </div>
-            <div class="number-report">
 
-                <div class="d_fill_in">Number report:<a href="#" data-toggle="modal" data-target="#all-report-@reportedEvent.EventID"><i>@EventDatabaseHelper.Instance.GetListReportOfEvent(reportedEvent.EventID).Count</i></a></div>
-            </div>
-            @Html.Action("ViewDetailReport", "Admin", new { eventID = reportedEvent.EventID })
-            @if (EventDatabaseHelper.Instance.GetListAppealOfEvent(reportedEvent.EventID).Count > 0)
-            {
-
-                <div class="number-appeal">
-                    
-                    <div class="d_fill_in">Number Appeal:<a href="#" data-toggle="modal" data-target="#i_appeal_modal-@reportedEvent.EventID"><i>@EventDatabaseHelper.Instance.GetListAppealOfEvent(reportedEvent.EventID).Count</i></a></div>
-                </div>
-                @Html.Action("ViewDetailAppeal", "Admin", new { eventID = reportedEvent.EventID })
-
+            .myButton:hover {
+                background-color: #de45d4;
             }
 
+            .myButton:active {
+                position: relative;
+                top: 1px;
+            }
+    </style>
 
-
-            <div class="d_e_user">
-                <i class="fa fa-user"></i>
-                <div class="d_fill_in">By: @EventDatabaseHelper.Instance.GetAuthorEvent(reportedEvent.EventID).UserName</div>
-            </div>
-            <div class="d_e_btn_desciption">
-                <i class="fa fa-file-text"></i>
-                <div class="d_fill_in"><a href="#" onclick="showModalDescription('@reportedEvent.EventName','@reportedEvent.EventDescription')"><i>View Description</i></a></div>
-            </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 interactButton" style="margin-left: 5%; margin-bottom: 10px">
+        <input type="text" name="Keyword" id="Keyword" class="form-control" aria-label="Text input with segmented button dropdown" placeholder="Search for events or categories" style="width: 250px; display: inline-block">
+        <button class="btn btn-default" id="btn-search">
+            <span class="glyphicon glyphicon-search"></span>
+        </button>
+        <button class="myButton" id="filter-all">All</button>
+        <button class="myButton" id="filter-locked">Locked</button>
+        <button class="myButton" id="filter-pendingReport">Pending Report</button>
+        <button class="myButton" id="filter-pendingAppeal">Pending Apeal</button>
+        Sort by
+        <span class="select-style">
+            <select id="category">
+                <option value="-1">Default</option>
+                @if (listCategory != null)
+                {
+                    foreach (var item in listCategory)
+                    {
+                        <option value="@item.CategoryID">@item.CategoryName</option>
+                     
+                    }
+                }
+      
+            </select>
+        </span>
+        <div>
+            <h4>
+                <span id="number-result">
+                </span>
+            </h4>
         </div>
     </div>
-    }
-</div>
-<div class="modal fade" id="i_Modal_des" role="dialog">
-    <div class="modal-dialog">
 
-        <!-- Modal Description content: gồm tên & Phần Description -->
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <button type="button" class="close" data-dismiss="modal"></button>
-                <div class="panel-title"><b id="event-name"></b></div>
-            </div>
-            <div style="padding-top:10px" class="panel-body">
-                <div class="d_des_content" id="des-content">
-                </div>
-            </div>
+    <div>
+        <div style="height:450px" class="scroll-content" id="report-r">
+            @Html.Action("SearchReport", "Admin")
         </div>
-
-        <!-- Iframe mới
-        <iframe src="t_m_modal_ad_search.html"></iframe> -->
     </div>
-</div>
+    @Html.Partial("_DescriptionModal")
+    <script>
+        //showDescription Of Event
+        function showModalDescription(eventName, eventDescription) {
+            $("#event-name").empty();
+            $("#event-name").append("<p>" + eventName + "</p>");
+            $("#des-content").empty();
+            $("#des-content").append("<p>" + eventDescription + "</p>");
+            $("#i_Modal_des").modal("show");
+        }
+        ///default search
+        var all = true;
+        var locked = false;
+        var pendingReport = false;
+        var pendingAppeal = false;
+        var page = 2;
 
-<script>
-    function showModalDescription(eventName, eventDescription) {
-        $("#event-name").empty();
-        $("#event-name").append("<p>" + eventName + "</p>");
-        $("#des-content").empty();
-        $("#des-content").append("<p>" + eventDescription + "</p>");
-        $("#i_Modal_des").modal("show");
-    }
+        var category = $("#category").val();
+        $("#category").change(function () {
+            category = $("#category").val();
+            $("#report-r").empty();
+            page = 1;
+            Search();
+        })
+        var keyword;
+        $("#Keyword").change(function () {
+            keyword = $("#Keyword").val();
 
-</script>
+        })
+        //button all click
+        $("#filter-all").css("background", "#de45d4")
+        $("#filter-all").click(function () {
+            //mod = false;
+            //user = false;
+            locked = false;
+            pendingReport = false;
+            pendingAppeal = false;
+            all = true;
+            $(".myButton").prop('disabled', false);
+            $(".myButton").css("background", "#d3ebd9")
+            $("#filter-all").css("background", "#de45d4")
+            page = 1;
+            $("#reported-r").empty();
+            Search();
+        })
+
+        ///button locked click
+        $("#filter-locked").click(function () {
+            if (locked) {
+                $("#filter-locked").css("background", "#d3ebd9")
+                locked = false;
+                page = 1;
+                $("#report-r").empty();
+                $(".myButton").prop('disabled', true);
+                Search();
+            }
+            else {
+                $("#filter-locked").css("background", "#de45d4")
+                locked = true;
+                $("#filter-all").css("background", "#d3ebd9")
+                all = false;
+                page = 1;
+                $(".myButton").prop('disabled', true);
+                $("#report-r").empty();
+                Search();
+            }
+        })
+        ///button pending report click
+        $("#filter-pendingReport").click(function () {
+            if (pendingReport) {
+                $("#filter-pendingReport").css("background", "#d3ebd9")
+                pendingReport = false;
+                page = 1;
+                $(".myButton").prop('disabled', true);
+                $("#report-r").empty();
+                Search();
+            }
+            else {
+                $("#filter-pendingReport").css("background", "#de45d4")
+                pendingReport = true;
+                $("#filter-all").css("background", "#d3ebd9")
+                all = false;
+                page = 1;
+                $(".myButton").prop('disabled', true);
+                $("#report-r").empty();
+                Search();
+            }
+        })
+
+        ///button
+        $("#filter-pendingAppeal").click(function () {
+            if (pendingAppeal) {
+                $("#filter-pendingAppeal").css("background", "#d3ebd9")
+                pendingAppeal = false;
+                page = 1;
+                $(".myButton").prop('disabled', true);
+                $("#report-r").empty();
+                Search();
+            }
+            else {
+                $("#filter-pendingAppeal").css("background", "#de45d4")
+                pendingAppeal = true;
+                $("#filter-all").css("background", "#d3ebd9")
+                all = false;
+                page = 1;
+                $(".myButton").prop('disabled', true);
+                $("#report-r").empty();
+                Search();
+            }
+        })
+
+
+        //set time delay when press to search
+        var delay = (function () {
+            var timer = 0;
+            return function (callback, ms) {
+                clearTimeout(timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
+        $('#Keyword').keyup(function () {
+            delay(function () {
+                page = 1;
+                $(".myButton").prop('disabled', true);
+                $("#report-r").empty();
+                Search();
+            }, 2000);
+        });
+
+        ///ajax search reported event
+        function Search() {
+            $.ajax({
+                url: "/Admin/SearchReport",
+                type: "post",
+                dataType: "html",
+                data: { keyword: keyword, all: all, locked: locked, pendingAppeal: pendingAppeal, pendingReport: pendingReport, category: category, page: page },
+                success: function (data) {
+                    $(".myButton").prop('disabled', false);
+                    $("#report-r").append(data);
+                    page = page + 1;
+                    $("#loading").remove();
+                },
+                error: function () {
+                    $(".myButton").prop('disabled', false);
+                }
+            })
+        }
+
+        //target scroll
+        $(document).ready(function () {
+            $('#report-r').bind('scroll', EventScroll);
+        });
+        function EventScroll(e) {
+            var elem = $(e.currentTarget);
+            if ((elem.innerHeight() + elem.scrollTop()) >= elem[0].scrollHeight && page >= 2) {
+                Search()
+            }
+        }
+
+    </script>

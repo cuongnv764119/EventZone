@@ -351,6 +351,7 @@
     <Content Include="Content\Event\font-awesome.min.css" />
     <Content Include="Content\Event\lightview.css" />
     <Content Include="Content\myCSS_l_a.css" />
+    <Content Include="img\CurrentMarker.png" />
     <Content Include="img\verifiedEvent.png" />
     <Content Include="img\verify.jpg" />
     <Content Include="Scripts\Admin\AddNewUser.js" />
@@ -569,7 +570,6 @@
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Search\SearchAdvance.cshtml" />
     <Content Include="Views\Search\SearchResult.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Account\SignIn.cshtml" />
     <Content Include="Views\Account\SignUp.cshtml" />
     <Content Include="Views\Categories\Index.cshtml" />
@@ -604,7 +604,6 @@
     <Content Include="Views\Admin\_ChangeUserEmail.cshtml" />
     <Content Include="Views\Admin\ManageReport.cshtml" />
     <Content Include="Views\Admin\ViewDetailReport.cshtml" />
-    <Content Include="Views\Event\Index.cshtml" />
     <Content Include="Views\User\Event.cshtml" />
     <Content Include="Views\Admin\Statistic.cshtml" />
     <Content Include="Views\Event\EditEvent.cshtml" />
@@ -617,6 +616,13 @@
     <Content Include="Views\User\_EventPage.cshtml" />
     <Content Include="Views\User\_ViewReport.cshtml" />
     <Content Include="Views\Shared\_LocationEvent.cshtml" />
+    <Content Include="Views\Admin\_DescriptionModal.cshtml" />
+    <Content Include="Views\Admin\_ModalShowScoreEvent.cshtml" />
+    <Content Include="Views\Admin\_PagingEvent.cshtml" />
+    <Content Include="Views\Admin\_PagingReport.cshtml" />
+    <Content Include="Views\Admin\_PagingUser.cshtml" />
+    <Content Include="Views\Home\_LoadCategoryInformation.cshtml" />
+    <Content Include="Views\Shared\_NotificationDisplay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -89,8 +89,6 @@ li { list-style-type: none; }
 .d_style_of_tabs .nav-tabs > li.active > a:hover,		
 .d_style_of_tabs .nav-tabs > li.active > a:focus{		
     border: 0px;		
-    border-bottom: 3px solid;		
-    color: rgb(255, 68, 0);		
     background: transparent;		
 }		
 .d_style_of_tabs .nav-tabs > li > a{		
@@ -243,7 +241,7 @@ li { list-style-type: none; }
     left: 0px;
     margin-left: -70px;
     margin-top: 0px;
-    max-width: 20em;
+    max-width: 23em;
     min-width: 10em;
     padding-left: 10px;
     padding-right: 10px;
@@ -274,8 +272,15 @@ li { list-style-type: none; }
     margin-left: 0px;		
     width: 200px;		
     padding: 0 25px;		
-    top: 51px;		
+    top: 51px;
+    display: none;
 }		
+#i_drdn_cate:hover .d_drop_cate {
+    display: block;
+}
+#i_drdn_user:hover .d_drop_user {
+    display: block;
+}
 .d_drop_user li,		
 .d_drop_cate li {		
     margin: 15px 0;		

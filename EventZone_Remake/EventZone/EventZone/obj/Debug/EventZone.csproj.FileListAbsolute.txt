@@ -377,3 +377,285 @@ D:\New folder (3)\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\Event
 D:\New folder (3)\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.csprojResolveAssemblyReference.cache
 D:\New folder (3)\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.dll
 D:\New folder (3)\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EventZone.dll.config
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EventZone.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EventZone.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Antlr3.Runtime.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\ASPSnippets.GoogleAPI.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\AWSSDK.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\BouncyCastle.Crypto.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.Core.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.SqlServer.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.Mvc4.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.PlatformServices.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Core.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Drive.v2.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Oauth2.v2.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.PlatformServices.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.YouTube.v3.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\log4net.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.Core.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.OAuth.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Web.Infrastructure.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Newtonsoft.Json.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Owin.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Quartz.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Extensions.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Primitives.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Helpers.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Mvc.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Optimization.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Razor.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Deployment.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Razor.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\WebGrease.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Zlib.Portable.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Antlr3.Runtime.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\AWSSDK.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\BouncyCastle.Crypto.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.Core.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.SqlServer.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.Mvc4.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.Mvc4.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.PlatformServices.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.PlatformServices.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Core.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Core.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Drive.v2.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Oauth2.v2.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.PlatformServices.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.PlatformServices.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.YouTube.v3.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\log4net.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.OAuth.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Newtonsoft.Json.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Quartz.pdb
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Quartz.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Extensions.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Primitives.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Helpers.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Mvc.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Razor.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Deployment.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Razor.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Optimization.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Zlib.Portable.xml
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.csproj.App.config
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.csprojResolveAssemblyReference.cache
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.dll
+D:\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EventZone.dll.config
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EventZone.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EventZone.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Antlr3.Runtime.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\ASPSnippets.GoogleAPI.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\AWSSDK.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\BouncyCastle.Crypto.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.Core.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.SqlServer.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.Mvc4.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.PlatformServices.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Core.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Drive.v2.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Oauth2.v2.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.PlatformServices.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.YouTube.v3.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\log4net.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Newtonsoft.Json.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Owin.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Quartz.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Extensions.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Primitives.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Helpers.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Mvc.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Optimization.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Razor.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Razor.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\WebGrease.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Zlib.Portable.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Antlr3.Runtime.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\AWSSDK.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\BouncyCastle.Crypto.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.Core.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.SqlServer.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.Mvc4.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.Mvc4.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.PlatformServices.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.PlatformServices.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Core.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Core.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Drive.v2.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Oauth2.v2.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.PlatformServices.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.PlatformServices.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.YouTube.v3.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\log4net.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Newtonsoft.Json.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Quartz.pdb
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Quartz.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Extensions.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Primitives.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Helpers.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Mvc.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Razor.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Razor.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Optimization.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Zlib.Portable.xml
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.csproj.App.config
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.csprojResolveAssemblyReference.cache
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.dll
+C:\Users\Felix Phan\Desktop\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EventZone.dll.config
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EventZone.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EventZone.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Antlr3.Runtime.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\ASPSnippets.GoogleAPI.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\AWSSDK.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\BouncyCastle.Crypto.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.Core.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.SqlServer.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.Mvc4.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.PlatformServices.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Core.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Drive.v2.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Oauth2.v2.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.PlatformServices.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.YouTube.v3.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\log4net.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.Core.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Host.SystemWeb.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.OAuth.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Web.Infrastructure.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Newtonsoft.Json.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Owin.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Quartz.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Extensions.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Primitives.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Helpers.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Mvc.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Optimization.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Razor.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Deployment.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Razor.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\WebGrease.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Zlib.Portable.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Antlr3.Runtime.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\AWSSDK.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\BouncyCastle.Crypto.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Common.Logging.Core.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\EntityFramework.SqlServer.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.Mvc4.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.Mvc4.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.PlatformServices.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Auth.PlatformServices.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Core.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Core.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Drive.v2.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.Oauth2.v2.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.PlatformServices.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.PlatformServices.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Google.Apis.YouTube.v3.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\log4net.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.Core.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Host.SystemWeb.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Owin.Security.OAuth.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Microsoft.Threading.Tasks.Extensions.Desktop.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Newtonsoft.Json.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Quartz.pdb
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Quartz.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Extensions.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Net.Http.Primitives.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Helpers.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Mvc.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Razor.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Deployment.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.WebPages.Razor.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\System.Web.Optimization.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\bin\Zlib.Portable.xml
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.csproj.App.config
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.csprojResolveAssemblyReference.cache
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.dll
+B:\Users\cuongnvse02837\Downloads\Compressed\EventZone_2_2\EventZone_2\EventZone\EventZone_Remake\EventZone\EventZone\obj\Debug\EventZone.pdb

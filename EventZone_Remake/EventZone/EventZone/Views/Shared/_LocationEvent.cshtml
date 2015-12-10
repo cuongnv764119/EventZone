@@ -4,39 +4,37 @@
 @model EventZone.Models.ViewThumbEventModel
 @using EventZone.Helpers
     
-        <!-- Each event trong khung kết quả -->
-        <div class="d_each_event">
-
-            <!-- DETAIL TITLE & INFO -->
-            <div class="d_event_info">
-                <!-- TITLE -->
-                <div class="d_event_title">
-                    @Html.ActionLink(@Model.evt.EventName, "Details", "Event", new { id = @Model.evt.EventID }, null)
-                </div>
-                <!-- INFO -->
-                <div class="d_info_piece">
-                    <div class="d_icon glyphicon glyphicon-time">
-                    </div>
-                    <div class="d_icon_info d_event_time">
-                        From @Model.evt.EventStartDate.DayOfWeek <span> @Model.evt.EventStartDate.ToShortTimeString() @Model.evt.EventStartDate.ToShortDateString()</span>
-                        @if (Model.evt.EventEndDate != null && Model.evt.EventEndDate > Model.evt.EventEndDate)
-                        {
-                            <span><br />To   @Model.evt.EventEndDate.DayOfWeek</span> <span>@Model.evt.EventEndDate.ToShortTimeString() @Model.evt.EventEndDate.ToShortDateString()</span>
-                        }
-                    </div>
+<!-- Each event trong khung kết quả -->
+<div class="d_each_event">
+    <!-- DETAIL TITLE & INFO -->
+    <div class="d_event_info">
+        <!-- TITLE -->
+        <div class="d_event_title">
+            @Html.ActionLink(@Model.evt.EventName, "Details", "Event", new { id = @Model.evt.EventID }, null)
+        </div>
+        <!-- INFO -->
+        <div class="d_info_piece">
+            <div class="d_icon glyphicon glyphicon-time">
+            </div>
+            <div class="d_icon_info d_event_time">
+                From @Model.evt.EventStartDate.DayOfWeek <span> @Model.evt.EventStartDate.ToShortTimeString() @Model.evt.EventStartDate.ToShortDateString()</span>
+                @if (Model.evt.EventEndDate != null && Model.evt.EventEndDate > Model.evt.EventEndDate)
+                {
+                    <span><br />To   @Model.evt.EventEndDate.DayOfWeek</span> <span>@Model.evt.EventEndDate.ToShortTimeString() @Model.evt.EventEndDate.ToShortDateString()</span>
+                }
+            </div>
                     
+          
+                <div class="d_icon glyphicon glyphicon-map-marker">
+                </div>
+                <div class="d_icon_info d_event_time">
+                    @Model.location[0].LocationName
                     @if (Model.location.Count > 1)
-                    {
-                        <div class="d_icon glyphicon glyphicon-map-marker">
-                        </div>
-                        for (int i = 1; i < Model.location.Count; i++)
-                        {
-                            <div class="d_icon_info d_event_time">
-                                @Model.location[i].LocationName
-                            </div>
-                        }
+                    { 
+                     <span>(and @Model.location.GetRange(1,Model.location.Count-1).Count) more location</span>
                     }
                 </div>
-            </div>
         </div>
+    </div>
+</div>
 

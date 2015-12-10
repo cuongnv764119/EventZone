@@ -29,8 +29,8 @@ namespace EventZone.Models
         public virtual DbSet<Appeal> Appeals { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CategoryFollow> CategoryFollows { get; set; }
-        public virtual DbSet<Channel> Channels { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Channel> Channels { get; set; }
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<EventFollow> EventFollows { get; set; }
         public virtual DbSet<EventImage> EventImages { get; set; }

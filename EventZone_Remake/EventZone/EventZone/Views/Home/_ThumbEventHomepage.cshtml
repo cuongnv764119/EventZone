@@ -2,7 +2,7 @@
 @using EventZone.Helpers
 @using EventZone.Models
 @{
-    User user = UserHelpers.GetCurrentUser(Session);    
+    User user = UserHelpers.GetCurrentUser(Session);
 
 }
 
@@ -14,133 +14,119 @@
 
         <!-- ee_ đánh dấu file Each_Event.html -->
 
-        <li>
-            <div class="d_each_event">
-                <section id="myFlipper" class="flipper-container _flipper-left" style="perspective: 2000px;">
-                    <div id="flipper-inside" style="transition: all 0.5s ease;">
-                        <div class="front _flipper-front">
-                            <section class="front__content">
-                                <img src="@item.avatar">
-                                @if (EventDatabaseHelper.Instance.isLive(@item.EventID))
-                                {
-                                    <div class="d_live_mark">
-                                        <span class="glyphicon glyphicon-bookmark"></span>
-                                    </div>
-                                 <div class="d_live_text">
-                                    Live
-                                </div>
-                                }@if (@item.IsVeried)
-                                {
-                                    <div class="d_live_mark">
-                                        <span class="glyphicon glyphicon-bookmark"></span>
-                                        <img style="height:40px;width:40px" src="~/img/verifiedEvent.png" />
-                                    </div>
-                                    <div class="d_live_text">
-                                        Live
-                                    </div>
+            <li>
+                <div class="d_each_event">
+                    <section id="myFlipper" class="flipper-container _flipper-left" style="perspective: 2000px;">
+                        <div id="flipper-inside" style="transition: all 0.5s ease;">
+                            <div class="front _flipper-front">
+                                <section class="front__content">
+                                    <img src="@item.avatar">
+                                    @if (EventDatabaseHelper.Instance.isLive(@item.EventID))
+                                    {
+                                        <div class="d_live_mark">
+                                            <span class="glyphicon glyphicon-bookmark"></span>
+                                        </div>
+                                        <div class="d_live_text">
+                                            Live
+                                        </div>
+                                    }@if (@item.IsVeried)
+                                    {
+                                        <!-- <div class="d_live_mark">
+                                             <span class="glyphicon glyphicon-bookmark"></span>
+                                             <img style="height:40px;width:40px" src="~/img/verifiedEvent.png" />
+                                         </div>-->
+                                        <div class="d_live_text">
+                                            <span class="d_live_dot">●</span>Live
+                                        </div>
 
-                                }
-                                <div class="d_ee_front_info">
-                                    <div class="d_title">
-                                        @Html.ActionLink(@item.EventName, "Details", "Event", new {id = item.EventID}, null)
-                                    </div>
-                                    <div class="d_time first">
-                                        <div class="glyphicon glyphicon-time"></div>
-                                        <div class="d_short_des d_time">
-                                            @item.StartDate.DayOfWeek <span> @item.StartDate.Day</span><span>/@item.StartDate.Month</span><span>/@item.StartDate.Year</span>
+                                    }
+                                    <div class="d_ee_front_info">
+                                        <div class="d_title">
+                                            @Html.ActionLink(@item.EventName, "Details", "Event", new { id = item.EventID }, null)
                                         </div>
-                                    </div>
-                                    <div class="d_location">
-                                        <div class="glyphicon glyphicon-map-marker"></div>
-                                        <div class="d_short_des d_location">
-                                            @item.listLocation[0].LocationName
+                                        <div class="d_time first">
+                                            <div class="glyphicon glyphicon-time"></div>
+                                            <div class="d_short_des d_time">
+                                                @item.StartDate.DayOfWeek <span> @item.StartDate.Day</span><span>/@item.StartDate.Month</span><span>/@item.StartDate.Year</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="d_group_btn">
-                                        <button type="button" class="btn btn-default btn-xs" onclick="followEvent(this.value)" value="@item.EventID">
-                                            <span class="follow-@item.EventID-status">
-                                                @if (user != null && UserDatabaseHelper.Instance.IsFollowingEvent(user.UserID, @item.EventID))
+                                        <div class="d_location">
+                                            <div class="glyphicon glyphicon-map-marker"></div>
+                                            <div class="d_short_des d_location">
+                                                @{
+            string[] location = @item.listLocation[0].LocationName.Split(',');
+                                                }
+                                                @if (location.Length > 2)
                                                 {
-                                                    <text>Followed</text>
+                                                    <text>@location[location.Length - 2],@location[location.Length - 1]</text>
                                                 }
                                                 else
                                                 {
-                                                    <text>Follow</text>
+                                                    <text>@location[location.Length - 1]</text>
                                                 }
-                                            </span>
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="share(@item.EventID)">
-                                            Share
-                                        </button>
-                                    </div>
-                                </div>
-                            </section>
-                        </div>
-                        <div class="back _flipper-back">
-                            <section class="front__content">
-                                <img src="@item.avatar">
-                                @if (EventDatabaseHelper.Instance.isLive(@item.EventID))
-                                {
-                                    <div class="d_live_mark">
-                                        <span class="glyphicon glyphicon-bookmark"></span>
-                                    </div>
-                                    <div class="d_live_text">
-                                        Live
-                                    </div>
-                                }@if (@item.IsVeried)
-                                {
-                                    <div class="d_live_mark">
-                                        <span class="glyphicon glyphicon-bookmark"></span>
-                                        <img style="height:40px;width:40px" src="~/img/verifiedEvent.png" />
-                                    </div>
-                                    <div class="d_live_text">
-                                        Live
-                                    </div>
+                                            </div>
+                                        </div>
 
-                                }
-                                <div class="d_ee_front_info">
-                                    <div class="d_title">
-                                        @Html.ActionLink(@item.EventName, "Details", "Event", new { id = item.EventID }, null)
                                     </div>
-                                    <div class="d_time first">
-                                        <div class="glyphicon glyphicon-time"></div>
-                                        <div class="d_short_des d_time">
-                                            @item.StartDate.DayOfWeek <span> @item.StartDate.Day</span><span>/@item.StartDate.Month</span><span>/@item.StartDate.Year</span>
+                                </section>
+                            </div>
+                            <div class="back _flipper-back">
+                                <section class="back__content">
+
+                                    <div class="d_ee_front_info">
+                                        <div class="d_title">
+                                            @Html.ActionLink(@item.EventName, "Details", "Event", new { id = item.EventID }, null)
                                         </div>
-                                    </div>
-                                    <div class="d_location">
-                                        <div class="glyphicon glyphicon-map-marker"></div>
-                                        <div class="d_short_des d_location">
-                                            @item.listLocation[0].LocationName
-                                        </div>
-                                    </div>
-                                    <div class="d_group_btn">
-                                        <button type="button" class="btn btn-default btn-xs" onclick="followEvent(this.value)" value="@item.EventID">
-                                            <span class="follow-@item.EventID-status">
-                                                @if (user != null && UserDatabaseHelper.Instance.IsFollowingEvent(user.UserID, @item.EventID))
+                                        <div class="d_time_left first">
+                                            <div class="glyphicon glyphicon-time"></div>
+                                            <div class="d_icon_info">
+                                                @{
+                                                    var timeSpan = (item.EndDate - DateTime.Now).Days;
+                                                }
+                                                @if (@timeSpan > 0)
                                                 {
-                                                    <text>Followed</text>
+                                                    @timeSpan<text> Days Left</text>
                                                 }
                                                 else
                                                 {
-                                                    <text>Follow</text>
+                                                    var reversedtime = timeSpan*(-1);
+                                                    <text>Ended @reversedtime days ago</text>
                                                 }
-                                            </span>
-                                        </button>
-                                        <button type="button" class="btn btn-default btn-xs" onclick="share(@item.EventID)">
-                                            Share
-                                        </button>
+                                            </div>
+                                        </div>
+                                        <div class="d_author">
+                                            <div class="glyphicon glyphicon-user"></div>
+                                            <div class="d_icon_info">
+                                                by @EventDatabaseHelper.Instance.GetAuthorEvent(item.EventID).UserName
+                                            </div>
+                                        </div>
+                                        <div class="d_group_btn">
+                                            <button type="button" class="btn btn-default btn-xs" onclick="followEvent(this.value)" value="@item.EventID">
+                                                <span class="follow-@item.EventID-status">
+                                                    @if (user != null && UserDatabaseHelper.Instance.IsFollowingEvent(user.UserID, @item.EventID))
+                                                    {
+                                                        <text>Followed</text>
+                                                    }
+                                                    else
+                                                    {
+                                                        <text>Follow</text>
+                                                    }
+                                                </span>
+                                            </button>
+                                            <button type="button" class="btn btn-default btn-xs" onclick="share(@item.EventID)">
+                                                Share
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </section>
+                                </section>
+                            </div>
                         </div>
-                    </div>
-                </section>
-            </div>
-        </li>
+                    </section>
+                </div>
+            </li>
         }
     </ul>
-    }
+}
 
 
 

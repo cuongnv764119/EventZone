@@ -32,7 +32,6 @@
             <div class="d_events_cover scroll-content" id="event-cover">
                 @if (UserDatabaseHelper.Instance.CountOwnedEvent(viewingUser.UserID, isOwner) > 0)
                 {
-                    
                     @Html.Action("PagingEventManage", "User", new { userID = viewingUser.UserID, page = 1,isOwner = isOwner})
                 }
             </div>

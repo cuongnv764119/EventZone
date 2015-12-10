@@ -1,0 +1,59 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@model EventZone.Models.Category
+@{
+    Category item = Model as Category;
+    User user = UserHelpers.GetCurrentUser(Session);
+}
+
+
+    <div class="d_mc_cate_stat_body">
+        <div class="d_stat_cover">
+            <div class="d_stat_new_event">
+                <div class="d_data">
+                    @CommonDataHelpers.Instance.CountNewEventByCategory(item.CategoryID)
+                </div>
+                <div class="d_data_name">
+                    New Event
+                </div>
+            </div>
+            <div class="d_stat_new_follower">
+                <div class="d_data">
+                    <span id="number-follower-category-@item.CategoryID">
+                        @CommonDataHelpers.Instance.CountFollowerByCategory(item.CategoryID)
+                    </span>
+                </div>
+                <div class="d_data_name">
+                    Follower
+                </div>
+            </div>
+            <div class="d_stat_new_live" id="followCount+@item.CategoryID">
+                <div class="d_data">
+                    @CommonDataHelpers.Instance.CountLiveEventByCategory(item.CategoryID)
+                </div>
+                <div class="d_data_name">
+                    Live Event
+                </div>
+            </div>
+            <div class="d_follow_cate">
+                <button type="button" class="btn btn-default btn-md d_btn_follow" onclick="followCategory(this.value)" id="btn-follow-category-@item.CategoryID" value="@item.CategoryID">
+                    <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                    <span class="categoryText" id="follow-category-@item.CategoryID-status">
+                        @if (user != null && UserDatabaseHelper.Instance.IsFollowingCategory(user.UserID, item.CategoryID))
+                        {
+                            <text>
+                                Following
+                            </text>
+                        }
+                        else
+                        {
+                            <text>
+                                Follow
+                            </text>
+                        }
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+

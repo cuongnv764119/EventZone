@@ -17,6 +17,7 @@ namespace EventZone.Controllers
         private readonly EventZoneEntities db = new EventZoneEntities();
        
         // GET: Account
+        [ChildActionOnly]
         public ActionResult SignIn()
         {
           
@@ -102,6 +103,7 @@ namespace EventZone.Controllers
         }
 
         // GET: Account/Details/5
+        [ChildActionOnly]
         public ActionResult SignUp()
         {
            
@@ -265,6 +267,19 @@ namespace EventZone.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 else {
+                    if (Request.Cookies["userName"] != null)
+                    {
+                        HttpCookie userName = Request.Cookies["userName"];
+                        userName.Expires = DateTime.Now.AddDays(-1);
+                        Response.Cookies.Add(userName);
+                    }
+                    //remove cookie password
+                    if (Request.Cookies["password"] != null)
+                    {
+                        HttpCookie password = Request.Cookies["password"];
+                        password.Expires = DateTime.Now.AddDays(-1);
+                        Request.Cookies.Add(password);
+                    }
                     UserHelpers.SetCurrentUser(Session, null);
                     return RedirectToAction("Index", "Home");
                 }

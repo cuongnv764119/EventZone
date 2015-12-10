@@ -314,14 +314,10 @@ namespace EventZone.Controllers
                 TempData["LoadMore"] = false;
             }
             List<ViewThumbUserModel> listView = new List<ViewThumbUserModel>();
-                for (int i = startIndex; i < endIndex; i++) {
+                for (int i = startIndex; i < endIndex+1; i++) {
                     listView.Add(listUser[i]);
                 }
             return PartialView("_UserThumbnail", listView);
         }
-
-            
-
-        
     }
 }

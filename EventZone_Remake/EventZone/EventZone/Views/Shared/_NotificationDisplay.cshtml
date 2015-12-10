@@ -1,0 +1,95 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@{
+    User user = UserHelpers.GetCurrentUser(Session);
+}
+@if (NotificationDataHelpers.Instance.GetUserNotification(user.UserID, false).Count > 0)
+{
+
+    List<NotificationChange> listNewNotification = NotificationDataHelpers.Instance.RemoveDupilicateNotify(NotificationDataHelpers.Instance.GetUserNotification(user.UserID, false), user.UserID);
+
+    for (int i = listNewNotification.Count - 1; i >= 0; i--)
+    {
+        NotificationChange item = listNewNotification[i];
+        int notiType = NotificationDataHelpers.Instance.GetNotificationObjectByID(item.NotificationObjectID).Type;
+        if (notiType == EventZoneConstants.FollowingUserAddNewEvent)
+        {
+            <li>
+                <a onclick="ReadNoty(@item.ID)" href="@Url.Action("Details", "Event", new {id = item.EventID})"><b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b> add a new event</a>
+            </li>
+            <li role="separator" class="divider"></li>
+        }
+        else if (notiType == EventZoneConstants.CommentNotification)
+        {
+            <li>
+                <a onclick="ReadNoty(@item.ID)" href="@Url.Action("Details", "Event", new {id = item.EventID})">
+                    <b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b>
+                    @if (EventDatabaseHelper.Instance.GetUniqueUserComment(item.EventID).Count > 1)
+                    {
+                        <text>
+                            and @EventDatabaseHelper.Instance.GetUniqueUserComment(item.EventID).GetRange(1, EventDatabaseHelper.Instance.GetUniqueUserComment(item.EventID).Count - 1).Count other peopel comment on a post you are following
+                        </text>
+
+
+                    }
+                </a>
+            </li>
+            <li role="separator" class="divider"></li>
+        }
+        else if (notiType == EventZoneConstants.NewFollower)
+        {
+            <li>
+                <a onclick="ReadNoty(@item.ID)" href="@Url.Action("Index", "User")">You Have new @NotificationDataHelpers.Instance.GetNewUserFollowNotify(item.ActorID, user.UserID, false).Count follower(s)</a>
+            </li>
+            <li role="separator" class="divider"></li>
+        }
+        else if (notiType == EventZoneConstants.RequestUploadImage)
+        {
+            <li>
+                <a onclick="ReadNoty(@item.ID)" href="@Url.Action("Details", "Event", new {id = item.EventID})"><b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b> request add images to your event <b>@EventDatabaseHelper.Instance.GetEventByID(item.EventID).EventName</b></a>
+            </li>
+            <li role="separator" class="divider"></li>
+        }
+        else if (notiType == EventZoneConstants.EventHasBeenLocked)
+        {
+            <li>
+                <a onclick="ReadNoty(@item.ID)" href="@Url.Action("Details", "Event", new {id = item.EventID})">Your event <b>@EventDatabaseHelper.Instance.GetEventByID(item.EventID).EventName</b> has been locked</a>
+            </li>
+            <li role="separator" class="divider"></li>
+        }
+        else if (notiType == EventZoneConstants.EventHasBeenUnLocked)
+        {
+            <li>
+                <a onclick="ReadNoty(@item.ID)" href="@Url.Action("Details", "Event", new {id = item.EventID})">Good new! Your event <b>@EventDatabaseHelper.Instance.GetEventByID(item.EventID).EventName</b> has been unlocked</a>
+            </li>
+            <li role="separator" class="divider"></li>
+        }
+        else if (notiType == EventZoneConstants.ReportNotification)
+        {
+            <li>
+                <a onclick="ReadNoty(@item.ID)" href="@Url.Action("Details", "Event", new {id = item.EventID})">
+                    Your event has been reported by <b>@UserDatabaseHelper.Instance.GetUserDisplayName(item.ActorID)</b>
+                    @if (EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count > 1)
+                    {
+                        <text>
+                            and @EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).GetRange(1, EventDatabaseHelper.Instance.GetEventReport(item.EventID, EventZoneConstants.Pending).Count - 1).Count other users </text>}
+                </a>
+            </li>
+            <li role="separator" class="divider"></li>
+        }
+    }
+}
+<script>
+    function ReadNoty(notificationChangeID) {
+        $.ajax({
+            url: "/User/ReadNotification",
+            type: "post",
+            dataType: "json",
+            data: { notificationChangeID: notificationChangeID },
+            success: function () {
+                console.log("11");
+            },
+            error: function () { }
+        });
+    }
+</script>

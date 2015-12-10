@@ -22,7 +22,8 @@ namespace EventZone.Controllers
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public ActionResult Index(long userID=-1) {
+        public ActionResult Index(long userID = -1)
+        {
             User user = UserHelpers.GetCurrentUser(Session);
             if (userID == -1)
             {
@@ -55,7 +56,8 @@ namespace EventZone.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            else {
+            else
+            {
                 user = UserDatabaseHelper.Instance.GetUserByID(userID);
                 if (user == null)
                 {
@@ -63,14 +65,15 @@ namespace EventZone.Controllers
                     TempData["errorMessage"] = "Ops.. This user does not exists in the system!";
                     return RedirectToAction("Index", "Home");
                 }
-                else if (user.AccountStatus == EventZoneConstants.Lock) {
+                else if (user.AccountStatus == EventZoneConstants.Lock)
+                {
                     TempData["errorTitle"] = "Locked User";
                     TempData["errorMessage"] = "Ops.. This user has been locked!";
                     return RedirectToAction("Index", "Home");
                 }
             }
             return View(user);
-       }
+        }
         /// <summary>
         /// view report
         /// </summary>
@@ -78,7 +81,7 @@ namespace EventZone.Controllers
         /// <param name="type"></param>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public ActionResult ViewReport(long eventID, int type = -1,long userID=-1)
+        public ActionResult ViewReport(long eventID, int type = -1, long userID = -1)
         {
             List<Report> listReport = new List<Report>();
             listReport = EventDatabaseHelper.Instance.GetEventReport(eventID, type, userID);
@@ -169,8 +172,9 @@ namespace EventZone.Controllers
             User user = UserHelpers.GetCurrentUser(Session);
             if (user != null)
             {
-                if (UserDatabaseHelper.Instance.FollowPeople(user.UserID, userID)) {
-                    NotificationDataHelpers.Instance.SendNotiNewFollower(userID,user.UserID);
+                if (UserDatabaseHelper.Instance.FollowPeople(user.UserID, userID))
+                {
+                    NotificationDataHelpers.Instance.SendNotiNewFollower(userID, user.UserID);
                     return Json(new
                     {
                         state = 1,
@@ -180,9 +184,9 @@ namespace EventZone.Controllers
             }
             return Json(new
             {
-                state=0,
-                error="Error",
-                message="Something wrong! Please reload page and try again!"
+                state = 0,
+                error = "Error",
+                message = "Something wrong! Please reload page and try again!"
             });
         }
         public JsonResult UnFollowUser(long userID)
@@ -235,7 +239,7 @@ namespace EventZone.Controllers
             User user = UserHelpers.GetCurrentUser(Session);
             if (user == null)
             {
-                TempData["errorTitle"]="Require Signin";
+                TempData["errorTitle"] = "Require Signin";
                 TempData["errorMessage"] = "Ops.. It look like you are current is not signed in system! Please sign in first!";
                 return RedirectToAction("Index", "Home");
             }
@@ -302,27 +306,29 @@ namespace EventZone.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangePasswordPost(ChangePasswordView chgpwd) {
+        public ActionResult ChangePasswordPost(ChangePasswordView chgpwd)
+        {
             if (!ModelState.IsValid)
-            return Json(new
-            {
-                state = 0,
-                message = "Invalid model"
-            });
+                return Json(new
+                {
+                    state = 0,
+                    message = "Invalid model"
+                });
             User user = UserHelpers.GetCurrentUser(Session);
             if (user == null)
             {
-              
+
                 return Json(new
                 {
                     state = 0,
                     message = "require signin"
                 });
             }
-            else {
+            else
+            {
                 if (!UserDatabaseHelper.Instance.ValidateUser(user.UserName, chgpwd.OldPassword))
                 {
-                   
+
                     return Json(new
                     {
                         state = 0,
@@ -338,7 +344,8 @@ namespace EventZone.Controllers
                         message = ""
                     });
                 }
-                else {
+                else
+                {
                     return Json(new
                     {
                         state = 0,
@@ -346,9 +353,10 @@ namespace EventZone.Controllers
                     });
                 }
             }
-            
+
         }
-        public ActionResult UpdateInfo() {
+        public ActionResult UpdateInfo()
+        {
             User userSession = UserHelpers.GetCurrentUser(Session);
 
             if (userSession == null)
@@ -366,7 +374,7 @@ namespace EventZone.Controllers
             editUserModel.Place = userSession.Place;
             editUserModel.IDCard = userSession.IDCard;
             return PartialView(editUserModel);
-        
+
         }
         public ActionResult UpdateInfoPost(EditUserModel editUserModel)
         {
@@ -412,8 +420,9 @@ namespace EventZone.Controllers
         }
         public ActionResult ManageFollow(long userID = -1)
         {
-            User user= UserHelpers.GetCurrentUser(Session);
-            if (userID == -1) {
+            User user = UserHelpers.GetCurrentUser(Session);
+            if (userID == -1)
+            {
                 if (user == null)
                 {
                     TempData["errorTitle"] = "Require Signin";
@@ -430,7 +439,7 @@ namespace EventZone.Controllers
             TempData["ListFollower"] = listFollower;
             return PartialView("_ManageFollow");
         }
-        public ActionResult ReportEvent(int typeReport=-1, string reportContent="", long eventId=-1 )
+        public ActionResult ReportEvent(int typeReport = -1, string reportContent = "", long eventId = -1)
         {
             if (eventId == -1 || typeReport == -1)
             {
@@ -461,35 +470,36 @@ namespace EventZone.Controllers
                     message = "You cant report your event!",
                 });
             }
-            else {
+            else
+            {
 
                 Report newReport = UserDatabaseHelper.Instance.ReportEvent(user.UserID, eventId, typeReport, reportContent);
                 if (newReport != null)
                 {
-                   NotificationDataHelpers.Instance.SendNotiNewReport(EventDatabaseHelper.Instance.GetAuthorEvent(eventId).UserID, user.UserID, eventId);
+                    NotificationDataHelpers.Instance.SendNotiNewReport(EventDatabaseHelper.Instance.GetAuthorEvent(eventId).UserID, user.UserID, eventId);
 
                     return Json(new
                     {
                         state = 1,
-                        newReportType= newReport.ReportType,
-                        newReportDate= newReport.ReportDate.ToString()
+                        newReportType = newReport.ReportType,
+                        newReportDate = newReport.ReportDate.ToString()
                     });
                 }
                 return Json(new
                 {
                     state = 0,
-                    error="Error",
-                    message="Somthing wrong..."
+                    error = "Error",
+                    message = "Somthing wrong..."
                 });
-                
+
             }
-        
+
         }
-        public ActionResult Event(long userID=-1)
+        public ActionResult Event(long userID = -1)
         {
-           
+
             User user = UserHelpers.GetCurrentUser(Session);
-           
+
             if (userID == -1)
             {
                 if (user == null)
@@ -523,7 +533,7 @@ namespace EventZone.Controllers
             }
             else
             {
-                if (user!=null &&user.UserID == userID)
+                if (user != null && user.UserID == userID)
                 {
                     return RedirectToAction("Event", "User");
                 }
@@ -564,37 +574,42 @@ namespace EventZone.Controllers
                     message = "You cant not appeal an event which is created by another users",
                 });
             }
-            else {
-                Appeal newAppeal = new Appeal { AppealStatus=EventZoneConstants.Pending, 
-                                                EventID=eventID,
-                                                SendDate=DateTime.Now,
-                                                AppealContent = content,
-                                                };
+            else
+            {
+                Appeal newAppeal = new Appeal
+                {
+                    AppealStatus = EventZoneConstants.Pending,
+                    EventID = eventID,
+                    SendDate = DateTime.Now,
+                    AppealContent = content,
+                };
                 if (EventDatabaseHelper.Instance.AddNewAppeal(newAppeal))
                 {
                     return Json(new
                     {
                         state = 1,
-                        eventID =  eventID
+                        eventID = eventID
                     });
                 }
-                else {
+                else
+                {
                     return Json(new
                     {
                         state = 0,
-                        error="error",
-                        message="Something wrong! please try again later!   "
+                        error = "error",
+                        message = "Something wrong! please try again later!   "
                     });
                 }
             }
-        
+
         }
         public ActionResult PagingEventManage(long userID, int page, bool isOwner)
         {
             List<Event> listEvent = UserDatabaseHelper.Instance.GetUserEvent(userID, -1, isOwner);
             int startIndex = (page - 1) * 10;
             int endIndex = (listEvent.Count) < (page * 10) ? (listEvent.Count - 1) : (page * 10) - 1;
-            if (startIndex > endIndex) {
+            if (startIndex > endIndex)
+            {
                 return null;
             }
             if (listEvent == null)
@@ -611,18 +626,20 @@ namespace EventZone.Controllers
                 TempData["LoadMore"] = false;
             }
             List<Event> listView = new List<Event>();
-            for (int i = startIndex; i < endIndex; i++)
+            for (int i = startIndex; i < endIndex + 1; i++)
             {
                 listView.Add(listEvent[i]);
             }
             return PartialView("_EventPage", listView);
         }
-        public ActionResult PagingReportManage(int page) {
+        public ActionResult PagingReportManage(int page)
+        {
             User user = UserHelpers.GetCurrentUser(Session);
             List<Event> listEventHasReports = UserDatabaseHelper.Instance.GetAllEventHasReports(user.UserID);
             int startIndex = (page - 1) * 10;
             int endIndex = (listEventHasReports.Count) < (page * 10) ? (listEventHasReports.Count - 1) : (page * 10) - 1;
-              if (startIndex > endIndex) {
+            if (startIndex > endIndex)
+            {
                 return null;
             }
             if (listEventHasReports == null)
@@ -638,14 +655,65 @@ namespace EventZone.Controllers
             {
                 TempData["LoadMore"] = false;
             }
-            List<Event> listView= new List<Event>();
-            for (int i = startIndex; i < endIndex; i++) { 
+            List<Event> listView = new List<Event>();
+            for (int i = startIndex; i < endIndex + 1; i++)
+            {
                 listView.Add(listEventHasReports[i]);
             }
-       
+
             return PartialView("_ViewReport", listView);
         }
+        public ActionResult NotifyDisplay()
+        {
+            return PartialView("_NotificationDisplay");
+        }
+        public ActionResult ReadNotification(int notificationChangeID)
+        {
+            NotificationChange item = NotificationDataHelpers.Instance.GetNotificationChangeByID(notificationChangeID);
+            User user = UserHelpers.GetCurrentUser(Session);
+            int notiType = NotificationDataHelpers.Instance.GetNotificationObjectByID(item.NotificationObjectID).Type;
+            if (notiType == EventZoneConstants.FollowingUserAddNewEvent)
+            {
+                NotificationDataHelpers.Instance.ReadNotification(item);
+            }
+            else if (notiType == EventZoneConstants.CommentNotification)
+            {
+                NotificationDataHelpers.Instance.ReadNotifiComment(item, user.UserID);
+            }
+            else if (notiType == EventZoneConstants.NewFollower)
+            {
+                NotificationDataHelpers.Instance.ReadNotifiNewFollow(item, user.UserID);
+            }
+            else if (notiType == EventZoneConstants.RequestUploadImage)
+            {
+
+                NotificationDataHelpers.Instance.ReadNotifiRequestUploadImage(item);
+
+            }
+            else if (notiType == EventZoneConstants.EventHasBeenLocked)
+            {
+                NotificationDataHelpers.Instance.ReadNotification(item);
+            }
+            else if (notiType == EventZoneConstants.EventHasBeenUnLocked)
+            {
+                NotificationDataHelpers.Instance.ReadNotification(item);
+                //<li>
+                //    <a onlick="ReadNoty(@item.ID)" href="@Url.Action("Details", "Event", new {id = item.EventID})">Good new! Your event @EventDatabaseHelper.Instance.GetEventByID(item.EventID).EventName has been unlocked</a>
+                //</li>
+                //<li role="separator" class="divider"></li>
+            }
+            else if (notiType == EventZoneConstants.ReportNotification)
+            {
+
+                NotificationDataHelpers.Instance.ReadNotifiReport(item, user.UserID);
+            }
+            return Json(new
+            {
+
+            });
+        }
+
     }
-   
+
 }
 

@@ -11,16 +11,17 @@ img {
     margin: 0;
 }
 	/*************************************************** KHUNG ĐĂNG KÝ ***/				
-.zd_body{				
-    width: 60%;				
-    margin: 70px 0 0 20%;				
-}				
-	.zd_body .row{				
-    margin-bottom: 10px;				
-}				
-.zd_body .d_cate{				
-    margin-bottom: 0;				
-}		
+.body-content{
+    width: 60%;
+    margin-left: 20%;
+}	
+.d_white_bg{
+    width: 60%;
+    margin-left: 20%;
+}
+#i_required_mark{
+    color: red;
+}
 #imageView img {		
     width: 100%;		
 }		
@@ -54,16 +55,12 @@ img {
 }
 
 .row {
-    margin-left: 0px;
-    margin-right: 0px;
+ margin: 5px 0;
 }
 
 .row .form-control { padding-left: 2px; }
 
-.b {
-    border: 0px red solid;
-    margin-top: 5px;
-}
+
 
 /*** Sửa plugin khác ***/
 
@@ -90,25 +87,6 @@ img {
     width: 229px;
 }
 
-/*** LEFT SIDE: chứa khung đăng ký (3 Tabs Basic, Image, Video); ***/
-
-/** Left Decorate **/
-
-.container .d_leftside,
-.container .d_rightside {
-    background-color: #f5f5f5;
-    border: 1px lightgray solid;
-    border-radius: 4px;
-    height: auto;
-    margin: 60px 5px;
-    margin-bottom: 10px;
-    padding: 0px;
-    padding-top: 10px;
-}
-
-.d_leftside { min-width: 600px; }
-
-#i_first_tab { margin-left: 10px; }
 
 .d_leftside .btn-link { padding: 0px; }
 
@@ -155,37 +133,8 @@ label#i_request { font-weight: normal; }
     margin-left: 5px;
     margin-top: inherit;
 }
-
+	#i_group_btn{		
+    margin-bottom: 50px;		
+}
 /* Image tab */
 
-.d_upload_container { height: 100px; }
-
-.d_images_container { height: auto; }
-
-
-/* Video tab */
-
-/*** RIGHT SIDE: chứa gợi ý các Sự kiện khác ***/
-
-.b1 { border: 0px blue solid; }
-
-.d_each_event { margin-bottom: 15px; }
-
-.d_o_thumb, .d_o_title {
-    float: left;
-    height: 100px;
-}
-
-.d_o_thumb { padding: 0 10px; }
-
-.d_o_title {
-    font-weight: bold;
-    padding-left: 0;
-}
-
-.d_o_thumb img {
-    height: 100%;
-    width: 100%;
-}
-
-/** Right  Decorate **/

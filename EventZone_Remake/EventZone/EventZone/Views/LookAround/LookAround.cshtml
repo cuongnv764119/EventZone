@@ -12,7 +12,6 @@
     ViewBag.Title = "LookAround";
 }
 
-
 <style>
 
     #map {
@@ -27,12 +26,14 @@
 </style>
 <link href="~/Content/myCSS_l_a.css" rel="stylesheet" />
 
-
+<h3><span id="id-name-place">All event near you show in the map</span></h3>
+<div id="id-place-detail" class="look-around">
     <div class="d_left_content" id="map"></div>
-<div class="d_right_content">
-    <div class="d_event_cover tse-scrollable trackpad">
-        <div id="id-list-event-in-place tse-content scroll-content">
-            @Html.Partial("_ViewEventInPlace", nearlyEvent)
+    <div class="d_right_content">
+        <div class="d_event_cover tse-scrollable trackpad">
+            <div id="id-list-event-in-place" class="tse-content scroll-content">
+                @Html.Partial("_ViewEventInPlace", nearlyEvent)
+            </div>
         </div>
     </div>
 </div>
@@ -60,10 +61,10 @@
                         if (typeof (data) === 'undefined' || data == null || data == "null") {
                         }
                         else {
-                            $("#id-list-event-in-place").html("");
-                            $("#id-name-place").html("");
+                            $("#id-list-event-in-place").empty();
+                            $("#id-name-place").empty();
                             _data[index] = data;
-                            _name[index] = "Events in: "+placeName;
+                            _name[index] = "Events in: " + placeName;
                             $("#id-list-event-in-place").append(_data[index]);
                             $("#id-name-place").html("Events in: " + placeName);
                         }
@@ -76,11 +77,10 @@
                 });
             }
             else {
-                $("#id-list-event-in-place").html("");
-                $("#id-name-place").html("");
+                $("#id-list-event-in-place").empty();
+                $("#id-name-place").empty();
                 $("#id-list-event-in-place").append(_data[index]);
                 $("#id-name-place").html(_name[index]);
-
             }
         };
 
@@ -115,23 +115,14 @@
             zoom: 11,
             center: myLatLng
         });
-
-
-        var currentMaker = new google.maps.Marker({
-            position: myLatLng,
-            map: map,
-            title: 'Your current position!'
-        });
-
-
-
         @foreach (var item in nearlyLocation)
         {
             <text>
-        
+        index = index + 1;
         (function (index) {
             var otherMaker = new google.maps.Marker({
                 position: new google.maps.LatLng('@item.Latitude', '@item.Longitude'),
+                icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
                 map: map
             });
             var infoOther = new google.maps.InfoWindow({
@@ -147,10 +138,28 @@
                 searchDetailModule.loadEventInPlace(index, '@item.LocationID', '@item.LocationName');
             });
         })(index);
-        index = index + 1;
+
         </text>
         }
-
+        (function (index) {
+            var currentMaker = new google.maps.Marker({
+                position: new google.maps.LatLng('@curr.Latitude', '@curr.Longitude'),
+                icon:'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                map: map
+            });
+            var infoCurrent = new google.maps.InfoWindow({
+                content: 'Your current position!'
+            });
+            google.maps.event.addListener(currentMaker, 'mouseover', function () {
+                infoCurrent.open(map, currentMaker);
+            });
+            google.maps.event.addListener(currentMaker, 'mouseout', function () {
+                infoCurrent.close();
+            });
+            google.maps.event.addListener(currentMaker, 'click', function () {
+                searchDetailModule.loadEventInPlace(index, '@curr.LocationID', '@curr.LocationName');
+            });
+        })(index);
         searchDetailModule.setData(0, $("#id-list-event-in-place").html());
         searchDetailModule.setname(0, $("#id-name-place").html());
     }

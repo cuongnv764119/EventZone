@@ -1,0 +1,111 @@
+﻿@using EventZone.Models
+@using EventZone.Helpers
+@model IEnumerable<EventZone.Models.Event>
+@{
+    bool hasMore = false;
+    if (TempData["LoadMore"] != null)
+    {
+        hasMore = bool.Parse(TempData["LoadMore"].ToString());
+
+    }
+    else
+    {
+        hasMore = false;
+    }
+    int numberResult = 0;
+    if (TempData["TotalResult"] != null)
+    {
+        try
+        {
+            numberResult = int.Parse(TempData["TotalResult"].ToString());
+        }
+        catch { }
+    }
+}
+<script>
+    @if (TempData["TotalResult"] == null || TempData["TotalResult"].ToString()=="NoMore")
+    {
+
+    }else if(TempData["TotalResult"].ToString()=="NotFound"){
+     <text> $("#number-result").text("Not Found")</text>
+    }
+    else
+    {
+        <text>
+    $("#number-result").html('<span>' +@TempData["TotalResult"].ToString() + ' Results</span>');
+    </text>
+    }
+</script>
+@if (Model != null)
+{
+    foreach (var reportedEvent in Model)
+    {
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_event_card_cover">
+            <!-- e_ để đánh dấu CSS EVENT -->
+            <div class="d_e_info_cover">
+                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 d_e_title">
+                    @Html.ActionLink(@EventDatabaseHelper.Instance.GetEventByID(reportedEvent.EventID).EventName, "Details", "Event", new { id = reportedEvent.EventID }, new { target = "_blank" })
+                </div>
+                <div class="col-lg-4 d_group_btn_right">
+                    <h4>
+                        <div id="lock-icon-@reportedEvent.EventID">
+                            @if (reportedEvent.Status == EventZoneConstants.Lock)
+                            {
+                                <span class="col-md-1 col-lg-1 label label-danger">
+                                    <span class=" glyphicon glyphicon-lock"></span>
+                                </span>
+                            }
+                        </div>
+                    </h4>
+
+                </div>
+                <div class="d_e_cate">
+                    <i class="fa fa-list-ul"></i>
+                    <div class="d_fill_in">in <a href=""><i>@CommonDataHelpers.Instance.GetCategoryById(reportedEvent.CategoryID).CategoryName</i></a></div>
+                </div>
+                <div class="d_e_cate">
+                    <i class="fa fa-file-text"></i>
+                    <div class="d_fill_in">
+                        Number report:<a href="#" data-toggle="modal" data-target="#all-report-@reportedEvent.EventID"><i>@EventDatabaseHelper.Instance.GetListReportOfEvent(reportedEvent.EventID).Count</i></a>
+                    </div>
+                </div>
+                @Html.Action("ViewDetailReport", "Admin", new { eventID = reportedEvent.EventID })
+
+
+
+
+                <div class="d_e_user">
+                    <i class="fa fa-user"></i>
+                    <div class="d_fill_in">By: @EventDatabaseHelper.Instance.GetAuthorEvent(reportedEvent.EventID).UserName</div>
+                </div>
+                @if (EventDatabaseHelper.Instance.GetListAppealOfEvent(reportedEvent.EventID).Count > 0)
+                {
+
+                    <div class="d_e_cate">
+                        <i class="fa fa-file-text"></i>
+                        <div class="d_fill_in">
+                            Number Appeal:<a href="#" data-toggle="modal" data-target="#i_appeal_modal-@reportedEvent.EventID"><i>@EventDatabaseHelper.Instance.GetListAppealOfEvent(reportedEvent.EventID).Count</i></a>
+                        </div>
+                    </div>
+                    @Html.Action("ViewDetailAppeal", "Admin", new { eventID = reportedEvent.EventID })
+
+                }
+                else
+                {
+                    <div class="d_e_cate">
+                        <br>
+                    </div>
+                }
+                <div class="d_e_btn_desciption">
+                    <i class="fa fa-file-text"></i>
+                    <div class="d_fill_in"><a href="#" onclick="showModalDescription('@reportedEvent.EventName','@reportedEvent.EventDescription')"><i>View Description</i></a></div>
+                </div>
+            </div>
+        </div>
+    }
+}
+@if (hasMore)
+{
+    @Html.Partial("_Loading")
+}
+

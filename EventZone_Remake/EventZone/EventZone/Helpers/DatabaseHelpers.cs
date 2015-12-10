@@ -47,7 +47,8 @@ namespace EventZone.Helpers
             try
             {
                 List<long> id = (from a in db.Users where a.UserName == userName && a.UserPassword == password select a.UserID).ToList();
-                if (id != null&&id.Count>0) {
+                if (id != null && id.Count > 0)
+                {
                     return true;
                 }
                 return false;
@@ -87,14 +88,17 @@ namespace EventZone.Helpers
         /// <returns></returns>
         public bool isLookedUser(string userName)
         {
-            try {
+            try
+            {
                 var user = (from a in db.Users where a.UserName == userName && a.AccountStatus == EventZoneConstants.Lock select a.UserID).ToList();
-                if (user != null && user.Count > 0) {
+                if (user != null && user.Count > 0)
+                {
                     return true;
                 }
                 return false;
             }
-            catch {
+            catch
+            {
                 return false;
             }
         }
@@ -132,7 +136,8 @@ namespace EventZone.Helpers
         /// <returns></returns>
         public bool UpdateAvatar(User user, Image image)
         {
-            try {
+            try
+            {
                 db.Images.Add(image);
                 db.SaveChanges();
                 user.Avartar = image.ImageID;
@@ -140,7 +145,9 @@ namespace EventZone.Helpers
                 db.SaveChanges();
                 db.Entry(user).Reload();
                 return true;
-            }catch{
+            }
+            catch
+            {
                 return false;
             }
         }
@@ -152,13 +159,14 @@ namespace EventZone.Helpers
         /// <returns></returns>
         public Channel GetUserChannel(long? userID)
         {
-            try {
+            try
+            {
                 Channel channel = (from a in db.Channels where a.UserID == userID select a).ToList()[0];
                 if (channel != null)
                 {
                     return channel;
                 }
-                
+
             }
             catch
             {
@@ -169,13 +177,15 @@ namespace EventZone.Helpers
         /// <summary>
         /// get list following categoryID by user
         /// </summary>
-        public List<long> GetListFollowingCategoryByUser (long userID){
+        public List<long> GetListFollowingCategoryByUser(long userID)
+        {
             try
             {
                 List<long> result = (from a in db.CategoryFollows where a.FollowerID == userID select a.CategoryID).ToList();
                 return result;
             }
-            catch {
+            catch
+            {
                 return null;
             }
         }
@@ -184,7 +194,7 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public int CountOwnedEvent(long userID, bool owner=false)
+        public int CountOwnedEvent(long userID, bool owner = false)
         {
             try
             {
@@ -224,18 +234,21 @@ namespace EventZone.Helpers
 
         public Report IsReportedEvent(long userID, long eventID)
         {
-            try {
+            try
+            {
                 Report result = (from a in db.Reports where a.SenderID == userID && a.EventID == eventID select a).ToList()[0];
-                if (result != null) {
+                if (result != null)
+                {
                     return result;
                 }
-                   
+
             }
-            catch { 
+            catch
+            {
             }
             return null;
         }
-       
+
         /// <summary>
         ///     Check is user following another user
         /// </summary>
@@ -248,7 +261,7 @@ namespace EventZone.Helpers
                 (from a in db.PeopleFollows
                  where a.FollowerUserID == FollowerID && a.FollowingUserID == FollowingID
                  select a).ToList();
-            if (people != null&&people.Count>0)
+            if (people != null && people.Count > 0)
             {
                 return true;
             }
@@ -277,16 +290,17 @@ namespace EventZone.Helpers
                 return false;
             }
         }
-        public Report ReportEvent(long userID, long eventID, int reportID, string reportContent) {
+        public Report ReportEvent(long userID, long eventID, int reportID, string reportContent)
+        {
 
             Report newReport = new Report
             {
                 EventID = eventID,
                 SenderID = userID,
-                ReportType= reportID,
-                ReportContent=reportContent,
-                ReportStatus=EventZoneConstants.Pending,
-                ReportDate=DateTime.Now,
+                ReportType = reportID,
+                ReportContent = reportContent,
+                ReportStatus = EventZoneConstants.Pending,
+                ReportDate = DateTime.Now,
             };
             try
             {
@@ -294,7 +308,8 @@ namespace EventZone.Helpers
                 db.SaveChanges();
                 return newReport;
             }
-            catch {
+            catch
+            {
                 return null;
             }
         }
@@ -310,7 +325,7 @@ namespace EventZone.Helpers
             {
                 var evtFollow =
                     (from a in db.EventFollows where a.FollowerID == userID && a.EventID == eventID select a.EventFollowID).ToList();
-                if (evtFollow != null&&evtFollow.Count>0)
+                if (evtFollow != null && evtFollow.Count > 0)
                 {
                     return true;
                 }
@@ -375,14 +390,18 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public List<Event> GetUserEvent(long userID, int numberEvent=-1,bool isOwner=true) {
+        public List<Event> GetUserEvent(long userID, int numberEvent = -1, bool isOwner = true)
+        {
             List<Event> myEvent = new List<Event>();
-            try {
+            try
+            {
                 myEvent = (from a in db.Channels join b in db.Events on a.ChannelID equals b.ChannelID where a.UserID == userID select b).ToList();
-                if (!isOwner) {
+                if (!isOwner)
+                {
                     myEvent.RemoveAll(o => (o.Privacy != EventZoneConstants.publicEvent) || (o.Status != EventZoneConstants.Active));
                 }
-                 if (numberEvent != -1) {
+                if (numberEvent != -1)
+                {
                     myEvent = myEvent.Take(numberEvent).ToList();
                 }
             }
@@ -393,10 +412,11 @@ namespace EventZone.Helpers
         {
             try
             {
-                List<Event> result= (from a in db.Events join b in db.EventFollows on a.EventID equals b.EventID where b.FollowerID==userID select a).ToList();    
+                List<Event> result = (from a in db.Events join b in db.EventFollows on a.EventID equals b.EventID where b.FollowerID == userID select a).ToList();
                 return result;
             }
-            catch {
+            catch
+            {
                 return null;
             }
         }
@@ -591,7 +611,7 @@ namespace EventZone.Helpers
         public User GetUserByUserName(string userName)
         {
             var user = (from a in db.Users where a.UserName == userName select a).ToList();
-            if (user!=null&&user.Count > 0)
+            if (user != null && user.Count > 0)
             {
                 return user[0];
             }
@@ -603,11 +623,12 @@ namespace EventZone.Helpers
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public User GetUserByAccount(string userName, string password) {
+        public User GetUserByAccount(string userName, string password)
+        {
             User result = null;
             try
             {
-                result = (from a in db.Users where a.UserName == userName && a.UserPassword == password select a).ToList()[0];  
+                result = (from a in db.Users where a.UserName == userName && a.UserPassword == password select a).ToList()[0];
             }
             catch { }
             return result;
@@ -626,7 +647,8 @@ namespace EventZone.Helpers
         /// Get All user in database
         /// </summary>
         /// <returns></returns>
-        public List<User> GetAllUser(){
+        public List<User> GetAllUser()
+        {
             try
             {
                 List<User> result = db.Users.ToList();
@@ -689,11 +711,12 @@ namespace EventZone.Helpers
             }
             keyword = keyword.ToLower();
             var retrievedResult = (from x in db.Users
-                                   where x.UserFirstName.ToLower().Contains(keyword) || x.UserLastName.ToLower().Contains(keyword)||x.UserName.ToLower().Contains(keyword)
+                                   where x.UserFirstName.ToLower().Contains(keyword) || x.UserLastName.ToLower().Contains(keyword) || x.UserName.ToLower().Contains(keyword)
                                    select x).ToList();
             return retrievedResult;
         }
-        public bool ChangePassword(User user, string password) {
+        public bool ChangePassword(User user, string password)
+        {
             try
             {
                 user.UserPassword = password;
@@ -702,15 +725,18 @@ namespace EventZone.Helpers
                 db.Entry(user).Reload();
                 return true;
             }
-            catch {
+            catch
+            {
                 return false;
             }
         }
-        public string GetUserDisplayName(long? UserID) {
+        public string GetUserDisplayName(long? UserID)
+        {
             string result = "";
-            try {
+            try
+            {
                 User user = GetUserByID(UserID);
-                result = user.UserFirstName + " "+(string.IsNullOrEmpty(user.UserLastName) ? "" : user.UserLastName);
+                result = user.UserFirstName + " " + (string.IsNullOrEmpty(user.UserLastName) ? "" : user.UserLastName);
             }
             catch
             {
@@ -725,10 +751,12 @@ namespace EventZone.Helpers
         /// <returns></returns>
         public List<User> GetListFollowingOfUser(long userID)
         {
-            try{
-            List<User> result= (from a in db.Users join b in db.PeopleFollows on a.UserID equals b.FollowingUserID where b.FollowerUserID==userID select a).ToList();
-            return result;
-            }catch{}
+            try
+            {
+                List<User> result = (from a in db.Users join b in db.PeopleFollows on a.UserID equals b.FollowingUserID where b.FollowerUserID == userID select a).ToList();
+                return result;
+            }
+            catch { }
             return null;
         }
         /// <summary>
@@ -753,12 +781,13 @@ namespace EventZone.Helpers
         /// <returns></returns>
         public List<Event> GetPendingReportedEvent(long userID)
         {
-            try { 
-                Channel channel= GetUserChannel(userID);
-                List<Event> result = (from a in db.Events 
-                                      join report in db.Reports 
-                                      on a.EventID equals report.EventID 
-                                      where a.ChannelID == channel.ChannelID && report.ReportStatus == EventZoneConstants.Pending 
+            try
+            {
+                Channel channel = GetUserChannel(userID);
+                List<Event> result = (from a in db.Events
+                                      join report in db.Reports
+                                      on a.EventID equals report.EventID
+                                      where a.ChannelID == channel.ChannelID && report.ReportStatus == EventZoneConstants.Pending
                                       select a).ToList();
                 return result;
             }
@@ -774,7 +803,8 @@ namespace EventZone.Helpers
         {
             Channel channel = GetUserChannel(userID);
             List<Event> result = new List<Event>();
-            try {
+            try
+            {
                 result = (from a in db.Events
                           join report in db.Reports
                           on a.EventID equals report.EventID
@@ -793,8 +823,10 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="eventID"></param>
         /// <returns></returns>
-        public Appeal GetPendingAppeal(long eventID) {
-            try {
+        public Appeal GetPendingAppeal(long eventID)
+        {
+            try
+            {
                 Appeal appeal = (from a in db.Appeals where a.EventID == eventID && a.AppealStatus == EventZoneConstants.Pending select a).ToList()[0];
                 return appeal;
             }
@@ -808,14 +840,18 @@ namespace EventZone.Helpers
         /// <returns></returns>
         public bool AppealSuccess(long eventID)
         {
-            try{
-                Appeal appeal = (from a in db.Appeals where a.EventID==eventID select a).OrderByDescending(o => o.ResultDate).ToList()[0];
+            try
+            {
+                Appeal appeal = (from a in db.Appeals where a.EventID == eventID select a).OrderByDescending(o => o.ResultDate).ToList()[0];
                 if (appeal.AppealStatus == EventZoneConstants.Approved) { return true; }
-            }catch{
+            }
+            catch
+            {
             }
             return false;
         }
-        public bool AppealFailed(long eventID) {
+        public bool AppealFailed(long eventID)
+        {
             try
             {
                 Appeal appeal = (from a in db.Appeals where a.EventID == eventID select a).OrderByDescending(o => o.ResultDate).ToList()[0];
@@ -840,7 +876,7 @@ namespace EventZone.Helpers
                 db.SaveChanges();
                 return true;
             }
-            catch { } 
+            catch { }
             return false;
         }
     }
@@ -857,9 +893,11 @@ namespace EventZone.Helpers
             db = new EventZoneEntities();
         }
 
-        public List<Event> GetAllEvent() {
+        public List<Event> GetAllEvent()
+        {
             List<Event> result = new List<Event>();
-            try {
+            try
+            {
                 result = db.Events.ToList();
             }
             catch { }
@@ -878,7 +916,7 @@ namespace EventZone.Helpers
             }
             catch { }
             return null;
-            
+
         }
         /// <summary>
         ///     Get event by eventID
@@ -898,7 +936,7 @@ namespace EventZone.Helpers
                 return null;
             }
         }
-        
+
         public bool UpdateEvent(EditViewModel model)
         {
             try
@@ -926,21 +964,21 @@ namespace EventZone.Helpers
                     }
                     if (!checkExisted)
                     {
-                        LocationHelpers.Instance.RemoveLocationByEventLocationID(editedEvent.EventID,currentLocations[i].LocationID);
+                        LocationHelpers.Instance.RemoveLocationByEventLocationID(editedEvent.EventID, currentLocations[i].LocationID);
                     }
                 }
                 for (int j = 0; j < model.Location.Count; j++)
                 {
                     bool checkExisted = false;
                     for (int i = 0; i < currentLocations.Count; i++)
-                     {
-                         if (currentLocations[i].LocationName == model.Location[j].LocationName
-                            && Equals(currentLocations[i].Latitude, model.Location[j].Latitude)
-                            && Equals(currentLocations[i].Longitude, model.Location[j].Longitude))
-                         {
-                             checkExisted = true;
-                         }
-                     }
+                    {
+                        if (currentLocations[i].LocationName == model.Location[j].LocationName
+                           && Equals(currentLocations[i].Latitude, model.Location[j].Latitude)
+                           && Equals(currentLocations[i].Longitude, model.Location[j].Longitude))
+                        {
+                            checkExisted = true;
+                        }
+                    }
                     if (!checkExisted)
                     {
                         newLocations.Add(model.Location[j]);
@@ -970,7 +1008,7 @@ namespace EventZone.Helpers
                 evt.View += 1;
                 db.Entry(evt).State = EntityState.Modified;
                 db.SaveChanges();
-                db.Entry(evt).Reload();                  
+                db.Entry(evt).Reload();
                 return true;
             }
             return false;
@@ -985,11 +1023,12 @@ namespace EventZone.Helpers
         {
             try
             {
-                List<Image> listImage = (from a in db.EventImages join b in db.Images on a.ImageID equals b.ImageID where a.EventID==id select b).ToList();   
+                List<Image> listImage = (from a in db.EventImages join b in db.Images on a.ImageID equals b.ImageID where a.EventID == id select b).ToList();
                 return listImage;
-                
+
             }
-            catch {
+            catch
+            {
                 return null;
             }
 
@@ -999,7 +1038,7 @@ namespace EventZone.Helpers
         {
             try
             {
-                List<Image> listImage = (from a in db.EventImages join b in db.Images on a.ImageID equals b.ImageID where a.EventID == id  && a.Approve==true select b).ToList();
+                List<Image> listImage = (from a in db.EventImages join b in db.Images on a.ImageID equals b.ImageID where a.EventID == id && a.Approve == true select b).ToList();
                 return listImage;
 
             }
@@ -1009,7 +1048,8 @@ namespace EventZone.Helpers
             }
         }
 
-        public List<Image> GetPendingImageInEvent(long? id) {
+        public List<Image> GetPendingImageInEvent(long? id)
+        {
             try
             {
                 List<Image> listImage = (from a in db.EventImages join b in db.Images on a.ImageID equals b.ImageID where a.EventID == id && a.Approve == false select b).ToList();
@@ -1057,7 +1097,7 @@ namespace EventZone.Helpers
         /// 
         public String GetEventCategory(long? eventID)
         {
-             try
+            try
             {
                 var result = (from a in db.Events join b in db.Categories on a.CategoryID equals b.CategoryID where a.EventID == eventID select b).ToList();
                 return result[0].CategoryName;
@@ -1091,9 +1131,10 @@ namespace EventZone.Helpers
         public EventPlace GetEventPlaceByID(long eventPlaceID)
         {
             EventPlace result = new EventPlace();
-            try {
+            try
+            {
                 result = db.EventPlaces.Find(eventPlaceID);
-                
+
             }
             catch { }
             return result;
@@ -1122,7 +1163,8 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="eventID"></param>
         /// <returns></returns>
-        public List<User> GetUniqueUserComment(long? eventID) {
+        public List<User> GetUniqueUserComment(long? eventID)
+        {
             List<User> result = new List<User>();
             try
             {
@@ -1138,13 +1180,15 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="eventID"></param>
         /// <returns></returns>
-        public int CountUniqueUserComment(long eventID) {
+        public int CountUniqueUserComment(long eventID)
+        {
             int count = 0;
             try
             {
                 count = (from a in db.Comments where a.EventID == eventID select a.UserID).Distinct().ToList().Count();
             }
-            catch { 
+            catch
+            {
             }
             return count;
         }
@@ -1153,15 +1197,18 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="eventId"></param>
         /// <returns></returns>
-        public long CalculateEventScore(long eventId) {
+        public long CalculateEventScore(long eventId)
+        {
             long score = 0;
-            try {
-                Event evt= GetEventByID(eventId);
-                double point= (evt.View * 0.001746201
+            try
+            {
+                Event evt = GetEventByID(eventId);
+                double point = (evt.View * 0.001746201
             + (CountDisLike(eventId) + CountLike(eventId)) * 0.29578499
-            + CountUniqueUserComment(eventId) ) *0.7+  CountFollowerOfEvent(eventId) * 0.3;
+            + CountUniqueUserComment(eventId)) * 0.7 + CountFollowerOfEvent(eventId) * 0.3;
                 score = long.Parse((point * 1000).ToString());
-                if (evt.IsVerified) {
+                if (evt.IsVerified)
+                {
                     score = score + 100000;
                 }
             }
@@ -1180,13 +1227,22 @@ namespace EventZone.Helpers
         {
             if (keyword == "" || keyword == null)
             {
-                return db.Events.ToList();
+                var result = db.Events.ToList();
+                foreach (var item in result)
+                {
+                    db.Entry(item).Reload();
+                }
+                return result;
             }
             keyword = keyword.ToLower();
-            var listResult = new List<Event>();
+
             var retrievedResult = (from x in db.Events
                                    where x.EventName.ToLower().Contains(keyword) || x.EventDescription.ToLower().Contains(keyword)
                                    select x).ToList();
+            foreach (var item in retrievedResult)
+            {
+                db.Entry(item).Reload();
+            }
             return retrievedResult;
         }
         /// <summary>
@@ -1194,7 +1250,8 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="video"></param>
         /// <returns></returns>
-        public bool IsLiveVideo(Video video) {
+        public bool IsLiveVideo(Video video)
+        {
             try
             {
                 DateTime currentTime = DateTime.Now;
@@ -1213,13 +1270,15 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="eventID"></param>
         /// <returns></returns>
-        public List<EventPlace> GetEventPlaceByEvent(long eventID){
+        public List<EventPlace> GetEventPlaceByEvent(long eventID)
+        {
             List<EventPlace> result = new List<EventPlace>();
             try
             {
                 result = (from a in db.EventPlaces where a.EventID == eventID select a).ToList();
             }
-            catch { 
+            catch
+            {
 
             }
             return result;
@@ -1228,12 +1287,15 @@ namespace EventZone.Helpers
         /// get all reported event
         /// </summary>
         /// <returns></returns>
-        public List<Event> GetAllReportedEvent() {
-            try {
+        public List<Event> GetAllReportedEvent()
+        {
+            try
+            {
                 List<Event> result = (from evt in db.Events join report in db.Reports on evt.EventID equals report.EventID select evt).Distinct().ToList();
                 return result;
             }
-            catch { 
+            catch
+            {
             }
             return null;
         }
@@ -1243,14 +1305,17 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="eventID"></param>
         /// <returns></returns>
-        public List<Report> GetListReportOfEvent(long eventID) {
+        public List<Report> GetListReportOfEvent(long eventID)
+        {
 
-            try {
+            try
+            {
                 List<Report> result = (from a in db.Reports where a.EventID == eventID select a).OrderByDescending(m => m.ReportDate).ToList();
                 return result;
             }
-            catch { 
-            
+            catch
+            {
+
             }
             return null;
         }
@@ -1259,24 +1324,27 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="video"></param>
         /// <returns></returns>
-        public bool AddVideo(Video video) {
+        public bool AddVideo(Video video)
+        {
             try
             {
                 db.Videos.Add(video);
                 db.SaveChanges();
                 return true;
             }
-            catch { 
-            
+            catch
+            {
+
             }
-            return false; 
+            return false;
         }
-        
+
         /// <summary>
         /// Get List Live streaming video in list video
         /// </summary>
         /// <returns></returns>
-        public List<Video> GetListLiveVideo(List<Video> listVideo) {
+        public List<Video> GetListLiveVideo(List<Video> listVideo)
+        {
             List<Video> result = new List<Video>();
             try
             {
@@ -1317,7 +1385,8 @@ namespace EventZone.Helpers
         public bool isLive(long? eventID)
         {
             var listVideo = GetEventVideo(eventID);
-            foreach (var item in listVideo) {
+            foreach (var item in listVideo)
+            {
                 if (IsLiveVideo(item))
                 {
                     return true;
@@ -1348,8 +1417,9 @@ namespace EventZone.Helpers
                     listThumbEvent.Add(thumbEventModel);
                 }
             }
-            catch { 
-            
+            catch
+            {
+
             }
             return listThumbEvent;
         }
@@ -1358,9 +1428,11 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="userID"><param>
         /// <returns></returns>
-        public List<Report> GetEventReport(long? eventID, int type=-1,long senderID=-1) {
+        public List<Report> GetEventReport(long? eventID, int type = -1, long senderID = -1)
+        {
             List<Report> result = new List<Report>();
-            try {
+            try
+            {
                 result = (from a in db.Reports where a.EventID == eventID select a).ToList();
                 if (type != -1)
                 {
@@ -1371,7 +1443,8 @@ namespace EventZone.Helpers
                 {
                     result = result.FindAll(o => o.SenderID == senderID);
                 }
-                foreach (var item in result) {
+                foreach (var item in result)
+                {
                     db.Entry(item).Reload();
                 }
             }
@@ -1385,17 +1458,17 @@ namespace EventZone.Helpers
         /// <param name="imageID"></param>
         /// <returns></returns>
         public Image GetImageByID(long? imageID)
-        {   
+        {
             return db.Images.Find(imageID);
         }
 
         public Image GetAvatarEvent(string url, long? eventID)
         {
             Image result = (from a in db.Images
-                where a.ImageLink == url
-                join b in db.EventImages on a.ImageID equals b.ImageID
-                where b.EventID == eventID
-                select a).ToList()[0];
+                            where a.ImageLink == url
+                            join b in db.EventImages on a.ImageID equals b.ImageID
+                            where b.EventID == eventID
+                            select a).ToList()[0];
             return result;
         }
         /// <summary>
@@ -1406,10 +1479,12 @@ namespace EventZone.Helpers
         public List<Event> SearchEventByCategoryID(long categoryID)
         {
             List<Event> listEvent = new List<Event>();
-            try {
+            try
+            {
                 listEvent = (from a in db.Events where a.CategoryID == categoryID select a).ToList();
             }
-            catch { 
+            catch
+            {
             }
             return listEvent;
 
@@ -1422,25 +1497,29 @@ namespace EventZone.Helpers
         /// <param name="image"></param>
         /// <param name="evtID"></param>
         /// <returns></returns>
-        public bool AddImageToEvent(Image image, long evtID) {
+        public bool AddImageToEvent(Image image, long evtID)
+        {
             try
             {
                 db.Images.Add(image);
                 db.SaveChanges();
-                EventImage evtImage = new EventImage { EventID=evtID,ImageID=image.ImageID};
+                EventImage evtImage = new EventImage { EventID = evtID, ImageID = image.ImageID };
                 if (!IsEventOwnedByUser(evtID, image.UserID))
                 {
                     evtImage.Approve = false;
                 }
-                else {
+                else
+                {
                     evtImage.Approve = true;
                 }
                 db.EventImages.Add(evtImage);
                 db.SaveChanges();
+
                 return true;
-                
+
             }
-            catch {
+            catch
+            {
                 return false;
             }
         }
@@ -1479,13 +1558,14 @@ namespace EventZone.Helpers
         /// Get list new event
         /// </summary>
         /// <returns></returns>
-        public List<Event> GetListNewEvent() { 
-            List<Event> result= new List<Event>();
+        public List<Event> GetListNewEvent()
+        {
+            List<Event> result = new List<Event>();
             try
             {
-                 DateTime floorDateTime = DateTime.Today.Date - TimeSpan.FromDays(7);
-                 result = (from a in db.Events where a.EventRegisterDate >= floorDateTime select a).OrderByDescending(o => o.EventRegisterDate).ToList();
-                 
+                DateTime floorDateTime = DateTime.Today.Date - TimeSpan.FromDays(7);
+                result = (from a in db.Events where a.EventRegisterDate >= floorDateTime select a).OrderByDescending(o => o.EventRegisterDate).ToList();
+
             }
             catch { }
             return result;
@@ -1494,7 +1574,8 @@ namespace EventZone.Helpers
         /// get list new event by User (result is all new event which that user is following by category)
         /// </summary>
         /// <returns></returns>
-        public List<Event> GetListNewEventByUser (long userID){
+        public List<Event> GetListNewEventByUser(long userID)
+        {
             List<Event> result = new List<Event>();
             List<Event> newEvent = GetListNewEvent();
             try
@@ -1502,14 +1583,15 @@ namespace EventZone.Helpers
                 long[] listCategoryID = UserDatabaseHelper.Instance.GetListFollowingCategoryByUser(userID).ToArray();
                 result = SearchByListCategory(newEvent, listCategoryID);
             }
-            catch { 
+            catch
+            {
             }
             result = result.OrderByDescending(o => o.EventRegisterDate).ToList();
             if (result.Count < 5)
             {
                 result.AddRange(newEvent.Take(5).ToList());
             }
-            result=result.Distinct().ToList();
+            result = result.Distinct().ToList();
             return result;
         }
         /// <summary>
@@ -1517,21 +1599,24 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="listImage"></param>
         /// <returns></returns>
-       
+
         public List<ThumbEventHomePage> GetThumbEventHomepage(List<Event> ListEvent)
         {
             List<ThumbEventHomePage> listThumb = new List<ThumbEventHomePage>();
-            if (ListEvent == null) {
+            if (ListEvent == null)
+            {
                 return null;
             }
-            foreach (var item in ListEvent) {
+            foreach (var item in ListEvent)
+            {
                 ThumbEventHomePage thumbevt = new ThumbEventHomePage();
                 thumbevt.EventID = item.EventID;
-                thumbevt.EventName = item.EventName; 
+                thumbevt.EventName = item.EventName;
                 thumbevt.avatar = GetImageByID(item.Avatar).ImageLink;
                 thumbevt.StartDate = item.EventStartDate;
                 thumbevt.IsVeried = item.IsVerified;
-                if (item.EventEndDate != null) {
+                if (item.EventEndDate != null)
+                {
                     thumbevt.EndDate = item.EventEndDate;
                 }
                 thumbevt.listLocation = EventDatabaseHelper.Instance.GetEventLocation(item.EventID);
@@ -1555,7 +1640,8 @@ namespace EventZone.Helpers
                 result = listEvent;
                 return result;
             }
-            catch {
+            catch
+            {
                 return listEvent;
             }
         }
@@ -1563,17 +1649,20 @@ namespace EventZone.Helpers
         /// Take 50 hotest event
         /// </summary>
         /// <returns></returns>
-        public List<Event> GetHotEvent() {
+        public List<Event> GetHotEvent()
+        {
             List<Event> result = new List<Event>();
-            try {
-      
-                result=(from a in db.Events join b in db.EventRanks on a.EventID equals b.EventId orderby b.Score descending select a).Take(50).ToList();
+            try
+            {
+
+                result = (from a in db.Events join b in db.EventRanks on a.EventID equals b.EventId orderby b.Score descending select a).Take(50).ToList();
             }
-            catch {
+            catch
+            {
                 result = (from a in db.Events select a).Take(50).ToList();
             }
             return result;
-            
+
         }
         /// <summary>
         ///     dem so like cua event
@@ -1589,7 +1678,7 @@ namespace EventZone.Helpers
                         .Count();
                 return countLike;
             }
-            catch { return 0;}
+            catch { return 0; }
         }
 
         /// <summary>
@@ -1624,10 +1713,11 @@ namespace EventZone.Helpers
                 var NumberFollower = (from a in db.EventFollows where a.EventID == eventID select a.EventFollowID).ToList().Count;
                 return NumberFollower;
             }
-            catch {
+            catch
+            {
                 return 0;
             }
-           
+
         }
 
         /// <summary>
@@ -1659,17 +1749,21 @@ namespace EventZone.Helpers
             }
             return result;
         }
-        public List<Event> GetLiveEventByListEvent(List<Event> listEvent) {
-            List<Event> result= new List<Event>();
-            if (listEvent != null) { 
-                foreach(var item in listEvent){
-                    if (isLive(item.EventID)) {
+        public List<Event> GetLiveEventByListEvent(List<Event> listEvent)
+        {
+            List<Event> result = new List<Event>();
+            if (listEvent != null)
+            {
+                foreach (var item in listEvent)
+                {
+                    if (isLive(item.EventID))
+                    {
                         result.Add(item);
-                    }  
+                    }
                 }
             }
             return result;
-        
+
         }
         /// <summary>
         /// add comment to event
@@ -1749,7 +1843,8 @@ namespace EventZone.Helpers
             {
                 return null;
             }
-            else {
+            else
+            {
                 Image photo = new Image();
                 try
                 {
@@ -1773,9 +1868,10 @@ namespace EventZone.Helpers
                                 db.SaveChanges();
                                 return image;
                             }
-                            catch {
+                            catch
+                            {
                             }
-                        } 
+                        }
                     }
                 }
                 catch
@@ -1790,12 +1886,13 @@ namespace EventZone.Helpers
         /// <param name="model"></param>
         /// <param name="userid"></param>
         /// <returns></returns>
-        public Event AddNewEvent(CreateEventModel model, HttpPostedFileBase file,long userid)
+        public Event AddNewEvent(CreateEventModel model, HttpPostedFileBase file, long userid)
         {
             var newEvent = new Event();
             newEvent.EventName = model.Title;
-            User user= UserDatabaseHelper.Instance.GetUserByID(userid);
-            if (user != null && user.UserRoles == EventZoneConstants.Mod || user.UserRoles==EventZoneConstants.Admin) {
+            User user = UserDatabaseHelper.Instance.GetUserByID(userid);
+            if (user != null && user.UserRoles == EventZoneConstants.Mod || user.UserRoles == EventZoneConstants.Admin)
+            {
                 newEvent.IsVerified = true;
             }
             newEvent.ChannelID = UserDatabaseHelper.Instance.GetUserChannel(userid).ChannelID;
@@ -1807,13 +1904,13 @@ namespace EventZone.Helpers
             newEvent.CategoryID = model.CategoryID;
             newEvent.Privacy = model.Privacy;
             newEvent.Avatar = CommonDataHelpers.Instance.GetCategoryById(model.CategoryID).CategoryAvatar;
-            Image newImage = UserAddImage(file,userid);
+            Image newImage = UserAddImage(file, userid);
             if (newImage != null) newEvent.Avatar = newImage.ImageID;
             newEvent.EditBy = userid;
             newEvent.EditTime = DateTime.Now;
             newEvent.EditContent = null;
 
-            newEvent.Status = EventZoneConstants.Active; 
+            newEvent.Status = EventZoneConstants.Active;
             // insert Event to Database
             try
             {
@@ -1823,7 +1920,8 @@ namespace EventZone.Helpers
                 db.EventRanks.Add(eventRank);
                 db.SaveChanges();
             }
-            catch {
+            catch
+            {
                 return null;
             }
             return newEvent;
@@ -1850,7 +1948,7 @@ namespace EventZone.Helpers
         /// <param name="type"></param>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public List<Appeal> GetEventAppeal(long eventID, int type=-1)
+        public List<Appeal> GetEventAppeal(long eventID, int type = -1)
         {
             List<Appeal> result = new List<Appeal>();
             try
@@ -1868,7 +1966,7 @@ namespace EventZone.Helpers
             }
             catch { }
             return result;
-            
+
         }
         /// <summary>
         /// get all appeal of event
@@ -1891,15 +1989,16 @@ namespace EventZone.Helpers
 
         public bool AddNewAppeal(Appeal newAppeal)
         {
-            
-            try {
+
+            try
+            {
                 db.Appeals.Add(newAppeal);
                 db.SaveChanges();
                 return true;
             }
             catch { }
             return false;
-            
+
         }
         /// <summary>
         /// get Live streaming from list
@@ -1908,15 +2007,17 @@ namespace EventZone.Helpers
         /// <returns></returns>
         internal List<Event> GetLiveStreamingFromList(List<Event> listEvent)
         {
-            if (listEvent == null||listEvent.Count==0)
+            if (listEvent == null || listEvent.Count == 0)
             {
                 return null;
             }
             List<Event> result = new List<Event>();
             try
             {
-                for (int i = 0; i < listEvent.Count - 1; i++) { 
-                    if(isLive(listEvent[i].EventID)){
+                for (int i = 0; i < listEvent.Count - 1; i++)
+                {
+                    if (isLive(listEvent[i].EventID))
+                    {
                         result.Add(listEvent[i]);
                     }
                 }
@@ -1930,9 +2031,10 @@ namespace EventZone.Helpers
         /// <param name="eventID"></param>
         /// <param name="p"></param>
         /// <returns></returns>
-        public bool ChangeEventAvatar( long eventID, Image image)
+        public bool ChangeEventAvatar(long eventID, Image image)
         {
-            try {
+            try
+            {
                 Event evt = db.Events.Find(eventID);
                 evt.Avatar = image.ImageID;
                 db.Entry(evt).State = EntityState.Modified;
@@ -1942,6 +2044,60 @@ namespace EventZone.Helpers
             catch { }
             return false;
         }
+        /// <summary>
+        /// get event Score
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+
+        public object GetEventScore(long eventID)
+        {
+            try
+            {
+                long result = (from a in db.EventRanks where a.EventId == eventID select a.Score).ToList()[0];
+                return result;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+        /// <summary>
+        /// Check an event has pending report or not
+        /// </summary>
+        /// <param name="eventID"></param>
+        /// <returns></returns>
+        public bool HasPendingReport(long eventID)
+        {
+            List<Report> listReport = GetListReportOfEvent(eventID);
+            if (listReport != null && listReport.Count != 0)
+            {
+                foreach (var report in listReport)
+                {
+                    if (report.ReportStatus == EventZoneConstants.Pending)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public bool HasPendingAppeal(long eventID)
+        {
+            List<Appeal> listAppeal = GetListAppealOfEvent(eventID);
+            if (listAppeal != null && listAppeal.Count != 0)
+            {
+                foreach (var appeal in listAppeal)
+                {
+                    if (appeal.AppealStatus == EventZoneConstants.Pending)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
     }
 
     /// <summary>
@@ -1961,11 +2117,12 @@ namespace EventZone.Helpers
         /// <returns></returns>
         public List<Location> GetAllLocation()
         {
-         
+
             return db.Locations.ToList();
         }
 
-        public Location GetLocationByEventPlaceID(long eventPlaceID) {
+        public Location GetLocationByEventPlaceID(long eventPlaceID)
+        {
             try
             {
                 Location result = new Location();
@@ -1973,11 +2130,12 @@ namespace EventZone.Helpers
                 if (evtPlace != null)
                 {
                     result = db.Locations.Find(evtPlace.LocationID);
-                    
+
                 }
                 return result;
             }
-            catch {
+            catch
+            {
                 return null;
             }
         }
@@ -1987,8 +2145,8 @@ namespace EventZone.Helpers
             try
             {
                 var removedVideo = (from a in db.Videos
-                    where a.EventPlaceID== eventPlacesID
-                    select a).ToList();
+                                    where a.EventPlaceID == eventPlacesID
+                                    select a).ToList();
                 foreach (var item in removedVideo)
                 {
                     db.Videos.Remove(item);
@@ -1996,11 +2154,11 @@ namespace EventZone.Helpers
                 db.SaveChanges();
                 return true;
             }
-            catch 
+            catch
             {
                 return false;
             }
-            }
+        }
         public bool RemoveLocationByEventLocationID(long? eventID, long? locationID)
         {
             try
@@ -2034,14 +2192,14 @@ namespace EventZone.Helpers
         /// <param name="locationList"></param>
         /// <returns></returns>
         /// 
-        public List<Location> AddNewLocation(List<Location> locationList )
+        public List<Location> AddNewLocation(List<Location> locationList)
         {
             var Location = new List<Location>();
             //Search for duplicated location before adding new location to database
             for (var i = 0; i < locationList.Count; i++)
             {
                 Location tmpLocation = locationList[i];
-                long locationIdIndex =LocationHelpers.Instance.FindLocationByAllData(tmpLocation.Longitude,
+                long locationIdIndex = LocationHelpers.Instance.FindLocationByAllData(tmpLocation.Longitude,
                                         tmpLocation.Latitude,
                                         tmpLocation.LocationName);
                 if (locationIdIndex == -1)
@@ -2060,7 +2218,7 @@ namespace EventZone.Helpers
             }
             return Location;
         }
-    
+
         /// <summary>
         ///     get Location by id
         /// </summary>
@@ -2089,9 +2247,9 @@ namespace EventZone.Helpers
         public long FindLocationByAllData(double longitude, double latitude, string locationName)
         {
             var listLocationID = (from a in db.Locations
-                                where
-                                    a.Latitude.Equals(latitude) && a.Longitude.Equals(longitude) && a.LocationName.Equals(locationName)
-                                select a.LocationID).ToList();
+                                  where
+                                      a.Latitude.Equals(latitude) && a.Longitude.Equals(longitude) && a.LocationName.Equals(locationName)
+                                  select a.LocationID).ToList();
             if (listLocationID.Count == 0)
                 return -1;
             return listLocationID[0];
@@ -2139,14 +2297,17 @@ namespace EventZone.Helpers
         internal List<Location> RemovePlaceByDistance(List<Location> listPlace, double distance)
         {
 
-            for (int i = listPlace.Count-1; i > 1; i--) {
-             
-                for (int j = i-1; j >=0 ; j--)
+            for (int i = listPlace.Count - 1; i > 1; i--)
+            {
+
+                for (int j = i - 1; j >= 0; j--)
                 {
-                    if (j == -1) {
+                    if (j == -1)
+                    {
                         continue;
                     }
-                    if (CalculateDistance(listPlace[i], listPlace[j]) < distance) {
+                    if (CalculateDistance(listPlace[i], listPlace[j]) < distance)
+                    {
                         listPlace.Remove(listPlace[j]);
                         i--;
                     }
@@ -2178,13 +2339,15 @@ namespace EventZone.Helpers
             catch { }
             return null;
         }
-        public List<ReportDefine> GetAllReportType() {
+        public List<ReportDefine> GetAllReportType()
+        {
             try
             {
                 List<ReportDefine> listReport = db.ReportDefines.ToList();
                 return listReport;
             }
-            catch {
+            catch
+            {
                 return null;
             }
 
@@ -2195,7 +2358,8 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Category GetCategoryById(long id) {
+        public Category GetCategoryById(long id)
+        {
             try
             {
                 Category cate = db.Categories.Find(id);
@@ -2244,41 +2408,60 @@ namespace EventZone.Helpers
 
         public int CountFollowerByCategory(long categoryID)
         {
-            var numberFollower = (from a in db.CategoryFollows where a.CategoryID == categoryID select a.CategoryFollowID).ToList().Count;
-            return numberFollower;
+            try
+            {
+                var numberFollower = (from a in db.CategoryFollows where a.CategoryID == categoryID select a.CategoryFollowID).ToList().Count;
+                return numberFollower;
+            }
+            catch
+            {
+                return 0;
+            }
+
         }
 
-        public List<Video> GetVideoInLocation(List<Video> listVideo, Location location) {
+        public List<Video> GetVideoInLocation(List<Video> listVideo, Location location)
+        {
             List<Video> result = new List<Video>();
-            try {
+            try
+            {
                 List<EventPlace> listEventPlace = new List<EventPlace>();
-                foreach (var video in listVideo) {
+                foreach (var video in listVideo)
+                {
                     var eventPlace = (from a in db.EventPlaces where a.EventPlaceID == video.EventPlaceID select a).ToList()[0];
-                    if (eventPlace != null) {
+                    if (eventPlace != null)
+                    {
                         listEventPlace.Add(eventPlace);
                     }
                 }
-                foreach (var item in listEventPlace) {
-                    if (item.LocationID == location.LocationID) {
-                        foreach (var video in listVideo) {
-                            if (video.EventPlaceID == item.EventPlaceID) {
+                foreach (var item in listEventPlace)
+                {
+                    if (item.LocationID == location.LocationID)
+                    {
+                        foreach (var video in listVideo)
+                        {
+                            if (video.EventPlaceID == item.EventPlaceID)
+                            {
                                 result.Add(video);
                             }
-                        } 
+                        }
                     }
                 }
             }
             catch { }
-            result=result.Distinct().ToList();
+            result = result.Distinct().ToList();
             return result;
         }
-        public int CountNumberReport() {
+        public int CountNumberReport()
+        {
             int result = 0;
-            try {
+            try
+            {
                 result = (from a in db.Reports select a.ReportID).ToList().Count;
             }
-            catch {
-            } 
+            catch
+            {
+            }
             return result;
         }
         public int CountUnHandleReport()
@@ -2288,22 +2471,25 @@ namespace EventZone.Helpers
             {
                 result = (from a in db.Reports where a.ReportStatus == EventZoneConstants.Pending select a.ReportID).ToList().Count();
             }
-            catch { 
+            catch
+            {
             }
             return result;
         }
 
         public List<Report> GetAllReport()
         {
-            try {
-                List<Report> result = db.Reports.OrderByDescending(model=>model.ReportDate).ToList();
+            try
+            {
+                List<Report> result = db.Reports.OrderByDescending(model => model.ReportDate).ToList();
                 return result;
             }
             catch { }
             return null;
         }
     }
-    public class AdminDataHelpers : SingletonBase<AdminDataHelpers> { 
+    public class AdminDataHelpers : SingletonBase<AdminDataHelpers>
+    {
         private static EventZoneEntities db;
         /// <summary>
         /// constructor
@@ -2312,10 +2498,12 @@ namespace EventZone.Helpers
         {
             db = new EventZoneEntities();
         }
-        public User FindAdmin(string userName, string password) {
-            User admin = UserDatabaseHelper.Instance.GetUserByAccount(userName,password);
-            if (admin != null) {
-                if (admin.UserRoles == EventZoneConstants.Admin||admin.UserRoles==EventZoneConstants.RootAdmin)
+        public User FindAdmin(string userName, string password)
+        {
+            User admin = UserDatabaseHelper.Instance.GetUserByAccount(userName, password);
+            if (admin != null)
+            {
+                if (admin.UserRoles == EventZoneConstants.Admin || admin.UserRoles == EventZoneConstants.RootAdmin)
                 {
                     return admin;
                 }
@@ -2328,8 +2516,10 @@ namespace EventZone.Helpers
         /// <param name="adminID"></param>
         /// <param name="EventID"></param>
         /// <returns></returns>
-        public bool LockEvent(long adminID, long eventID, string reason) {
-            try {
+        public bool LockEvent(long adminID, long eventID, string reason)
+        {
+            try
+            {
                 User user = EventDatabaseHelper.Instance.GetAuthorEvent(eventID);
                 TrackingAction newAction = new TrackingAction
                 {
@@ -2348,12 +2538,13 @@ namespace EventZone.Helpers
                 db.Entry(evt).State = EntityState.Modified;
                 db.SaveChanges();
                 db.Entry(evt).Reload();
-                
+
                 db.TrackingActions.Add(newAction);
                 db.SaveChanges();
                 return true;
             }
-            catch {
+            catch
+            {
             }
             return false;
         }
@@ -2385,7 +2576,7 @@ namespace EventZone.Helpers
                 db.Entry(evt).State = EntityState.Modified;
                 db.SaveChanges();
                 db.Entry(evt).Reload();
-                
+
                 db.TrackingActions.Add(newAction);
                 db.SaveChanges();
                 return true;
@@ -2400,7 +2591,8 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="adminID"></param>
         /// <returns></returns>
-        public bool LockUser(long adminID,long userID) {
+        public bool LockUser(long adminID, long userID)
+        {
             try
             {
                 TrackingAction newAction = new TrackingAction
@@ -2417,7 +2609,7 @@ namespace EventZone.Helpers
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 db.Entry(user).Reload();
-                
+
                 db.TrackingActions.Add(newAction);
                 db.SaveChanges();
                 return true;
@@ -2506,7 +2698,7 @@ namespace EventZone.Helpers
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 db.Entry(user).Reload();
-               
+
                 db.TrackingActions.Add(newAction);
                 db.SaveChanges();
                 return true;
@@ -2540,7 +2732,7 @@ namespace EventZone.Helpers
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 db.Entry(user).Reload();
-               
+
                 db.TrackingActions.Add(newAction);
                 db.SaveChanges();
                 return true;
@@ -2574,7 +2766,7 @@ namespace EventZone.Helpers
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 db.Entry(user).Reload();
-                
+
                 db.TrackingActions.Add(newAction);
                 db.SaveChanges();
                 return true;
@@ -2608,7 +2800,7 @@ namespace EventZone.Helpers
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 db.Entry(user).Reload();
-                
+
                 db.TrackingActions.Add(newAction);
                 db.SaveChanges();
                 return true;
@@ -2626,23 +2818,24 @@ namespace EventZone.Helpers
         /// <returns></returns>
         public Report ApproveReport(long adminID, long reportID)
         {
-            try { 
-               Report currReport= db.Reports.Find(reportID);
-               Event evt = (from a in db.Events where a.EventID==currReport.EventID select a).ToList()[0];
-               var some = db.Reports.Where(x => x.EventID == evt.EventID).ToList();
-               some.ForEach(a => a.ReportStatus = EventZoneConstants.Closed);
-               db.SaveChanges();
-               currReport.ReportStatus = EventZoneConstants.Approved;
-               currReport.HandleDate = DateTime.Now;
-               currReport.HandleBy = adminID;
-               db.Entry(currReport).State = EntityState.Modified;
-               db.SaveChanges();
-               evt.Status = EventZoneConstants.Lock;
-               db.Entry(evt).State = EntityState.Modified;
-               db.SaveChanges();
+            try
+            {
+                Report currReport = db.Reports.Find(reportID);
+                Event evt = (from a in db.Events where a.EventID == currReport.EventID select a).ToList()[0];
+                var some = db.Reports.Where(x => x.EventID == evt.EventID).ToList();
+                some.ForEach(a => a.ReportStatus = EventZoneConstants.Closed);
+                db.SaveChanges();
+                currReport.ReportStatus = EventZoneConstants.Approved;
+                currReport.HandleDate = DateTime.Now;
+                currReport.HandleBy = adminID;
+                db.Entry(currReport).State = EntityState.Modified;
+                db.SaveChanges();
+                evt.Status = EventZoneConstants.Lock;
+                db.Entry(evt).State = EntityState.Modified;
+                db.SaveChanges();
 
-               return currReport;
-            }   
+                return currReport;
+            }
             catch { }
             return null;
         }
@@ -2706,13 +2899,58 @@ namespace EventZone.Helpers
 
         public bool AddUser(User user)
         {
-            try {
+            try
+            {
                 db.Users.Add(user);
                 db.SaveChanges();
                 return true;
-            }catch{
+            }
+            catch
+            {
             }
             return false;
+        }
+        /// <summary>
+        /// Verify Event
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="eventID"></param>
+        /// <returns></returns>
+        public Event VerifyEvent(long p, long eventID)
+        {
+            try
+            {
+                Event evt = db.Events.Find(eventID);
+                evt.IsVerified = true;
+                db.Entry(evt);
+                db.SaveChanges();
+                return evt;
+            }
+            catch
+            {
+            }
+            return null;
+        }
+        /// <summary>
+        /// UnVerify Event
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="eventID"></param>
+        /// <returns></returns>
+        public Event UnVerifyEvent(long p, long eventID)
+        {
+            try
+            {
+                Event evt = db.Events.Find(eventID);
+                evt.IsVerified = false;
+                db.Entry(evt);
+                db.SaveChanges();
+                return evt;
+            }
+            catch
+            {
+            }
+            return null;
         }
     }
     /// <summary>
@@ -2726,18 +2964,18 @@ namespace EventZone.Helpers
         {
             db = new EventZoneEntities();
         }
-        public Dictionary<string,int> GetEventCount()
+        public Dictionary<string, int> GetEventCount()
         {
             Dictionary<string, int> result = new Dictionary<string, int>();
             //result.Add("Total",db.Events.Count());
             var eachCategoryCount = (from b in db.Events
-                group b by b.CategoryID
-                into g
-                select new {CategoryID = g.Key, Count = g.Count()}).ToList();
-            
+                                     group b by b.CategoryID
+                                         into g
+                                         select new { CategoryID = g.Key, Count = g.Count() }).ToList();
+
             foreach (var item in eachCategoryCount)
             {
-                result.Add(CommonDataHelpers.Instance.GetCategoryById(item.CategoryID).CategoryName,item.Count);
+                result.Add(CommonDataHelpers.Instance.GetCategoryById(item.CategoryID).CategoryName, item.Count);
             }
             return result;
         }
@@ -2746,9 +2984,9 @@ namespace EventZone.Helpers
         {
             Dictionary<string, int> result = new Dictionary<string, int>() { };
             var eachEventCount = (from b in db.Events
-                                   group b by b.Status
-                                       into g
-                                       select new { EventStatus = g.Key, Count = g.Count() }).ToList();
+                                  group b by b.Status
+                                      into g
+                                      select new { EventStatus = g.Key, Count = g.Count() }).ToList();
             foreach (var item in eachEventCount)
             {
                 if (item.EventStatus)
@@ -2761,7 +2999,7 @@ namespace EventZone.Helpers
                 }
             }
             return result;
-        } 
+        }
 
         public Dictionary<string, List<int>> GetEventCreatedEachMonth()
         {
@@ -2769,17 +3007,17 @@ namespace EventZone.Helpers
             List<Category> categories = CommonDataHelpers.Instance.GetAllCategory();
             foreach (var item in categories)
             {
-                List<int> data = new List<int> {};
+                List<int> data = new List<int> { };
                 var EventCreatedEachMonth = (from b in db.Events
-                    where b.CategoryID == item.CategoryID
-                    group b by b.EventStartDate.Month
-                    into g
-                    orderby g.Key ascending
-                    select new {Month = g.Key, Count = g.Count()}).ToList();
+                                             where b.CategoryID == item.CategoryID
+                                             group b by b.EventStartDate.Month
+                                                 into g
+                                                 orderby g.Key ascending
+                                                 select new { Month = g.Key, Count = g.Count() }).ToList();
                 for (int i = 1; i < 13; i++)
                 {
                     bool checkValidMonth = false;
-                    int getData=0;
+                    int getData = 0;
                     for (int j = 0; j < EventCreatedEachMonth.Count; j++)
                     {
                         if (i == EventCreatedEachMonth[j].Month)
@@ -2796,9 +3034,9 @@ namespace EventZone.Helpers
                     {
                         data.Add(0);
                     }
-                        
+
                 }
-                result.Add(item.CategoryName,data);
+                result.Add(item.CategoryName, data);
             }
             return result;
         }
@@ -2807,14 +3045,14 @@ namespace EventZone.Helpers
         {
             Dictionary<Event, long> result = new Dictionary<Event, long>() { };
             db.EventRanks.Load();
-            var listEvent = (from a in db.EventRanks orderby a.Score descending select new{id=a.EventId,score=a.Score}).Take(10).ToList();
+            var listEvent = (from a in db.EventRanks orderby a.Score descending select new { id = a.EventId, score = a.Score }).Take(10).ToList();
             foreach (var item in listEvent)
             {
                 Event evt = db.Events.Find(item.id);
                 if (evt != null)
                 {
                     db.Entry(evt).Reload();
-                    result.Add(evt,item.score);
+                    result.Add(evt, item.score);
                 }
             }
             return result;
@@ -2824,10 +3062,10 @@ namespace EventZone.Helpers
         {
             Dictionary<Location, int> result = new Dictionary<Location, int>() { };
             var listLocation = (from a in db.EventPlaces
-                group a by a.LocationID
-                into g
-                orderby g.Count() descending
-                select new {LocationID = g.Key, Count = g.Count()}).ToList().Take(10);
+                                group a by a.LocationID
+                                    into g
+                                    orderby g.Count() descending
+                                    select new { LocationID = g.Key, Count = g.Count() }).ToList().Take(10);
             foreach (var item in listLocation)
             {
                 result.Add(db.Locations.ToList().FindAll(i => i.LocationID == item.LocationID)[0], item.Count);
@@ -2837,11 +3075,11 @@ namespace EventZone.Helpers
 
         public Dictionary<User, int> GetTopTenCreatedUser()
         {
-            Dictionary<User, int> result = new Dictionary<User, int>() {};
+            Dictionary<User, int> result = new Dictionary<User, int>() { };
             var listUser = db.Users.ToList();
             foreach (var item in listUser)
             {
-                result.Add(item,UserDatabaseHelper.Instance.CountOwnedEvent(item.UserID,false));
+                result.Add(item, UserDatabaseHelper.Instance.CountOwnedEvent(item.UserID, false));
             }
             var tmp = (from p in result orderby p.Value descending select p).ToList().Take(10);
             result.Clear();
@@ -2852,14 +3090,14 @@ namespace EventZone.Helpers
             return result;
         }
 
-        public Dictionary<string,int> GenderRate()
+        public Dictionary<string, int> GenderRate()
         {
             var listUser = (from a in db.Users
-                group a by a.Gender
-                into g
-                orderby g.Count() descending
-                select new {Gender = g.Key, Count = g.Count()}).ToList();
-            Dictionary<string,int> result = new Dictionary<string,int>(){};
+                            group a by a.Gender
+                                into g
+                                orderby g.Count() descending
+                                select new { Gender = g.Key, Count = g.Count() }).ToList();
+            Dictionary<string, int> result = new Dictionary<string, int>() { };
             foreach (var item in listUser)
             {
                 if (item.Gender == 0)
@@ -2876,15 +3114,15 @@ namespace EventZone.Helpers
 
         public Dictionary<string, int> GetGroupAgeReport()
         {
-            Dictionary<string, int> result = new Dictionary<string, int>() {};
-            var rangeYear = new List<int>{0,15,30,45,60};
+            Dictionary<string, int> result = new Dictionary<string, int>() { };
+            var rangeYear = new List<int> { 0, 15, 30, 45, 60 };
             var groupAge = db.Users.Where(p => p.UserDOB != null).ToList()
                 .Select(p => new { UserId = p.UserID, Age = DateTime.Now.Year - p.UserDOB.Year })
                 .GroupBy(p => (int)((p.Age - 16) / 10))
                 .Select(g => new { AgeGroup = string.Format("{0} - {1}", g.Key * 10 + 16, g.Key * 10 + 25), Count = g.Count() }).ToList();
             foreach (var item in groupAge)
             {
-                result.Add(item.AgeGroup,item.Count);
+                result.Add(item.AgeGroup, item.Count);
             }
             return result;
 
@@ -2902,10 +3140,10 @@ namespace EventZone.Helpers
         }
         public Dictionary<string, int> GetReportByType()
         {
-            Dictionary<string, int> result = new Dictionary<string, int>() {};
+            Dictionary<string, int> result = new Dictionary<string, int>() { };
             var eachReportCount = (from b in db.Reports
-                                     group b by b.ReportType
-                                         into g
+                                   group b by b.ReportType
+                                       into g
                                        select new { ReportTypeID = g.Key, Count = g.Count() }).ToList();
             foreach (var item in eachReportCount)
             {
@@ -2969,9 +3207,11 @@ namespace EventZone.Helpers
         }
     }
 
-    public class NotificationDataHelpers : SingletonBase<NotificationDataHelpers> {
+    public class NotificationDataHelpers : SingletonBase<NotificationDataHelpers>
+    {
         private static EventZoneEntities db;
-        private NotificationDataHelpers() {
+        private NotificationDataHelpers()
+        {
             db = new EventZoneEntities();
         }
         /// <summary>
@@ -2979,23 +3219,27 @@ namespace EventZone.Helpers
         /// </summary>
         /// <param name="isRead"> isRead= true meaning select all notification, esle select only unread notification</param>
         /// <returns></returns>
-        public List<NotificationChange> GetUserNotification(long userID, bool isRead= true) {
+        public List<NotificationChange> GetUserNotification(long userID, bool isRead = true)
+        {
             List<NotificationChange> listNotification = new List<NotificationChange>();
-            try {
-               List<NotificationObject> listNotiObject= (from a in db.Notifications join b in db.NotificationObjects on a.ID equals b.NotificationID where a.UserID==userID select b).ToList();
+            try
+            {
+                List<NotificationObject> listNotiObject = (from a in db.Notifications join b in db.NotificationObjects on a.ID equals b.NotificationID where a.UserID == userID select b).ToList();
 
-               foreach (var item in listNotiObject)
-               {
+                foreach (var item in listNotiObject)
+                {
 
-                   List<NotificationChange> list = (from a in db.NotificationChanges join b in db.NotificationObjects on a.NotificationObjectID equals b.ID where b.ID==item.ID select a).ToList();
+                    List<NotificationChange> list = (from a in db.NotificationChanges join b in db.NotificationObjects on a.NotificationObjectID equals b.ID where b.ID == item.ID select a).ToList();
                     listNotification.AddRange(list);
                 }
-               listNotification=listNotification.Distinct().ToList();
+                listNotification = listNotification.Distinct().ToList();
 
-                if (!isRead) {
+                if (!isRead)
+                {
                     listNotification.RemoveAll(r => r.IsRead == true);
                 }
-                foreach (var item in listNotification) {
+                foreach (var item in listNotification)
+                {
                     db.Entry(item).Reload();
                 }
                 return listNotification;
@@ -3010,7 +3254,8 @@ namespace EventZone.Helpers
         public NotificationObject GetNotificationObjectByID(long? notificationObjectID)
         {
             NotificationObject result = new NotificationObject();
-            try {
+            try
+            {
                 result = db.NotificationObjects.Find(notificationObjectID);
             }
             catch { }
@@ -3018,19 +3263,23 @@ namespace EventZone.Helpers
         }
         public Notification GetNotifycationByUser(long userID)
         {
-            try {
+            try
+            {
                 Notification result = (from a in db.Notifications where a.UserID == userID select a).ToList()[0];
                 return result;
             }
             catch { }
             return null;
         }
-        public NotificationObject GetNotificationObjectByType(int type,long userID) {
+        public NotificationObject GetNotificationObjectByType(int type, long userID)
+        {
             NotificationObject result = new NotificationObject();
-            try {
-                Notification noti= GetNotifycationByUser(userID);
-                if(noti!=null){
-                result = (from a in db.NotificationObjects where a.Type == type &&  a.NotificationID==noti.ID select a).ToList()[0];
+            try
+            {
+                Notification noti = GetNotifycationByUser(userID);
+                if (noti != null)
+                {
+                    result = (from a in db.NotificationObjects where a.Type == type && a.NotificationID == noti.ID select a).ToList()[0];
                 }
             }
             catch { }
@@ -3040,25 +3289,28 @@ namespace EventZone.Helpers
         /// count total notification of user
         /// </summary>
         /// <returns></returns>
-        public int CountTotalNewNotification(long userID) {
+        public int CountTotalNewNotification(long userID)
+        {
 
             int result = 0;
-            try {
+            try
+            {
                 List<NotificationChange> listNewNotification = GetUserNotification(userID, false);
-                List<NotificationChange> listNotificationNewEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.FollowingUserAddNewEvent,userID);
-                List<NotificationChange> listNotificationNewFollower = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.NewFollower,userID);
-                List<NotificationChange> listNotificationLockEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.EventHasBeenLocked,userID);
-                List<NotificationChange> listNotificationUnLockEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.EventHasBeenUnLocked,userID);
-                List<NotificationChange> listNotificationRequestUpImage = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.RequestUploadImage,userID);
-                List<NotificationChange> listNotificationNewReport = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.ReportNotification,userID);
-                List<NotificationChange> listNotificationNewComment = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.CommentNotification,userID);
+                List<NotificationChange> listNotificationNewEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.FollowingUserAddNewEvent, userID);
+                List<NotificationChange> listNotificationNewFollower = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.NewFollower, userID);
+                List<NotificationChange> listNotificationLockEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.EventHasBeenLocked, userID);
+                List<NotificationChange> listNotificationUnLockEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.EventHasBeenUnLocked, userID);
+                List<NotificationChange> listNotificationRequestUpImage = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.RequestUploadImage, userID);
+                List<NotificationChange> listNotificationNewReport = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.ReportNotification, userID);
+                List<NotificationChange> listNotificationNewComment = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.CommentNotification, userID);
+
                 result = listNotificationNewEvent.Count + listNotificationLockEvent.Count + listNotificationUnLockEvent.Count;
                 if (listNotificationNewFollower != null && listNotificationNewFollower.Count > 0)
                 {
                     result = result + 1;
                 }
                 ///count number request upload image to event group by event and user
-                result = result + listNotificationRequestUpImage.Distinct(new GroupByActorIdAndEventID()).ToList().Count;
+                result = result + listNotificationRequestUpImage.Distinct(new GroupByEventIDNotification()).ToList().Count;
                 // count number comment group by event and user
                 result = result + listNotificationNewComment.Distinct(new GroupByActorIdAndEventID()).ToList().Count;
                 // count number report group by event
@@ -3077,10 +3329,9 @@ namespace EventZone.Helpers
         public List<NotificationChange> GetNotifyByUserAndType(List<NotificationChange> list, int type, long userID)
         {
             List<NotificationChange> result = list;
-            
             try
             {
-                long notificationObjectID = GetNotificationObjectByType(type,userID).ID;
+                long notificationObjectID = GetNotificationObjectByType(type, userID).ID;
                 result = result.FindAll(o => o.NotificationObjectID == notificationObjectID);
             }
             catch { }
@@ -3094,12 +3345,13 @@ namespace EventZone.Helpers
         //public static int EventHasBeenLocked = 6;
         //public static int EventHasBeenUnLocked = 7;
 
-        public bool AddNotification(long receiverID, int type, long? actorID, long? eventID) {
+        public bool AddNotification(long receiverID, int type, long? actorID, long? eventID)
+        {
             try
             {
-                List<Notification> listNoti= (from a in db.Notifications where a.UserID == receiverID select a).ToList();
+                List<Notification> listNoti = (from a in db.Notifications where a.UserID == receiverID select a).ToList();
                 Notification noti = new Notification();
-                if (listNoti == null ||listNoti.Count==0)
+                if (listNoti == null || listNoti.Count == 0)
                 {
                     noti = new Notification { UserID = receiverID };
                     db.Notifications.Add(noti);
@@ -3117,7 +3369,8 @@ namespace EventZone.Helpers
                     db.NotificationObjects.Add(notiobject);
                     db.SaveChanges();
                 }
-                else {
+                else
+                {
                     notiobject = listNotiObject[0];
                 }
                 NotificationChange newNotify = new NotificationChange();
@@ -3137,13 +3390,15 @@ namespace EventZone.Helpers
                 return true;
             }
             catch { }
-            return false;               
+            return false;
 
         }
-        public List<NotificationChange> RemoveDupilicateNotify (List<NotificationChange> listNewNotification,long userID){
+        public List<NotificationChange> RemoveDupilicateNotify(List<NotificationChange> listNewNotification, long userID)
+        {
             List<NotificationChange> result = listNewNotification;
 
-            try {
+            try
+            {
                 List<NotificationChange> listNotificationNewEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.FollowingUserAddNewEvent, userID);
                 List<NotificationChange> listNotificationNewFollower = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.NewFollower, userID);
                 List<NotificationChange> listNotificationLockEvent = GetNotifyByUserAndType(listNewNotification, EventZoneConstants.EventHasBeenLocked, userID);
@@ -3159,16 +3414,16 @@ namespace EventZone.Helpers
                 }
                 result.AddRange(listNotificationLockEvent);
                 result.AddRange(listNotificationUnLockEvent);
-                listNotificationRequestUpImage=listNotificationRequestUpImage.Distinct(new GroupByActorIdAndEventID()).ToList();
+                listNotificationRequestUpImage = listNotificationRequestUpImage.Distinct(new GroupByEventIDNotification()).ToList();
                 result.AddRange(listNotificationRequestUpImage);
                 listNotificationNewReport = listNotificationNewReport.Distinct(new GroupByEventIDNotification()).ToList();
                 result.AddRange(listNotificationNewReport);
                 listNotificationNewComment = listNotificationNewComment.Distinct(new GroupByActorIdAndEventID()).ToList();
                 result.AddRange(listNotificationNewComment);
-                result= result.OrderBy(o => o.CreatedDate).ToList();
+                result = result.OrderBy(o => o.CreatedDate).ToList();
             }
             catch { }
-            return result;  
+            return result;
         }
 
         /// <summary>
@@ -3178,11 +3433,13 @@ namespace EventZone.Helpers
         /// <param name="followingID"></param>
         /// <param name="isRead"></param>
         /// <returns></returns>
-        public List<User> GetNewUserFollowNotify(long? followerID, long followingID, bool isRead) {
+        public List<User> GetNewUserFollowNotify(long? followerID, long followingID, bool isRead)
+        {
             List<NotificationChange> listNoti = GetUserNotification(followingID, isRead);
-            List<NotificationChange> listNewFollowerNotificaton= GetNotifyByUserAndType(listNoti, EventZoneConstants.NewFollower, followingID);
+            List<NotificationChange> listNewFollowerNotificaton = GetNotifyByUserAndType(listNoti, EventZoneConstants.NewFollower, followingID);
             List<User> result = new List<User>();
-            try {
+            try
+            {
                 if (listNewFollowerNotificaton != null && listNewFollowerNotificaton.Count > 0)
                 {
                     foreach (var item in listNewFollowerNotificaton)
@@ -3191,12 +3448,12 @@ namespace EventZone.Helpers
                         result.Add(user);
                     }
                 }
-                result= result.Distinct().ToList();
+                result = result.Distinct().ToList();
                 return result;
             }
             catch { }
             return null;
-    
+
 
         }
 
@@ -3207,29 +3464,31 @@ namespace EventZone.Helpers
         /// <param name="receiverID"></param>
         /// <param name="actorID"></param>
         /// <returns></returns>
-        public List<User> GetNewUserReportToEvent(long eventID,long receiverID, bool isRead){
+        public List<User> GetNewUserReportToEvent(long eventID, long receiverID, bool isRead)
+        {
 
-            List<NotificationChange> listNoti = GetUserNotification(receiverID,isRead);
+            List<NotificationChange> listNoti = GetUserNotification(receiverID, isRead);
             List<NotificationChange> listNotificationNewReport = GetNotifyByUserAndType(listNoti, EventZoneConstants.ReportNotification, receiverID);
-            List<User> result=new List<User>();
+            List<User> result = new List<User>();
             listNotificationNewReport = listNotificationNewReport.Distinct(new GroupByEventIDNotification()).ToList();
             foreach (var item in listNotificationNewReport)
             {
                 User user = db.Users.Find(item.ActorID);
                 result.Add(user);
             }
-            result=result.Distinct().ToList();
+            result = result.Distinct().ToList();
             return result;
-        } 
+        }
         /// <summary>
         /// send notify new event is created to all follower
         /// </summary>
         /// <param name="userID"></param>
         /// <param name="EventID"></param>
-        public void SendNotifyNewEventToFollower(long actorID,long eventID)
+        public void SendNotifyNewEventToFollower(long actorID, long eventID)
         {
             List<User> listFollowingUser = UserDatabaseHelper.Instance.GetListFollowerOfUser(actorID);
-            foreach (var item in listFollowingUser) {
+            foreach (var item in listFollowingUser)
+            {
                 AddNotification(item.UserID, EventZoneConstants.FollowingUserAddNewEvent, actorID, eventID);
             }
         }
@@ -3238,7 +3497,7 @@ namespace EventZone.Helpers
         /// </summary>
         public void SendNotiNewFollower(long receiverID, long actorID)
         {
-            List<NotificationChange> listNotiFollow = (from a in db.NotificationChanges join b in db.NotificationObjects on a.NotificationObjectID equals b.ID where a.ActorID == actorID &&  b.Type== EventZoneConstants.NewFollower select a).ToList();
+            List<NotificationChange> listNotiFollow = (from a in db.NotificationChanges join b in db.NotificationObjects on a.NotificationObjectID equals b.ID where a.ActorID == actorID && b.Type == EventZoneConstants.NewFollower select a).ToList();
             if (listNotiFollow != null && listNotiFollow.Count > 0)
             {
                 try
@@ -3250,23 +3509,26 @@ namespace EventZone.Helpers
                     db.SaveChanges();
                 }
                 catch { }
-               
+
             }
-            else {
+            else
+            {
                 AddNotification(receiverID, EventZoneConstants.NewFollower, actorID, null);
             }
-           
+
         }
-        public void SendNotiNewReport(long receiverID, long actorID, long eventID) {
+        public void SendNotiNewReport(long receiverID, long actorID, long eventID)
+        {
             AddNotification(receiverID, EventZoneConstants.ReportNotification, actorID, eventID);
         }
-        public void SendNotiLockEvent(long receiverID, long actorID, long eventID) {
+        public void SendNotiLockEvent(long receiverID, long actorID, long eventID)
+        {
             AddNotification(receiverID, EventZoneConstants.EventHasBeenLocked, actorID, eventID);
         }
 
         public void SendNotiUnLockEvent(long receiverID, long actorID, long eventID)
         {
-            
+
             AddNotification(receiverID, EventZoneConstants.EventHasBeenUnLocked, actorID, eventID);
         }
 
@@ -3274,13 +3536,135 @@ namespace EventZone.Helpers
         {
             List<User> listUser = EventDatabaseHelper.Instance.GetUniqueUserComment(eventID);
             User user = UserDatabaseHelper.Instance.GetUserByID(actorID);
-            if (user != null) {
-                listUser.RemoveAll(o=>o.UserID==actorID);
+            if (user != null)
+            {
+                listUser.RemoveAll(o => o.UserID == actorID);
             }
-            foreach (var item in listUser) {
+            foreach (var item in listUser)
+            {
                 AddNotification(item.UserID, EventZoneConstants.CommentNotification, actorID, eventID);
             }
 
+        }
+        public void SendNotiRequestUploadImage(long actorID, long eventID)
+        {
+            User receiver = EventDatabaseHelper.Instance.GetAuthorEvent(eventID);
+            AddNotification(receiver.UserID, EventZoneConstants.RequestUploadImage, actorID, eventID);
+        }
+
+        /// <summary>
+        /// Get Notification change
+        /// </summary>
+        /// <param name="notificationChangeID"></param>
+        /// <returns></returns>
+        public NotificationChange GetNotificationChangeByID(int notificationChangeID)
+        {
+            try
+            {
+                var result = (from a in db.NotificationChanges where a.ID == notificationChangeID select a).ToList()[0];
+                return result;
+            }
+            catch { }
+            return null;
+        }
+        /// <summary>
+        /// mark a notification as read
+        /// </summary>
+        /// <param name="notiChange"></param>
+        /// <returns></returns>
+        public bool ReadNotification(NotificationChange notiChange)
+        {
+            try
+            {
+                notiChange.IsRead = true;
+                db.Entry(notiChange).State = EntityState.Modified;
+                db.SaveChanges();
+                return true;
+            }
+            catch { }
+            return false;
+
+        }
+        /// <summary>
+        /// mark notification about comment in an event as read
+        /// </summary>
+        /// <param name="notiChange"></param>
+        /// <param name="userID"></param>
+        public void ReadNotifiComment(NotificationChange notiChange, long userID)
+        {
+            try
+            {
+                var result = (from an in db.NotificationChanges join b in db.NotificationObjects on an.NotificationObjectID equals b.ID join c in db.Notifications on b.NotificationID equals c.ID where an.IsRead == false && an.EventID == notiChange.EventID && b.Type == EventZoneConstants.CommentNotification && c.UserID == userID select an).ToList();
+                foreach (NotificationChange item in result)
+                {
+                    ReadNotification(item);
+                }
+            }
+            catch
+            {
+            }
+        }
+        /// <summary>
+        /// Mark notification about new follow as read
+        /// </summary>
+        /// <param name="notiChange"></param>
+        /// <param name="userID"></param>
+        public void ReadNotifiNewFollow(NotificationChange notiChange, long userID)
+        {
+            try
+            {
+                var result = (from an in db.NotificationChanges join b in db.NotificationObjects on an.NotificationObjectID equals b.ID join c in db.Notifications on b.NotificationID equals c.ID where !an.IsRead && b.Type == EventZoneConstants.NewFollower && c.UserID == userID select an).ToList();
+                foreach (NotificationChange item in result)
+                {
+                    ReadNotification(item);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+        /// <summary>
+        /// mark notification about report event as read
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="p"></param>
+        public void ReadNotifiReport(NotificationChange notiChange, long userID)
+        {
+            try
+            {
+                var result = (from an in db.NotificationChanges join b in db.NotificationObjects on an.NotificationObjectID equals b.ID join c in db.Notifications on b.NotificationID equals c.ID where !an.IsRead && an.EventID == notiChange.EventID && b.Type == EventZoneConstants.ReportNotification && c.UserID == userID select an).ToList();
+                foreach (NotificationChange item in result)
+                {
+                    ReadNotification(item);
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// mark notification about requestupload Image as read
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="p"></param>
+        public void ReadNotifiRequestUploadImage(NotificationChange notiChange)
+        {
+            try
+            {
+                var result = (from an in db.NotificationChanges
+                              join b in db.NotificationObjects on an.NotificationObjectID equals b.ID
+                              where !an.IsRead && an.EventID == notiChange.EventID && b.Type == EventZoneConstants.RequestUploadImage
+                              select an).ToList();
+                foreach (NotificationChange item in result)
+                {
+                    ReadNotification(item);
+                }
+            }
+            catch
+            {
+            }
         }
     }
 }

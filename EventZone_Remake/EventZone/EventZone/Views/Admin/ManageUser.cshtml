@@ -1,6 +1,5 @@
 ﻿@using EventZone.Models
 @using EventZone.Helpers
-@model IEnumerable<EventZone.Models.User>
 @{
     User admin = UserHelpers.GetCurrentAdmin(Session);
     if (admin == null)
@@ -9,9 +8,45 @@
     }
     ViewBag.Title = "ManageUser";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    List<User> allUser = Model.ToList() as List<User>;
+
 }
-<button id="btn-add-user">Add new user</button>
+<style>
+.myButton {
+	-moz-box-shadow:inset 0px 0px 2px -29px #cc2288;
+	-webkit-box-shadow:inset 0px 0px 2px -29px #cc2288;
+	box-shadow:inset 0px 0px 2px -29px #cc2288;
+	background-color:#d3ebd9;
+	-moz-border-radius:17px;
+	-webkit-border-radius:17px;
+	border-radius:17px;
+
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 14px;
+	text-decoration:none;
+	text-shadow:1px 0px 20px #2f6627;
+}
+
+
+.myButton:hover {
+	background-color:#de45d4;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+</style>
+
+<style>
+    .scroll-content {
+        height: 500px;
+    }
+</style>
+
 <div class="modal fade d_modal" id="add-new-user-modal" role="dialog">
     <div class="modal-dialog" style="margin-top: 120px; width: 30%;">
         <!-- Modal content-->
@@ -27,13 +62,8 @@
     </div>
 </div>
 
-<script>
-    $("#btn-add-user").click(function () {
 
-        $("#add-new-user-modal").modal("show");
-    })
 
-</script>
 
 <div class="modal fade d_modal" id="change-email-modal" role="dialog">
     <div class="modal-dialog" style="margin-top: 120px; width: 30%;">
@@ -64,103 +94,44 @@
         </div>
     </div>
 </div>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 interactButton" style="margin-left: 5%; margin-bottom: 10px">
+    <button class="btn btn-success" type="submit" id="btn-add-user">
+        Add New User
+    </button>
+    <input type="text" name="Keyword" id="Keyword" class="form-control" aria-label="Text input with segmented button dropdown" placeholder="Search for user or role" style="width: 250px; display: inline-block">
+    <button class="btn btn-default" type="submit">
+        <span class="glyphicon glyphicon-search"></span>
+    </button>
+    <button class="myButton" id="filter-all">All</button>
+    <button class="myButton" id="filter-user">User</button>
+    <button class="myButton" id="filter-mod">Mod</button>
+    <button class="myButton" id="filter-locked">Lock</button>
+    Sort by
+    <span class="select-style">
+        <select id="sort">
+            <option value="default">Default</option>
+            <option value="datejoin">Date Join</option>
+        </select>
+    </span>
+    <div>
+        <h4>
+            <span id="number-result">
+            </span>
+        </h4>
+    </div>
+</div>
 
-@if (allUser != null && allUser.Count != 0)
-{
-    for (int i = 0; i < allUser.Count; i++)
-    {
-        User user = allUser[i];
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 d_user_card_cover">
-            <!-- e_ để đánh dấu CSS EVENT -->
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-2 d_u_thumb">
-                <img src="@EventDatabaseHelper.Instance.GetImageByID(user.Avartar).ImageLink">
-            </div>
-            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-10 d_u_info_cover">
-                <div class="col-xs-11 col-sm-11 col-md-11 col-lg-11 d_u_title">
-                    @Html.ActionLink(UserDatabaseHelper.Instance.GetUserDisplayName(user.UserID), "Index", "User", new { userID = user.UserID }, new { target = "_blank" })
-                </div>
-                <div class="btn-group d_u_btn_more">
-                    <span id="lock-icon-@user.UserID">
-                        @if (user.AccountStatus == EventZoneConstants.Lock)
-                        {
-                            <button type="button" class="btn btn-default dropdown-toggle">
-                                <span class="glyphicon glyphicon-lock"></span>
-                            </button>
-                        }
-                    </span>
-                    <div id="role-define-@user.UserID">
-                    @if (user.UserRoles == EventZoneConstants.Mod)
-                    {
-                        <div style="margin-bottom: 10px" class="input-group">
-                            <span class="input-group-addon" id="user-role-define-@user.UserID">Mod</span>
-                        </div>
-                    }
-                    else if (user.UserRoles == EventZoneConstants.Admin)
-                    {
-                        <div style="margin-bottom: 10px" class="input-group">
-                            <span class="input-group-addon" id="user-role-define-@user.UserID">Admin</span>
-                        </div>
-                    }
-                    else if (user.UserRoles == EventZoneConstants.RootAdmin)
-                    {
-                        <div style="margin-bottom: 10px" class="input-group">
-                            <span class="input-group-addon" id="user-role-define-@user.UserID">Root Admin</span>
-                        </div>
-                    }
-                    </div>
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="glyphicon glyphicon-option-vertical"></span>
-                    </button>
-                    <ul class="dropdown-menu d_u_drop_menu" id="ul-lock-unlock-@user.UserID">
-                        @if (user.AccountStatus == EventZoneConstants.Active)
-                        {
-                            <li><a href="#" id="lock-user-@user.UserID" onclick="LockUser(@user.UserID)">Lock</a></li>
-                        }
-                        else
-                        {
-                            <li><a href="#" id="unlock-user-@user.UserID" onclick="UnlockUser(@user.UserID)">Unlock</a></li>
-                        }
-                        <li><a href="#" onclick="ShowChangeEmailModal(@user.UserID)">Change Email</a></li>
-                        @if (user.UserRoles != EventZoneConstants.Mod)
-                        {
-                            <li><a href="#" id="set-mod-@user.UserID" onclick="SetMod(@user.UserID)">Set Mod</a></li>
-                        }
-                        else if (user.UserRoles == EventZoneConstants.Mod)
-                        {
-                            <li><a href="#" id="unset-mod-@user.UserID" onclick="UnSetMod(@user.UserID)">UnSet Mod</a></li>
-                        }
-                        @if (user.UserRoles != EventZoneConstants.Admin && admin.UserRoles == EventZoneConstants.RootAdmin)
-                        {
-                            <li><a href="#" id="set-admin-@user.UserID" onclick="SetAdmin(@user.UserID)">Set Admin</a></li>
-                        }
-                        else if (user.UserRoles == EventZoneConstants.Admin && admin.UserRoles == EventZoneConstants.RootAdmin)
-                        {
-                            <li><a href="#" id="unset-mod-@user.UserID" onclick="UnSetAdmin(@user.UserID)">UnSet Admin</a></li>
+<div class="scroll-content" style="height:400px" id="user-r">
+        @Html.Action("SearchUser", "Admin")
+</div>
 
-                        }
-                    </ul>
-                </div>
-                <div class="d_u_cate">
-                    <i class="fa fa-font"></i>
-                    <div class="d_fill_in">Number Event: <a href="@Url.Action("Event", "User", new { userID=user.UserID})"><i>@UserDatabaseHelper.Instance.CountOwnedEvent(user.UserID,true)</i></a></div>
-                </div>
-                <div class="d_u_follower">
-                    <i class="fa fa-star"></i>
-                    <div class="d_fill_in">Follower: <a href=""><i>@UserDatabaseHelper.Instance.NumberFollower(user.UserID)</i></a></div>
-                </div>
-                <div class="d_u_date">
-                    <i class="fa fa-calendar-check-o"></i>
-                    <div class="d_fill_in">Date Join: @user.DataJoin.ToShortDateString()</div>
-                </div>
-                <div class="d_u_time">
-                    <i class="fa fa-clock-o"></i>
-                    <div class="d_fill_in" id="email-display-@user.UserID">Email: @user.UserEmail</div>
-                </div>
-            </div>
-        </div>
+<script>
+    $("#btn-add-user").click(function () {
 
-    }
-}
+        $("#add-new-user-modal").modal("show");
+    })
+
+</script>
 <script>
     function LockUser(userID) {
         $.ajax({
@@ -173,8 +144,7 @@
                     errorShow(data.error, data.message)
                 } else {
                     $("#lock-icon-" + userID).empty();
-                    $("#lock-icon-" + userID).prepend('<button type="button" class="btn btn-default dropdown-toggle">' +
-                            '<span class="glyphicon glyphicon-lock"></span>' + '</button>')
+                    $("#lock-icon-" + userID).prepend('<span class="col-md-1 col-lg-1 label label-danger"><span class=" glyphicon glyphicon-lock"></span></span>')
                     $("#lock-user-" + userID).remove();
                     $("#ul-lock-unlock-" + userID).prepend('<li><a href="#" id="unlock-user-' + userID + '" onclick="UnlockUser(' + userID + ')">Unlock</a></li>')
                 }
@@ -217,7 +187,7 @@
     }
     function changeEmailPost() {
         if ($("#target-user-ID").val() == null || isNaN($("#target-user-ID").val())) {
-                alert("somthing wrong!")
+            alert("somthing wrong!")
         } else if ($("#newEmail").val() == null || $("#newEmail").val() == "") {
             $("#ChangeEmailError").empty();
             $("#ChangeEmailError").append("<p>Please enter new email!<p>");
@@ -226,7 +196,7 @@
             $("#ChangeEmailError").append("<p>Wrong email format!<p>");
         } else {
             var userID = $("#target-user-ID").val();
-            var newEmail= $("#newEmail").val();
+            var newEmail = $("#newEmail").val();
             $.ajax({
                 url: "/Admin/ChangeUserEmail",
                 type: "POST",
@@ -234,15 +204,15 @@
                 data: { userID: userID, newEmail: newEmail },
                 success: function (data) {
                     if (data.state == 0) {
-                       $("#change-email-modal").modal("hide");
-                       errorShow(data.error, data.message)
+                        $("#change-email-modal").modal("hide");
+                        errorShow(data.error, data.message)
                     } else {
                         $("#change-email-modal").modal("hide");
                         $("#ChangeEmailError").empty();
                         $("#target-user-ID").val(null);
                         $("#newEmail").val(null);
                         $("#email-display-" + userID).empty();
-                        $("#email-display-" + userID).append("<p>Email: "+data.newEmail+"</p>");
+                        $("#email-display-" + userID).append("<p>Email: " + data.newEmail + "</p>");
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
@@ -254,11 +224,11 @@
         }
     }
 
-    function checkEmail(email){
-        var filter=/^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+    function checkEmail(email) {
+        var filter = /^([\w-]+(?:\.[\w-]+)*)@@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
         if (filter.test(email))
             return true;
-        else{
+        else {
             return false;
         }
     }
@@ -274,10 +244,8 @@
                     if (data.state == 0) {
                         errorShow(data.error, data.message)
                     } else {
-                        $("#role-define-"+ userID).empty();
-                        $("#role-define-"+userID).append('<div style="margin-bottom: 10px" class="input-group">'+
-                            '<span class="input-group-addon" id="user-role-define-'+userID+'">Mod</span>'+
-                        '</div>')
+                        $("#role-define-" + userID).empty();
+                        $("#role-define-" + userID).append('<span id="role-define-' + userID + '" class="col-md-1 col-lg-1 label label-primary" style="font-size:86%">Mod</span>')
                         $("#set-mod-" + userID).remove();
                         $("#ul-lock-unlock-" + userID).prepend('<li><a href="#" id="unset-mod-' + userID + '" onclick="UnSetMod(' + userID + ')">UnSet Mod</a></li>')
 
@@ -307,7 +275,7 @@
                         errorShow(data.error, data.message)
                     } else {
                         $("#role-define-" + userID).empty();
-                        $("#role-define-" + userID).append('');
+                        $("#role-define-" + userID).append('<span id="role-define-' + userID + '" class="col-md-1 col-lg-1 label label-success" style="font-size:86%">User</span>');
                         $("#unset-mod-" + userID).remove();
                         $("#ul-lock-unlock-" + userID).prepend('<li><a href="#" id="set-mod-' + userID + '" onclick="SetMod(' + userID + ')">Set Mod</a></li>')
                     }
@@ -353,7 +321,7 @@
 
         }
     }
-    
+
     function UnSetAdmin(userID) {
         var r = confirm("Do you want to set this Admin to User?");
         if (r == true) {
@@ -384,11 +352,172 @@
     }
 
 
-    $(window).scroll(function () {
-        if ($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
-            alert("near bottom!");
-        }
-    });
+    var all = true;
+    //var mod = false;
+    //var user = false;
+    var user = false;
+    var mod = false;
+    var lock = false;
+    var page = 2;
     
+    var sort = $("#sort").val();
+    $("#sort").change(function () {
+        sort = $("#sort").val();
+        $("#event-r").empty();
+        page = 1;
+        Search();
+    })
+    var keyword;
+    $("#Keyword").change(function () {
+        keyword = $("#Keyword").val();
+
+    })
+    
+    $("#filter-all").css("background", "#de45d4")
+    $("#filter-all").click(function(){
+        //mod = false;
+        //user = false;
+        user = false;
+        mod = false;
+        lock = false;
+        all = true;
+        $(".myButton").css("background", "#d3ebd9")
+        $("#filter-all").css("background", "#de45d4")
+        page = 1;
+        $("#user-r").empty();
+
+        Search();
+    })
+
+    //$("#filter-user").click(function () {
+    //    if (user) {
+    //        $("#filter-user").css("background", "#d3ebd9")
+    //        user = false;
+    //    }
+    //    else {
+    //        $("#filter-user").css("background", "#de45d4")
+    //        user = true;
+    //        $("#filter-all").css("background", "#d3ebd9")
+    //        all = false;
+    //    }
+    //})
+    //$("#filter-mod").click(function () {
+    //    if (mod) {
+    //        $("#filter-mod").css("background", "#d3ebd9")
+    //        mod = false;
+    //    }
+    //    else {
+    //        $("#filter-mod").css("background", "#de45d4")
+    //        mod = true;
+    //        $("#filter-all").css("background", "#d3ebd9")
+    //        all = false;
+    //    }
+    //})
+    $("#filter-locked").click(function () {
+        if (lock) {
+            $("#filter-locked").css("background", "#d3ebd9")
+            lock = false;
+            page = 1;
+            $("#user-r").empty();
+            Search();
+        }
+        else {
+            $("#filter-locked").css("background", "#de45d4")
+            lock = true;
+            $("#filter-all").css("background", "#d3ebd9")
+            all = false;
+            page = 1;
+            $("#user-r").empty();
+            Search();
+        }
+    })
+
+    $("#filter-user").click(function () {
+        if (user) {
+            $("#filter-user").css("background", "#d3ebd9")
+            user = false;
+            page = 1;
+            $("#user-r").empty();
+            Search();
+        }
+        else {
+            $("#filter-user").css("background", "#de45d4")
+            user = true;
+            $("#filter-all").css("background", "#d3ebd9")
+            all = false;
+            page = 1;
+            $("#user-r").empty();
+            Search();
+        }
+    })
+    $("#filter-mod").click(function () {
+        if (mod) {
+            $("#filter-mod").css("background", "#d3ebd9")
+            mod = false;
+            page = 1;
+            $("#user-r").empty();
+            Search();
+        }
+        else {
+            $("#filter-mod").css("background", "#de45d4")
+            mod = true;
+            $("#filter-all").css("background", "#d3ebd9")
+            all = false;
+            page = 1;
+            $("#user-r").empty();
+            Search();
+        }
+    })
+  
+
+    //set time delay when press to search
+
+    var delay = (function () {
+        var timer = 0;
+        return function (callback, ms) {
+            clearTimeout(timer);
+            timer = setTimeout(callback, ms);
+        };
+    })();
+    $('#Keyword').keyup(function () {
+        delay(function () {
+            page = 1;
+            $("#user-r").empty();
+            Search();
+        }, 2000);
+    });
+
+    function Search() {
+        $.ajax({
+            url: "/Admin/SearchUser",
+            type: "post",
+            dataType: "html",
+            data: {keyword:keyword,all:all,locked:lock, user:user , mod:mod, sort:sort , page:page },
+            success: function (data) {
+                $("#user-r").append(data);
+                page = page + 1;
+                $("#loading").remove();
+            },
+            error: function () {
+            }
+        })
+    }
+    ///fade event
+
+
+  
+
+    $(document).ready(function () {
+        $('#user-r').bind('scroll', EventScroll);
+    });
+    function EventScroll(e) {
+        var elem = $(e.currentTarget);
+        if ((elem.innerHeight() + elem.scrollTop()) >= elem[0].scrollHeight&& page>=2) { 
+            Search()
+        }
+    }
+
+
+
 </script>
 <script src="~/Scripts/Admin/ChangeUserEmail.js"></script>

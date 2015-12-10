@@ -10,7 +10,10 @@ namespace EventZone.Controllers
 {
     public class LookAroundController : Controller
     {
-   
+
+        public ActionResult Index() {
+            return View();
+        }
         public ActionResult LookAround(double longitude = 0, double latitude = 0, double distance = 20.0) {
          
                 List<Location> listPlace = new List<Location>();
@@ -76,7 +79,6 @@ namespace EventZone.Controllers
                           } 
                       }
                       catch { }
-                     
                   }
                 List<Event> listEventSamePlace = new List<Event>();
                 foreach (var item in listEventPlace)

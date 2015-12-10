@@ -18,8 +18,8 @@ namespace EventZone.Models
         {
             this.Appeals = new HashSet<Appeal>();
             this.CategoryFollows = new HashSet<CategoryFollow>();
-            this.Channels = new HashSet<Channel>();
             this.Comments = new HashSet<Comment>();
+            this.Channels = new HashSet<Channel>();
             this.EventFollows = new HashSet<EventFollow>();
             this.Images = new HashSet<Image>();
             this.LikeDislikes = new HashSet<LikeDislike>();
@@ -51,8 +51,8 @@ namespace EventZone.Models
     
         public virtual ICollection<Appeal> Appeals { get; set; }
         public virtual ICollection<CategoryFollow> CategoryFollows { get; set; }
-        public virtual ICollection<Channel> Channels { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Channel> Channels { get; set; }
         public virtual ICollection<EventFollow> EventFollows { get; set; }
         public virtual ICollection<Image> Images { get; set; }
         public virtual Image Image { get; set; }

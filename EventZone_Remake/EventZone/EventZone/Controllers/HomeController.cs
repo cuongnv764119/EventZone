@@ -202,5 +202,11 @@ namespace EventZone.Controllers
             TempData["errorMessage"] = TempData["errorMessage"];
             return PartialView("_ThumbEventHomepage",listThumb);
         }
+        public ActionResult LoadCateInfo(long categoryID)
+        {
+            Category cate = CommonDataHelpers.Instance.GetCategoryById(categoryID);
+            return PartialView("_LoadCategoryInformation", cate);
+
+        }
     }
 }

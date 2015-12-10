@@ -51,18 +51,15 @@
                     <div class="d_result_container scroll-content" id="event-r">
                         @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 1 });
                     </div>
-
                 </div>
             }
 
             @if (tab == "3" || tab == "2")
             {
                 <div class="tab-pane" id="tab-live-event">
-
                     <div class="d_result_container scroll-content" id="liveEvent-r" style="width:100%">
                         @Html.Action("LoadEventInPage", "Search", new { page = 1, type = 2 })
                     </div>
-
                 </div>
             }
             else
@@ -80,8 +77,8 @@
             @if (tab != "3" && task == "Search")
             {
                 <div class="tab-pane" id="tab-user">
-                    <div class="d_result_container" id="user-r">
-                        @Html.Action("LoadUserInPage", "Search", new { page = 1 });
+                    <div class="d_result_container scroll-content" id="user-r">
+                        @Html.Action("LoadUserInPage", "Search", new { page = 1});
                     </div>
                 </div>
             }
@@ -139,12 +136,12 @@
                 dataType: "html",
                 data: { page: pageEvent, type: 1 },
                 success: function (data) {
-                    $("#loading").remove();
+                    $(".loading").remove();
                     $('#event-r').append(data);
                     pageEvent = pageEvent + 1;
                 },
                 error: function () {
-                    $("#loading").remove();
+                    $(".loading").remove();
                 }
             })
         }
@@ -165,12 +162,12 @@
                 dataType: "html",
                 data: { page: pageLive, type: 2 },
                 success: function (data) {
-                    $("#loading").remove();
+                    $(".loading").remove();
                     $('#liveEvent-r').append(data);
                     pageLive = pageLive + 1;
                 },
                 error: function () {
-                    $("#loading").remove();
+                    $(".loading").remove();
                 }
             })
         }
@@ -183,19 +180,19 @@
     function UserScroll(e) {
         var elem = $(e.currentTarget);
         if (elem[0].scrollHeight - elem.scrollTop() == elem.outerHeight()) {
-  
+
             $.ajax({
                 url: "/Search/LoadUserInPage",
                 type: "post",
                 dataType: "html",
                 data: { page: pageUser},
                 success: function (data) {
-                    $("#loading").remove();
+                    $(".loading").remove();
                     $('#user-r').append(data);
                     pageUser = pageUser + 1;
                 },
                 error: function () {
-                    $("#loading").remove();
+                    $(".loading").remove();
                 }
             })
         }
